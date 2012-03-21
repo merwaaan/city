@@ -1,9 +1,12 @@
-\documentclass[12pt,twocolumn]{article}
+\documentclass[10pt,twocolumn]{article}
 
 \usepackage[utf8]{inputenc}
 \usepackage[francais]{babel}
 
-\title{Co-évolution du réseau viaire et du bâti}
+\usepackage{biblatex}
+\addbibresource{references}
+
+\title{Co-évolution du réseau viaire et du bâti d'une ville}
 \author{Merwan Achibet}
 \date{}
 
@@ -12,17 +15,87 @@
 \maketitle
 
 \begin{abstract}
-abstract abstract abstract abstract abstract abstract abstract
-abstract abstract abstract abstract abstract abstract abstract
-abstract abstract abstract abstract abstract abstract abstract
-abstract abstract abstract abstract abstract abstract abstract
-abstract abstract abstract abstract abstract abstract abstract
-abstract abstract abstract abstract abstract abstract abstract
-abstract
+
 \end{abstract}
+
+\section{Introduction}
 
 \section{\'Etat de l'art}
 
-blabla
+La modélisation de systèmes complexes est longtemps uniquement passée
+par l'usage de méthodes mathématiques, typiquement des systèmes
+d'équations différentielles. Ces techniques permettent de décrire des
+lois d'évolution et d'observer, ainsi que de prédire par
+extrapolation, le comportement de phénomènes du réel. Cette approche
+peut se révéler délicate dans le cas de systèmes prenant en compte un
+vaste jeu de paramètres. Plus intrinsèquement, même si une telle
+modélisation est basée sur des observations ancrées dans la réalité,
+il s'agit d'une représentation conceptuelle d'un problème et aucune
+mimique des mécaniques sous-jacentes ne s'opère.
+
+D'un point de vue historique, les prémices de l'informatique moderne
+et d'un tout autre paradigme de modélisation sont à attribuer à Alan
+Turing qui, en 19?? introduit la machine éponyme. DETAILS
+
+Par définition, un automate est une machine qui, à partir de données
+fournies en entrées, produit des données en sortie et ce, en fonction
+de règles internes prédéfinies. Un automate fini
+
+Par la suite, John von Neumann et Stanislaw Ulam joignent leurs
+travaux pour concevoir le premier automate cellulaire. Un automate
+cellulaire est un système comprenant un ensemble d'automates finis
+spatialement localisés, typiquement sous forme de grille, et
+interconnectés en fonction de leur proximité. Les entrées de chaque
+automate correspondent alors aux états des automates voisins et de
+fortes relations d'interdépendance se dégagent de cette
+organisation. Le jeu de la vie CITATION est un exemple bien connu
+d'automate cellulaire. La simplicité de ses règles, mise en contraste
+avec la variété des résultats produits témoigne de la richesse des
+automates cellulaires.
+
+Les automates cellulaires ont depuis été largement étudiés et servent
+de support à de nombreuses modélisations de phénomènes du réel. Dans
+un cadre physique, ils peuvent être utilisés pour simuler l'écoulement
+de fluides ou bien la diffusion de gaz. Dans une optique plus humaine,
+ils se révèlent aussi très adaptés à la modélisation de trafic routier
+ou de la croissance urbaine -- notre sujet.
+
+Paradoxalement, l'application d'automates cellulaires à des problèmes
+géographiques ne fût pas immédiate. TOBLER
+
+Bien que les automates cellulaires bénéficient de qualités évidentes,
+leur simplicité peut se montrer contraignante lors de la conception de
+modèles spécifiques. Dans ce cas, une prise de liberté quant aux
+formalisme originel est autorisée, voire nécessaire, pour obtenir des
+résultats réalistes.
+
+La première limite que le formalisme de base impose est la
+discrétisation des états que chaque cellule peut prendre. En effet,
+même si cette caractéristique fait partie intégrante des
+particularités qui confère aux automates cellulaires leur simplicité,
+la description de quantités pouvant arborer un large éventail de
+valeurs est fastidieuse.
+
+Une autre contrainte, en liaison directe avec notre sujet, est
+l'organisation en grille des cellules. Cette régularité qui, une fois
+de plus, facilite l'emploi des AC, a un prix et limite clairement la
+représentation du réel. Selon l'échelle d'une simulation urbaine, on
+peut vouloir représenter au plus bas niveau un batîment, un quartier
+ou bien même une zone de plusieurs kilomètres de côté, mais dans
+chacun de ces cas les entités décrites ne sont que rarement carrées et
+alignées dans une situation réelle. BLABLA
+
+Dans les automates cellulaires classiques, la mise à jour de chaque
+cellule en fonction de ses voisins est synchrone; elles sont toutes
+mises à jour simultanément i.e. l'état suivant de chaque cellule est
+déterminé avant le changement d'état ait lieu, afin d'éviter qu'elles
+soient désynchronisées. Dans une ville par contre, où une cellule
+représente une entité atomique, les changements d'états pouvant
+s'opérer (quelle que soit la signification donné aux états) se font de
+manière asynchrone. En effet, on ne peut imaginer que dans une ville
+les modifications de l'espace urbains se fassent toutes au même
+instant.
+
+\printbibliography
 
 \end{document}
