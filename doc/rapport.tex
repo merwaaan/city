@@ -3,7 +3,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage[francais]{babel}
 
-\usepackage{biblatex}
+\usepackage[natbib=true,style=alphabetic]{biblatex}
 \addbibresource{references}
 
 \title{Co-évolution du réseau viaire et du bâti d'une ville}
@@ -23,67 +23,101 @@
 \section{\'Etat de l'art}
 
 La modélisation de systèmes complexes est longtemps uniquement passée
-par l'usage de méthodes mathématiques, typiquement des systèmes
+par l'usage de méthodes mathématiques; typiquement, des systèmes
 d'équations différentielles. Ces techniques permettent de décrire des
 lois d'évolution et d'observer, ainsi que de prédire par
-extrapolation, le comportement de phénomènes du réel. Cette approche
-peut se révéler délicate dans le cas de systèmes prenant en compte un
-vaste jeu de paramètres. Plus intrinsèquement, même si une telle
-modélisation est basée sur des observations ancrées dans la réalité,
-il s'agit d'une représentation conceptuelle d'un problème et aucune
-mimique des mécaniques sous-jacentes ne s'opère.
+extrapolation, le comportement de phénomènes du réel. Dans le cas de
+systèmes prenant en compte un vaste jeu de paramètres, cette approche
+peut néanmoins se révéler délicate à employer. Plus intrinsèquement,
+même si une telle modélisation est basée sur des observations ancrées
+dans la réalité, il s'agit d'une représentation conceptuelle d'un
+problème et aucune mimique des mécaniques sous-jacentes ne s'opère.
 
 D'un point de vue historique, les prémices de l'informatique moderne
-et d'un tout autre paradigme de modélisation sont à attribuer à Alan
-Turing qui, en 19?? introduit la machine éponyme. DETAILS
+et d'un tout autre paradigme de modélisation sont à attribuer aux
+esprits du milieu du vingtième siècle. Alan Turing introduit en 1936
+la machine éponyme qui, bien que purement théorique, est capable
+d'éxécuter des procédures. Cette démarche se démarque de l'approche
+mathématique et semble plus humaine; on ne résout pas un problème en
+utilisant des fonctions associant une quantité à un résultat, mais on
+agit véritablement sur les données du problème. L'idée de base de
+Turing était d'ailleurs d'assimiler le fonctionnement de sa machine au
+travail d'une personne remplissant les cases d'un tableau
+infini. Entraîné par cette mouvance \textit{computationniste} et en
+réaction aux réseaux de neurones de McCulloch et Pitts, John von
+Neumann introduit le terme d'automate en 1946.
 
-Par définition, un automate est une machine qui, à partir de données
+Simplement, un automate est une machine qui, à partir de données
 fournies en entrées, produit des données en sortie et ce, en fonction
-de règles internes prédéfinies. Un automate fini
-
-Par la suite, John von Neumann et Stanislaw Ulam joignent leurs
-travaux pour concevoir le premier automate cellulaire. Un automate
-cellulaire est un système comprenant un ensemble d'automates finis
-spatialement localisés, typiquement sous forme de grille, et
-interconnectés en fonction de leur proximité. Les entrées de chaque
-automate correspondent alors aux états des automates voisins et de
-fortes relations d'interdépendance se dégagent de cette
-organisation. Le jeu de la vie CITATION est un exemple bien connu
-d'automate cellulaire. La simplicité de ses règles, mise en contraste
-avec la variété des résultats produits témoigne de la richesse des
-automates cellulaires.
+de règles internes prédéfinies. On choisit de se concentrer sur une
+sous-catégorie d'automates, les automates finis à états, changeant
+leur représentation interne selon des règles de transition. John von
+Neumann et Stanislaw Ulam joignent leurs travaux pour concevoir le
+premier automate cellulaire. Un automate cellulaire est un système
+comprenant un ensemble d'automates finis spatialement localisés,
+typiquement sous forme de grille, et interconnectés en fonction de
+leur proximité. Les entrées de chaque automate correspondent alors aux
+états des automates voisins et de fortes relations d'interdépendance
+se dégagent de cette organisation. Le jeu de la vie de Conway CITATION
+en est un exemple classique. La simplicité de ses règles, mise en
+contraste avec la variété des résultats produits témoigne de la
+richesse des automates cellulaires.
 
 Les automates cellulaires ont depuis été largement étudiés et servent
-de support à de nombreuses modélisations de phénomènes du réel. Dans
-un cadre physique, ils peuvent être utilisés pour simuler l'écoulement
-de fluides ou bien la diffusion de gaz. Dans une optique plus humaine,
-ils se révèlent aussi très adaptés à la modélisation de trafic routier
-ou de la croissance urbaine -- notre sujet.
+de support à de nombreuses modélisations de phénomènes biologiques et
+physiques \cite{Ganguly}. La motivation d'Ulam lors de la conception
+des automates cellulaires était d'ailleurs de modéliser la croissance
+de cristaux. Ils sont aussi utilisés, entre autres, pour simuler la
+dynamique de fluides \cite{Frisch1986}, la croissance de tumeurs
+CITATION, les dynamiques proies-prédateurs CITATION.
 
-Paradoxalement, l'application d'automates cellulaires à des problèmes
-géographiques ne fût pas immédiate. TOBLER
+Les automates cellulaires, notamment de par leur caractère spatial,
+semblent particulièrement appropriés aux applications géographiques et
+plus précisément, urbaines. Paradoxalement, ils ne fûrent pas
+immédiatement exploités à cet effet et c'est seulement suite à un
+article de Waldo Tobler, en 1975, que le rapprochement entre les
+automates cellulaires et le domaine de la géographie apparaît
+clairement \cite{Tobler1975}.
 
-Bien que les automates cellulaires bénéficient de qualités évidentes,
-leur simplicité peut se montrer contraignante lors de la conception de
-modèles spécifiques. Dans ce cas, une prise de liberté quant aux
-formalisme originel est autorisée, voire nécessaire, pour obtenir des
-résultats réalistes.
+Il est important de remarquer que la simplicité des règles régissant
+le fonctionnement d'un automate cellulaire strict s'oppose à la
+qualité de la modélisation, notamment lors de la conception de modèles
+spécifiques. Dans ce cas, une prise de liberté quant aux formalisme
+originel est autorisée, voire nécessaire, pour obtenir des résultats
+réalistes \cite{White1998}.
 
 La première limite que le formalisme de base impose est la
-discrétisation des états que chaque cellule peut prendre. En effet,
-même si cette caractéristique fait partie intégrante des
-particularités qui confère aux automates cellulaires leur simplicité,
-la description de quantités pouvant arborer un large éventail de
-valeurs est fastidieuse.
+discrétisation des états que chaque cellule peut adopter. Même si
+cette caractéristique fait partie intégrante des particularités qui
+confèrent aux automates cellulaires leur simplicité, la description de
+quantités pouvant arborer un large éventail de valeurs est alors
+impossible. Plus concrètement, il est aisé de catégoriser les cellules
+d'un espace selon le fait qu'elles contiennent des installations
+humaines ou non (état booléen) ou de façon plus sophistiquée en
+fonction de leur usage terrestre (résidentiel, commercial ou
+industriel CITATION et plus CITATION). Par contre, la représentation
+de données ??? (densité, qualité des sols, valeur) BLABLA
 
-Une autre contrainte, en liaison directe avec notre sujet, est
-l'organisation en grille des cellules. Cette régularité qui, une fois
-de plus, facilite l'emploi des AC, a un prix et limite clairement la
-représentation du réel. Selon l'échelle d'une simulation urbaine, on
-peut vouloir représenter au plus bas niveau un batîment, un quartier
-ou bien même une zone de plusieurs kilomètres de côté, mais dans
-chacun de ces cas les entités décrites ne sont que rarement carrées et
-alignées dans une situation réelle. BLABLA
+L'homogénéité d'un automate cellulaire fait partie intégrante de sa
+définition de base. En mettant de côté l'état qu'elles adoptent,
+toutes les cellules sont identiques en forme et en structure de
+voisinage. Dans le cadre de notre problématique, cette approche est
+limitante car, dans une ville, les parcelles ne sont que rarement
+identiques et alignées. TESSELATION VORONOI / TRIANGULATION DELAUNAY
+
+De la même façon, la notion de voisinage est clairement à
+redéfinir. Pour des problèmes classiques, les voisinages de von
+Neumann et de Moore sont régulièrement utilisés mais la relation par
+contiguité qu'ils décrivent ne convient pas à la représentation des
+liens de dépendance à plus grande échelle se développant dans un
+système urbain. Par exemple, l'attractivité d'une parcelle pour un
+usage résidentiel peut paraître bonne si un voisinage de Moore indique
+que les blocs avoisinants sont eux aussi résidentiels, mais ignore le
+fait que le pôle industriel de la ville se situe à trois
+blocs de là. Une solution possible est d'étendre les voisinages de von
+Neumann et de Moore tout en conservant leur forme caractéristique
+CITATION. Une autre idée est d'utiliser un automate cellulaire graphe
+pour représenter un espace. Les graphes permettent de \cite{0'Sullivan2001}.
 
 Dans les automates cellulaires classiques, la mise à jour de chaque
 cellule en fonction de ses voisins est synchrone; elles sont toutes
