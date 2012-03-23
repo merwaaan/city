@@ -3,6 +3,10 @@
 \usepackage[utf8]{inputenc}
 \usepackage[francais]{babel}
 \usepackage{multicol}
+\usepackage{subfig}
+
+\usepackage{tikz}
+\usetikzlibrary{calc}
 
 \usepackage[margin=1.2in]{geometry}
 \setlength{\columnsep}{2pc}
@@ -20,12 +24,12 @@
 
 \begin{abstract}
 abstract abstract abstract abstract abstract abstract abstract
+xabstract abstract abstract abstract abstract abstract abstract
 abstract abstract abstract abstract abstract abstract abstract
 abstract abstract abstract abstract abstract abstract abstract
 abstract abstract abstract abstract abstract abstract abstract
 abstract abstract abstract abstract abstract abstract abstract
-abstract abstract abstract abstract abstract abstract abstract
-abstract abstract abstract abstract abstract abstract abstract
+abstract abstract abstract abstract abstract abstract abstractdsx
 abstract abstract abstract abstract abstract abstract abstract
 abstract abstract abstract abstract abstract abstract abstract
 abstract abstract abstract abstract abstract abstract abstract
@@ -73,16 +77,16 @@ comprenant un ensemble d'automates finis spatialement localisés,
 typiquement sous forme de grille, et interconnectés en fonction de
 leur proximité. Les entrées de chaque automate correspondent alors aux
 états des automates voisins et de fortes relations d'interdépendance
-se dégagent de cette organisation. Le jeu de la vie de Conway CITATION
-en est un exemple classique. La simplicité de ses règles, mise en
-contraste avec la variété des résultats produits témoigne de la
-richesse des automates cellulaires.
+se dégagent de cette organisation. Le jeu de la vie de Conway en est
+un exemple classique. La simplicité de ses règles, mise en contraste
+avec la variété des résultats produits témoigne de la richesse des
+automates cellulaires CITATION.
 
-Les automates cellulaires ont depuis été largement étudiés et servent
-de support à de nombreuses modélisations de phénomènes biologiques et
-physiques \cite{Ganguly}. La motivation d'Ulam lors de la conception
-des automates cellulaires était d'ailleurs de modéliser la croissance
-de cristaux. Ils sont aussi utilisés, entre autres, pour simuler la
+Les automates cellulaires ont depuis été extensivement étudiés et
+servent de support à de nombreuses modélisations de phénomènes
+biologiques et physiques \cite{Ganguly}. La motivation d'Ulam lors de
+leur conception était d'ailleurs de modéliser la croissance de
+cristaux. Ils sont aussi utilisés, entre autres, pour simuler la
 dynamique de fluides \cite{Frisch1986}, la croissance de tumeurs
 CITATION, les dynamiques proies-prédateurs CITATION.
 
@@ -107,45 +111,115 @@ cette caractéristique fait partie intégrante des particularités qui
 confèrent aux automates cellulaires leur simplicité, la description de
 quantités pouvant arborer un large éventail de valeurs est alors
 impossible. Plus concrètement, il est aisé de catégoriser les cellules
-d'un espace selon le fait qu'elles contiennent des installations
-humaines ou non (état booléen) ou de façon plus sophistiquée en
-fonction de leur usage terrestre (résidentiel, commercial ou
-industriel CITATION et plus CITATION). Par contre, la représentation
-de données ??? (densité, qualité des sols, valeur) BLABLA
+d'un espace selon le fait, par exemple, qu'elles contiennent des
+installations humaines ou non (état booléen)
+\cite{Benguigui2004,Cornu} ou de façon plus sophistiquée, en fonction
+de leur usage terrestre (résidentiel, commercial ou industriel
+\cite{Lechner} et plus \cite{Dubos-Paillard203}). Pour
 
 L'homogénéité d'un automate cellulaire fait partie intégrante de sa
 définition de base. En mettant de côté l'état qu'elles adoptent,
 toutes les cellules sont identiques en forme et en structure de
 voisinage. Dans le cadre de notre problématique, cette approche est
 limitante car, dans une ville, les parcelles ne sont que rarement
-identiques et alignées. TESSELATION VORONOI / TRIANGULATION DELAUNAY
+identiques et alignées. TESSELATION DE VORONOI / TRIANGULATION DE
+DELAUNAY
 
 De la même façon, la notion de voisinage est clairement à
 redéfinir. Pour des problèmes classiques, les voisinages de von
 Neumann et de Moore sont régulièrement utilisés mais la relation par
 contiguité qu'ils décrivent ne convient pas à la représentation des
 liens de dépendance à plus grande échelle se développant dans un
-système urbain. Par exemple, l'attractivité d'une parcelle pour un
-usage résidentiel peut paraître bonne si un voisinage de Moore indique
-que les blocs avoisinants sont eux aussi résidentiels, mais ignore le
-fait que le pôle industriel de la ville se situe à trois
-blocs de là. Une solution possible est d'étendre les voisinages de von
-Neumann et de Moore tout en conservant leur forme caractéristique
-CITATION. Une autre idée est d'utiliser un automate cellulaire graphe
-pour représenter un espace. Les graphes permettent de \cite{0'Sullivan2001}.
+système urbain. Le positionnement d'un bâtiment résidentiel dans une
+ville se base évidemment sur le voisinage direct des zones considérés
+(on veut ajouter une maison dans un quartier résidentiel) mais il faut
+aussi prendre en compte les alentours plus distants (la centrale
+thermique se trouvant à 500 mètres du site envisagé). Une solution
+possible est d'étendre les voisinages de von Neumann et de Moore tout
+en conservant leur forme caractéristique CITATION. Une autre idée est
+d'utiliser un automate cellulaire graphe pour représenter un
+espace \cite{0'Sullivan2001}.
 
-Dans les automates cellulaires classiques, la mise à jour de chaque
-cellule en fonction de ses voisins est synchrone; elles sont toutes
-mises à jour simultanément i.e. l'état suivant de chaque cellule est
-déterminé avant le changement d'état ait lieu, afin d'éviter qu'elles
-soient désynchronisées. Dans une ville par contre, où une cellule
-représente une entité atomique, les changements d'états pouvant
-s'opérer (quelle que soit la signification donné aux états) se font de
-manière asynchrone. En effet, on ne peut imaginer que dans une ville
-les modifications de l'espace urbains se fassent toutes au même
-instant.
+La problématique temporelle est à aborder. Un automate cellulaire
+strict est synchrone, i.e. les changements d'état de toutes les
+cellules s'effectuent simultanément. Si le choix était fait de mettre
+à jour chaque état de façon asynchrone, le comportement d'un automate
+cellulaire serait lourdement impacté. Par exemple, les qualités
+auto-réplicatives de certaines entités du jeu de la vie ne seraient
+pas garanties. Il est pourtant légitime de se questionner sur
+l'interêt et la validité d'un tel choix dans une simulation
+urbaine. BLABLA
+
+EXEMPLE (POTENTIEL)
+
+AUTRES APPROCHES (L/GEOM/VEC)
+
+ROUTES
 
 \end{multicols}
+
+\begin{figure}
+
+  \subfloat[Automate cellulaire simple]{
+
+    \begin{tikzpicture}
+      \draw[step=1,gray] (0,0) grid (3,3);
+
+      \node at (0.5,0.5) {G};
+      \node at (1.5,0.5) {H};
+      \node at (2.5,0.5) {I};
+      \node at (0.5,1.5) {D};
+      \node at (1.5,1.5) {E};
+      \node at (2.5,1.5) {F};
+      \node at (0.5,2.5) {A};
+      \node at (1.5,2.5) {B};
+      \node at (2.5,2.5) {C};
+    \end{tikzpicture}
+
+  }
+
+  \subfloat[Automate cellulaire graphe]{
+
+    \begin{tikzpicture}
+      \draw (0.5,0.5) node[circle,draw] (g) {G};
+      \draw (1.5,0.5) node[circle,draw] (h) {H};
+      \draw (2.5,0.5) node[circle,draw] (i) {I};
+      \draw (0.5,1.5) node[circle,draw] (d) {D};
+      \draw (1.5,1.5) node[circle,draw] (e) {E};
+      \draw (2.5,1.5) node[circle,draw] (f) {F};
+      \draw (0.5,2.5) node[circle,draw] (a) {A};
+      \draw (1.5,2.5) node[circle,draw] (b) {B};
+      \draw (2.5,2.5) node[circle,draw] (c) {C};
+
+      \draw (a) -- (b);
+      \draw (a) -- (e);
+      \draw (a) -- (d);
+      \draw (b) -- (c);
+      \draw (b) -- (f);
+      \draw (b) -- (e);
+      \draw (b) -- (d);
+      \draw (b) -- (f);
+      \draw (c) -- (f);
+      \draw (d) -- (e);
+      \draw (d) -- (h);
+      \draw (d) -- (g);
+      \draw (e) -- (c);
+      \draw (e) -- (f);
+      \draw (e) -- (i);
+      \draw (e) -- (h);
+      \draw (e) -- (g);
+      \draw (f) -- (i);
+      \draw (f) -- (h);
+      \draw (g) -- (h);
+      \draw (h) -- (i);
+    \end{tikzpicture}
+
+  }
+
+  \caption{}
+  \label{}
+
+\end{figure}
 
 \printbibliography
 
