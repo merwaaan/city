@@ -1,12 +1,16 @@
-\documentclass[10pt,twocolumn]{article}
+\documentclass[10pt]{article}
 
 \usepackage[utf8]{inputenc}
 \usepackage[francais]{babel}
+\usepackage{multicol}
+
+\usepackage[margin=1.2in]{geometry}
+\setlength{\columnsep}{2pc}
 
 \usepackage[natbib=true,style=alphabetic]{biblatex}
 \addbibresource{references}
 
-\title{Co-évolution du réseau viaire et du bâti d'une ville}
+\title{TITRE}
 \author{Merwan Achibet}
 \date{}
 
@@ -15,8 +19,19 @@
 \maketitle
 
 \begin{abstract}
-
+abstract abstract abstract abstract abstract abstract abstract
+abstract abstract abstract abstract abstract abstract abstract
+abstract abstract abstract abstract abstract abstract abstract
+abstract abstract abstract abstract abstract abstract abstract
+abstract abstract abstract abstract abstract abstract abstract
+abstract abstract abstract abstract abstract abstract abstract
+abstract abstract abstract abstract abstract abstract abstract
+abstract abstract abstract abstract abstract abstract abstract
+abstract abstract abstract abstract abstract abstract abstract
+abstract abstract abstract abstract abstract abstract abstract
 \end{abstract}
+
+\begin{multicols}{2}
 
 \section{Introduction}
 
@@ -43,9 +58,9 @@ utilisant des fonctions associant une quantité à un résultat, mais on
 agit véritablement sur les données du problème. L'idée de base de
 Turing était d'ailleurs d'assimiler le fonctionnement de sa machine au
 travail d'une personne remplissant les cases d'un tableau
-infini. Entraîné par cette mouvance \textit{computationniste} et en
-réaction aux réseaux de neurones de McCulloch et Pitts, John von
-Neumann introduit le terme d'automate en 1946.
+infini. Entraîné par cette mouvance procédurale et en réaction aux
+réseaux de neurones de McCulloch et Pitts, John von Neumann introduit
+le terme d'automate en 1946.
 
 Simplement, un automate est une machine qui, à partir de données
 fournies en entrées, produit des données en sortie et ce, en fonction
@@ -72,8 +87,8 @@ dynamique de fluides \cite{Frisch1986}, la croissance de tumeurs
 CITATION, les dynamiques proies-prédateurs CITATION.
 
 Les automates cellulaires, notamment de par leur caractère spatial,
-semblent particulièrement appropriés aux applications géographiques et
-plus précisément, urbaines. Paradoxalement, ils ne fûrent pas
+semblent particulièrement appropriés aux applications géographiques,
+et plus précisément, urbaines. Paradoxalement, ils ne fûrent pas
 immédiatement exploités à cet effet et c'est seulement suite à un
 article de Waldo Tobler, en 1975, que le rapprochement entre les
 automates cellulaires et le domaine de la géographie apparaît
@@ -82,9 +97,9 @@ clairement \cite{Tobler1975}.
 Il est important de remarquer que la simplicité des règles régissant
 le fonctionnement d'un automate cellulaire strict s'oppose à la
 qualité de la modélisation, notamment lors de la conception de modèles
-spécifiques. Dans ce cas, une prise de liberté quant aux formalisme
-originel est autorisée, voire nécessaire, pour obtenir des résultats
-réalistes \cite{White1998}.
+spécifiques \cite{Torrens2001}. Dans ce cas, une prise de liberté
+quant aux formalisme originel est autorisée, voire nécessaire, pour
+obtenir des résultats réalistes \cite{White1998}.
 
 La première limite que le formalisme de base impose est la
 discrétisation des états que chaque cellule peut adopter. Même si
@@ -129,6 +144,8 @@ s'opérer (quelle que soit la signification donné aux états) se font de
 manière asynchrone. En effet, on ne peut imaginer que dans une ville
 les modifications de l'espace urbains se fassent toutes au même
 instant.
+
+\end{multicols}
 
 \printbibliography
 
