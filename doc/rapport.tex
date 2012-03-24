@@ -11,7 +11,7 @@
 \usepackage[margin=1.2in]{geometry}
 \setlength{\columnsep}{2pc}
 
-\usepackage[natbib=true,style=alphabetic]{biblatex}
+\usepackage[natbib=true,style=numeric]{biblatex}
 \addbibresource{references}
 
 \title{TITRE}
@@ -24,12 +24,12 @@
 
 \begin{abstract}
 abstract abstract abstract abstract abstract abstract abstract
-xabstract abstract abstract abstract abstract abstract abstract
-abstract abstract abstract abstract abstract abstract abstract
-dabstract abstract abstract abstract abstract abstract abstract
 abstract abstract abstract abstract abstract abstract abstract
 abstract abstract abstract abstract abstract abstract abstract
-abstract abstract abstract abstract abstract abstract abstractdsx
+abstract abstract abstract abstract abstract abstract abstract
+abstract abstract abstract abstract abstract abstract abstract
+abstract abstract abstract abstract abstract abstract abstract
+abstract abstract abstract abstract abstract abstract abstract
 abstract abstract abstract abstract abstract abstract abstract
 abstract abstract abstract abstract abstract abstract abstract
 abstract abstract abstract abstract abstract abstract abstract
@@ -62,25 +62,25 @@ problème en utilisant des fonctions associant une quantité à un
 résultat mais on agit véritablement sur les données du
 problème. L'idée de base de Turing était d'ailleurs d'assimiler le
 fonctionnement de sa machine au travail d'une personne remplissant les
-cases d'un tableau infini. Entraîné par cette mouvance procédurale et
-en réaction aux réseaux de neurones de McCulloch et Pitts, John von
-Neumann introduit le terme d'automate en 1946.
+cases d'un tableau infini.
 
-Simplement, un automate est une machine qui, à partir de données
-fournies en entrées, produit des données en sortie et ce, en fonction
-de règles internes prédéfinies. On choisit de se concentrer sur une
-sous-catégorie d'automates, les automates finis à états, changeant
-leur représentation interne selon des règles de transition. John von
-Neumann et Stanislaw Ulam joignent leurs travaux pour concevoir le
-premier automate cellulaire. Un automate cellulaire est un système
-comprenant un ensemble d'automates finis spatialement localisés,
-typiquement sous forme de grille, et interconnectés en fonction de
-leur proximité. Les entrées de chaque automate correspondent alors aux
-états des automates voisins et de fortes relations d'interdépendance
-se dégagent de cette organisation. Le jeu de la vie de Conway en est
-un exemple classique. La simplicité de ses règles, mise en contraste
-avec la variété des résultats produits, témoigne de la richesse des
-automates cellulaires CITATION.
+Entraîné par cette mouvance procédurale et en réaction aux réseaux de
+neurones de McCulloch et Pitts, John von Neumann introduit le terme
+d'automate en 1946. Simplement, un automate est une machine qui, à
+partir de données fournies en entrées, produit des données en sortie
+et ce, en fonction de règles internes prédéfinies. On choisit de se
+concentrer sur une sous-catégorie d'automates, les automates finis à
+états, changeant leur représentation interne selon des règles de
+transition. John von Neumann et Stanislaw Ulam joignent leurs travaux
+pour concevoir le premier automate cellulaire. Un automate cellulaire
+est un système comprenant un ensemble d'automates finis spatialement
+localisés, typiquement sous forme de grille, et interconnectés en
+fonction de leur proximité. Les entrées de chaque automate
+correspondent alors aux états des automates voisins et de fortes
+relations d'interdépendance se dégagent de cette organisation. Le jeu
+de la vie de Conway en est un exemple classique. La simplicité de ses
+règles, mise en contraste avec la variété des résultats produits,
+témoigne de la richesse des automates cellulaires CITATION.
 
 Les automates cellulaires ont depuis été extensivement étudiés et
 servent de support à de nombreuses modélisations de phénomènes
@@ -115,11 +115,14 @@ d'un espace selon le fait, par exemple, qu'elles contiennent des
 installations humaines ou non (état booléen)
 \cite{Benguigui2004,Cornu} ou de façon plus sophistiquée, en fonction
 de leur usage terrestre (résidentiel, commercial ou industriel
-\cite{Lechner} et plus \cite{Dubos-Paillard203}). Pour représenter la
-densité d'un ensemble urbain, ??? utilise par exemple un automate
-cellulaire de dimension trois dans lequel plus une pile de cellules
-occupées est haute et plus la zone représentée est peuplée
-CITATION. Plus généralement, il est utile de s'autoriser à diffuser
+\cite{Lechner} et plus \cite{Dubos-Paillard203}). Représenter des
+quantités réelles dans un automate cellulaire est plus délicat. Pour
+symboliser la densité d'un ensemble urbain, Semboloni utilise par
+exemple un automate cellulaire de dimension trois dans lequel plus une
+pile de cellules occupées est haute et plus la zone représentée est
+peuplée \cite{Semboloni2000}. Plus généralement, on peut s'autoriser à
+représenter l'état d'une cellule par un vecteur pouvant contenir des
+valeurs réelles. DETAILS?
 
 L'homogénéité d'un automate cellulaire fait partie intégrante de sa
 définition de base. En mettant de côté l'état qu'elles adoptent,
@@ -156,28 +159,33 @@ cellulaire serait lourdement impacté. Par exemple, les qualités
 auto-réplicatives de certaines entités du jeu de la vie ne seraient
 pas garanties. Il est pourtant légitime de se questionner sur la
 validité d'un tel choix dans une simulation urbaine, premièrement
-parce qu'un ville est un système complexe et désorganisé, deuxièmement
-parce les processus qui s'y déroule sont calibrés sur différentes
-échelles temporelles.
+parce qu'une ville est un système complexe et désorganisé,
+deuxièmement parce les processus qui s'y déroule sont calibrés sur
+différentes échelles temporelles.
 
-Maintenant que les limitations des automates cellulaires classiques et
-les contournements autorisés sont annoncés, on peut présenter quelques
-exemples de simulations urbaines. L'idée générale est d'associer un
-potentiel de passage d'un état à un autre à chaque cellule de l'espace
-considéré. Dans les modèles déterministes, la transition à plus haut
-potentiel est appliquée tandis dans les modèles stochastiques, un
-tirage aléatoire biaisée peut avoir lieu. EXEMPLES
+Maintenant que les limitations des automates cellulaires classiques
+sont annoncés, on peut présenter quelques exemples de simulations
+urbaines. Une idée très exploitée dans ce domaine est d'associer un
+potentiel de transition à chaque cellule et vers tous les états
+qu'elles peut prendre. Dans les modèles déterministes, la transition à
+plus haut potentiel est appliquée tandis dans les modèles
+stochastiques, un tirage aléatoire biaisée a lieu. Le potentiel est
+déterminé en fonction de facteurs propres à la simulation. Peuvent
+être pris en compte l'élévation du terrain \cite{Semboloni2000}, la
+densité de population \cite{}, la proximité d'axes routiers, l'âge des
+parcelle, leur valeur et toute combinaisons de ces attributs. Bien
+sûr, plus le nombre de paramètres pris en compte est élevé, et plus la
+pondération BLABLA. PARAMETRES
 
 Les automates cellulaires ne sont pas l'unique moyen de modélisation
-de la croissance urbaine. Certains articles CITATION prônent l'usage
-d'agents s'apparentant à des ??? immobiliers. Un tel agent peut
-acheter des terres, les vendre, les développer. Les développements
-indépendants de chaque agent participe à l'émergence d'une ville
-???. D'autres articles s'éloignent des systèmes complexes et se basent
-sur l'application de règles géométriques. Dans ces cas, l'objectif est
-plutôt de générer des villes à l'apparence réaliste sans se soucier du
-réalisme fonctionnel car le résultat est utilisé à des fins. On peut
-citer l'exemple de BLABLA
+de la croissance urbaine. Certains articles
+\cite{Lechnera,Lechner2004} prônent l'usage d'agents s'apparentant à
+des prospecteurs immobiliers. Un tel agent peut acheter des terres,
+les vendre, les développer. DETAILS . D'autres articles s'éloignent
+des systèmes complexes et se basent sur l'application de règles
+géométriques. Dans ces cas, l'objectif est plutôt de générer des
+villes à l'apparence réaliste sans se soucier du réalisme
+fonctionnel. On peut citer l'exemple de BLABLA
 
 Le sujet des routes n'a pas encore été abordé, et pourtant le réseau
 viaire est une moitié capitale de notre sujet ! Bien que les automates
