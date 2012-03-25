@@ -11,8 +11,9 @@
 \usepackage[margin=1.2in]{geometry}
 \setlength{\columnsep}{2pc}
 
-\usepackage[natbib=true,sorting=none,style=numeric]{biblatex}
-\addbibresource{references}
+\usepackage[natbib=true,sorting=none,style=numeric,url=false,doi=false,isbn=false]{biblatex}
+%\addbibresource{references}
+\bibliography{references}
 
 \title{TITRE}
 \author{Merwan Achibet}
@@ -59,16 +60,15 @@ de contrôle ainsi qu'une mémoire et peut donc exécuter toutes sortes
 de procédures. Cette démarche se démarque de l'approche mathématique
 et semble plus humaine; on ne résout pas un problème en utilisant des
 fonctions associant une quantité à un résultat mais on agit
-véritablement sur les données du problème. L'idée de base de Turing
-était d'ailleurs d'assimiler le fonctionnement de sa machine au
-travail d'une personne remplissant les cases d'un tableau infini
-CITATION?.
+véritablement sur ses données. L'idée de base de Turing était
+d'ailleurs d'assimiler le fonctionnement de sa machine au travail
+d'une personne remplissant les cases d'un tableau infini CITATION?.
 
 Entraîné par cette mouvance procédurale et en réaction aux réseaux de
 neurones de McCulloch et Pitts, John von Neumann introduit le terme
 d'automate en 1946. Simplement, un automate est une machine qui opère
-en fonction de règles internes prédéfinies sur des données fournies en
-entrée. On choisit de se concentrer sur une sous-catégorie
+sur des données fournies en entrée en fonction de règles internes
+prédéfinies. On choisit de se concentrer sur une sous-catégorie
 d'automates, les automates finis à états, changeant leur
 représentation interne selon des règles de transition. John von
 Neumann et Stanislaw Ulam joignent leurs travaux pour concevoir
@@ -76,28 +76,28 @@ l'automate cellulaire : un système comprenant un ensemble d'automates
 à états spatialement localisés (typiquement sous forme de grille) et
 interconnectés en fonction de leur proximité. Les entrées de chaque
 automate correspondent alors aux états des automates voisins et de
-cette organisation se dégagent de fortes relations d'interdépendance
-CITATION?. Le jeu de la vie de Conway en est un exemple classique. La
-simplicité de ses règles, mise en contraste avec la variété des
-configurations engendrées, témoigne de la richesse des automates
-cellulaires CITATION?.
+cette organisation se dégagent de fortes relations
+d'interdépendance. Le jeu de la vie de Conway en est un exemple
+classique. La simplicité de ses règles, mise en contraste avec la
+variété des configurations engendrées, témoigne de la richesse des
+automates cellulaires CITATION?.
 
 Les automates cellulaires ont depuis été extensivement étudiés et sont
 appliqués à de nombreux phénomènes biologiques, physiques et sociaux
 \cite{Ganguly}. La motivation d'Ulam lors de leur conception était
 d'ailleurs de modéliser la croissance de cristaux. On peut aussi citer
-la simulation de la dynamique des fluides \cite{Frisch1986}, de la
-croissance de tumeurs \cite{Kansal2000}, de la diffusion d'épidémies
-\cite{Fu2003} de la ségrégation de population CITATION-SCHELLING. Leur
-caractère spatial laisse supposer qu'ils sont particulièrement adaptés
-aux applications géographiques, et plus précisément, urbaines. Ils ne
-fûrent paradoxalement pas immédiatement exploités à cet effet et c'est
-seulement suite à un article de Waldo Tobler, en 1975, que le
-rapprochement entre les automates cellulaires et le domaine de la
-géographie apparaît clairement \cite{Tobler1975}.
+en exemple la simulation de la dynamique de fluides \cite{Frisch1986},
+de la croissance de tumeurs \cite{Kansal2000}, de l'évolution
+d'épidémies \cite{Fu2003}, de la ségrégation de population
+CITATION-SCHELLING. Leur caractère spatial laisse supposer qu'ils sont
+particulièrement adaptés aux applications géographiques, et plus
+précisément, urbaines. Ils ne fûrent paradoxalement pas immédiatement
+exploités à cet effet et c'est seulement suite à un article de Waldo
+Tobler, en 1975, que le rapprochement entre les automates cellulaires
+et le domaine de la géographie apparaît clairement \cite{Tobler1975}.
 
 Une idée très exploitée dans ce domaine est d'associer un potentiel de
-transition à chaque cellule et vers tous les états qu'elles peuvent
+transition à chaque cellule vers tous les états qu'elles peuvent
 prendre. Dans les modèles déterministes, la transition vers l'état à
 plus haut potentiel est appliquée tandis que dans les modèles
 stochastiques, un tirage aléatoire biaisée a lieu. Le potentiel d'une
@@ -107,25 +107,25 @@ l'élévation du terrain, la densité de population, la proximité d'axes
 routiers, la proximité de centres urbains, l'âge des parcelle, leur
 valeur; en fait, toute combinaison d'attributs relatifs à un réseau
 urbain. Par exemple, dans une simulation représentant les différents
-types d'usage terrestre, le passage d'une cellule à l'état
-\textit{résidentiel} pourrait dépendre de la proximité des commerces
-et des routes et de l'éloignement des zones industrielles. Bien sûr,
-un nombre élevé de paramètres à prendre en compte requiert un couplage
-fin et l'impact de chaque variable peut être pondéré. Puisque les
-variations individuelles de paramètres n'émergent pas de manière
-transparente à la surface de la simulation, les modèles urbains basés
-sur des automates cellulaires doivent être finement calibrés et leur
-réalisme est un défi en soi. Pour contourner ce problème, Yeh et Li
-prône l'usage d'un réseau de neurones pour pondérer l'importance de
-chaque paramètre à partir de données cartographiques historiques
-\cite{Yeh2002}
+types d'usage, le passage d'une cellule à l'état \textit{résidentiel}
+pourrait dépendre de la proximité des commerces et des routes et de
+l'éloignement des zones industrielles. Bien sûr, un nombre élevé de
+paramètres à prendre en compte requiert un couplage fin et l'impact de
+chaque variable peut être pondéré. Puisque les variations
+individuelles de paramètres n'émergent pas de manière transparente à
+la surface de la simulation, les modèles urbains basés sur des
+automates cellulaires doivent être finement calibrés et leur réalisme
+est un défi en soi. Pour contourner ce problème, Yeh et Li prône
+l'usage d'un réseau de neurones pour pondérer chaque paramètre à
+partir de l'analyse de données cartographiques historiques
+\cite{Yeh2002}.
 
 Il est important de noter que la simplicité des règles régissant le
 fonctionnement d'un automate cellulaire strict s'oppose à la qualité
 de la simulation, notamment dans le cadre de modèles spécifiques
 \cite{Torrens2001}. Dans ce cas, une prise de liberté quant aux
 formalisme originel est autorisée, voire nécessaire, pour obtenir des
-résultats réalistes \cite{White1998}.
+résultats satisfaisants \cite{White1998}.
 
 La première limite que le formalisme cellulaire de base impose est la
 discrétisation des états que chaque cellule peut adopter. Même si
@@ -136,7 +136,7 @@ impossible. Plus concrètement, il est aisé de catégoriser les cellules
 d'un espace selon le fait, par exemple, qu'elles contiennent des
 installations humaines ou non (état booléen)
 \cite{Benguigui2004,Cornu} ou de façon plus sophistiquée, en fonction
-de leur usage terrestre (\textit{résidentiel}, \textit{commercial} ou
+de leur type d'usage (\textit{résidentiel}, \textit{commercial} et
 \textit{industriel} \cite{Lechner} et plus
 \cite{Dubos-Paillard203}). Représenter des quantités réelles est plus
 délicat. Pour symboliser la densité d'un ensemble urbain, Semboloni
@@ -144,8 +144,8 @@ utilise par exemple un automate cellulaire de dimension trois dans
 lequel plus une pile de cellules occupées est haute et plus la zone
 représentée est peuplée \cite{Semboloni2000}. Plus généralement, on
 peut s'autoriser à représenter l'état d'une cellule par un vecteur
-pouvant contenir des valeurs réelles. Des règles de transitions
-adaptées et mesurées sont alors à mettre en place.
+contenant des valeurs réelles. Des règles de transitions adaptées et
+mesurées sont alors à mettre en place.
 
 L'homogénéité d'un automate cellulaire fait partie intégrante de sa
 définition originelle : en mettant de côté l'état qu'elles adoptent,
@@ -164,111 +164,145 @@ résidentiel) mais il faut aussi prendre en compte les alentours plus
 distants (la centrale thermique se trouvant à 500 mètres du site peut
 poser problème). Une solution possible est d'étendre les voisinages de
 von Neumann et de Moore tout en conservant leur forme
-caractéristique. LIRE THESE O'SULLIVAN
+caractéristique. + AUTOMATE CELLULAIRE GRAPHE (THESE O'SULLIVAN)
 \cite{O'Sullivan2000,0'Sullivan2001}.
 
-La problématique temporelle est à aborder. Un automate cellulaire
-strict est synchrone, i.e. les changements d'état de toutes les
-cellules s'effectuent simultanément. Si le choix était fait de mettre
-à jour chaque état de façon asynchrone, le comportement de l'automate
-lourdement modifié. Par exemple, les qualités auto-réplicatives de
-certaines entités du jeu de la vie ne seraient pas garanties. Il est
-pourtant légitime de se questionner sur la validité d'un tel choix
-dans une simulation urbaine, premièrement parce qu'une ville est un
-système complexe et désordonné, deuxièmement parce les processus qui
-s'y déroule sont réglés sur différentes échelles temporelles.
+Une prise de liberté quant à l'aspect temporel est aussi
+envisageable. Un automate cellulaire strict est synchrone, i.e. les
+changements d'état de toutes les cellules s'effectuent
+simultanément. Si le choix était fait de mettre à jour chaque état de
+façon asynchrone, le comportement de l'automate en serait lourdement
+modifié. Par exemple, les qualités auto-réplicatives de certaines
+entités du jeu de la vie ne seraient pas garanties. Il est pourtant
+légitime de se questionner sur la validité d'un tel choix dans une
+simulation urbaine, premièrement parce qu'une ville est un système
+complexe et désordonné, deuxièmement parce les processus qui s'y
+déroule sont réglés sur différentes échelles temporelles.
 
 Les automates cellulaires ne sont pas l'unique moyen de modéliser la
-croissance urbaine. Des systèmes multi-agent ont été utilisés
-\cite{Lechnera,Lechner2004}.Dans ces cas, un agent s'apparente à un
-des prospecteurs immobiliers. Un tel agent peut acheter des terres,
-les vendre, les développer. DETAILS . D'autres articles s'éloignent
-des systèmes complexes et se basent sur l'application de règles
-géométriques. Dans ces cas, l'objectif est plutôt de générer des
-villes à l'apparence réaliste sans se soucier du réalisme
-fonctionnel. On peut citer l'exemple de BLABLA
+croissance urbaine. Plusieurs simulations existantes sont des systèmes
+multi-agent \cite{Lechnera,Lechner2004}. Dans ces cas, un agent est
+assimilé à un promoteur immobilier et peut acheter des terres, les
+vendre, les développer ou changer leur type. Les actions qu'il
+entreprent sont évaluées en fonction de l'impact sur la ville
+(changement de la valeur immobilière, avis de la population) et des
+réglementations locales, afin d'éviter toute configuration
+illégale.
 
-Le sujet des routes n'a pas encore été abordé, et pourtant le réseau
-viaire est une moitié capitale de notre sujet ! Bien que les automates
-cellulaires soient couramment utilisés pour simuler le traffic routier
-(dans leur version une dimension CITATION ou deux dimensions
-CITATION). Ils sont peu applicables à la construction d'un réseau car
-LONG-RANGE FORME.
+D'autres solutions s'éloignant des systèmes complexes et penchant du
+côté de la génération procédurale de contenu existent. Souvent, le
+domaine d'application de telles méthodes est l'infographie, le cinéma
+et le jeu vidéo et l'objectif est de construire de manière automatique
+une ville visuellement réaliste sans se soucier de son caractère
+fonctionnel. Usuellement, la première étape est de générer un réseau
+viaire complet puis de placer le bâti en subdivisant récursivement les
+niches vides formées par les routes. Dans Citygen CITATION, un point
+$p$ de l'espace est aléatoirement choisi puis on calcule un ensemble
+de plusieurs routes raccordant $p$ au réseau routier existant en
+faisant varier leur déviation angulaire et un paramètre de bruit; la
+route finale est celle pour laquelle la variation d'altitude est la
+plus faible. CityEngine CITATION utilise un L-System dont les règles
+permettent de reproduire les différents motifs quadrillés, radiaux et
+organiques que l'on trouve dans une ville. La nature récursive des
+L-Systems permet à ces motifs de se combiner et les résultats sont
+saisissants. Dans une autre simulation CITATION, le tracé des routes
+suit les \textit{hyperstreamlines} formées par un champ de
+vecteurs. Ce champ est calculé par combinaison de plusieurs autres
+champs de vecteurs, chacun représentant des contraintes de direction
+particulières telles que les zone interdites (eau, espaces verts),
+l'altitude et la densité de population. Ces techniques sont
+intrinsèquement géométriques, et comme précisé plus haut, le résultat
+est purement visuel, mais elles représentent une source d'inspiration
+à ne pas négliger.
 
-AGENTS EXTENDERS CONNECTORS
+Bien que les automates cellulaires soient couramment utilisés pour
+simuler le traffic routier (dans leur version une dimension CITATION
+ou deux dimensions CITATION), ils s'accordent peu avec la construction
+même d'un réseau viaire. Dans les simulations cellulaires urbaines, le
+positionnement des routes a souvent un impact sur le développement des
+cellules mais le réseau est fourni dés le début et reste
+fixe. DEUX COUCHES ?
 
-L-SYSTEME
+Dans les modèles à base d'agents, une solution est de mettre en place,
+en plus des agents promoteurs, des agents traceurs de route chargés de
+connecter DETAILS
 
-HYPERSTREAMLINES
-
-CO-EVOLUTION
+L'un des seuls modèles gérant à la fois l'évolution du réseau viaire
+et du bâti est présenté par Weber \cite{Weber2009} et n'emploie pas
+d'automate cellulaire. Le principe est le suivant : à chaque
+agrandissement du réseau urbain, on crée plusieurs routes virtuelles
+en suivant des règles géométriques précises (allongement des voies
+existantes, limitation du degré des carrefours à 4, l'angle entre
+chaque rue tend vers 90 degrès). Parmi les $n$ routes générées, une
+seule sera construite. Pour la choisir, des agents virtuels arpentent
+ces routes afin d'évaluer laquelle sera la plus bénéfique au réseau.
 
 \end{multicols}
 
-\begin{figure}[h]
+%% \begin{figure}[h]
 
-  \centering
+%%   \centering
 
-  \subfloat[Automate cellulaire simple]{
+%%   \subfloat[Automate cellulaire simple]{
 
-    \begin{tikzpicture}
-      \draw[step=1,gray] (0,0) grid (3,3);
+%%     \begin{tikzpicture}
+%%       \draw[step=1,gray] (0,0) grid (3,3);
 
-      \node at (0.5,0.5) {G};
-      \node at (1.5,0.5) {H};
-      \node at (2.5,0.5) {I};
-      \node at (0.5,1.5) {D};
-      \node at (1.5,1.5) {E};
-      \node at (2.5,1.5) {F};
-      \node at (0.5,2.5) {A};
-      \node at (1.5,2.5) {B};
-      \node at (2.5,2.5) {C};
-    \end{tikzpicture}
+%%       \node at (0.5,0.5) {G};
+%%       \node at (1.5,0.5) {H};
+%%       \node at (2.5,0.5) {I};
+%%       \node at (0.5,1.5) {D};
+%%       \node at (1.5,1.5) {E};
+%%       \node at (2.5,1.5) {F};
+%%       \node at (0.5,2.5) {A};
+%%       \node at (1.5,2.5) {B};
+%%       \node at (2.5,2.5) {C};
+%%     \end{tikzpicture}
 
-  }
+%%   }
 
-  \subfloat[Automate cellulaire graphe]{
+%%   \subfloat[Automate cellulaire graphe]{
 
-    \begin{tikzpicture}
-      \draw (0.5,0.5) node[circle,draw] (g) {G};
-      \draw (1.5,0.5) node[circle,draw] (h) {H};
-      \draw (2.5,0.5) node[circle,draw] (i) {I};
-      \draw (0.5,1.5) node[circle,draw] (d) {D};
-      \draw (1.5,1.5) node[circle,draw] (e) {E};
-      \draw (2.5,1.5) node[circle,draw] (f) {F};
-      \draw (0.5,2.5) node[circle,draw] (a) {A};
-      \draw (1.5,2.5) node[circle,draw] (b) {B};
-      \draw (2.5,2.5) node[circle,draw] (c) {C};
+%%     \begin{tikzpicture}
+%%       \draw (0.5,0.5) node[circle,draw] (g) {G};
+%%       \draw (1.5,0.5) node[circle,draw] (h) {H};
+%%       \draw (2.5,0.5) node[circle,draw] (i) {I};
+%%       \draw (0.5,1.5) node[circle,draw] (d) {D};
+%%       \draw (1.5,1.5) node[circle,draw] (e) {E};
+%%       \draw (2.5,1.5) node[circle,draw] (f) {F};
+%%       \draw (0.5,2.5) node[circle,draw] (a) {A};
+%%       \draw (1.5,2.5) node[circle,draw] (b) {B};
+%%       \draw (2.5,2.5) node[circle,draw] (c) {C};
 
-      \draw (a) -- (b);
-      \draw (a) -- (e);
-      \draw (a) -- (d);
-      \draw (b) -- (c);
-      \draw (b) -- (f);
-      \draw (b) -- (e);
-      \draw (b) -- (d);
-      \draw (b) -- (f);
-      \draw (c) -- (f);
-      \draw (d) -- (e);
-      \draw (d) -- (h);
-      \draw (d) -- (g);
-      \draw (e) -- (c);
-      \draw (e) -- (f);
-      \draw (e) -- (i);
-      \draw (e) -- (h);
-      \draw (e) -- (g);
-      \draw (f) -- (i);
-      \draw (f) -- (h);
-      \draw (g) -- (h);
-      \draw (h) -- (i);
-    \end{tikzpicture}
+%%       \draw (a) -- (b);
+%%       \draw (a) -- (e);
+%%       \draw (a) -- (d);
+%%       \draw (b) -- (c);
+%%       \draw (b) -- (f);
+%%       \draw (b) -- (e);
+%%       \draw (b) -- (d);
+%%       \draw (b) -- (f);
+%%       \draw (c) -- (f);
+%%       \draw (d) -- (e);
+%%       \draw (d) -- (h);
+%%       \draw (d) -- (g);
+%%       \draw (e) -- (c);
+%%       \draw (e) -- (f);
+%%       \draw (e) -- (i);
+%%       \draw (e) -- (h);
+%%       \draw (e) -- (g);
+%%       \draw (f) -- (i);
+%%       \draw (f) -- (h);
+%%       \draw (g) -- (h);
+%%       \draw (h) -- (i);
+%%     \end{tikzpicture}
 
-  }
+%%   }
 
-  \caption{}
-  \label{}
+%%   \caption{}
+%%   \label{}
 
-\end{figure}
+%% \end{figure}
 
 \printbibliography
 
