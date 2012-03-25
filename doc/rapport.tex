@@ -152,24 +152,20 @@ définition originelle : en mettant de côté l'état qu'elles adoptent,
 toutes les cellules sont identiques en forme et en structure de
 voisinage. Dans le cadre de notre problématique, cette approche est
 limitante car, dans une ville, les parcelles ne sont que rarement
-identiques et alignées. DETAILS
-
-De la même façon, la notion de voisinage est clairement à
-redéfinir. Pour des problèmes classiques, les voisinages de von
-Neumann et de Moore sont régulièrement utilisés mais la relation par
-contiguité qu'ils décrivent ne convient pas à la représentation des
-liens de dépendance à plus grande échelle se développant dans un
-système urbain. Le positionnement d'un bâtiment résidentiel dans une
-ville se base évidemment sur le voisinage direct des zones envisagées
-(on veut ajouter une maison dans un quartier résidentiel) mais il faut
-aussi prendre en compte les alentours plus distants (la centrale
-thermique se trouvant à 500 mètres du site peut poser problème). Une
-solution possible est d'étendre les voisinages de von Neumann et de
-Moore tout en conservant leur forme caractéristique CITATION?. Une
-autre idée est d'utiliser un automate cellulaire graphe pour
-représenter un espace \cite{0'Sullivan2001} et éventuellement de
-pondérer les arêtes en fonction de la distance euclidienne séparant
-deux entités.
+identiques et alignées. Similairement, la notion de voisinage est
+clairement à redéfinir. Pour des problèmes classiques, les voisinages
+de von Neumann et de Moore sont régulièrement utilisés mais la
+relation par contiguité qu'ils décrivent ne convient pas à la
+représentation des liens de dépendance à plus grande échelle se
+développant dans un système urbain. Le positionnement d'un bâtiment
+résidentiel dans une ville se base évidemment sur le voisinage direct
+des zones envisagées (on veut ajouter une maison dans un quartier
+résidentiel) mais il faut aussi prendre en compte les alentours plus
+distants (la centrale thermique se trouvant à 500 mètres du site peut
+poser problème). Une solution possible est d'étendre les voisinages de
+von Neumann et de Moore tout en conservant leur forme
+caractéristique. LIRE THESE O'SULLIVAN
+\cite{O'Sullivan2000,0'Sullivan2001}.
 
 La problématique temporelle est à aborder. Un automate cellulaire
 strict est synchrone, i.e. les changements d'état de toutes les
@@ -182,9 +178,9 @@ dans une simulation urbaine, premièrement parce qu'une ville est un
 système complexe et désordonné, deuxièmement parce les processus qui
 s'y déroule sont réglés sur différentes échelles temporelles.
 
-Les automates cellulaires ne sont pas l'unique moyen de modélisation
-de la croissance urbaine. Certains articles
-\cite{Lechnera,Lechner2004} prônent l'usage d'agents s'apparentant à
+Les automates cellulaires ne sont pas l'unique moyen de modéliser la
+croissance urbaine. Des systèmes multi-agent ont été utilisés
+\cite{Lechnera,Lechner2004}.Dans ces cas, un agent s'apparente à un
 des prospecteurs immobiliers. Un tel agent peut acheter des terres,
 les vendre, les développer. DETAILS . D'autres articles s'éloignent
 des systèmes complexes et se basent sur l'application de règles
@@ -200,11 +196,18 @@ CITATION). Ils sont peu applicables à la construction d'un réseau car
 LONG-RANGE FORME.
 
 AGENTS EXTENDERS CONNECTORS
+
+L-SYSTEME
+
 HYPERSTREAMLINES
+
+CO-EVOLUTION
 
 \end{multicols}
 
-\begin{figure}
+\begin{figure}[h]
+
+  \centering
 
   \subfloat[Automate cellulaire simple]{
 
