@@ -11,7 +11,7 @@
 \usepackage[margin=1.2in]{geometry}
 \setlength{\columnsep}{2pc}
 
-\usepackage[natbib=true,style=numeric]{biblatex}
+\usepackage[natbib=true,sorting=none,style=numeric]{biblatex}
 \addbibresource{references}
 
 \title{TITRE}
@@ -23,7 +23,6 @@
 \maketitle
 
 \begin{abstract}
-abstract abstract abstract abstract abstract abstract abstract
 abstract abstract abstract abstract abstract abstract abstract
 abstract abstract abstract abstract abstract abstract abstract
 abstract abstract abstract abstract abstract abstract abstract
@@ -80,15 +79,15 @@ correspondent alors aux états des automates voisins et de fortes
 relations d'interdépendance se dégagent de cette organisation. Le jeu
 de la vie de Conway en est un exemple classique. La simplicité de ses
 règles, mise en contraste avec la variété des résultats produits,
-témoigne de la richesse des automates cellulaires CITATION.
+témoigne de la richesse des automates cellulaires.
 
 Les automates cellulaires ont depuis été extensivement étudiés et
 servent de support à de nombreuses modélisations de phénomènes
 biologiques et physiques \cite{Ganguly}. La motivation d'Ulam lors de
 leur conception était d'ailleurs de modéliser la croissance de
-cristaux. Ils sont aussi utilisés, entre autres, pour simuler la
-dynamique de fluides \cite{Frisch1986}, la croissance de tumeurs
-CITATION, les dynamiques proies-prédateurs CITATION.
+cristaux. Ils sont aussi utilisés, entre autres, pour simuler les
+mouvements de fluides \cite{Frisch1986}, la croissance de tumeurs
+\cite{Kansal2000}, les épidémies \cite{Fu2003}.
 
 Les automates cellulaires, notamment de par leur caractère spatial,
 semblent particulièrement appropriés aux applications géographiques,
@@ -97,6 +96,18 @@ immédiatement exploités à cet effet et c'est seulement suite à un
 article de Waldo Tobler, en 1975, que le rapprochement entre les
 automates cellulaires et le domaine de la géographie apparaît
 clairement \cite{Tobler1975}.
+
+Une idée très exploitée dans ce domaine est d'associer un potentiel de
+transition à chaque cellule et vers tous les états qu'elles peut
+prendre. Dans les modèles déterministes, la transition à plus haut
+potentiel est appliquée tandis dans les modèles stochastiques, un
+tirage aléatoire biaisée a lieu. Le potentiel est déterminé en
+fonction de facteurs propres à la simulation. Peuvent être pris en
+compte l'élévation du terrain \cite{Semboloni2000}, la densité de
+population \cite{}, la proximité d'axes routiers, l'âge des parcelle,
+leur valeur et toute combinaisons de ces attributs. Bien sûr, plus le
+nombre de paramètres pris en compte est élevé, et plus la pondération
+BLABLA. PARAMETRES
 
 Il est important de remarquer que la simplicité des règles régissant
 le fonctionnement d'un automate cellulaire strict s'oppose à la
@@ -162,20 +173,6 @@ validité d'un tel choix dans une simulation urbaine, premièrement
 parce qu'une ville est un système complexe et désorganisé,
 deuxièmement parce les processus qui s'y déroule sont calibrés sur
 différentes échelles temporelles.
-
-Maintenant que les limitations des automates cellulaires classiques
-sont annoncés, on peut présenter quelques exemples de simulations
-urbaines. Une idée très exploitée dans ce domaine est d'associer un
-potentiel de transition à chaque cellule et vers tous les états
-qu'elles peut prendre. Dans les modèles déterministes, la transition à
-plus haut potentiel est appliquée tandis dans les modèles
-stochastiques, un tirage aléatoire biaisée a lieu. Le potentiel est
-déterminé en fonction de facteurs propres à la simulation. Peuvent
-être pris en compte l'élévation du terrain \cite{Semboloni2000}, la
-densité de population \cite{}, la proximité d'axes routiers, l'âge des
-parcelle, leur valeur et toute combinaisons de ces attributs. Bien
-sûr, plus le nombre de paramètres pris en compte est élevé, et plus la
-pondération BLABLA. PARAMETRES
 
 Les automates cellulaires ne sont pas l'unique moyen de modélisation
 de la croissance urbaine. Certains articles
