@@ -62,7 +62,7 @@ et semble plus humaine; on ne résout pas un problème en utilisant des
 fonctions associant une quantité à un résultat mais on agit
 véritablement sur ses données. L'idée de base de Turing était
 d'ailleurs d'assimiler le fonctionnement de sa machine au travail
-d'une personne remplissant les cases d'un tableau infini CITATION?.
+d'une personne remplissant les cases d'un tableau infini CITATION.
 
 Entraîné par cette mouvance procédurale et en réaction aux réseaux de
 neurones de McCulloch et Pitts, John von Neumann introduit le terme
@@ -80,7 +80,7 @@ cette organisation se dégagent de fortes relations
 d'interdépendance. Le jeu de la vie de Conway en est un exemple
 classique. La simplicité de ses règles, mise en contraste avec la
 variété des configurations engendrées, témoigne de la richesse des
-automates cellulaires CITATION?.
+automates cellulaires CITATION.
 
 Les automates cellulaires ont depuis été extensivement étudiés et sont
 appliqués à de nombreux phénomènes biologiques, physiques et sociaux
@@ -131,21 +131,21 @@ La première limite que le formalisme cellulaire de base impose est la
 discrétisation des états que chaque cellule peut adopter. Même si
 cette caractéristique fait partie intégrante des particularités qui
 confèrent aux automates cellulaires leur simplicité, la description de
-quantités pouvant arborer un large éventail de valeurs est alors
+quantités pouvant arborer un éventail infini de valeurs est alors
 impossible. Plus concrètement, il est aisé de catégoriser les cellules
 d'un espace selon le fait, par exemple, qu'elles contiennent des
 installations humaines ou non (état booléen)
 \cite{Benguigui2004,Cornu} ou de façon plus sophistiquée, en fonction
 de leur type d'usage (\textit{résidentiel}, \textit{commercial} et
 \textit{industriel} \cite{Lechner} et plus
-\cite{Dubos-Paillard203}). Représenter des quantités réelles est plus
-délicat. Pour symboliser la densité d'un ensemble urbain, Semboloni
-utilise par exemple un automate cellulaire de dimension trois dans
-lequel plus une pile de cellules occupées est haute et plus la zone
-représentée est peuplée \cite{Semboloni2000}. Plus généralement, on
-peut s'autoriser à représenter l'état d'une cellule par un vecteur
-contenant des valeurs réelles. Des règles de transitions adaptées et
-mesurées sont alors à mettre en place.
+\cite{Dubos-Paillard203}). Représenter des quantités réelles est moins
+aisé. Pour symboliser la densité au c\oe ur d'un ensemble urbain,
+Semboloni utilise par exemple un automate cellulaire de dimension
+trois dans lequel plus une pile de cellules occupées est haute et plus
+la zone représentée est peuplée \cite{Semboloni2000}. Plus
+généralement, on peut s'autoriser à représenter l'état d'une cellule
+par un vecteur contenant des valeurs réelles; des règles de
+transitions adaptées et mesurées sont alors à mettre en place.
 
 L'homogénéité d'un automate cellulaire fait partie intégrante de sa
 définition originelle : en mettant de côté l'état qu'elles adoptent,
@@ -186,46 +186,58 @@ assimilé à un promoteur immobilier et peut acheter des terres, les
 vendre, les développer ou changer leur type. Les actions qu'il
 entreprent sont évaluées en fonction de l'impact sur la ville
 (changement de la valeur immobilière, avis de la population) et des
-réglementations locales, afin d'éviter toute configuration
-illégale.
+réglementations locales afin d'éviter toute configuration illégale.
 
 D'autres solutions s'éloignant des systèmes complexes et penchant du
 côté de la génération procédurale de contenu existent. Souvent, le
 domaine d'application de telles méthodes est l'infographie, le cinéma
-et le jeu vidéo et l'objectif est de construire de manière automatique
-une ville visuellement réaliste sans se soucier de son caractère
-fonctionnel. Usuellement, la première étape est de générer un réseau
-viaire complet puis de placer le bâti en subdivisant récursivement les
-niches vides formées par les routes. Dans Citygen CITATION, un point
-$p$ de l'espace est aléatoirement choisi puis on calcule un ensemble
-de plusieurs routes raccordant $p$ au réseau routier existant en
-faisant varier leur déviation angulaire et un paramètre de bruit; la
-route finale est celle pour laquelle la variation d'altitude est la
-plus faible. CityEngine CITATION utilise un L-System dont les règles
-permettent de reproduire les différents motifs quadrillés, radiaux et
-organiques que l'on trouve dans une ville. La nature récursive des
-L-Systems permet à ces motifs de se combiner et les résultats sont
-saisissants. Dans une autre simulation CITATION, le tracé des routes
-suit les \textit{hyperstreamlines} formées par un champ de
-vecteurs. Ce champ est calculé par combinaison de plusieurs autres
-champs de vecteurs, chacun représentant des contraintes de direction
-particulières telles que les zone interdites (eau, espaces verts),
-l'altitude et la densité de population. Ces techniques sont
+et le jeu vidéo et l'objectif est alors de construire de manière
+automatique une ville visuellement réaliste sans se soucier de son
+caractère fonctionnel. Usuellement, la première étape est de générer
+un réseau viaire complet puis de placer le bâti en subdivisant
+récursivement les niches vides formées par les routes. Dans Citygen
+\cite{Kelly2007}, un point $p$ de l'espace est aléatoirement choisi
+puis on calcule un ensemble de plusieurs routes raccordant $p$ au
+réseau routier existant en faisant varier leur déviation angulaire et
+un paramètre de bruit; la route finale est celle pour laquelle la
+variation d'altitude est la plus faible. CityEngine \cite{Parish2001}
+utilise un L-System dont les règles permettent de reproduire les
+différents motifs quadrillés, radiaux et organiques que l'on trouve
+dans une ville. La nature récursive des L-Systems permet à ces motifs
+de se combiner et d'apparaître à différents niveaux de profondeur; les
+résultats sont saisissants. Dans une autre simulation \cite{Chen2008},
+le tracé des routes suit les \textit{hyperstreamlines} formées par un
+champ de vecteurs. Ce champ est calculé par combinaison de plusieurs
+autres champs de vecteurs, chacun représentant des contraintes de
+direction particulières telles que les zones interdites (eau, espaces
+verts), l'altitude et la densité de population. Ces techniques sont
 intrinsèquement géométriques, et comme précisé plus haut, le résultat
 est purement visuel, mais elles représentent une source d'inspiration
 à ne pas négliger.
 
 Bien que les automates cellulaires soient couramment utilisés pour
-simuler le traffic routier (dans leur version une dimension CITATION
-ou deux dimensions CITATION), ils s'accordent peu avec la construction
-même d'un réseau viaire. Dans les simulations cellulaires urbaines, le
-positionnement des routes a souvent un impact sur le développement des
-cellules mais le réseau est fourni dés le début et reste
-fixe. DEUX COUCHES ?
+simuler le traffic routier (dans leur version 1D CITATION ou 2D
+\cite{Queloz1996}), ils s'accordent peu avec la construction même d'un
+réseau viaire. Dans les simulations cellulaires urbaines, le
+positionnement des routes a un impact sur le développement des
+cellules puisque le viaire attire le bâti mais le réseau est souvent
+fourni en entrée et reste fixe. Nous sommes amener à nous interroger
+sur la capacité des automates cellulaires à modéliser le développement
+routier. Les relations de proximité les caractérisant sont-elles
+adaptées à la construction de structures dont l'échelle est celle de
+la ville et non plus celle de la parcelle ? Est-il bénéfique de
+représenter une route par un ensemble de cellules ou plutôt par une
+entité unique ?
 
-Dans les modèles à base d'agents, une solution est de mettre en place,
-en plus des agents promoteurs, des agents traceurs de route chargés de
-connecter DETAILS
+En dehors de la sphère des automates cellulaires, quelques techniques
+procédurales de génération de routes ont été décrites plus haut. Dans
+les modèles à base d'agents, une solution est de mettre en place, en
+plus des agents promoteurs, deux types d'agents traceurs. Les
+\textit{extenders} parcourent toute la surface du terrain à la
+recherche de bâtiments isolés puis tracent une route jusqu'au réseau
+urbain. Les \textit{connectors} se déplacent uniquement sur le réseau
+viaire et y raccordent les bâtiments non connectés se trouvant dans
+leur rayon de détection \cite{Lechnera}. PLUS?
 
 L'un des seuls modèles gérant à la fois l'évolution du réseau viaire
 et du bâti est présenté par Weber \cite{Weber2009} et n'emploie pas
@@ -234,76 +246,77 @@ agrandissement du réseau urbain, on crée plusieurs routes virtuelles
 en suivant des règles géométriques précises (allongement des voies
 existantes, limitation du degré des carrefours à 4, l'angle entre
 chaque rue tend vers 90 degrès). Parmi les $n$ routes générées, une
-seule sera construite. Pour la choisir, des agents virtuels arpentent
-ces routes afin d'évaluer laquelle sera la plus bénéfique au réseau.
+seule sera construite. Pour la choisir, le traffic sur ces nouvelles
+routes est simulé et l'on identifie laquelle est la plus bénéfiques au
+réseau. AUTRES PAPIERS?
 
 \end{multicols}
 
-%% \begin{figure}[h]
-
-%%   \centering
-
-%%   \subfloat[Automate cellulaire simple]{
-
-%%     \begin{tikzpicture}
-%%       \draw[step=1,gray] (0,0) grid (3,3);
-
-%%       \node at (0.5,0.5) {G};
-%%       \node at (1.5,0.5) {H};
-%%       \node at (2.5,0.5) {I};
-%%       \node at (0.5,1.5) {D};
-%%       \node at (1.5,1.5) {E};
-%%       \node at (2.5,1.5) {F};
-%%       \node at (0.5,2.5) {A};
-%%       \node at (1.5,2.5) {B};
-%%       \node at (2.5,2.5) {C};
-%%     \end{tikzpicture}
-
-%%   }
-
-%%   \subfloat[Automate cellulaire graphe]{
-
-%%     \begin{tikzpicture}
-%%       \draw (0.5,0.5) node[circle,draw] (g) {G};
-%%       \draw (1.5,0.5) node[circle,draw] (h) {H};
-%%       \draw (2.5,0.5) node[circle,draw] (i) {I};
-%%       \draw (0.5,1.5) node[circle,draw] (d) {D};
-%%       \draw (1.5,1.5) node[circle,draw] (e) {E};
-%%       \draw (2.5,1.5) node[circle,draw] (f) {F};
-%%       \draw (0.5,2.5) node[circle,draw] (a) {A};
-%%       \draw (1.5,2.5) node[circle,draw] (b) {B};
-%%       \draw (2.5,2.5) node[circle,draw] (c) {C};
-
-%%       \draw (a) -- (b);
-%%       \draw (a) -- (e);
-%%       \draw (a) -- (d);
-%%       \draw (b) -- (c);
-%%       \draw (b) -- (f);
-%%       \draw (b) -- (e);
-%%       \draw (b) -- (d);
-%%       \draw (b) -- (f);
-%%       \draw (c) -- (f);
-%%       \draw (d) -- (e);
-%%       \draw (d) -- (h);
-%%       \draw (d) -- (g);
-%%       \draw (e) -- (c);
-%%       \draw (e) -- (f);
-%%       \draw (e) -- (i);
-%%       \draw (e) -- (h);
-%%       \draw (e) -- (g);
-%%       \draw (f) -- (i);
-%%       \draw (f) -- (h);
-%%       \draw (g) -- (h);
-%%       \draw (h) -- (i);
-%%     \end{tikzpicture}
-
-%%   }
-
-%%   \caption{}
-%%   \label{}
-
-%% \end{figure}
-
 \printbibliography
+
+\begin{figure}[h]
+
+  \centering
+
+  \subfloat[Automate cellulaire simple]{
+
+    \begin{tikzpicture}
+      \draw[step=1,gray] (0,0) grid (3,3);
+
+      \node at (0.5,0.5) {G};
+      \node at (1.5,0.5) {H};
+      \node at (2.5,0.5) {I};
+      \node at (0.5,1.5) {D};
+      \node at (1.5,1.5) {E};
+      \node at (2.5,1.5) {F};
+      \node at (0.5,2.5) {A};
+      \node at (1.5,2.5) {B};
+      \node at (2.5,2.5) {C};
+    \end{tikzpicture}
+
+  }
+
+  \subfloat[Automate cellulaire graphe]{
+
+    \begin{tikzpicture}
+      \draw (0.5,0.5) node[circle,draw] (g) {G};
+      \draw (1.5,0.5) node[circle,draw] (h) {H};
+      \draw (2.5,0.5) node[circle,draw] (i) {I};
+      \draw (0.5,1.5) node[circle,draw] (d) {D};
+      \draw (1.5,1.5) node[circle,draw] (e) {E};
+      \draw (2.5,1.5) node[circle,draw] (f) {F};
+      \draw (0.5,2.5) node[circle,draw] (a) {A};
+      \draw (1.5,2.5) node[circle,draw] (b) {B};
+      \draw (2.5,2.5) node[circle,draw] (c) {C};
+
+      \draw (a) -- (b);
+      \draw (a) -- (e);
+      \draw (a) -- (d);
+      \draw (b) -- (c);
+      \draw (b) -- (f);
+      \draw (b) -- (e);
+      \draw (b) -- (d);
+      \draw (b) -- (f);
+      \draw (c) -- (f);
+      \draw (d) -- (e);
+      \draw (d) -- (h);
+      \draw (d) -- (g);
+      \draw (e) -- (c);
+      \draw (e) -- (f);
+      \draw (e) -- (i);
+      \draw (e) -- (h);
+      \draw (e) -- (g);
+      \draw (f) -- (i);
+      \draw (f) -- (h);
+      \draw (g) -- (h);
+      \draw (h) -- (i);
+    \end{tikzpicture}
+
+  }
+
+  \caption{}
+  \label{}
+
+\end{figure}
 
 \end{document}
