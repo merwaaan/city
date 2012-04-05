@@ -7,10 +7,13 @@ LIB_DIR=lib
 
 LIBS=gs-core-1.1.1 \
 	gs-algo-1.1 \
-	jts-1.8
+	mesh \
+	quickhull3d.1.4
 
-FILES=Test \
-	Simulation
+FILES=\
+	RenderingLayer \
+	Simulation \
+	Test
 
 CP:= $(addprefix $(LIB_DIR)/,$(LIBS))
 CP:= $(addsuffix .jar,$(CP))
