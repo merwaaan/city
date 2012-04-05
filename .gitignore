@@ -1,1 +1,6 @@
 *~
+*.class
+*.bbl
+*.aux
+*.blg
+*.log
