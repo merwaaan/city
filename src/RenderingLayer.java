@@ -17,7 +17,7 @@ public class RenderingLayer implements LayerRenderer {
 	 public void render(Graphics2D g, GraphicGraph graph, double ratio, int w, int h, double minx, double miny, double maxx, double maxy) {
 
 		  g.translate(w/2, h/2);
-		  g.scale(1, -1);
+		  g.scale(ratio, -ratio);
 
 		  g.setColor(Color.ORANGE);
 
@@ -31,8 +31,5 @@ public class RenderingLayer implements LayerRenderer {
 
 				g.drawLine(x0, y0, x1, y1);
 		  }
-
-		  System.out.println(w + " "  +minx + " " + maxx);
-		  System.out.println(""+(200 * ratio));
 	 }
 }

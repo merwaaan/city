@@ -15,15 +15,7 @@ public class Simulation {
 
 	 private Graph g;
 
-	 private float[][] points = {
-		  {-100, 0},
-		  {100, 0},
-		  {0, -50},
-		  {10, 300},
-		  {150, -50},
-		  {10, 100},
-		  {-300, 300}
-	 };
+	 private float[][] points;
 
 	 public Voronoi v;
 
@@ -42,12 +34,20 @@ public class Simulation {
 
 	 public void run() {
 
+		  int n = 1000;
+		  this.points = new float[n][2];
+		  for(int i = 0; i < n; ++i) {
+				this.points[i] = new float[2];
+				this.points[i][0] = (float)(Math.random() * 1000 - 500);
+				this.points[i][1] = (float)(Math.random() * 1000 - 500);
+		  }
+
 		  this.v = new Voronoi(points);
 
 		  for(int i = 0; i < points.length; ++i) {
-				Node n = g.addNode("" + i);
-				n.setAttribute("x", points[i][0]);
-				n.setAttribute("y", points[i][1]);
+				Node lot = g.addNode("" + i);
+				lot.setAttribute("x", points[i][0]);
+				lot.setAttribute("y", points[i][1]);
 		  }
 	 }
 
