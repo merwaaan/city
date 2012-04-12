@@ -10,6 +10,8 @@ LIBS=gs-core-1.1.1 \
 	jts-1.12
 
 FILES=\
+	LookUp \
+	LookUpMap \
 	RenderingLayer \
 	Simulation \
 	Test

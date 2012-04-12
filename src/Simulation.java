@@ -17,17 +17,19 @@ import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.MultiPoint;
+import com.vividsolutions.jts.geom.Point;
 import com.vividsolutions.jts.geom.Polygon;
 import com.vividsolutions.jts.triangulate.VoronoiDiagramBuilder;
 import com.vividsolutions.jts.operation.buffer.BufferOp;
 
 public class Simulation {
 
-	 private Graph roads;
+	 public Graph roads;
 	 public Graph lots;
 
-	 private Coordinate[] coords;
 	 public Geometry voronoi;
+
+	 public LookUpMap lotsData;
 
 	 private String roadStyle = "node {size: 0px;} edge {fill-color: orange;}";
 	 private String lotStyle = "node {size: 5px; fill-color: grey;}";
@@ -36,42 +38,47 @@ public class Simulation {
 
 		  System.setProperty("gs.ui.renderer", "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
 
+		  this.lotsData = new LookUpMap();
+
 		  this.roads = new SingleGraph("road network");
 		  this.roads.addAttribute("ui.stylesheet", roadStyle);
 
 		  this.lots = new SingleGraph("lots");
 		  this.lots.addAttribute("ui.stylesheet", lotStyle);
 
+		  this.run();
+
 		  View view = this.lots.display(false).getDefaultView();
 		  view.setBackLayerRenderer(new RenderingLayer(this));
 
 		  Camera camera = view.getCamera();
 		  camera.setGraphViewport(-1000, 0, 0, 0);
-
-		  this.run();
 	 }
 
 	 public void run() {
 
-		  this.coords = new Coordinate[500];
-		  for(int i = 0; i < this.coords.length; ++i) {
+		  Coordinate[] coords = new Coordinate[500];
+		  for(int i = 0; i < coords.length; ++i) {
 
 				// Choose a random position.
 				float x = (float)(Math.random() * 1000 - 500);
 				float y = (float)(Math.random() * 1000 - 500);
 
 				// Add a new coordinate.
-				this.coords[i] = new Coordinate(x, y);
+				coords[i] = new Coordinate(x, y);
 
 				// Add the corresponding node to the "lots" graph.
-				Node lot = this.lots.addNode("lot_"+i);
+				String id = new String("lot_" + i);
+				Node lot = this.lots.addNode(id);
 				lot.setAttribute("x", x);
 				lot.setAttribute("y", y);
-				lot.setAttribute("density", (float)(Math.random() * 100));
+
+				this.lotsData.setNode(id, lot);
+				this.lotsData.setAttribute(id, "density", new Float(Math.random()));
 		  }
 
 		  GeometryFactory geomFact = new GeometryFactory();
-		  MultiPoint points = geomFact.createMultiPoint(this.coords);
+		  MultiPoint points = geomFact.createMultiPoint(coords);
 
 		  VoronoiDiagramBuilder voronoiBuilder = new VoronoiDiagramBuilder();
 		  voronoiBuilder.setSites(points);
@@ -82,6 +89,18 @@ public class Simulation {
 
 				Polygon poly = (Polygon)this.voronoi.getGeometryN(i);
 				Coordinate[] vertices = poly.getCoordinates();
+
+				for(Node lot : this.lots) {
+
+					 float x = (Float)lot.getAttribute("x");
+					 float y = (Float)lot.getAttribute("y");
+					 Point p = geomFact.createPoint(new Coordinate(x, y));
+
+					 if(poly.intersects(p)) {
+						  this.lotsData.setPolygon(lot.getId(), poly);
+						  break;
+					 }
+				}
 
 				for(int j = 0, l2 = vertices.length; j < l2; ++j) {
 

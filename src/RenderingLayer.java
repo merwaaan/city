@@ -30,9 +30,11 @@ public class RenderingLayer implements LayerRenderer {
 
 		  // Fill cells according to the density.
 
-		  for(int i = 0, l = this.sim.voronoi.getNumGeometries(); i < l; ++i) {
+		  for(Node lot : this.sim.lots) {
 
-				Polygon poly = (Polygon)this.sim.voronoi.getGeometryN(i);
+				LookUp data = this.sim.lotsData.get(lot.getId());
+				Polygon poly = data.polygon;
+
 				Coordinate[] vertices = poly.getCoordinates();
 
 				GeneralPath path = new GeneralPath();
@@ -44,32 +46,13 @@ public class RenderingLayer implements LayerRenderer {
 					 path.lineTo(nextPoint.x, nextPoint.y);
 				}
 
+				float density = (Float)data.getAttribute("density");
+				int alpha = (int)(density * 255);
+				g.setColor(new Color(255, 0, 0, alpha));
+				g.fill(path);
+
 				g.setColor(Color.ORANGE);
 				g.draw(path);
-
-				g.setColor(new Color(255, 0, 0, 255));
-				g.fill(path);
 		  }
-
-		  /*		  MPolygon[] regions = this.sim.v.getRegions();
-		  for(int i = 0; i < regions.length; ++i) {
-
-				g.setColor(new Color(255, 0, 0, 200));
-		  }
-
-		  // Draw edges.
-
-		  g.setColor(Color.BLACK);
-
-		  float[][] edges = this.sim.v.getEdges();
-		  for(int i = 0; i < edges.length; ++i) {
-
-				int x0 = (int)edges[i][0];
-				int y0 = (int)edges[i][1];
-				int x1 = (int)edges[i][2];
-				int y1 = (int)edges[i][3];
-
-				g.drawLine(x0, y0, x1, y1);
-				}*/
 	 }
 }
