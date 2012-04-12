@@ -6,9 +6,8 @@ BUILD_DIR=build
 LIB_DIR=lib
 
 LIBS=gs-core-1.1.1 \
-	gs-algo-1.1 \
-	mesh \
-	quickhull3d.1.4
+	gs-ui-1.1.1 \
+	jts-1.12
 
 FILES=\
 	RenderingLayer \
