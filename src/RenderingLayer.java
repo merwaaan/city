@@ -32,7 +32,7 @@ public class RenderingLayer implements LayerRenderer {
 
 		  for(Node lot : this.sim.lots) {
 
-				LookUp data = this.sim.lotsData.get(lot.getId());
+				LotData data = lot.getAttribute("data");
 				Polygon poly = data.polygon;
 
 				Coordinate[] vertices = poly.getCoordinates();
@@ -46,8 +46,7 @@ public class RenderingLayer implements LayerRenderer {
 					 path.lineTo(nextPoint.x, nextPoint.y);
 				}
 
-				float density = (Float)data.getAttribute("density");
-				int alpha = (int)(density * 255);
+				int alpha = (int)(data.density * 255);
 				g.setColor(new Color(255, 0, 0, alpha));
 				g.fill(path);
 

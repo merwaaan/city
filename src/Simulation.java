@@ -29,16 +29,12 @@ public class Simulation {
 
 	 public Geometry voronoi;
 
-	 public LookUpMap lotsData;
-
 	 private String roadStyle = "node {size: 0px;} edge {fill-color: orange;}";
-	 private String lotStyle = "node {size: 5px; fill-color: grey;}";
+	 private String lotStyle = "node {size: 5px; fill-color: black;}";
 
 	 public Simulation() {
 
 		  System.setProperty("gs.ui.renderer", "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
-
-		  this.lotsData = new LookUpMap();
 
 		  this.roads = new SingleGraph("road network");
 		  this.roads.addAttribute("ui.stylesheet", roadStyle);
@@ -68,13 +64,14 @@ public class Simulation {
 				coords[i] = new Coordinate(x, y);
 
 				// Add the corresponding node to the "lots" graph.
-				String id = new String("lot_" + i);
-				Node lot = this.lots.addNode(id);
+				Node lot = this.lots.addNode("lot_" + i);
 				lot.setAttribute("x", x);
 				lot.setAttribute("y", y);
 
-				this.lotsData.setNode(id, lot);
-				this.lotsData.setAttribute(id, "density", new Float(Math.random()));
+				LotData data = new LotData();
+				data.density = Math.random();
+
+				lot.setAttribute("data", data);
 		  }
 
 		  GeometryFactory geomFact = new GeometryFactory();
@@ -97,7 +94,8 @@ public class Simulation {
 					 Point p = geomFact.createPoint(new Coordinate(x, y));
 
 					 if(poly.intersects(p)) {
-						  this.lotsData.setPolygon(lot.getId(), poly);
+						  LotData data = lot.getAttribute("data");
+						  data.polygon = poly;
 						  break;
 					 }
 				}
