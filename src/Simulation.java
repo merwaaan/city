@@ -4,102 +4,181 @@ import java.util.Random;
 import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
 
-import org.graphstream.graph.Graph;
-import org.graphstream.graph.Edge;
-import org.graphstream.graph.Node;
+import org.graphstream.graph.*;
 import org.graphstream.graph.implementations.SingleGraph;
 import org.graphstream.ui.geom.Vector2;
 import org.graphstream.ui.swingViewer.View;
 import org.graphstream.ui.swingViewer.Viewer;
 import org.graphstream.ui.swingViewer.util.Camera;
 
-import com.vividsolutions.jts.geom.Coordinate;
-import com.vividsolutions.jts.geom.Geometry;
-import com.vividsolutions.jts.geom.GeometryFactory;
-import com.vividsolutions.jts.geom.MultiPoint;
-import com.vividsolutions.jts.geom.Point;
-import com.vividsolutions.jts.geom.Polygon;
+import com.vividsolutions.jts.geom.*;
 import com.vividsolutions.jts.triangulate.VoronoiDiagramBuilder;
-import com.vividsolutions.jts.operation.buffer.BufferOp;
 
 public class Simulation {
 
 	 public Graph roads;
 	 public Graph lots;
 
-	 public Geometry voronoi;
-
 	 private String roadStyle = "node {size: 0px;} edge {fill-color: orange;}";
 	 private String lotStyle = "node {size: 5px; fill-color: black;}";
+
+	 private GeometryFactory geomFact;
 
 	 public Simulation() {
 
 		  System.setProperty("gs.ui.renderer", "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
 
-		  this.roads = new SingleGraph("road network");
-		  this.roads.addAttribute("ui.stylesheet", roadStyle);
-
+		  /**
+			* The "lots" graph contains every lot centroids as nodes. Its
+			* edges represent the neighborhood relationships between
+			* adjacent lots.
+			**/
 		  this.lots = new SingleGraph("lots");
 		  this.lots.addAttribute("ui.stylesheet", lotStyle);
 
-		  this.run();
+		  /**
+			* The "roads" graph contains every constructible routes from
+			* the edges of the Voronoi diagram. Its nodes are possible
+			* crossroads.
+			**/
+		  this.roads = new SingleGraph("road network");
+		  this.roads.addAttribute("ui.stylesheet", roadStyle);
 
+		  this.geomFact = new GeometryFactory();
+
+		  this.initialize();
+
+		  // Set up the view.
 		  View view = this.lots.display(false).getDefaultView();
 		  view.setBackLayerRenderer(new RenderingLayer(this));
-
-		  Camera camera = view.getCamera();
-		  camera.setGraphViewport(-1000, 0, 0, 0);
+		  view.getCamera().setGraphViewport(-1000, 0, 0, 0);
 	 }
 
-	 public void run() {
+	 public void initialize() {
 
-		  Coordinate[] coords = new Coordinate[500];
+		  // Compute 100 random coordinates.
+		  Coordinate[] coords = this.getRandomCoords(100, 500);
+
+		  // Build a Voronoi diagram for which seeds are the previously
+		  // computed coordinates.
+		  Geometry voronoi = this.buildVoronoiDiagram(coords);
+
+		  // Build the "lots" and "roads" graphs using the coordinates
+		  // and the Voronoi Diagram.
+		  this.buildLotsGraph(coords, voronoi);
+		  this.buildRoadsGraph(voronoi);
+	 }
+
+	 /**
+	  * Generate `lotCount` geometrical coordinates with X and Y values
+	  * in [-`offset`, +`offset`].
+	  **/
+	 private Coordinate[] getRandomCoords(int lotCount, int offset) {
+
+		  Coordinate[] coords = new Coordinate[lotCount];
+
+		  int offset2 = offset * 2;
+
 		  for(int i = 0; i < coords.length; ++i) {
 
 				// Choose a random position.
-				float x = (float)(Math.random() * 1000 - 500);
-				float y = (float)(Math.random() * 1000 - 500);
+				float x = (float)(Math.random() * offset2 - offset);
+				float y = (float)(Math.random() * offset2 - offset);
 
-				// Add a new coordinate.
 				coords[i] = new Coordinate(x, y);
-
-				// Add the corresponding node to the "lots" graph.
-				Node lot = this.lots.addNode("lot_" + i);
-				lot.setAttribute("x", x);
-				lot.setAttribute("y", y);
-
-				LotData data = new LotData();
-				data.density = Math.random();
-
-				lot.setAttribute("data", data);
 		  }
 
-		  GeometryFactory geomFact = new GeometryFactory();
-		  MultiPoint points = geomFact.createMultiPoint(coords);
+		  return coords;
+	 }
+
+	 /**
+	  * Build the Voronoi diagram using the list of coordinates
+	  * `coords` as seed positions.
+	  **/
+	 private Geometry buildVoronoiDiagram(Coordinate[] coords) {
+
+		  MultiPoint points = this.geomFact.createMultiPoint(coords);
 
 		  VoronoiDiagramBuilder voronoiBuilder = new VoronoiDiagramBuilder();
 		  voronoiBuilder.setSites(points);
-		  this.voronoi = voronoiBuilder.getDiagram(geomFact);
 
-		  // The "roads" graph contains the Voronoï edges.
-		  for(int i = 0, l = this.voronoi.getNumGeometries(); i < l; ++i) {
+		  return voronoiBuilder.getDiagram(this.geomFact);
+	 }
 
-				Polygon poly = (Polygon)this.voronoi.getGeometryN(i);
-				Coordinate[] vertices = poly.getCoordinates();
+	 /**
+	  * Populate the "lots" graph using a Voronoi diagram `voronoi` and
+	  * the coordinates `coords` on which it is based.
+	  *
+	  * Three steps:
+	  * 1 - Add a node at each coordinate
+	  * 2 - Bind it to the appropriate Voronoi cell (in polygon form).
+	  * 3 - Add an edge between nodes sharing a common Voronoi edge.
+	  *
+	  **/
+	 private void buildLotsGraph(Coordinate[] coords, Geometry voronoi) {
 
-				for(Node lot : this.lots) {
+		  for(int i = 0, l = coords.length; i < l; ++i) {
 
-					 float x = (Float)lot.getAttribute("x");
-					 float y = (Float)lot.getAttribute("y");
-					 Point p = geomFact.createPoint(new Coordinate(x, y));
+				Coordinate coord = coords[i];
 
-					 if(poly.intersects(p)) {
-						  LotData data = lot.getAttribute("data");
+				// Add the corresponding node to the "lots" graph.
+				Node lot = this.lots.addNode("lot_" + i);
+				lot.setAttribute("x", coord.x);
+				lot.setAttribute("y", coord.y);
+
+				//
+				LotData data = new LotData();
+				lot.setAttribute("data", data);
+
+				// Associate a random density (to begin with).
+				data.density = Math.random();
+
+				// Bind the node with the appropriate Voronoi cell.
+				for(int j = 0, l2 = voronoi.getNumGeometries(); j < l2; ++j) {
+
+					 Polygon poly = (Polygon)voronoi.getGeometryN(j);
+					 Point point = this.geomFact.createPoint(coord);
+
+					 if(poly.contains(point)) {
 						  data.polygon = poly;
 						  break;
 					 }
 				}
+		  }
 
+		  // Draw edges between neighbors.
+		  for(Node lot : this.lots) {
+
+				LotData data = lot.getAttribute("data");
+				Polygon poly = data.polygon;
+
+				for(Node otherLot : this.lots) {
+
+					 if(lot == otherLot || lot.hasEdgeBetween(otherLot))
+						  continue;
+
+					 LotData otherData = otherLot.getAttribute("data");
+					 Polygon otherPoly = otherData.polygon;
+
+					 if(poly.touches(otherPoly))
+						  this.lots.addEdge(lot.getId() + "_" + otherLot.getId(), lot, otherLot);
+				}
+		  }
+	 }
+
+	 /**
+	  * Populate the "roads" graph using the Voronoi diagram. Each edge
+	  * represents a Voronoi edge.
+	  **/
+	 private void buildRoadsGraph(Geometry voronoi) {
+
+		  for(int i = 0, l = voronoi.getNumGeometries(); i < l; ++i) {
+
+				Polygon poly = (Polygon)voronoi.getGeometryN(i);
+				Coordinate[] vertices = poly.getCoordinates();
+
+				// Populate the "roads" graph with every Voronoi edge as a
+				// potential road.
 				for(int j = 0, l2 = vertices.length; j < l2; ++j) {
 
 					 Coordinate currentPoint = vertices[j];
