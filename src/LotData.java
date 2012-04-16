@@ -8,6 +8,7 @@ class LotData {
 	 //public Edge[] edges;
 
 	 public double density;
+	 public double nextDensity;
 
 	 public LotData() {
 

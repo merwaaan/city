@@ -10,6 +10,9 @@ LIBS=gs-core-1.1.1 \
 	jts-1.12
 
 FILES=\
+	AbstractStrategy \
+	AverageDensityStrategy \
+	RandomDensityStrategy \
 	LotData \
 	RenderingLayer \
 	Simulation \

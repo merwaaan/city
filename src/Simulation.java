@@ -1,4 +1,5 @@
 import java.awt.Dimension;
+import java.awt.Rectangle;
 import java.util.Random;
 
 import javax.swing.JFrame;
@@ -7,8 +8,7 @@ import javax.swing.JLayeredPane;
 import org.graphstream.graph.*;
 import org.graphstream.graph.implementations.SingleGraph;
 import org.graphstream.ui.geom.Vector2;
-import org.graphstream.ui.swingViewer.View;
-import org.graphstream.ui.swingViewer.Viewer;
+import org.graphstream.ui.swingViewer.*;
 import org.graphstream.ui.swingViewer.util.Camera;
 
 import com.vividsolutions.jts.geom.*;
@@ -23,6 +23,8 @@ public class Simulation {
 	 private String lotStyle = "node {size: 5px; fill-color: black;}";
 
 	 private GeometryFactory geomFact;
+
+	 private View view;
 
 	 public Simulation() {
 
@@ -49,12 +51,12 @@ public class Simulation {
 		  this.initialize();
 
 		  // Set up the view.
-		  View view = this.lots.display(false).getDefaultView();
-		  view.setBackLayerRenderer(new RenderingLayer(this));
-		  view.getCamera().setGraphViewport(-1000, 0, 0, 0);
+		  this.view = this.lots.display(false).getDefaultView();
+		  this.view.setBackLayerRenderer(new RenderingLayer(this));
+		  this.view.getCamera().setGraphViewport(-1000, 0, 0, 0);
 	 }
 
-	 public void initialize() {
+	 private void initialize() {
 
 		  // Compute 100 random coordinates.
 		  Coordinate[] coords = this.getRandomCoords(100, 500);
@@ -69,9 +71,22 @@ public class Simulation {
 		  this.buildRoadsGraph(voronoi);
 	 }
 
+	 public void run() {
+
+		  AbstractStrategy strategy = new AverageDensityStrategy(this);
+
+		  for(int i = 0; i < 100; ++i) {
+
+				strategy.update();
+
+				this.redraw();
+				this.pause(1000);
+		  }
+	 }
+
 	 /**
 	  * Generate `lotCount` geometrical coordinates with X and Y values
-	  * in [-`offset`, +`offset`].
+	  * within [-`offset`, +`offset`].
 	  **/
 	 private Coordinate[] getRandomCoords(int lotCount, int offset) {
 
@@ -112,8 +127,7 @@ public class Simulation {
 	  * Three steps:
 	  * 1 - Add a node at each coordinate
 	  * 2 - Bind it to the appropriate Voronoi cell (in polygon form).
-	  * 3 - Add an edge between nodes sharing a common Voronoi edge.
-	  *
+	  * 3 - Add an edge between nodes sharing a Voronoi edge.
 	  **/
 	 private void buildLotsGraph(Coordinate[] coords, Geometry voronoi) {
 
@@ -129,9 +143,6 @@ public class Simulation {
 				//
 				LotData data = new LotData();
 				lot.setAttribute("data", data);
-
-				// Associate a random density (to begin with).
-				data.density = Math.random();
 
 				// Bind the node with the appropriate Voronoi cell.
 				for(int j = 0, l2 = voronoi.getNumGeometries(); j < l2; ++j) {
@@ -194,6 +205,25 @@ public class Simulation {
 
 					 this.roads.addEdge(a.getId()+" "+b.getId(), a, b);
 				}
+		  }
+	 }
+
+	 private void redraw() {
+
+		  Rectangle bounds = this.view.getBounds();
+
+		  bounds.width += bounds.width % 2 == 0 ? 1 : -1;
+
+		  this.view.setBounds(bounds.x, bounds.y, bounds.width, bounds.height);
+	 }
+
+	 private void pause(int ms) {
+
+		  try {
+				Thread.sleep(1000);
+		  }
+		  catch(Exception e) {
+				e.printStackTrace();
 		  }
 	 }
 }
