@@ -121,8 +121,12 @@ public class Simulation {
 
 		  Geometry voronoi = voronoiBuilder.getDiagram(this.geomFact);
 
-		  // Clip the diagram with the buffered cells to avoid immense
-		  // lots at the borders of the environment.
+		  // Clip the diagram with the buffered convex hull of the
+		  // individual centroids to avoid immense lots at the borders
+		  // of the environment.
+		  //
+		  // TODO: a buffered concave hull would be way better.
+		  // https://github.com/skipperkongen/jts-algorithm-pack
 
 		  Geometry buffer = points.convexHull().buffer(30);
 		  voronoi = voronoi.intersection(buffer);
