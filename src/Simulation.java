@@ -73,6 +73,9 @@ public class Simulation {
 
 	 public void run() {
 
+		  // Save a screenshot.
+		  this.lots.addAttribute("ui.screenshot", "../screenshot.png");
+
 		  AbstractStrategy strategy = new AverageDensityStrategy(this);
 
 		  for(int i = 0; i < 100; ++i) {
