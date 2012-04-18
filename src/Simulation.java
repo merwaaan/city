@@ -112,12 +112,22 @@ public class Simulation {
 	  **/
 	 private Geometry buildVoronoiDiagram(Coordinate[] coords) {
 
+		  // Compute the Voronoi diagram.
+
 		  MultiPoint points = this.geomFact.createMultiPoint(coords);
 
 		  VoronoiDiagramBuilder voronoiBuilder = new VoronoiDiagramBuilder();
 		  voronoiBuilder.setSites(points);
 
-		  return voronoiBuilder.getDiagram(this.geomFact);
+		  Geometry voronoi = voronoiBuilder.getDiagram(this.geomFact);
+
+		  // Clip the diagram with the buffered cells to avoid immense
+		  // lots at the borders of the environment.
+
+		  Geometry buffer = points.convexHull().buffer(30);
+		  voronoi = voronoi.intersection(buffer);
+
+		  return voronoi;
 	 }
 
 	 /**
