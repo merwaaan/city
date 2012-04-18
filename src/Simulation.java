@@ -51,6 +51,7 @@ public class Simulation {
 		  // Set up the view.
 
 		  System.setProperty("gs.ui.renderer", "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
+		  this.lots.addAttribute("ui.antialias");
 
 		  this.view = this.lots.display(false).getDefaultView();
 		  this.view.setBackLayerRenderer(new RenderingLayer(this));
