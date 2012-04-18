@@ -1,5 +1,6 @@
 import java.awt.Dimension;
 import java.awt.Rectangle;
+import java.util.ArrayList;
 import java.util.Random;
 
 import javax.swing.JFrame;
@@ -18,6 +19,8 @@ public class Simulation {
 
 	 public Graph roads;
 	 public Graph lots;
+
+	 private ArrayList<AbstractStrategy> strategies;
 
 	 private String roadStyle = "node {size: 0px;} edge {fill-color: orange;}";
 	 private String lotStyle = "node {size: 5px; fill-color: black;}";
@@ -43,6 +46,8 @@ public class Simulation {
 			**/
 		  this.roads = new SingleGraph("road network");
 		  this.roads.addAttribute("ui.stylesheet", roadStyle);
+
+		  this.strategies = new ArrayList<AbstractStrategy>();
 
 		  this.geomFact = new GeometryFactory();
 
@@ -78,11 +83,12 @@ public class Simulation {
 		  // Save a screenshot.
 		  this.lots.addAttribute("ui.screenshot", "../screenshot.png");
 
-		  AbstractStrategy strategy = new LotPositioningStrategy(this);
+		  this.strategies.add(new LotPositioningStrategy(this));
 
 		  for(int i = 0; i < 100; ++i) {
 
-				strategy.update();
+				for(AbstractStrategy strategy : this.strategies)
+					 strategy.update();
 
 				this.redraw();
 				this.pause(1000);
