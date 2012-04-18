@@ -8,11 +8,9 @@ public class AverageDensityStrategy extends AbstractStrategy {
 
 	 void prepare() {
 
-		  // Give a density attribute to each lot.
-		  for(Node lot : this.sim.lots) {
-				LotData data = lot.getAttribute("data");
-				data.density = Math.random();
-		  }
+		  // Give a "density" attribute to each lot.
+		  for(Node lot : this.sim.lots)
+				lot.setAttribute("density", new Double(Math.random()));
 	 }
 
 	 public void update() {
@@ -20,24 +18,22 @@ public class AverageDensityStrategy extends AbstractStrategy {
 		  // Compute next state.
 		  for(Node lot : this.sim.lots) {
 
-				float totalDensity = 0;
+				double totalDensity = 0;
 
 				for(Edge e : lot.getEachEdge()) {
 
 					 Node neighbor = e.getOpposite(lot);
-					 LotData neighborData = neighbor.getAttribute("data");
+					 double neighborDensity = (Double)neighbor.getAttribute("density");
 
-					 totalDensity += neighborData.density;
+					 totalDensity += neighborDensity;
 				}
 
-				LotData data = lot.getAttribute("data");
-				data.nextDensity = totalDensity / lot.getDegree();
+				double nextDensity = totalDensity / lot.getDegree();
+				lot.setAttribute("nextDensity", nextDensity);
 		  }
 
 		  // Switch states.
-		  for(Node lot : this.sim.lots) {
-				LotData data = lot.getAttribute("data");
-				data.density = data.nextDensity;
-		  }
+		  for(Node lot : this.sim.lots)
+				lot.setAttribute("density", lot.getAttribute("nextDensity"));
 	 }
 }

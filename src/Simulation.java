@@ -28,8 +28,6 @@ public class Simulation {
 
 	 public Simulation() {
 
-		  System.setProperty("gs.ui.renderer", "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
-
 		  /**
 			* The "lots" graph contains every lot centroids as nodes. Its
 			* edges represent the neighborhood relationships between
@@ -51,6 +49,9 @@ public class Simulation {
 		  this.initialize();
 
 		  // Set up the view.
+
+		  System.setProperty("gs.ui.renderer", "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
+
 		  this.view = this.lots.display(false).getDefaultView();
 		  this.view.setBackLayerRenderer(new RenderingLayer(this));
 		  this.view.getCamera().setGraphViewport(-1000, 0, 0, 0);
@@ -76,7 +77,7 @@ public class Simulation {
 		  // Save a screenshot.
 		  this.lots.addAttribute("ui.screenshot", "../screenshot.png");
 
-		  AbstractStrategy strategy = new LotPositioningStrategy(this);
+		  AbstractStrategy strategy = new AverageDensityStrategy(this);
 
 		  for(int i = 0; i < 100; ++i) {
 
@@ -157,10 +158,6 @@ public class Simulation {
 				lot.setAttribute("x", coord.x);
 				lot.setAttribute("y", coord.y);
 
-				//
-				LotData data = new LotData();
-				lot.setAttribute("data", data);
-
 				// Bind the node with the appropriate Voronoi cell.
 				for(int j = 0, l2 = voronoi.getNumGeometries(); j < l2; ++j) {
 
@@ -168,7 +165,7 @@ public class Simulation {
 					 Point point = this.geomFact.createPoint(coord);
 
 					 if(poly.contains(point)) {
-						  data.polygon = poly;
+						  lot.setAttribute("polygon", poly);
 						  break;
 					 }
 				}
@@ -177,16 +174,14 @@ public class Simulation {
 		  // Draw edges between neighbors.
 		  for(Node lot : this.lots) {
 
-				LotData data = lot.getAttribute("data");
-				Polygon poly = data.polygon;
+				Polygon poly = (Polygon)lot.getAttribute("polygon");
 
 				for(Node otherLot : this.lots) {
 
 					 if(lot == otherLot || lot.hasEdgeBetween(otherLot))
 						  continue;
 
-					 LotData otherData = otherLot.getAttribute("data");
-					 Polygon otherPoly = otherData.polygon;
+					 Polygon otherPoly = (Polygon)otherLot.getAttribute("polygon");
 
 					 if(poly.touches(otherPoly))
 						  this.lots.addEdge(lot.getId() + "_" + otherLot.getId(), lot, otherLot);

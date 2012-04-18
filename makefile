@@ -15,7 +15,6 @@ FILES=\
 	AverageDensityStrategy \
 	LotPositioningStrategy \
 	RandomDensityStrategy \
-	LotData \
 	RenderingLayer \
 	Simulation \
 	Test

@@ -8,25 +8,19 @@ public class RandomDensityStrategy extends AbstractStrategy {
 
 	 void prepare() {
 
-		  // Give a density attribute to each lot.
-		  for(Node lot : this.sim.lots) {
-				LotData data = lot.getAttribute("data");
-				data.density = Math.random();
-		  }
+		  // Give a "density" attribute to each lot.
+		  for(Node lot : this.sim.lots)
+				lot.setAttribute("density", new Double(Math.random()));
 	 }
 
 	 public void update() {
 
 		  // Compute next state.
-		  for(Node lot : this.sim.lots) {
-				LotData data = lot.getAttribute("data");
-				data.nextDensity = Math.random();
-		  }
+		  for(Node lot : this.sim.lots)
+				lot.setAttribute("nextDensity", new Double(Math.random()));
 
 		  // Switch states.
-		  for(Node lot : this.sim.lots) {
-				LotData data = lot.getAttribute("data");
-				data.density = data.nextDensity;
-		  }
+		  for(Node lot : this.sim.lots)
+				lot.setAttribute("density", lot.getAttribute("nextDensity"));
 	 }
 }
