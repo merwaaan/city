@@ -210,11 +210,7 @@ public class Simulation {
 
 	 private void redraw() {
 
-		  Rectangle bounds = this.view.getBounds();
-
-		  bounds.width += bounds.width % 2 == 0 ? 1 : -1;
-
-		  this.view.setBounds(bounds.x, bounds.y, bounds.width, bounds.height);
+		  this.lots.addAttribute("ui.repaint");
 	 }
 
 	 private void pause(int ms) {
