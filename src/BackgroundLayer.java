@@ -5,20 +5,16 @@ import java.awt.geom.GeneralPath;
 import org.graphstream.graph.Node;
 import org.graphstream.ui.graphicGraph.GraphicGraph;
 import org.graphstream.ui.swingViewer.LayerRenderer;
-import org.graphstream.ui.swingViewer.View;
-import org.graphstream.ui.swingViewer.Viewer;
 
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.Polygon;
 
-public class RenderingLayer implements LayerRenderer {
+public class BackgroundLayer implements LayerRenderer {
 
 	 private Simulation sim;
 
-	 private View view;
-
-	 public RenderingLayer(Simulation sim) {
+	 public BackgroundLayer(Simulation sim) {
 
 		  this.sim = sim;
 	 }
@@ -28,30 +24,34 @@ public class RenderingLayer implements LayerRenderer {
 		  // Save the transformation matrix.
 		  g = (Graphics2D)g.create();
 
+		  // Set the center of the screen as the origin.
 		  g.translate(w/2, h/2);
-		  g.scale(ratio, -ratio);
 
-		  // Fill cells according to the density.
+		  // Scale according to the gu to px ratio and reverse the
+		  // y-axis.
+		  g.scale(ratio, -ratio);
 
 		  for(Node lot : this.sim.lots) {
 
-				LotData data = lot.getAttribute("data");
-				Polygon poly = data.polygon;
-
+				Polygon poly = (Polygon)lot.getAttribute("polygon");
 				Coordinate[] vertices = poly.getCoordinates();
 
 				GeneralPath path = new GeneralPath();
 				path.moveTo(vertices[0].x, vertices[0].y);
 
-				for(int j = 1, l2 = vertices.length; j < l2; ++j) {
+				for(int i = 1, l = vertices.length; i < l; ++i) {
 
-					 Coordinate nextPoint = vertices[j % vertices.length];
+					 Coordinate nextPoint = vertices[i % vertices.length];
 					 path.lineTo(nextPoint.x, nextPoint.y);
 				}
 
-				int alpha = (int)(data.density * 255);
-				g.setColor(new Color(255, 0, 0, alpha));
-				g.fill(path);
+				Double densityD = (Double)lot.getAttribute("density");
+				if(densityD != null) {
+					 double density = densityD.doubleValue();
+					 int alpha = (int)(density * 255);
+					 g.setColor(new Color(255, 0, 0, alpha));
+					 g.fill(path);
+				}
 
 				g.setColor(Color.ORANGE);
 				g.draw(path);

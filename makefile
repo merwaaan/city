@@ -13,9 +13,9 @@ LIBS=\
 FILES=\
 	AbstractStrategy \
 	AverageDensityStrategy \
+	BackgroundLayer \
 	LotPositioningStrategy \
 	RandomDensityStrategy \
-	RenderingLayer \
 	Simulation \
 	Test
 

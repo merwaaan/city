@@ -54,7 +54,7 @@ public class Simulation {
 		  this.lots.addAttribute("ui.antialias");
 
 		  this.view = this.lots.display(false).getDefaultView();
-		  this.view.setBackLayerRenderer(new RenderingLayer(this));
+		  this.view.setBackLayerRenderer(new BackgroundLayer(this));
 		  this.view.getCamera().setGraphViewport(-1000, 0, 0, 0);
 	 }
 
@@ -78,7 +78,7 @@ public class Simulation {
 		  // Save a screenshot.
 		  this.lots.addAttribute("ui.screenshot", "../screenshot.png");
 
-		  AbstractStrategy strategy = new AverageDensityStrategy(this);
+		  AbstractStrategy strategy = new LotPositioningStrategy(this);
 
 		  for(int i = 0; i < 100; ++i) {
 
