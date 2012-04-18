@@ -5,13 +5,15 @@ SRC_DIR=src
 BUILD_DIR=build
 LIB_DIR=lib
 
-LIBS=gs-core-1.2-git-last \
+LIBS=\
+	gs-core-1.2-git-last \
 	gs-ui-1.2-git-last \
 	jts-1.12
 
 FILES=\
 	AbstractStrategy \
 	AverageDensityStrategy \
+	LotPositioningStrategy \
 	RandomDensityStrategy \
 	LotData \
 	RenderingLayer \

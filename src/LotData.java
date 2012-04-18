@@ -10,6 +10,8 @@ class LotData {
 	 public double density;
 	 public double nextDensity;
 
+	 public double size;
+
 	 public LotData() {
 
 	 }
