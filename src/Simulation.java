@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Random;
 
 import javax.swing.JFrame;
@@ -33,7 +34,7 @@ public class Simulation {
 			* The "lots" graph contains every lot centroids as nodes. Its
 			* edges represent the neighborhood relationships between
 			* adjacent lots.
-			**/
+			*/
 		  this.lots = new SingleGraph("lots");
 		  this.lots.addAttribute("ui.stylesheet", lotStyle);
 
@@ -41,7 +42,7 @@ public class Simulation {
 			* The "roads" graph contains every constructible routes from
 			* the edges of the Voronoi diagram. Its nodes are possible
 			* crossroads.
-			**/
+			*/
 		  this.roads = new SingleGraph("road network");
 		  this.roads.addAttribute("ui.stylesheet", roadStyle);
 
@@ -58,17 +59,17 @@ public class Simulation {
 
 		  this.view = this.lots.display(false).getDefaultView();
 		  this.view.setBackLayerRenderer(new BackgroundLayer(this));
-		  this.view.getCamera().setGraphViewport(-1000, 0, 0, 0);
+		  this.view.getCamera().setGraphViewport(-2000, 0, 0, 0);
 	 }
 
 	 private void initialize() {
 
 		  // Compute 100 random coordinates.
-		  Coordinate[] coords = getRandomCoords(100, 500);
+		  Coordinate[] coords = getRandomCoords(30, 500);
 
 		  // Build a Voronoi diagram for which seeds are the previously
 		  // computed coordinates.
-		  Geometry voronoi = buildVoronoiDiagram(coords);
+		  Geometry voronoi = getVoronoiDiagram(coords, true);
 
 		  // Build the "lots" and "roads" graphs using the coordinates
 		  // and the Voronoi Diagram.
@@ -79,12 +80,21 @@ public class Simulation {
 	 public void run() {
 
 		  // Save a screenshot.
-		  this.lots.addAttribute("ui.screenshot", "../screenshot.png");
+		  //this.lots.addAttribute("ui.screenshot", "../screenshot.png");
 
 		  this.strategies.add(new AverageDensityStrategy(this));
 		  this.strategies.add(new LotPositioningStrategy(this));
 
-		  for(int i = 0; i < 100; ++i) {
+		  redraw();
+		  this.lots.setAttribute("ui.screenshot", "1.png");
+
+		  pause(1000);
+		  addLot(0, 0);
+
+		  redraw();
+		  this.lots.setAttribute("ui.screenshot", "2.png");
+
+		  for(int i = 0; i < 0; ++i) {
 
 				for(AbstractStrategy strategy : this.strategies)
 					 strategy.update();
@@ -97,7 +107,7 @@ public class Simulation {
 	 /**
 	  * Generate `lotCount` geometrical coordinates with X and Y values
 	  * within [-`offset`, +`offset`].
-	  **/
+	  */
 	 private Coordinate[] getRandomCoords(int lotCount, int offset) {
 
 		  Coordinate[] coords = new Coordinate[lotCount];
@@ -117,10 +127,10 @@ public class Simulation {
 	 }
 
 	 /**
-	  * Build the Voronoi diagram using the list of coordinates
-	  * `coords` as seed positions.
+	  * Build and return the Voronoi diagram using the list of
+	  * coordinates `coords` as seed positions.
 	  **/
-	 private Geometry buildVoronoiDiagram(Coordinate[] coords) {
+	 private Geometry getVoronoiDiagram(Coordinate[] coords, boolean clip) {
 
 		  // Compute the Voronoi diagram.
 
@@ -138,8 +148,10 @@ public class Simulation {
 		  // TODO: a buffered concave hull would be way better.
 		  // https://github.com/skipperkongen/jts-algorithm-pack
 
-		  Geometry buffer = points.convexHull().buffer(30);
-		  voronoi = voronoi.intersection(buffer);
+		  if(clip) {
+				Geometry buffer = points.convexHull().buffer(30);
+				voronoi = voronoi.intersection(buffer);
+		  }
 
 		  return voronoi;
 	 }
@@ -152,7 +164,7 @@ public class Simulation {
 	  * 1 - Add a node at each coordinate
 	  * 2 - Bind it to the appropriate Voronoi cell (in polygon form).
 	  * 3 - Add an edge between nodes sharing a Voronoi edge.
-	  **/
+	  */
 	 private void buildLotsGraph(Coordinate[] coords, Geometry voronoi) {
 
 		  for(int i = 0, l = coords.length; i < l; ++i) {
@@ -198,7 +210,7 @@ public class Simulation {
 	 /**
 	  * Populate the "roads" graph using the Voronoi diagram. Each edge
 	  * represents a Voronoi edge.
-	  **/
+	  */
 	 private void buildRoadsGraph(Geometry voronoi) {
 
 		  for(int i = 0, l = voronoi.getNumGeometries(); i < l; ++i) {
@@ -222,6 +234,118 @@ public class Simulation {
 					 b.setAttribute("y", nextPoint.y);
 
 					 this.roads.addEdge(a.getId()+" "+b.getId(), a, b);
+				}
+		  }
+	 }
+
+	 private void addLot(int x, int y) {
+
+		  Coordinate coord = new Coordinate(x, y);
+		  Point pos = this.geomFact.createPoint(coord);
+
+		  /**
+			* Find the existing cell within which the new lot will be
+			* built. When found, add the new lot to the "lots" graph at
+			* the appropriate position.
+			*/
+
+		  Node oldLot = null;
+
+		  for(Node lot : this.lots) {
+
+				Polygon cell = (Polygon)lot.getAttribute("polygon");
+
+				if(pos.intersects(cell)) {
+					 oldLot = lot;
+					 break;
+				}
+		  }
+
+		  // Add the new lot to the "lots" graph.
+		  Node newLot = this.lots.addNode("lot_" + this.lots.getNodeCount());
+		  newLot.setAttribute("x", coord.x);
+		  newLot.setAttribute("y", coord.y);
+
+		  // XXX: For debugging purposes.
+		  oldLot.setAttribute("ui.style", "fill-color: orange;");
+		  oldLot.setAttribute("density", new Double(0));
+		  newLot.setAttribute("ui.style", "fill-color: green;");
+
+		  /**
+			* Aggregate in a list each lot which polygon and neighborhood
+			* could be affected by the construction of the new lot. There
+			* are:
+			*
+		   * - the new lot (obviously)
+			* - the old lot
+			* - the neighbors of the old lot
+			* - the neighbors of neighbors (!)
+			*/
+
+		  ArrayList<Node> subLots = new ArrayList<Node>();
+
+		  subLots.add(newLot);
+		  subLots.add(oldLot);
+
+		  for(Edge e : oldLot.getEachEdge())
+				subLots.add(e.getOpposite(oldLot));
+
+		  for(Edge e1 : oldLot.getEachEdge()) {
+
+				Node n1 = e1.getOpposite(oldLot);
+
+				for(Edge e2 : n1.getEachEdge()) {
+
+					 Node n2 = e2.getOpposite(n1);
+
+					 if(!subLots.contains(n2))
+						  subLots.add(n2);
+				}
+		  }
+
+		  /**
+			* Build an array of coordinates corresponding to the
+			* centroids of each concerned lot then compute a Voronoi
+			* sub-diagram.
+			*/
+
+		  Coordinate[] coords = new Coordinate[subLots.size()];
+
+		  for(int i = 0, l = subLots.size(); i < l; ++i)
+				coords[i] = new Coordinate((Double)subLots.get(i).getAttribute("x"), (Double)subLots.get(i).getAttribute("y"));
+
+		  Geometry subVoronoi = getVoronoiDiagram(coords, false);
+
+		  /**
+			* Update each node with the polygons from the sub-diagram. To
+			* avoid adding the immense cells at the borders of the
+			* sub-diagram (the same kind of cells that are clipped during
+			* the initialization process) to the global diagram, we clip
+			* each polygon with its previous version as they can only
+			* stay identical or shrink.
+			*/
+
+		  for(int i = 0, l = subVoronoi.getNumGeometries(); i < l; ++i) {
+
+				Polygon subCell = (Polygon)subVoronoi.getGeometryN(i);
+
+				for(int j = 0, l2 = coords.length; j < l2; ++j) {
+
+					 Point subCoord = this.geomFact.createPoint(coords[j]);
+
+					 if(subCell.intersects(subCoord)) {
+
+						  Node lot = subLots.get(j);
+
+						  if(lot != newLot) {
+
+								Polygon oldCell = (Polygon)subLots.get(j).getAttribute("polygon");
+								Geometry newCell = subCell.intersection(oldCell);
+
+								subLots.get(j).setAttribute("polygon", newCell);
+								break;
+						  }
+					 }
 				}
 		  }
 	 }
