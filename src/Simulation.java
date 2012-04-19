@@ -1,5 +1,3 @@
-import java.awt.Dimension;
-import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -83,6 +81,7 @@ public class Simulation {
 		  // Save a screenshot.
 		  this.lots.addAttribute("ui.screenshot", "../screenshot.png");
 
+		  this.strategies.add(new AverageDensityStrategy(this));
 		  this.strategies.add(new LotPositioningStrategy(this));
 
 		  for(int i = 0; i < 100; ++i) {
