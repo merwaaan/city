@@ -33,28 +33,33 @@ public class BackgroundLayer implements LayerRenderer {
 
 		  for(Node lot : this.sim.lots) {
 
+				// Draw the associated Voronoi cell if the polygon exists.
 				Polygon poly = (Polygon)lot.getAttribute("polygon");
-				Coordinate[] vertices = poly.getCoordinates();
+				if(poly != null) {
 
-				GeneralPath path = new GeneralPath();
-				path.moveTo(vertices[0].x, vertices[0].y);
+					 Coordinate[] vertices = poly.getCoordinates();
 
-				for(int i = 1, l = vertices.length; i < l; ++i) {
+					 GeneralPath path = new GeneralPath();
+					 path.moveTo(vertices[0].x, vertices[0].y);
 
-					 Coordinate nextPoint = vertices[i % vertices.length];
-					 path.lineTo(nextPoint.x, nextPoint.y);
+					 for(int i = 1, l = vertices.length; i < l; ++i) {
+						  Coordinate nextPoint = vertices[i % vertices.length];
+						  path.lineTo(nextPoint.x, nextPoint.y);
+					 }
+
+					 // Color the cell according to density if the
+					 // corresponding attribute is present.
+					 Double densityD = (Double)lot.getAttribute("density");
+					 if(densityD != null) {
+						  double density = densityD.doubleValue();
+						  int alpha = (int)(density * 255);
+						  g.setColor(new Color(255, 0, 0, alpha));
+						  g.fill(path);
+					 }
+
+					 g.setColor(Color.ORANGE);
+					 g.draw(path);
 				}
-
-				Double densityD = (Double)lot.getAttribute("density");
-				if(densityD != null) {
-					 double density = densityD.doubleValue();
-					 int alpha = (int)(density * 255);
-					 g.setColor(new Color(255, 0, 0, alpha));
-					 g.fill(path);
-				}
-
-				g.setColor(Color.ORANGE);
-				g.draw(path);
 		  }
 
 		  // Restore the transformation matrix.
