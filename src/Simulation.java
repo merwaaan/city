@@ -89,7 +89,7 @@ public class Simulation {
 		  this.lots.setAttribute("ui.screenshot", "1.png");
 
 		  pause(1000);
-		  addLot(0, 0);
+		  insertLot(0, 0);
 
 		  redraw();
 		  this.lots.setAttribute("ui.screenshot", "2.png");
@@ -245,52 +245,6 @@ public class Simulation {
 				linkLotToNeighbors(lot);
 	 }
 
-	 private void buisldLotsGraph(Coordinate[] coords, Geometry voronoi) {
-
-		  for(int i = 0, l = coords.length; i < l; ++i) {
-
-				Coordinate coord = coords[i];
-
-				// Add the corresponding node to the "lots" graph.
-				Node lot = this.lots.addNode("lot_" + i);
-				lot.setAttribute("x", coord.x);
-				lot.setAttribute("y", coord.y);
-
-				// Bind the node with the appropriate Voronoi cell.
-				for(int j = 0, l2 = voronoi.getNumGeometries(); j < l2; ++j) {
-
-					 Polygon poly = (Polygon)voronoi.getGeometryN(j);
-					 Point point = this.geomFact.createPoint(coord);
-
-					 if(poly.contains(point)) {
-						  lot.setAttribute("polygon", poly);
-						  break;
-					 }
-				}
-		  }
-
-		  // Draw edges between neighbors.
-		  for(Node lot : this.lots) {
-
-				Polygon poly = (Polygon)lot.getAttribute("polygon");
-
-				for(Node otherLot : this.lots) {
-
-					 if(lot == otherLot || lot.hasEdgeBetween(otherLot))
-						  continue;
-
-					 Polygon otherPoly = (Polygon)otherLot.getAttribute("polygon");
-
-					 if(poly.touches(otherPoly))
-						  this.lots.addEdge(lot.getId() + "_" + otherLot.getId(), lot, otherLot);
-				}
-		  }
-	 }
-
-	 private void linkNeighbors(Node[] lots) {
-
-	 }
-
 	 /**
 	  * Populate the "roads" graph using the Voronoi diagram. Each edge
 	  * represents a Voronoi edge.
@@ -322,7 +276,7 @@ public class Simulation {
 		  }
 	 }
 
-	 private void addLot(int x, int y) {
+	 private void insertLot(int x, int y) {
 
 		  Coordinate coord = new Coordinate(x, y);
 		  Point pos = this.geomFact.createPoint(coord);
@@ -352,7 +306,6 @@ public class Simulation {
 
 		  // XXX: For debugging purposes.
 		  oldLot.setAttribute("ui.style", "fill-color: orange;");
-		  oldLot.setAttribute("density", new Double(0));
 		  newLot.setAttribute("ui.style", "fill-color: green;");
 
 		  /**
