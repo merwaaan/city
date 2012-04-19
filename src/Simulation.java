@@ -21,7 +21,7 @@ public class Simulation {
 
 	 private ArrayList<AbstractStrategy> strategies;
 
-	 private String roadStyle = "node {size: 0px;} edge {fill-color: orange;}";
+	 private String roadStyle = "node {size: 0px;}";
 	 private String lotStyle = "node {size: 5px; fill-color: black;}";
 
 	 private GeometryFactory geomFact;
@@ -141,12 +141,14 @@ public class Simulation {
 
 		  Geometry voronoi = voronoiBuilder.getDiagram(this.geomFact);
 
-		  // Clip the diagram with the buffered convex hull of the
-		  // individual centroids to avoid immense lots at the borders
-		  // of the environment.
-		  //
-		  // TODO: a buffered concave hull would be way better.
-		  // https://github.com/skipperkongen/jts-algorithm-pack
+		  /**
+			* Clip the diagram with the buffered convex hull of the
+			* individual centroids to avoid immense lots at the borders
+			* of the environment.
+			*
+			* TODO: a buffered concave hull would be way better.
+			* https://github.com/skipperkongen/jts-algorithm-pack
+			*/
 
 		  if(clip) {
 				Geometry buffer = points.convexHull().buffer(30);
@@ -157,15 +159,93 @@ public class Simulation {
 	 }
 
 	 /**
+	  * Add a new node to the "lots" graph at position (`x`,`y`).
+	  *
+	  * Return the new node.
+	  */
+	 private Node placeLot(double x, double y) {
+
+		  Node lot = this.lots.addNode("lot_" + this.lots.getNodeCount());
+
+		  lot.setAttribute("x", x);
+		  lot.setAttribute("y", y);
+
+		  return lot;
+	 }
+
+	 /**
+	  * Compute which polygon of the `voronoi` Voronoi diagram is to be
+	  * associated with the `lot` node and store it as a node
+	  * attribute.
+	  *
+	  * Return true if the polygon is found, false otherwise.
+	  */
+	 private boolean bindLotToPolygon(Node lot, Geometry voronoi) {
+
+		  double x = (Double)lot.getAttribute("x");
+		  double y = (Double)lot.getAttribute("y");
+
+		  Point seed = this.geomFact.createPoint(new Coordinate(x, y));
+
+		  for(int i = 0, l = voronoi.getNumGeometries(); i < l; ++i) {
+
+				Polygon polygon = (Polygon)voronoi.getGeometryN(i);
+
+				if(polygon.contains(seed)) {
+
+					 lot.setAttribute("polygon", polygon);
+
+					 return true;
+				}
+		  }
+
+		  return false;
+	 }
+
+	 /**
+	  * Add edges representing a neighborhood relationship between lots
+	  * which borders share a Voronoi edge.
+	  */
+	 private void linkLotToNeighbors(Node lot) {
+
+		  Polygon polygon = (Polygon)lot.getAttribute("polygon");
+
+		  for(Node otherLot : this.lots) {
+
+				if(lot == otherLot || lot.hasEdgeBetween(otherLot))
+					 continue;
+
+				Polygon otherPolygon = (Polygon)otherLot.getAttribute("polygon");
+
+				if(polygon.touches(otherPolygon))
+					 this.lots.addEdge("road_" + lot.getId() + "_" + otherLot.getId(), lot, otherLot);
+		  }
+	 }
+
+	 /**
 	  * Populate the "lots" graph using a Voronoi diagram `voronoi` and
 	  * the coordinates `coords` on which it is based.
 	  *
 	  * Three steps:
-	  * 1 - Add a node at each coordinate
+	  * 1 - Add a node at each coordinate.
 	  * 2 - Bind it to the appropriate Voronoi cell (in polygon form).
 	  * 3 - Add an edge between nodes sharing a Voronoi edge.
 	  */
 	 private void buildLotsGraph(Coordinate[] coords, Geometry voronoi) {
+
+		  for(int i = 0, l = coords.length; i < l; ++i) {
+
+				Node lot = placeLot(coords[i].x, coords[i].y);
+
+				bindLotToPolygon(lot, voronoi);
+		  }
+
+		  //  edges between neighbors.
+		  for(Node lot : this.lots)
+				linkLotToNeighbors(lot);
+	 }
+
+	 private void buisldLotsGraph(Coordinate[] coords, Geometry voronoi) {
 
 		  for(int i = 0, l = coords.length; i < l; ++i) {
 
@@ -205,6 +285,10 @@ public class Simulation {
 						  this.lots.addEdge(lot.getId() + "_" + otherLot.getId(), lot, otherLot);
 				}
 		  }
+	 }
+
+	 private void linkNeighbors(Node[] lots) {
+
 	 }
 
 	 /**
