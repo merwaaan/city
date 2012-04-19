@@ -64,16 +64,16 @@ public class Simulation {
 	 private void initialize() {
 
 		  // Compute 100 random coordinates.
-		  Coordinate[] coords = this.getRandomCoords(100, 500);
+		  Coordinate[] coords = getRandomCoords(100, 500);
 
 		  // Build a Voronoi diagram for which seeds are the previously
 		  // computed coordinates.
-		  Geometry voronoi = this.buildVoronoiDiagram(coords);
+		  Geometry voronoi = buildVoronoiDiagram(coords);
 
 		  // Build the "lots" and "roads" graphs using the coordinates
 		  // and the Voronoi Diagram.
-		  this.buildLotsGraph(coords, voronoi);
-		  this.buildRoadsGraph(voronoi);
+		  buildLotsGraph(coords, voronoi);
+		  buildRoadsGraph(voronoi);
 	 }
 
 	 public void run() {
@@ -89,8 +89,8 @@ public class Simulation {
 				for(AbstractStrategy strategy : this.strategies)
 					 strategy.update();
 
-				this.redraw();
-				this.pause(1000);
+				redraw();
+				pause(1000);
 		  }
 	 }
 
