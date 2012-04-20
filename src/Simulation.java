@@ -394,7 +394,12 @@ public class Simulation {
 						  if(lot != newLot) {
 
 								Polygon oldCell = (Polygon)subLots.get(j).getAttribute("polygon");
-								Geometry newCell = subCell.intersection(oldCell);
+
+								Geometry newCell;
+								if(oldCell != null)
+									 newCell = subCell.intersection(oldCell);
+								else
+									 newCell = subCell;
 
 								subLots.get(j).setAttribute("polygon", newCell);
 								break;
