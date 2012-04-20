@@ -184,7 +184,7 @@ public class Simulation {
 
 				Polygon cell = (Polygon)lot.getAttribute("polygon");
 
-				if(cell.contains(seed))
+				if(seed.within(cell))
 					 return lot;
 		  }
 
@@ -387,7 +387,7 @@ public class Simulation {
 
 					 Point subCoord = this.geomFact.createPoint(coords[j]);
 
-					 if(subCell.intersects(subCoord)) {
+					 if(subCoord.within(subCell)) {
 
 						  Node lot = subLots.get(j);
 
@@ -396,8 +396,24 @@ public class Simulation {
 								Polygon oldCell = (Polygon)subLots.get(j).getAttribute("polygon");
 
 								Geometry newCell;
-								if(oldCell != null)
+								if(oldCell != null) {
 									 newCell = subCell.intersection(oldCell);
+
+									 /**
+									  * In recurrent cases, the intersection
+									  * returns a GeometryCollection instead of
+									  * a Geometry and, as a consequence, the
+									  * polygons are messed up.
+									  *
+									  * To fix this, we go through the
+									  * sub-geometries and only keep the
+									  * Polygon and get rid of the LineString.
+									  */
+									 if(newCell instanceof GeometryCollection)
+										  for(int k = 0, l3 = newCell.getNumGeometries(); k < l3; ++k)
+												if(newCell.getGeometryN(k) instanceof Polygon)
+													 newCell = newCell.getGeometryN(k);
+								}
 								else
 									 newCell = subCell;
 
