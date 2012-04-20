@@ -16,8 +16,19 @@ import com.vividsolutions.jts.triangulate.VoronoiDiagramBuilder;
 
 public class Simulation {
 
-	 public Graph roads;
+	 /**
+	  * The "lots" graph contains every lot centroids as nodes. Its
+	  * edges represent the neighborhood relationships between
+	  * adjacent lots.
+	  */
 	 public Graph lots;
+
+	 /**
+	  * The "roads" graph contains every constructible routes from
+	  * the edges of the Voronoi diagram. Its nodes are possible
+	  * crossroads.
+	  */
+	 public Graph roads;
 
 	 private ArrayList<AbstractStrategy> strategies;
 
@@ -26,23 +37,11 @@ public class Simulation {
 
 	 private GeometryFactory geomFact;
 
-	 private View view;
-
 	 public Simulation() {
 
-		  /**
-			* The "lots" graph contains every lot centroids as nodes. Its
-			* edges represent the neighborhood relationships between
-			* adjacent lots.
-			*/
-		  this.lots = new SingleGraph("lots");
+		  this.lots = new SingleGraph("land lots");
 		  this.lots.addAttribute("ui.stylesheet", lotStyle);
 
-		  /**
-			* The "roads" graph contains every constructible routes from
-			* the edges of the Voronoi diagram. Its nodes are possible
-			* crossroads.
-			*/
 		  this.roads = new SingleGraph("road network");
 		  this.roads.addAttribute("ui.stylesheet", roadStyle);
 
@@ -57,14 +56,14 @@ public class Simulation {
 		  System.setProperty("gs.ui.renderer", "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
 		  this.lots.addAttribute("ui.antialias");
 
-		  this.view = this.lots.display(false).getDefaultView();
-		  this.view.setBackLayerRenderer(new BackgroundLayer(this));
-		  this.view.getCamera().setGraphViewport(-2000, 0, 0, 0);
+		  View view = this.lots.display(false).getDefaultView();
+		  view.setBackLayerRenderer(new BackgroundLayer(this));
+		  view.getCamera().setGraphViewport(-2000, 0, 0, 0);
 	 }
 
 	 private void initialize() {
 
-		  // Compute 100 random coordinates.
+		  // Compute n random coordinates.
 		  Coordinate[] coords = getRandomCoords(30, 500);
 
 		  // Build a Voronoi diagram for which seeds are the previously
@@ -174,6 +173,44 @@ public class Simulation {
 	 }
 
 	 /**
+	  * Return the node acting as the seed of the polygon containing
+	  * the point at (`x`,`y`), null if it doesn't exist.
+	  */
+	 private Node getLotAt(double x, double y) {
+
+		  Point seed = this.geomFact.createPoint(new Coordinate(x, y));
+
+		  for(Node lot : this.lots) {
+
+				Polygon cell = (Polygon)lot.getAttribute("polygon");
+
+				if(cell.contains(seed))
+					 return lot;
+		  }
+
+		  return null;
+	 }
+
+	 /**
+	  * Return the polygon containing the point at (`x`,`y`), null if
+	  * it doesn't exist.
+	  */
+	 private Polygon getPolygonAt(double x, double y, Geometry voronoi) {
+
+		  Point seed = this.geomFact.createPoint(new Coordinate(x, y));
+
+		  for(int i = 0, l = voronoi.getNumGeometries(); i < l; ++i) {
+
+				Polygon cell = (Polygon)voronoi.getGeometryN(i);
+
+				if(cell.contains(seed))
+					 return cell;
+		  }
+
+		  return null;
+	 }
+
+	 /**
 	  * Compute which polygon of the `voronoi` Voronoi diagram is to be
 	  * associated with the `lot` node and store it as a node
 	  * attribute.
@@ -185,18 +222,10 @@ public class Simulation {
 		  double x = (Double)lot.getAttribute("x");
 		  double y = (Double)lot.getAttribute("y");
 
-		  Point seed = this.geomFact.createPoint(new Coordinate(x, y));
-
-		  for(int i = 0, l = voronoi.getNumGeometries(); i < l; ++i) {
-
-				Polygon polygon = (Polygon)voronoi.getGeometryN(i);
-
-				if(polygon.contains(seed)) {
-
-					 lot.setAttribute("polygon", polygon);
-
-					 return true;
-				}
+		  Polygon cell = getPolygonAt(x, y, voronoi);
+		  if(cell != null) {
+				lot.setAttribute("polygon", cell);
+				return true;
 		  }
 
 		  return false;
@@ -276,7 +305,7 @@ public class Simulation {
 		  }
 	 }
 
-	 private void insertLot(int x, int y) {
+	 private void insertLot(double x, double y) {
 
 		  Coordinate coord = new Coordinate(x, y);
 		  Point pos = this.geomFact.createPoint(coord);
@@ -287,22 +316,9 @@ public class Simulation {
 			* the appropriate position.
 			*/
 
-		  Node oldLot = null;
+		  Node oldLot = getLotAt(x, y);
 
-		  for(Node lot : this.lots) {
-
-				Polygon cell = (Polygon)lot.getAttribute("polygon");
-
-				if(pos.intersects(cell)) {
-					 oldLot = lot;
-					 break;
-				}
-		  }
-
-		  // Add the new lot to the "lots" graph.
-		  Node newLot = this.lots.addNode("lot_" + this.lots.getNodeCount());
-		  newLot.setAttribute("x", coord.x);
-		  newLot.setAttribute("y", coord.y);
+		  Node newLot = placeLot(coord.x, coord.y);
 
 		  // XXX: For debugging purposes.
 		  oldLot.setAttribute("ui.style", "fill-color: orange;");
@@ -310,7 +326,7 @@ public class Simulation {
 
 		  /**
 			* Aggregate in a list each lot which polygon and neighborhood
-			* could be affected by the construction of the new lot. There
+			* could be affected by the construction of the new lot. They
 			* are:
 			*
 		   * - the new lot (obviously)
@@ -322,6 +338,7 @@ public class Simulation {
 		  ArrayList<Node> subLots = new ArrayList<Node>();
 
 		  subLots.add(newLot);
+
 		  subLots.add(oldLot);
 
 		  for(Edge e : oldLot.getEachEdge())
@@ -356,10 +373,10 @@ public class Simulation {
 		  /**
 			* Update each node with the polygons from the sub-diagram. To
 			* avoid adding the immense cells at the borders of the
-			* sub-diagram (the same kind of cells that are clipped during
-			* the initialization process) to the global diagram, we clip
-			* each polygon with its previous version as they can only
-			* stay identical or shrink.
+			* sub-diagram (the same kind of cells that need to be clipped
+			* during the initialization process) to the global diagram,
+			* we clip each polygon with its previous version as they can
+			* only stay identical or shrink.
 			*/
 
 		  for(int i = 0, l = subVoronoi.getNumGeometries(); i < l; ++i) {
@@ -386,6 +403,12 @@ public class Simulation {
 				}
 		  }
 	 }
+
+	 /*************************
+	  *
+	  * Some utility functions.
+	  *
+	  *************************/
 
 	 private void redraw() {
 
