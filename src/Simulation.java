@@ -159,6 +159,27 @@ public class Simulation {
 		  return voronoi;
 	 }
 
+	 private Polygon clipCellToCity(Node lot, Polygon cell) {
+
+		  Coordinate[] coords = new Coordinate[this.lots.getNodeCount() - 1];
+		  for(int i = 0, l = coords.length; i < l; ++i) {
+
+				Node otherLot = this.lots.getNode(i);
+
+				if(otherLot == lot)
+					 continue;
+
+				coords[i] = new Coordinate((Double)otherLot.getAttribute("x"), (Double)otherLot.getAttribute("y"));
+		  }
+		  MultiPoint points = this.geomFact.createMultiPoint(coords);
+
+		  Geometry buffer = points.convexHull().buffer(30);
+
+		  Polygon newCell = (Polygon)cell.intersection(buffer);
+
+		  return newCell;
+	 }
+
 	 /**
 	  * Add a new node to the "lots" graph at position (`x`,`y`).
 	  *
@@ -421,12 +442,16 @@ public class Simulation {
 
 						  Geometry newCell;
 
-						  if(lot == newLot)
-								lot.setAttribute("polygon", subCell);
+						  if(lot == newLot) {
+
+								newCell = clipCellToCity(lot, subCell);
+								System.out.println(newCell);
+
+								lot.setAttribute("polygon", newCell);
+						  }
 						  else if(lot != newLot) {
 
 								Polygon oldCell = (Polygon)subLots.get(j).getAttribute("polygon");
-
 								newCell = subCell.intersection(oldCell);
 
 								/**
