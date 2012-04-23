@@ -35,7 +35,7 @@ public class Simulation {
 	  */
 	 private ArrayList<AbstractStrategy> strategies;
 
-	 private String lotsStyle = "node {size: 5px; fill-color: gray;} edge {fill-color: gray;}";
+	 private String lotsStyle = "node {size: 5px; fill-color: black;} edge {fill-color: black;}";
 
 	 private View view;
 	 private Camera camera;
@@ -248,7 +248,7 @@ public class Simulation {
 
 				Polygon otherPolygon = (Polygon)otherLot.getAttribute("polygon");
 
-				if(polygon.touches(otherPolygon))
+				if(polygon.intersects(otherPolygon))
 					 this.lots.addEdge("road_" + lot.getId() + "_" + otherLot.getId(), lot, otherLot);
 		  }
 	 }
@@ -274,7 +274,7 @@ public class Simulation {
 
 				Polygon neighborPolygon = (Polygon)neighbor.getAttribute("polygon");
 
-				if(!polygon.touches(neighborPolygon))
+				if(!polygon.intersects(neighborPolygon))
 					 this.lots.removeEdge(e);
 		  }
 
@@ -452,11 +452,25 @@ public class Simulation {
 				}
 		  }
 
-		  // Last step: update edges!
+		  // XXX: Visually adjacent polygon are sometimes not detected
+		  // as intersecting. I assume it's due to the JTS clipping
+		  // creating a microscopic gap between adjacent cells. To
+		  // bypass this undesirable effect we lightly grow each polygon
+		  // before the neighborhood update.
+		  //
+		  // TODO: Fix it! (get rid of clipping and find an alternative)
+
 		  for(Node lot : subLots) {
-				unlinkFromInvalidNeighbors(lot);
-				linkToNeighbors(lot);
+				Polygon polygon = (Polygon)lot.getAttribute("polygon");
+				polygon = (Polygon)polygon.buffer(0.01);
+				lot.setAttribute("polygon", polygon);
 		  }
+
+		  // Last step: update edges!
+		  for(Node lot : subLots)
+				unlinkFromInvalidNeighbors(lot);
+		  for(Node lot : subLots)
+				linkToNeighbors(lot);
 
 		  redraw();
 		  this.lots.setAttribute("ui.screenshot", (s++)+".png");

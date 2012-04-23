@@ -57,7 +57,7 @@ public class BackgroundLayer implements LayerRenderer {
 						  g.fill(path);
 					 }
 
-					 g.setColor(Color.ORANGE);
+					 g.setColor(Color.GRAY);
 					 g.draw(path);
 				}
 		  }
