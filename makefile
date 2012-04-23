@@ -15,6 +15,7 @@ FILES=\
 	AverageDensityStrategy \
 	BackgroundLayer \
 	LotPositioningStrategy \
+	MouseManager \
 	RandomDensityStrategy \
 	Simulation \
 	Test

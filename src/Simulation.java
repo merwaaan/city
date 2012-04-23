@@ -30,20 +30,24 @@ public class Simulation {
 	  */
 	 public Graph roads;
 
+	 /**
+	  *
+	  */
 	 private ArrayList<AbstractStrategy> strategies;
 
-	 private String roadStyle = "node {size: 0px;}";
-	 private String lotStyle = "node {size: 5px; fill-color: black;}";
+	 private String lotsStyle = "node {size: 5px; fill-color: gray;} edge {fill-color: gray;}";
+
+	 private View view;
+	 private Camera camera;
 
 	 private GeometryFactory geomFact;
 
 	 public Simulation() {
 
 		  this.lots = new SingleGraph("land lots");
-		  this.lots.addAttribute("ui.stylesheet", lotStyle);
+		  this.lots.addAttribute("ui.stylesheet", lotsStyle);
 
 		  this.roads = new SingleGraph("road network");
-		  this.roads.addAttribute("ui.stylesheet", roadStyle);
 
 		  this.strategies = new ArrayList<AbstractStrategy>();
 
@@ -56,15 +60,18 @@ public class Simulation {
 		  System.setProperty("gs.ui.renderer", "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
 		  this.lots.addAttribute("ui.antialias");
 
-		  View view = this.lots.display(false).getDefaultView();
-		  view.setBackLayerRenderer(new BackgroundLayer(this));
-		  view.getCamera().setGraphViewport(-2000, 0, 0, 0);
+		  this.view = this.lots.display(false).getDefaultView();
+		  this.view.setBackLayerRenderer(new BackgroundLayer(this));
+		  this.view.setMouseManager(new MouseManager(this));
+
+		  this.camera = this.view.getCamera();
+		  this.camera.setGraphViewport(-2000, 0, 0, 0);
 	 }
 
 	 private void initialize() {
 
 		  // Compute n random coordinates.
-		  Coordinate[] coords = getRandomCoords(30, 500);
+		  Coordinate[] coords = getRandomCoords(100, 500);
 
 		  // Build a Voronoi diagram for which seeds are the previously
 		  // computed coordinates.
@@ -85,13 +92,16 @@ public class Simulation {
 		  this.strategies.add(new LotPositioningStrategy(this));
 
 		  redraw();
-		  this.lots.setAttribute("ui.screenshot", "1.png");
+		  //this.lots.setAttribute("ui.screenshot", "0.png");
 
-		  pause(1000);
-		  insertLot(0, 0);
-
-		  redraw();
-		  this.lots.setAttribute("ui.screenshot", "2.png");
+		  /*
+		  for(int i = 0; i < 50; ++i) {
+				pause(1000);
+				insertLot(Math.random() * 500, Math.random() * 500);
+				redraw();
+				this.lots.setAttribute("ui.screenshot", (i+1)+".png");
+		  }
+		  */
 
 		  for(int i = 0; i < 0; ++i) {
 
@@ -183,7 +193,7 @@ public class Simulation {
 		  for(Node lot : this.lots) {
 
 				Polygon cell = (Polygon)lot.getAttribute("polygon");
-
+				//System.out.println(lot.getId() + "/" + this.lots.getNodeCount());
 				if(seed.within(cell))
 					 return lot;
 		  }
@@ -305,7 +315,7 @@ public class Simulation {
 		  }
 	 }
 
-	 private void insertLot(double x, double y) {
+	 public void insertLot(double x, double y) {
 
 		  Coordinate coord = new Coordinate(x, y);
 		  Point pos = this.geomFact.createPoint(coord);
@@ -378,7 +388,6 @@ public class Simulation {
 			* we clip each polygon with its previous version as they can
 			* only stay identical or shrink.
 			*/
-
 		  for(int i = 0, l = subVoronoi.getNumGeometries(); i < l; ++i) {
 
 				Polygon subCell = (Polygon)subVoronoi.getGeometryN(i);
@@ -391,33 +400,33 @@ public class Simulation {
 
 						  Node lot = subLots.get(j);
 
-						  if(lot != newLot) {
+						  Geometry newCell;
+
+						  if(lot == newLot)
+								lot.setAttribute("polygon", subCell);
+						  else if(lot != newLot) {
 
 								Polygon oldCell = (Polygon)subLots.get(j).getAttribute("polygon");
 
-								Geometry newCell;
-								if(oldCell != null) {
-									 newCell = subCell.intersection(oldCell);
+								newCell = subCell.intersection(oldCell);
 
-									 /**
-									  * In recurrent cases, the intersection
-									  * returns a GeometryCollection instead of
-									  * a Geometry and, as a consequence, the
-									  * polygons are messed up.
-									  *
-									  * To fix this, we go through the
-									  * sub-geometries and only keep the
-									  * Polygon and get rid of the LineString.
-									  */
-									 if(newCell instanceof GeometryCollection)
-										  for(int k = 0, l3 = newCell.getNumGeometries(); k < l3; ++k)
-												if(newCell.getGeometryN(k) instanceof Polygon)
-													 newCell = newCell.getGeometryN(k);
-								}
-								else
-									 newCell = subCell;
+								/**
+								 * In recurrent cases, the intersection
+								 * returns a GeometryCollection instead of
+								 * a Geometry and, as a consequence, the
+								 * polygons are messed up.
+								 *
+								 * To fix this, we go through the
+								 * sub-geometries and only keep the
+								 * Polygon and get rid of the LineString.
+								 */
+								if(newCell instanceof GeometryCollection)
+									 for(int k = 0, l3 = newCell.getNumGeometries(); k < l3; ++k)
+										  if(newCell.getGeometryN(k) instanceof Polygon)
+												newCell = newCell.getGeometryN(k);
 
-								subLots.get(j).setAttribute("polygon", newCell);
+								lot.setAttribute("polygon", newCell);
+
 								break;
 						  }
 					 }
@@ -430,6 +439,16 @@ public class Simulation {
 	  * Some utility functions.
 	  *
 	  *************************/
+
+	 public double[] px2gu(double xPx, double yPx) {
+
+		  double ratio = this.camera.getMetrics().ratioPx2Gu;
+
+		  double xGu = xPx / ratio;
+		  double yGu = yPx / ratio;
+
+		  return new double[]{xGu, yGu};
+	 }
 
 	 private void redraw() {
 
