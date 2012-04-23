@@ -22,8 +22,6 @@ public class MouseManager extends DefaultMouseManager {
 		  double yPxCentered = -(yPx - bounds.getHeight() / 2);
 
 		  double[] coordsGu = this.sim.px2gu(xPxCentered, yPxCentered);
-		  System.out.println(xPxCentered+" "+yPxCentered);
-		  System.out.println(coordsGu[0]+" "+coordsGu[1]);
 
 		  this.sim.insertLot(coordsGu[0], coordsGu[1]);
 	 }

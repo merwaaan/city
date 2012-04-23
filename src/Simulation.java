@@ -245,7 +245,7 @@ public class Simulation {
 	  * Add edges representing a neighborhood relationship between lots
 	  * which borders share a Voronoi edge.
 	  */
-	 private void linkLotToNeighbors(Node lot) {
+	 private void linkToNeighbors(Node lot) {
 
 		  Polygon polygon = (Polygon)lot.getAttribute("polygon");
 
@@ -259,6 +259,33 @@ public class Simulation {
 				if(polygon.touches(otherPolygon))
 					 this.lots.addEdge("road_" + lot.getId() + "_" + otherLot.getId(), lot, otherLot);
 		  }
+	 }
+
+	 /**
+	  * Remove edges between lot that are no longer adjacent. This
+	  * method is typically called when the topology of the "lots"
+	  * graph could have been compromised by an update (e.g. a lot
+	  * insertion).
+	  */
+	 private void unlinkFromInvalidNeighbors(Node lot) {
+
+		  Polygon polygon = (Polygon)lot.getAttribute("polygon");
+
+		  for(Edge e : lot.getEachEdge()) {
+
+				// XXX: check for the edge validity as getEachEdge()
+				// sometimes passes a null edge. Weird.
+				if(e == null)
+					 continue;
+
+				Node neighbor = e.getOpposite(lot);
+
+				Polygon neighborPolygon = (Polygon)neighbor.getAttribute("polygon");
+
+				if(!polygon.touches(neighborPolygon))
+					 this.lots.removeEdge(e);
+		  }
+
 	 }
 
 	 /**
@@ -281,7 +308,7 @@ public class Simulation {
 
 		  //  edges between neighbors.
 		  for(Node lot : this.lots)
-				linkLotToNeighbors(lot);
+				linkToNeighbors(lot);
 	 }
 
 	 /**
@@ -431,6 +458,12 @@ public class Simulation {
 						  }
 					 }
 				}
+		  }
+
+		  // Last step: update edges!
+		  for(Node lot : subLots) {
+				unlinkFromInvalidNeighbors(lot);
+				linkToNeighbors(lot);
 		  }
 	 }
 
