@@ -159,25 +159,47 @@ public class Simulation {
 		  return voronoi;
 	 }
 
-	 private Polygon clipCellToCity(Node lot, Polygon cell) {
+	 private Coordinate[] getLotsCoordinates() {
 
-		  Coordinate[] coords = new Coordinate[this.lots.getNodeCount() - 1];
+		  Coordinate[] coords = new Coordinate[this.lots.getNodeCount()];
+
 		  for(int i = 0, l = coords.length; i < l; ++i) {
-
 				Node otherLot = this.lots.getNode(i);
-
-				if(otherLot == lot)
-					 continue;
-
 				coords[i] = new Coordinate((Double)otherLot.getAttribute("x"), (Double)otherLot.getAttribute("y"));
 		  }
+
+		  return coords;
+	 }
+
+	 private Polygon getCityHull() {
+
+		  Coordinate[] coords = getLotsCoordinates();
+
 		  MultiPoint points = this.geomFact.createMultiPoint(coords);
 
-		  Geometry buffer = points.convexHull().buffer(30);
+		  Polygon cityHull = (Polygon)points.convexHull().buffer(30);
 
-		  Polygon newCell = (Polygon)cell.intersection(buffer);
+		  return cityHull;
+	 }
 
-		  return newCell;
+	 private void clipLotsToCity() {
+
+		  Polygon cityHull = getCityHull();
+
+		  for(int i = 0, l = this.lots.getNodeCount(); i < l; ++i)
+				clipLotToCity(this.lots.getNode(i), cityHull);
+	 }
+
+	 private void clipLotToCity(Node lot, Polygon cityHull) {
+
+		  Polygon cell = (Polygon)lot.getAttribute("polygon");
+
+		  if(cityHull == null)
+				cityHull = getCityHull();
+
+		  Polygon newCell = (Polygon)cell.intersection(cityHull);
+
+		  lot.setAttribute("polygon", newCell);
 	 }
 
 	 /**
@@ -206,7 +228,7 @@ public class Simulation {
 		  for(Node lot : this.lots) {
 
 				Polygon cell = (Polygon)lot.getAttribute("polygon");
-				//System.out.println(lot.getId() + "/" + this.lots.getNodeCount());
+
 				if(seed.within(cell))
 					 return lot;
 		  }
@@ -298,7 +320,6 @@ public class Simulation {
 				if(!polygon.intersects(neighborPolygon))
 					 this.lots.removeEdge(e);
 		  }
-
 	 }
 
 	 /**
@@ -440,15 +461,10 @@ public class Simulation {
 
 						  Node lot = subLots.get(j);
 
-						  Geometry newCell;
+						  Geometry newCell = null;
 
-						  if(lot == newLot) {
-
-								newCell = clipCellToCity(lot, subCell);
-								System.out.println(newCell);
-
-								lot.setAttribute("polygon", newCell);
-						  }
+						  if(lot == newLot)
+								newCell = subCell;
 						  else if(lot != newLot) {
 
 								Polygon oldCell = (Polygon)subLots.get(j).getAttribute("polygon");
@@ -468,11 +484,9 @@ public class Simulation {
 									 for(int k = 0, l3 = newCell.getNumGeometries(); k < l3; ++k)
 										  if(newCell.getGeometryN(k) instanceof Polygon)
 												newCell = newCell.getGeometryN(k);
-
-								lot.setAttribute("polygon", newCell);
-
-								break;
 						  }
+
+						  lot.setAttribute("polygon", newCell);
 					 }
 				}
 		  }
@@ -496,6 +510,8 @@ public class Simulation {
 				unlinkFromInvalidNeighbors(lot);
 		  for(Node lot : subLots)
 				linkToNeighbors(lot);
+
+		  clipLotsToCity();
 
 		  redraw();
 		  this.lots.setAttribute("ui.screenshot", (s++)+".png");
