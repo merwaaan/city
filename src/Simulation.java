@@ -83,6 +83,7 @@ public class Simulation {
 		  buildRoadsGraph(voronoi);
 	 }
 
+	 int s = 0;
 	 public void run() {
 
 		  // Save a screenshot.
@@ -92,16 +93,7 @@ public class Simulation {
 		  this.strategies.add(new LotPositioningStrategy(this));
 
 		  redraw();
-		  //this.lots.setAttribute("ui.screenshot", "0.png");
-
-		  /*
-		  for(int i = 0; i < 50; ++i) {
-				pause(1000);
-				insertLot(Math.random() * 500, Math.random() * 500);
-				redraw();
-				this.lots.setAttribute("ui.screenshot", (i+1)+".png");
-		  }
-		  */
+		  this.lots.setAttribute("ui.screenshot", (s++)+".png");
 
 		  for(int i = 0; i < 0; ++i) {
 
@@ -465,6 +457,9 @@ public class Simulation {
 				unlinkFromInvalidNeighbors(lot);
 				linkToNeighbors(lot);
 		  }
+
+		  redraw();
+		  this.lots.setAttribute("ui.screenshot", (s++)+".png");
 	 }
 
 	 /*************************
