@@ -7,6 +7,7 @@ LIB_DIR=lib
 
 LIBS=\
 	gs-core-1.2-git-last \
+	gs-algo-1.2-git-last \
 	gs-ui-1.2-git-last \
 	jts-1.12
 
