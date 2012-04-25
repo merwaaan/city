@@ -14,9 +14,12 @@ FILES=\
 	AbstractStrategy \
 	AverageDensityStrategy \
 	BackgroundLayer \
+	CityOps \
+	LotOps \
 	LotPositioningStrategy \
 	MouseManager \
 	RandomDensityStrategy \
+	RoadOps \
 	Simulation \
 	Test
 

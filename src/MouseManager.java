@@ -23,6 +23,6 @@ public class MouseManager extends DefaultMouseManager {
 
 		  double[] coordsGu = this.sim.px2gu(xPxCentered, yPxCentered);
 
-		  this.sim.insertLot(coordsGu[0], coordsGu[1]);
+		  CityOps.insertLot(coordsGu[0], coordsGu[1], this.sim.lots);
 	 }
 }
