@@ -35,6 +35,9 @@ compile: $(addprefix $(SRC_DIR)/,$(addsuffix .java,$(FILES)))
 run:
 	cd $(BUILD_DIR) && java -cp .:$(subst lib/,../lib/,$(CP)) Test
 
+javadoc: $(addprefix $(SRC_DIR)/,$(addsuffix .java,$(FILES)))
+	javadoc -d javadoc src/*.java
+
 clean:
 	rm $(BUILD_DIR)/*.class
 	rm $(SRC_DIR)/*~

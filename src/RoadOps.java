@@ -6,13 +6,17 @@ import org.graphstream.graph.Edge;
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
 
-final class RoadOps {
+public class RoadOps {
 
 	 /**
-	  * Populate the "roads" graph using the Voronoi diagram. Each edge
-	  * represents a Voronoi edge.
+	  * Populates the "roads" graph. This method should only be called
+	  * during the initialization phase of the simulation as new lots
+	  * are later inserted dynamically.
+	  *
+	  * @param voronoi The Voronoi Diagram based on the land lots.
+	  * @param g The graph representing the complete road network.
 	  */
-	 static void buildRoadsGraph(Geometry voronoi, Graph g) {
+	 public static void buildRoadsGraph(Geometry voronoi, Graph g) {
 
 		  for(int i = 0, l = voronoi.getNumGeometries(); i < l; ++i) {
 

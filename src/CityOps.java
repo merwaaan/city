@@ -13,13 +13,17 @@ import org.graphstream.graph.Node;
 
 import java.util.ArrayList;
 
-final class CityOps {
+public class CityOps {
 
 	 /**
-	  * Build and return the Voronoi diagram using the list of
-	  * coordinates `coords` as seed positions.
-	  **/
-	 static Geometry voronoiDiagram(Coordinate[] coords, boolean clip) {
+	  * Builds a Voronoi diagram describing the city structure.
+	  *
+	  * @param coords An array of Coordinate containing the position of
+	  * each land lot.
+	  * @param if true, the resulting diagram will be clipped to the
+	  * city shape.
+	  */
+	 public static Geometry voronoiDiagram(Coordinate[] coords, boolean clip) {
 
 		  MultiPoint points = (new GeometryFactory()).createMultiPoint(coords);
 
@@ -45,7 +49,18 @@ final class CityOps {
 		  return voronoi;
 	 }
 
-	 static Polygon getCityHull(Graph lots) {
+	 /**
+	  * Gives the general shape of the city.
+	  *
+	  * The result is based on the convex envelope of every land lot
+	  * seeds which is then buffered a bit so that border cells are not
+	  * pressed againt the city border.
+	  *
+	  * @param lots The graph containing every lots of the city.
+	  *
+	  * @return A Polygon to the shape of the city.
+	  */
+	 public static Polygon getCityHull(Graph lots) {
 
 		  Coordinate[] coords = LotOps.getLotsCoordinates(lots);
 
@@ -56,8 +71,17 @@ final class CityOps {
 		  return cityHull;
 	 }
 
-
-	 static void insertLot(double x, double y, Graph lots) {
+	 /**
+	  * Dynamically inserts a new lot to the city.
+	  *
+	  * This method is typically called when adding a new lot during
+	  * the simulation.
+	  *
+	  * @param x The x-axis position of the new lot.
+	  * @param y The y-axis position of the new lot.
+	  * @param lots The graph containg every lots of the city.
+	  */
+	 public static void insertLot(double x, double y, Graph lots) {
 
 		  Coordinate coord = new Coordinate(x, y);
 		  Point pos = (new GeometryFactory()).createPoint(coord);

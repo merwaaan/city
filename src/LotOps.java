@@ -8,18 +8,21 @@ import org.graphstream.graph.Edge;
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
 
-final class LotOps {
+public class LotOps {
 
 	 /**
-	  * Populate the "lots" graph using a Voronoi diagram `voronoi` and
-	  * the coordinates `coords` on which it is based.
+	  * Populates the "lots" graph. This method should only be called
+	  * during the initialization phase of the simulation as new lots
+	  * are later inserted dynamically.
 	  *
-	  * Three steps:
-	  * 1 - Add a node at each coordinate.
-	  * 2 - Bind it to the appropriate Voronoi cell (in polygon form).
-	  * 3 - Add an edge between nodes sharing a Voronoi edge.
+	  * @param coords An array of Coordinate corresponding to the
+	  * positions of the seeds of each land lot.
+	  * @param voronoi The Voronoi diagram based on the land lots
+	  * seeds.
+	  *
+	  * @param g The graph to be populated.
 	  */
-	 static void buildLotsGraph( Coordinate[] coords, Geometry voronoi, Graph g) {
+	 public static void buildLotsGraph( Coordinate[] coords, Geometry voronoi, Graph g) {
 
 		  for(int i = 0, l = coords.length; i < l; ++i) {
 
@@ -34,11 +37,14 @@ final class LotOps {
 	 }
 
 	 /**
-	  * Add a new node to the "lots" graph at position (`x`,`y`).
+	  * Adds and positions a new node to the "lots" graph.
 	  *
-	  * Return the new node.
+	  * @param x The position of the lot seed on the x-axis.
+	  * @param y The position of the lot seed on the y-axis.
+	  *
+	  * @return The newly added node.
 	  */
-	 static Node placeLot(double x, double y, Graph g) {
+	 public static Node placeLot(double x, double y, Graph g) {
 
 		  Node lot = g.addNode("lot_" + g.getNodeCount());
 
@@ -49,9 +55,14 @@ final class LotOps {
 	 }
 
 	 /**
-	  * Return a Coordinate associated with the lot.
+	  * Gives the coordinates of a lot.
+	  *
+	  * @param lot The lot which position is queried.
+	  * @param g The graph containing the aforementioned lot.
+	  *
+	  * @return A Coordinate representing the position of the lot seed.
 	  */
-	 static Coordinate getLotCoordinates(Node lot, Graph g) {
+	 public static Coordinate getLotCoordinates(Node lot, Graph g) {
 
 		  double x = (Double)lot.getAttribute("x");
 		  double y = (Double)lot.getAttribute("y");
@@ -60,10 +71,14 @@ final class LotOps {
 	 }
 
 	 /**
-	  * Return an array containing a Coordinate associated with each
-	  * lot.
+	  * Gives the coordinates of every lots.
+	  *
+	  * @param g The graph containing the lots.
+	  *
+	  * @return An array of Coordinate containing the position of the
+	  * lots seeds.
 	  */
-	 static Coordinate[] getLotsCoordinates(Graph g) {
+	 public static Coordinate[] getLotsCoordinates(Graph g) {
 
 		  Coordinate[] coords = new Coordinate[g.getNodeCount()];
 
@@ -75,10 +90,16 @@ final class LotOps {
 	 }
 
 	 /**
-	  * Return the node acting as the seed of the polygon containing
-	  * the point at (`x`,`y`), null if it doesn't exist.
+	  * Gives the lot associated with the cell at the given position.
+	  *
+	  * @param x The x-axis coordinate of the queried position.
+	  * @param y The y-axis coordinate of the queried position.
+	  * @param g The graph containing the lots.
+	  *
+	  * @return The Node representing the corresponding lot or null if
+	  * it does not exist.
 	  */
-	 static Node getLotAt(double x, double y, Graph g) {
+	 public static Node getLotAt(double x, double y, Graph g) {
 
 		  Coordinate coord = new Coordinate(x, y);
 		  Point seed = (new GeometryFactory()).createPoint(coord);
@@ -95,13 +116,15 @@ final class LotOps {
 	 }
 
 	 /**
-	  * Compute which polygon of the `voronoi` Voronoi diagram is to be
-	  * associated with the `lot` node and store it as a node
-	  * attribute.
+	  * Associate a lot with its corresponding Voronoi cell. The cell
+	  * is then recorded in the Node as an attribute.
 	  *
-	  * Return true if the polygon is found, false otherwise.
+	  * @param lot The node to be associated with a cell.
+	  * @param voronoi The Voronoi diagram containing candidate cells.
+	  *
+	  * @return true if the polygon is found, false otherwise.
 	  */
-	 static boolean bindLotToPolygon(Node lot, Geometry voronoi) {
+	 public static boolean bindLotToPolygon(Node lot, Geometry voronoi) {
 
 		  double x = (Double)lot.getAttribute("x");
 		  double y = (Double)lot.getAttribute("y");
@@ -116,14 +139,19 @@ final class LotOps {
 		  return false;
 	 }
 
-
 	 /**
-	  * Return the polygon containing the point at (`x`,`y`), null if
-	  * it doesn't exist.
+	  * Gives the Voronoi cell at a given position.
+	  *
+	  * @param x The x-axis position.
+	  * @param y The y-axis position.
+	  * @param voronoi The Voronoi diagram containing candidate cells.
+	  *
+	  * @return The cell as a Polygon.
 	  */
-	 static Polygon getPolygonAt(double x, double y, Geometry voronoi) {
+	 public static Polygon getPolygonAt(double x, double y, Geometry voronoi) {
 
 		  Coordinate coord = new Coordinate(x, y);
+
 		  Point seed = (new GeometryFactory()).createPoint(coord);
 
 		  for(int i = 0, l = voronoi.getNumGeometries(); i < l; ++i) {
@@ -137,7 +165,14 @@ final class LotOps {
 		  return null;
 	 }
 
-	 static void clipLotsToCity(Graph g) {
+	 /**
+	  * Clips every lots cells to the general shape of the city. This
+	  * method is used to get rid of the large cells occupying the
+	  * exterior edges of the Voronoi diagram.
+	  *
+	  * @param g The graph containing lots to be clipped.
+	  */
+	 public static void clipLotsToCity(Graph g) {
 
 		  Polygon cityHull = CityOps.getCityHull(g);
 
@@ -145,7 +180,16 @@ final class LotOps {
 				LotOps.clipLotToCity(lot, cityHull, g);
 	 }
 
-	 static void clipLotToCity(Node lot, Polygon cityHull, Graph g) {
+	 /**
+	  * Clips a unique lot cell to the general shape of the city.
+	  *
+	  * @param lot The lot to be clipped.
+	  * @param cityHull A Polygon representing the general shape of the
+	  * city. The final cell will be the intersection between th city
+	  * hull and the lot cell.
+	  * @param g The graph containing every lots.
+	  */
+	 public static void clipLotToCity(Node lot, Polygon cityHull, Graph g) {
 
 		  Polygon cell = (Polygon)lot.getAttribute("polygon");
 
@@ -158,10 +202,15 @@ final class LotOps {
 	 }
 
 	 /**
-	  * Add edges representing a neighborhood relationship between lots
-	  * which borders share a Voronoi edge.
+	  * Adds edges between a lot and the adjacent ones. Two lots are
+	  * considered neighbors if their cells are touching (i.e. if they
+	  * share a Voronoi edge).
+	  *
+	  * @param lot The lot to be linked with its neighbors.
+	  * @param g The graph containing the lot and the possible
+	  * neighbors.
 	  */
-	 static void linkToNeighbors(Node lot, Graph g) {
+	 public static void linkToNeighbors(Node lot, Graph g) {
 
 		  Polygon polygon = (Polygon)lot.getAttribute("polygon");
 
@@ -178,12 +227,16 @@ final class LotOps {
 	 }
 
 	 /**
-	  * Remove edges between lot that are no longer adjacent. This
-	  * method is typically called when the topology of the "lots"
+	  * Removes edges between lots that are no longer adjacent.
+	  *
+	  * This method is typically called when the topology of the "lots"
 	  * graph could have been compromised by an update (e.g. a lot
 	  * insertion).
+	  *
+	  * @param lot The lot to be updated.
+	  * @param g The graph containing the lot and its neighbors.
 	  */
-	 static void unlinkFromInvalidNeighbors(Node lot, Graph g) {
+	 public static void unlinkFromInvalidNeighbors(Node lot, Graph g) {
 
 		  Polygon polygon = (Polygon)lot.getAttribute("polygon");
 

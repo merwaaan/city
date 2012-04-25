@@ -17,14 +17,14 @@ import com.vividsolutions.jts.triangulate.VoronoiDiagramBuilder;
 public class Simulation {
 
 	 /**
-	  * The "lots" graph contains every lot seeds as nodes. Its edges
+	  * The "lots" graph containing every lot seeds as nodes. Its edges
 	  * represent the neighborhood relationships between adjacent lots.
 	  */
 	 public Graph lots;
 
 	 /**
-	  * The "roads" graph contains every constructible routes based on
-	  * the edges of the Voronoi diagram. Its nodes are possible
+	  * The "roads" graph containing every constructible routes based
+	  * on the edges of the Voronoi diagram. Its nodes are possible
 	  * crossroads.
 	  */
 	 public Graph roads;
@@ -92,9 +92,6 @@ public class Simulation {
 
 		  this.strategies.add(new AverageDensityStrategy(this));
 		  this.strategies.add(new LotPositioningStrategy(this));
-
-		  redraw();
-		  this.lots.setAttribute("ui.screenshot", (s++)+".png");
 
 		  for(int i = 0; i < 0; ++i) {
 
