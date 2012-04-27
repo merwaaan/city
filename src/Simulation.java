@@ -204,7 +204,7 @@ public class Simulation {
 	 private void pause(int ms) {
 
 		  try {
-				Thread.sleep(1000);
+				Thread.sleep(ms);
 		  }
 		  catch(Exception e) {
 				e.printStackTrace();
