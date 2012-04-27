@@ -1,10 +1,14 @@
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
+import java.util.LinkedList;
 
 import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
 
+import org.graphstream.algorithm.Toolkit;
+import org.graphstream.algorithm.flow.FlowAlgorithm;
+import org.graphstream.algorithm.flow.FordFulkersonAlgorithm;
 import org.graphstream.graph.*;
 import org.graphstream.graph.implementations.SingleGraph;
 import org.graphstream.ui.geom.Vector2;
@@ -62,17 +66,18 @@ public class Simulation {
 		  this.lots.addAttribute("ui.antialias");
 
 		  this.view = this.lots.display(false).getDefaultView();
+		  this.view.resizeFrame(800, 800);
 		  this.view.setBackLayerRenderer(new BackgroundLayer(this));
 		  this.view.setMouseManager(new MouseManager(this));
 
 		  this.camera = this.view.getCamera();
-		  this.camera.setGraphViewport(-2000, 0, 0, 0);
+
 	 }
 
 	 private void initialize() {
 
 		  // Compute n random coordinates.
-		  Coordinate[] coords = getRandomCoords(100, 500);
+		  Coordinate[] coords = getRandomCoords(50, 500);
 
 		  // Build a Voronoi diagram for which seeds are the previously
 		  // computed coordinates.
@@ -81,14 +86,40 @@ public class Simulation {
 		  // Build the "lots" and "roads" graphs using the coordinates
 		  // and the Voronoi Diagram.
 		  LotOps.buildLotsGraph(coords, voronoi, this.lots);
-		  RoadOps.buildRoadsGraph(voronoi, this.roads);
+		  RoadOps.buildRoadsGraph(voronoi, this.roads, this.lots);
 	 }
 
-	 int s = 0;
+	 private FlowAlgorithm flowAlgo;
 	 public void run() {
 
 		  // Save a screenshot.
 		  //this.lots.addAttribute("ui.screenshot", "../screenshot.png");
+
+		  /*
+		  flowAlgo = new FordFulkersonAlgorithm();
+
+		  Node a = Toolkit.randomNode(this.roads);
+		  Node b = Toolkit.randomNode(this.roads);
+		  flowAlgo.init(this.roads, a.getId(), b.getId());
+
+		  for(Edge road : this.roads.getEachEdge())
+				road.setAttribute("capacity", 0.2 + Math.random() * 0.8);
+		  flowAlgo.setCapacityAttribute("capacity");
+
+		  flowAlgo.compute();
+
+		  for(Edge road : this.roads.getEachEdge()) {
+				double flow = flowAlgo.getFlow(road.getNode0(), road.getNode1());
+				//System.out.println(flow);
+				road.setAttribute("flow", flow);
+		  }
+
+		  LinkedList<Node> p = new LinkedList<Node>();
+		  double l = findPath(p, a, b);
+		  System.out.println(p+" "+l);
+		  */
+
+		  redraw();
 
 		  this.strategies.add(new AverageDensityStrategy(this));
 		  this.strategies.add(new LotPositioningStrategy(this));
@@ -103,6 +134,30 @@ public class Simulation {
 		  }
 	 }
 
+	 protected double findPath(LinkedList<Node> path, Node source, Node target) {
+		  System.out.println(source + " " + source.getDegree() + " -> " + target);
+		  path.addLast(source);
+
+		  if (source == target)
+				return Double.MAX_VALUE;
+
+		  double minCf;
+
+		  for (int i = 0; i < source.getDegree(); i++) {
+				Edge e = source.getEdge(i);
+				Node o = e.getOpposite(source);
+
+				if (flowAlgo.getCapacity(source, o) - flowAlgo.getFlow(source, o) > 0
+					 && !path.contains(o)) {
+					 if ((minCf = findPath(path, o, target)) > 0)
+						  return Math.min(minCf,
+												flowAlgo.getCapacity(source, o) - flowAlgo.getFlow(source, o));
+				}
+		  }
+
+		  path.removeLast();
+		  return 0;
+	 }
 	 /**
 	  * Generate `lotCount` geometrical coordinates with X and Y values
 	  * within [-`offset`, +`offset`].

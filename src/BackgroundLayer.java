@@ -1,7 +1,9 @@
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.GeneralPath;
 
+import org.graphstream.graph.Edge;
 import org.graphstream.graph.Node;
 import org.graphstream.ui.graphicGraph.GraphicGraph;
 import org.graphstream.ui.swingViewer.LayerRenderer;
@@ -31,9 +33,9 @@ public class BackgroundLayer implements LayerRenderer {
 		  // y-axis.
 		  g.scale(ratio, -ratio);
 
+		  // Draw the Voronoi cells.
 		  for(Node lot : this.sim.lots) {
 
-				// Draw the associated Voronoi cell if the polygon exists.
 				Polygon poly = (Polygon)lot.getAttribute("polygon");
 				if(poly != null) {
 
@@ -57,9 +59,44 @@ public class BackgroundLayer implements LayerRenderer {
 						  g.fill(path);
 					 }
 
-					 g.setColor(Color.GRAY);
+					 // Draw the cell border (if everything woks well, it
+					 // should not be visible, as the road network will be
+					 // laid over it).
+					 g.setColor(Color.BLUE);
 					 g.draw(path);
 				}
+		  }
+
+		  g.setColor(Color.YELLOW);
+
+		  for(Edge road : this.sim.roads.getEachEdge()) {
+
+				Node a = road.getNode0();
+				Node b = road.getNode1();
+
+				double aX = (Double)a.getAttribute("x");
+				double aY = (Double)a.getAttribute("y");
+				double bX = (Double)b.getAttribute("x");
+				double bY = (Double)b.getAttribute("y");
+
+				/*
+				Double capacity = (Double)road.getAttribute("flow");
+				capacity = capacity == null ? 1 : capacity;
+
+				int width = (int)(capacity * 20);
+				g.setStroke(new BasicStroke(width));
+				*/
+
+				g.drawLine((int)aX, (int)aY, (int)bX, (int)bY);
+		  }
+
+		  g.setColor(Color.YELLOW);
+		  for(Node n : this.sim.roads) {
+
+				double x = (Double)n.getAttribute("x");
+				double y = (Double)n.getAttribute("y");
+
+				g.fillOval((int)x, (int)y, 20, 20);
 		  }
 
 		  // Restore the transformation matrix.

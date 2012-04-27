@@ -4,6 +4,8 @@ import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.Point;
 import com.vividsolutions.jts.geom.Polygon;
 
+import java.util.ArrayList;
+
 import org.graphstream.graph.Edge;
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
@@ -254,6 +256,20 @@ public class LotOps {
 				if(!polygon.intersects(neighborPolygon))
 					 g.removeEdge(e);
 		  }
+	 }
+
+	 public static boolean isLotNeighborWith(Node lot, Node neighbor) {
+
+		  return lot.hasEdgeBetween(neighbor);
+	 }
+
+	 public static boolean isLotNeighborWith(Node lot, ArrayList<Node> neighbors) {
+
+		  for(Node neighbor : neighbors)
+				if(!lot.hasEdgeBetween(neighbor))
+					 return false;
+
+		  return true;
 	 }
 
 }

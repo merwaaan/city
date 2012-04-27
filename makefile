@@ -16,6 +16,7 @@ FILES=\
 	AverageDensityStrategy \
 	BackgroundLayer \
 	CityOps \
+	Crossroad \
 	LotOps \
 	LotPositioningStrategy \
 	MouseManager \

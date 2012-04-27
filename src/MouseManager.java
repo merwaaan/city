@@ -1,6 +1,9 @@
+import java.awt.Color;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
+import java.util.Set;
 
+import org.graphstream.graph.Node;
 import org.graphstream.ui.swingViewer.util.DefaultMouseManager;
 
 public class MouseManager extends DefaultMouseManager {
