@@ -254,11 +254,73 @@ au réseau. AUTRES PAPIERS?
 
 \subsection{Structure}
 
+Comme énoncé précédemment, les automates cellulaires sont des
+structures versatiles et puissantes dont le formalisme originel impose
+néanmoins quelques limitations; la principale étant, à nos yeux, un
+maillage figé et statique.
 
+Pour répondre à notre problématique, il est nécéssaire d'employer une
+structure permettant de représenter à la fois le bâti et le viaire. On
+propose à cet effet d'utiliser le diagramme de Voronoï.
+
+GROSSE DEFINITION
+
+La vue d'un diagramme de Voronoï évoque naturellement le maillage de
+la ville, où chaque parcelle de terrain est représentée par une
+cellule et les parcelles voisines sont en contact. Ces frontières,
+prenant la forme des arêtes du diagramme de Voronoi, sont d'une
+importance capitale puisqu'elles correspondent aux espaces entre les
+bâtiments, et donc aux routes potentielles. Ainsi, chaque cellule de
+Voronoï représente l'espace d'une parcelle tandis que chaque arête est
+une voie potentiellement constructible.
+
+Les parcelles dont les cellules sont en contact (partageant une arête)
+sont considérées comme voisines et, à la manière des automates
+cellulaires, BLABLA.
+
+Avant d'aller plus loin et de détailler la construction d'une telle
+structure et les règles régissant son évolution, il nous faut préciser
+certaines particularités.
+
+Premièrement, l'espace qu'une cellule occupe ne réprésente absolument
+pas sa couverture cadastrale. On admet que l'empreinte du bâtiment est
+globalement contenue dans cette dernière sans aucune garantie qu'elle
+n'en déborde pas ou à l'opposé qu'elle représente une minuscule
+fraction de sa surface. C'est notamment remarquable aux bords de
+l'environnement de la simulation puisque les parcelles situées à la
+frontière de la ville sont contenues dans des cellules de Voronoï
+immenses BLABLA.
+
+IMAGE
+
+Deuxième point important, les arêtes de Voronoï qui forment le réseau
+routier potentiel portent uniquement des informations topologiques et
+ne traduisent aucunement le tracé exact des routes qu'elles
+représentent. Autrement dit, une telle arête décrit qu'une voie
+passent entre deux bâtiments précis sans pour autant renseigner sur sa
+direction ou sa courbure.
+
+IMAGE
 
 \subsection{Construction}
 
+\subsubsection{Bâti}
+
+IMPORTATION
+
+GENERATION VORONOI
+
+VOISINAGE
+
+\subsubsection{Viaire}
+
+CARREFOURS
+
+VOIES
+
 \section{\'Evolution}
+
+???
 
 \end{multicols}
 
