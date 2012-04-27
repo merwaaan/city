@@ -66,11 +66,11 @@ d'une personne remplissant les cases d'un tableau infini CITATION.
 
 Entraîné par cette mouvance procédurale et en réaction aux réseaux de
 neurones de McCulloch et Pitts, John von Neumann introduit le terme
-d'automate en 1946. Simplement, un automate est une machine qui opère
-sur des données fournies en entrée en fonction de règles internes
-prédéfinies. On choisit de se concentrer sur une sous-catégorie
-d'automates, les automates finis à états, changeant leur
-représentation interne selon des règles de transition. John von
+\textit{automate} en 1946. Simplement, un automate est une machine qui
+opère sur des données fournies en entrée en fonction de règles
+internes prédéfinies. On choisit de se concentrer sur une
+sous-catégorie d'automates, les automates finis à états, changeant
+leur représentation interne selon des règles de transition. John von
 Neumann et Stanislaw Ulam joignent leurs travaux pour concevoir
 l'automate cellulaire : un système comprenant un ensemble d'automates
 à états spatialement localisés (typiquement sous forme de grille) et
@@ -97,11 +97,11 @@ Tobler, en 1975, que le rapprochement entre les automates cellulaires
 et le domaine de la géographie apparaît clairement \cite{Tobler1975}.
 
 Une idée très exploitée dans ce domaine est d'associer un potentiel de
-transition à chaque cellule vers tous les états qu'elles peuvent
-prendre. Dans les modèles déterministes, la transition vers l'état à
-plus haut potentiel est appliquée tandis que dans les modèles
-stochastiques, un tirage aléatoire biaisée a lieu. Le potentiel d'une
-cellule à passer à un nouvel état est déterminé en fonction de
+transition à chaque cellule et ce, vers tous les états qu'elles
+peuvent prendre. Dans les modèles déterministes, la transition vers
+l'état à plus haut potentiel est appliquée tandis que dans les modèles
+stochastiques, un tirage aléatoire biaisée est préféré. Le potentiel
+d'une cellule à passer à un nouvel état est déterminé en fonction de
 paramètres propres à la simulation. Peuvent être pris en compte
 l'élévation du terrain, la densité de population, la proximité d'axes
 routiers, la proximité de centres urbains, l'âge des parcelle, leur
@@ -177,7 +177,7 @@ entités du jeu de la vie ne seraient pas garanties. Il est pourtant
 légitime de se questionner sur la validité d'un tel choix dans une
 simulation urbaine, premièrement parce qu'une ville est un système
 complexe et désordonné, deuxièmement parce les processus qui s'y
-déroule sont réglés sur différentes échelles temporelles.
+déroulent sont réglés sur différentes échelles temporelles.
 
 Les automates cellulaires ne sont pas l'unique moyen de modéliser la
 croissance urbaine. Plusieurs simulations existantes sont des systèmes
@@ -208,12 +208,12 @@ de se combiner et d'apparaître à différents niveaux de profondeur; les
 résultats sont saisissants. Dans une autre simulation \cite{Chen2008},
 le tracé des routes suit les \textit{hyperstreamlines} formées par un
 champ de vecteurs. Ce champ est calculé par combinaison de plusieurs
-autres champs de vecteurs, chacun représentant des contraintes de
-direction particulières telles que les zones interdites (eau, espaces
-verts), l'altitude et la densité de population. Ces techniques sont
-intrinsèquement géométriques, et comme précisé plus haut, le résultat
-est purement visuel, mais elles représentent une source d'inspiration
-à ne pas négliger.
+autres champs de vecteurs, chacun représentant des contraintes
+directionnelles particulières telles que les zones interdites (eau,
+espaces verts), l'altitude et la densité de population. Ces techniques
+sont intrinsèquement géométriques, et comme précisé plus haut, le
+résultat est purement visuel, mais elles représentent une source
+d'inspiration à ne pas négliger.
 
 Bien que les automates cellulaires soient couramment utilisés pour
 simuler le traffic routier (dans leur version 1D CITATION ou 2D
@@ -245,10 +245,20 @@ d'automate cellulaire. Le principe est le suivant : à chaque
 agrandissement du réseau urbain, on crée plusieurs routes virtuelles
 en suivant des règles géométriques précises (allongement des voies
 existantes, limitation du degré des carrefours à 4, l'angle entre
-chaque rue tend vers 90 degrès). Parmi les $n$ routes générées, une
+chaque rue tend vers 90 degrés). Parmi les $n$ routes générées, une
 seule sera construite. Pour la choisir, le traffic sur ces nouvelles
-routes est simulé et l'on identifie laquelle est la plus bénéfiques au
-réseau. AUTRES PAPIERS?
+routes est simulé et l'on identifie celle qui sera la plus bénéfique
+au réseau. AUTRES PAPIERS?
+
+\section{Structure et construction}
+
+\subsection{Structure}
+
+
+
+\subsection{Construction}
+
+\section{\'Evolution}
 
 \end{multicols}
 
