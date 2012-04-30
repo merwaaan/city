@@ -94,6 +94,11 @@ public class CityOps {
 
 		  Node oldLot = LotOps.getLotAt(x, y, lots);
 
+		  if(oldLot == null) {
+				System.err.println("Tried to add a new lot in an empty space");
+				return;
+		  }
+
 		  Node newLot = LotOps.placeLot(coord.x, coord.y, lots);
 
 		  // XXX: For debugging purposes.
