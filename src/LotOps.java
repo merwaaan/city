@@ -4,7 +4,9 @@ import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.Point;
 import com.vividsolutions.jts.geom.Polygon;
 
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.graphstream.graph.Edge;
 import org.graphstream.graph.Graph;
@@ -263,7 +265,7 @@ public class LotOps {
 		  return lot.hasEdgeBetween(neighbor);
 	 }
 
-	 public static boolean isLotNeighborWith(Node lot, ArrayList<Node> neighbors) {
+	 public static boolean isLotNeighborWith(Node lot, List<Node> neighbors) {
 
 		  for(Node neighbor : neighbors)
 				if(!lot.hasEdgeBetween(neighbor))
@@ -272,4 +274,22 @@ public class LotOps {
 		  return true;
 	 }
 
+	 public static Coordinate[] getCellCoordinates(Node lot) {
+
+		  Polygon cell = (Polygon)lot.getAttribute("polygon");
+
+		  return cell.getCoordinates();
+	 }
+
+	 public static List<Point2D> getCellPoints2D(Node lot) {
+
+		  Coordinate[] coords = LotOps.getCellCoordinates(lot);
+
+		  List<Point2D> points = new ArrayList<Point2D>();
+
+		  for(int i = 0, l = coords.length; i < l; ++i)
+				points.add(new Point2D.Double(coords[i].x, coords[i].y));
+
+		  return points;
+	 }
 }
