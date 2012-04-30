@@ -58,16 +58,11 @@ public class BackgroundLayer implements LayerRenderer {
 						  g.setColor(new Color(255, 0, 0, alpha));
 						  g.fill(path);
 					 }
-
-					 // Draw the cell border (if everything woks well, it
-					 // should not be visible, as the road network will be
-					 // laid over it).
-					 g.setColor(Color.BLUE);
-					 g.draw(path);
 				}
 		  }
 
-		  g.setColor(Color.YELLOW);
+		  g.setColor(Color.BLUE);
+		  g.setStroke(new BasicStroke(4));
 
 		  for(Edge road : this.sim.roads.getEachEdge()) {
 
@@ -79,24 +74,15 @@ public class BackgroundLayer implements LayerRenderer {
 				double bX = (Double)b.getAttribute("x");
 				double bY = (Double)b.getAttribute("y");
 
-				/*
-				Double capacity = (Double)road.getAttribute("flow");
-				capacity = capacity == null ? 1 : capacity;
-
-				int width = (int)(capacity * 20);
-				g.setStroke(new BasicStroke(width));
-				*/
-
 				g.drawLine((int)aX, (int)aY, (int)bX, (int)bY);
 		  }
 
-		  g.setColor(Color.YELLOW);
 		  for(Node n : this.sim.roads) {
 
 				double x = (Double)n.getAttribute("x");
 				double y = (Double)n.getAttribute("y");
 
-				g.fillOval((int)x, (int)y, 20, 20);
+				g.fillOval((int)x - 5, (int)y - 5, 10, 10);
 		  }
 
 		  // Restore the transformation matrix.
