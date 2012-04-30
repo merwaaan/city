@@ -77,9 +77,9 @@ public class Simulation {
 	 private void initialize() {
 
 		  // Compute n random coordinates.
-		  //Coordinate[] coords = getRandomCoords(50, 500);
+		  Coordinate[] coords = getRandomCoords(100, 500);
 		  //Coordinate[] coords = ShapeFileLoader.getLandLots("data/world_borders/world_borders.shp");
-		  Coordinate[] coords = ShapeFileLoader.getLandLots("data/IGN/PARCELLE.SHP");
+		  //Coordinate[] coords = ShapeFileLoader.getLandLots("data/IGN/PARCELLE.SHP");
 
 		  // Build a Voronoi diagram for which seeds are the previously
 		  // computed coordinates.

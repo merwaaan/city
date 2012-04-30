@@ -10,6 +10,8 @@ public class Crossroad {
 	 public double x;
 	 public double y;
 
+	 public Node node;
+
 	 public Crossroad() {
 
 		  this.lots = new HashSet<Node>();

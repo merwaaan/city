@@ -19,9 +19,9 @@ import org.graphstream.graph.Node;
 public class RoadOps {
 
 	 /**
-	  * Populates the "roads" graph. This method should only be called
-	  * during the initialization phase of the simulation as new roads
-	  * are later inserted dynamically.
+	  * Populates the road network graph. This method should only be
+	  * called during the initialization phase of the simulation as new
+	  * roads are later inserted dynamically.
 	  *
 	  * @param voronoi The Voronoi Diagram based on the land lots.
 	  * @param g The graph representing the complete road network.
@@ -36,9 +36,12 @@ public class RoadOps {
 				// Determine the crossroad position.
 				RoadOps.computeCrossroadPosition(c);
 
-				// Add the crossroad to the "roads" graph.
-				RoadOps.placeCrossroad(c.x, c.y, roads);
+				// Add the crossroad to the road network graph.
+				RoadOps.placeCrossroad(c, c.x, c.y, roads);
 		  }
+
+		  for(Crossroad c : crossroads)
+				RoadOps.linkToNeighbors(c, roads);
 	 }
 
 	 /**
@@ -192,7 +195,7 @@ public class RoadOps {
 
 		  // XXX: Sometimes prints an empty list... Must miss some
 		  // crossroads!
-		  System.out.println(intersection);
+		  //System.out.println(intersection);
 
 		  // Store the position in the crossroad.
 		  if(intersection.size() > 0) {
@@ -206,18 +209,107 @@ public class RoadOps {
 	 /**
 	  * Places a node representing a crossroad in the graph.
 	  *
+	  * <p>The Crossroad object used during the construction phase is
+	  * stored as a node attribute.</p>
+	  *
+	  * <p>The Crossroad object is also added to the crossroads
+	  * attribute of each of its surrounding lots.</p>
+	  *
+	  * @param crossroad The Crossroad object used during the
+	  * construction phase.
 	  * @param x The x-axis position.
 	  * @param y The y-axis position.
 	  * @param roads The road network graph.
 	  */
-	 public static Node placeCrossroad(double x, double y, Graph roads) {
+	 public static Node placeCrossroad(Crossroad crossroad, double x, double y, Graph roads) {
 
-		  Node crossroad = roads.addNode("crossroad_" + roads.getNodeCount());
+		  Node node = roads.addNode("crossroad_" + roads.getNodeCount());
 
-		  crossroad.setAttribute("x", x);
-		  crossroad.setAttribute("y", y);
+		  // Attribute the position.
+		  node.setAttribute("x", x);
+		  node.setAttribute("y", y);
 
-		  return crossroad;
+		  // Attribute the Crossroad object to the node so that it can
+		  // serve as a pivot between the crossroad node and the
+		  // associated lot nodes.
+		  node.setAttribute("crossroad", crossroad);
+
+		  // Inversely, attribute a reference to the Crossroad object to
+		  // every surrounding lot.
+		  for(Node lot : crossroad.getLots()) {
+
+				Set<Crossroad> lotCrossroads = lot.getAttribute("crossroads");
+				if(lotCrossroads == null)
+					 lotCrossroads = new HashSet<Crossroad>();
+
+				lotCrossroads.add(crossroad);
+
+				lot.setAttribute("crossroads", lotCrossroads);
+		  }
+
+		  // Also,
+		  crossroad.node = node;
+
+		  return node;
+	 }
+
+	 /**
+	  * Adds an edge between a crossroad and its neighbors.
+	  *
+	  * @param crossroad The crossroad which node is associated with
+	  * the node to be linked.
+	  */
+	 public static void linkToNeighbors(Crossroad crossroad, Graph roads) {
+
+		  Set<Node> lots = crossroad.getLots();
+		  System.out.println(lots);
+		  Object[] lotsArray = lots.toArray();
+
+		  // For each pair of lots...
+		  for(int i = 1, l = lotsArray.length; i < l; ++i) {
+
+				Node l1 = (Node)lotsArray[i];
+				Set<Crossroad> c1 = l1.getAttribute("crossroads");
+
+				for(int j = 0; j < i; ++j) {
+
+					 Node l2 = (Node)lotsArray[j];
+					 Set<Crossroad> c2 = new HashSet<Crossroad>((Set<Crossroad>)l2.getAttribute("crossroads"));
+
+					 // Compute the two shared crossroads.
+					 c2.retainAll(c1);
+
+					 //
+					 if(c2.contains(crossroad)) {
+
+						  // Remove the current crossroad from the set so
+						  // that only the neighbor remains.
+						  c2.remove(crossroad);
+
+						  Object[] neighborOnly = c2.toArray();
+
+						  if(neighborOnly.length == 1) {
+
+								Crossroad neighbor = (Crossroad)neighborOnly[0];
+
+								if(!crossroad.node.hasEdgeBetween(neighbor.node))
+									roads.addEdge(crossroad.node.getId() + "_" + neighbor.node.getId(), crossroad.node, neighbor.node);
+						  }
+					 }
+				}
+		  }
+	 }
+
+	 public static Coordinate getCrossroadCoordinates(Crossroad crossroad) {
+
+		  return new Coordinate(crossroad.x, crossroad.y);
+	 }
+
+	 public static Point2D getCrossroadPoint2D(Crossroad crossroad) {
+
+		  Coordinate coord = RoadOps.getCrossroadCoordinates(crossroad);
+
+		  return new Point2D.Double(coord.x, coord.y);
 	 }
 
 }
