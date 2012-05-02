@@ -38,6 +38,11 @@ public class RoadOps {
 		  // Add edges (roads) between nodes (crossroads).
 		  for(Node l : lots)
 				RoadOps.placeRoadsAroundLot(l, roads);
+
+		  // Remove phony crossroads at the edge of the city.
+		  for(Node c : roads)
+				if(c.getDegree() == 0)
+					 roads.removeNode(c);
 	 }
 
 	 /**
