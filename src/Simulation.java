@@ -95,7 +95,7 @@ public class Simulation {
 	 public void run() {
 
 		  // Save a screenshot.
-		  //this.lots.addAttribute("ui.screenshot", "../screenshot.png");
+		  this.lots.addAttribute("ui.screenshot", "../screenshot.png");
 
 		  /*
 		  flowAlgo = new FordFulkersonAlgorithm();
