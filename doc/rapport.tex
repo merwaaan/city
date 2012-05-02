@@ -260,8 +260,9 @@ néanmoins quelques limitations; la principale étant, à nos yeux, un
 maillage figé et statique.
 
 Pour répondre à notre problématique, il est nécéssaire d'employer une
-structure permettant de représenter à la fois le bâti et le viaire. On
-propose à cet effet d'utiliser le diagramme de Voronoï.
+structure souple et dynamique permettant de représenter à la fois le
+bâti et le viaire. On propose à cet effet d'utiliser le diagramme de
+Voronoï.
 
 GROSSE DEFINITION
 
@@ -270,13 +271,13 @@ la ville, où chaque parcelle de terrain est représentée par une
 cellule et les parcelles voisines sont en contact. Ces frontières,
 prenant la forme des arêtes du diagramme de Voronoi, sont d'une
 importance capitale puisqu'elles correspondent aux espaces entre les
-bâtiments, et donc aux routes potentielles. Ainsi, chaque cellule de
-Voronoï représente l'espace d'une parcelle tandis que chaque arête est
-une voie potentiellement constructible.
+bâtiments, et donc aux tracés des routes potentielles. Chaque cellule
+de Voronoï représente donc l'espace d'une parcelle tandis que chaque
+arête est une voie potentiellement constructible.
 
 Les parcelles dont les cellules sont en contact (partageant une arête)
 sont considérées comme voisines et, à la manière des automates
-cellulaires, BLABLA.
+cellulaires, l'état d'une parcelle dépend de l'état des ses voisines.
 
 Avant d'aller plus loin et de détailler la construction d'une telle
 structure et les règles régissant son évolution, il nous faut préciser
@@ -285,42 +286,135 @@ certaines particularités.
 Premièrement, l'espace qu'une cellule occupe ne réprésente absolument
 pas sa couverture cadastrale. On admet que l'empreinte du bâtiment est
 globalement contenue dans cette dernière sans aucune garantie qu'elle
-n'en déborde pas ou à l'opposé qu'elle représente une minuscule
-fraction de sa surface. C'est notamment remarquable aux bords de
-l'environnement de la simulation puisque les parcelles situées à la
-frontière de la ville sont contenues dans des cellules de Voronoï
-immenses BLABLA.
+n'en déborde pas ou, à l'opposé, que la taille de la parcelle soit du
+même ordre de grandeur que l'aire de sa cellule.
 
 IMAGE
 
-Deuxième point important, les arêtes de Voronoï qui forment le réseau
+Deuxième point important : les arêtes de Voronoï qui forment le réseau
 routier potentiel portent uniquement des informations topologiques et
 ne traduisent aucunement le tracé exact des routes qu'elles
-représentent. Autrement dit, une telle arête décrit qu'une voie
-passent entre deux bâtiments précis sans pour autant renseigner sur sa
+représentent. Autrement dit, une telle arête décrit qu'une voie passe
+entre deux bâtiments précis sans pour autant renseigner sur sa
 direction ou sa courbure.
 
 IMAGE
 
 \subsection{Construction}
 
-\subsubsection{Bâti}
+Notre système urbain est décrit sur deux niveaux; plus précisément,
+par deux graphes. On distingue donc le graphe parcellaire du graphe
+viaire car, bien qu'ils soient étroitement liés, ils représentent des
+couches différentes du réseau urbain.
 
-IMPORTATION
+\subsubsection{Le graphe parcellaire}
 
-GENERATION VORONOI
+Le graphe parcellaire correspond à la couche bâti. Ses n\oe uds sont
+les centres des parcelles et chacune des ses arêtes représente une
+relation de voisinage entre deux parcelles.
 
-VOISINAGE
+Un diagramme de Voronoï valide est nécessaire à la construction de ce
+graphe. Les seules données dont l'on a besoin en entrée sont donc les
+positions centrales des parcelles. Ces coordonnées peuvent être
+extraites de fichiers d'informations géographiques mais dans un
+premier temps, et dans un but llustratif, on se cantonne à utiliser
+des positions aléatoirement choisies.
 
-\subsubsection{Viaire}
+IMAGE
 
-CARREFOURS
+La librairie Java JTS est spécialisée dans les traitements
+géométriques et permet notamment de générer un diagramme de Voronoï à
+partir d'une liste de points. Le résultat d'un tel traitement prend la
+forme d'un ensemble de polygones, chacun représentant une cellule de
+Voronoï, mais aucune autre information (d'adjacence par exemple) n'est
+fournie. Une fois le graphe parcellaire peuplé par des n\oe uds
+positionnés aux coordonnées fournies plus tôt, il reste donc à
+calculer les relations de voisinage.
 
-VOIES
+IMAGE
+
+Puisque l'on ne dispose que des polygones formant le diagramme de
+Voronoï et des positions de leur centroïdes, on procède par
+l'utilisation de tests géométriques. Naturellement, si deux cellules
+sont en contact -- si elle partagent une arête -- alors on relie les
+deux n\oe uds du graphe leur étant associés.
+
+IMAGE
+
+On observe sur la figure ??? que les parcelles situées en bordure de
+la ville sont dotées d'immenses cellules de Voronoï de par leur
+position. Afin de ne pas influencer négativement le déroulement de la
+simulation, dans laquelle l'aire des cellules peut avoir un impact sur
+l'évolution du système, on préfère modifier les contours du diagramme
+pour qu'il épouse la forme générale de la ville. Pour ce faire, on
+calcule l'enveloppe convexe du jeu de points utilisés comme
+coordonnées initiales, on l'agrandit de quelques unités afin que les
+parcelles ne soient pas collées à la bordure extérieure et on conserve
+uniquement l'intersection du diagramme original et de cette enveloppe.
+
+IMAGE
+
+DYNAMIQUE?
+
+\subsubsection{Le graphe viaire}
+
+Le graphe viaire correspond à la couche routière. Ses n\oe uds sont
+des carrefours, aux croisements des parcelles, et ses arête des voies.
+
+Comme lors de la construction du graphe parcellaire, on commence par
+placer les n\oe uds (ici des carrefours) puis on les relie par des
+arêtes (les routes).
+
+Dans un premier lieu, il nous faut déterminer les positions des
+croisements qui feront office de n\oe uds dans le graphe viaire. Cette
+phase est basée sur l'analyse du graphe parcellaire construit plus
+tôt. Puisqu'une route entre deux bâtiments peut être définie par une
+arête de Voronoï partagée entre deux parcelles, il est naturel
+d'admettre qu'un croisement correpond à un sommet de Voronoï partagée
+par deux cellules ou plus (voir figure ). Le but de l'étape décrite
+est donc de déterminer des groupes de cellules axées autour d'un même
+sommet pivot.
+
+IMAGE
+
+On remarque que ces clusters de parcelles semblent être des
+sous-graphes complets maximaux. Dans un premier temps, l'usage de
+l'algorithme de TRUC a été envisagée (et mis inutilement en place !)
+mais certains cas particuliers nous laisse entrevoir le fait qu'une
+contrainte supplémentaire est manquante. En effet, la recherche d'une
+clique maximale par l'algorithme cité ne prend pas en compte la
+nécessité que les cellules du cluster partagent un sommet. Sur
+l'exemple de la figure ???, quatres cellules forment une clique sans
+pour autant avoir un sommet de Voronoï en commun.
+
+IMAGE TRIANGLE
+
+ALGO PERSO
+
+Les résultats sont enregistrés dans une structure de données associant
+à chaque carrefour sa position dans l'espace et les parcelles
+l'entourant mais le graphe viaire n'a pour l'instant pas été
+peuplé. Pour ce faire, on ajoute pour chaque croisement un n\oe ud et
+comme pour le graphe parcellaire il faut encore connecter ces n\oe
+uds. BLABLA DELAUNAY/VORONOI
+
+\subsubsection{Importation de données géographiques}
+
+SHAPEFILE
 
 \section{\'Evolution}
 
-???
+DONNEES???
+
+\subsection{Le viaire}
+
+
+
+\subsection{Le bâti}
+
+\subsubsection{L'évolution de la densité}
+
+\subsubsection{La croissance de la ville (MORPHOGENESE?)}
 
 \end{multicols}
 
