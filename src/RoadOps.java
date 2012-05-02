@@ -40,8 +40,68 @@ public class RoadOps {
 				RoadOps.placeCrossroad(c, c.x, c.y, roads);
 		  }
 
-		  for(Crossroad c : crossroads)
-				RoadOps.linkToNeighbors(c, roads);
+		  //for(Crossroad c : crossroads)
+				//RoadOps.linkToNeighbors(c, roads);
+	 }
+
+	 /**
+	  * Computes the crossroads based on the land lots graph.
+	  *
+	  * @param lots The land lots graph.
+	  *
+	  * @return A set of Crossroad.
+	  */
+	 public static Set<Crossroad> computeCrossroads(Graph lots) {
+
+		  Set<Crossroad> crossroads = new HashSet<Crossroad>();
+
+		  for(Node lot : lots)
+				crossroads.addAll(RoadOps.computeCrossroadsFromLot(lot));
+
+		  return crossroads;
+	 }
+
+	 /**
+	  *
+	  */
+	 private static Set<Crossroad> computeCrossroadsFromLot(Node lot) {
+
+		  Polygon cell = (Polygon)lot.getAttribute("polygon");
+		  Coordinate[] coords = cell.getCoordinates();
+
+		  Set<Crossroad> crossroads = new HashSet<Crossroad>();
+
+		  for(int i = 0, l = coords.length; i < l; ++i)
+				crossroads.add(RoadOps.cycleAroundVertex(coords[i], lot, null));
+
+		  return crossroads;
+	 }
+
+	 /**
+	  *
+	  */
+	 private static Crossroad cycleAroundVertex(Coordinate vertex, Node currentLot, Crossroad crossroad) {
+
+		  // Instantiate the Crossroad object if it is null; typically
+		  // at the first call of this method.
+
+		  if(crossroad == null)
+				crossroad = new Crossroad();
+
+		  crossroad.addLot(currentLot);
+
+		  // Continue the cycle with a neighboring lot sharing the
+		  // vertex AND absent from the crossroad being built.
+
+		  for(Edge link : currentLot.getEachEdge()) {
+
+				Node nextLot = link.getOpposite(currentLot);
+
+				if(!crossroad.containsLot(nextLot) && LotOps.hasVertex(nextLot, vertex))
+					 return RoadOps.cycleAroundVertex(vertex, nextLot, crossroad);
+		  }
+
+		  return crossroad;
 	 }
 
 	 /**
@@ -56,7 +116,8 @@ public class RoadOps {
 	  *
 	  * @param lots the "lots" graph
 	  */
-	 public static Set<Crossroad> computeCrossroads(Graph lots) {
+	 /*
+	 public static Set<Crossroad> computeCrossroads_OLD(Graph lots) {
 
 		  List<List<Node>> cliques = new ArrayList<List<Node>>();
 		  for(List<Node> clique : Toolkit.getMaximalCliques(lots))
@@ -116,65 +177,6 @@ public class RoadOps {
 				intersection.retainAll(cellPoints);
 
 		  return intersection;
-	 }
-
-	 /**
-
-	  //  EXPERIMENTAL: might work if Bron-Kerbosh is too slow.
-
-	 public static Set<Crossroad> computeCrossroads(Node source) {
-
-		  // Build a set containing all of the source neighbors.
-		  Set<Node> neighbors = new HashSet<Node>();
-		  for(Edge link : source.getEachEdge())
-				neighbors.add(link.getOpposite(source));
-
-		  // Build a set containing every lots.
-		  Set<Node> all = new HashSet<Node>(neighbors);
-		  all.add(source);
-
-		  // Build a reference table associating each lot with its
-		  // neighborhood.
-		  HashMap<Node, Set<Node>> neighborhoods = new HashMap<Node, Set<Node>>();
-		  for(Node lot : all) {
-
-				Set<Node> neighborhood = new HashSet<Node>();
-
-				for(Edge link : lot.getEachEdge())
-					 neighborhood.add(link.getOpposite(lot));
-
-				neighborhoods.put(lot, neighborhood);
-		  }
-
-		  Set<Node> in = new HashSet<Node>();
-		  in.add(source);
-
-		  Set<Node> out = new HashSet<Node>(neighbors);
-
-		  Set<Node> waitings = new HashSet<Node>(neighbors);
-
-		  while(out.size() > 0) {
-
-				Node lot = getRandomFromSet(waitings);
-
-				waitings.remove(lot);
-
-				out.retainAll(neighborhoods.get(lot));
-
-				in.add(lot);
-		  }
-
-		  //
-
-		  Crossroad crossroad = new Crossroad();
-		  for(Node l : in)
-				crossroad.addLot(l);
-
-		  Set<Crossroad> crossroads = new HashSet<Crossroad>();
-		  crossroads.add(crossroad);
-
-		  return crossroads;
-
 	 }
 
 	 private static Node getRandomFromSet(Set<Node> lots) {

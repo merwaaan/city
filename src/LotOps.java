@@ -292,4 +292,17 @@ public class LotOps {
 
 		  return points;
 	 }
+
+	 public static boolean hasVertex(Node lot, Coordinate coord) {
+
+		  Polygon cell = (Polygon)lot.getAttribute("polygon");
+
+		  Coordinate[] coords = cell.getCoordinates();
+
+		  for(int i = 0, l = coords.length; i < l; ++i)
+				if(coord.equals(coords[i]))
+					 return true;
+
+		  return false;
+	 }
 }
