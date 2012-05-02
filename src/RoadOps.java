@@ -23,15 +23,33 @@ public class RoadOps {
 	  * called during the initialization phase of the simulation as new
 	  * roads are later inserted dynamically.
 	  *
+	  * <p>The process follows four steps:
+	  * <ul>
+	  *   <li>First, the individual crossroads topological structure is
+	  * computed i.e. each cluster of lots is recorded in a temporary
+	  * Crossroad object which represents the pivot between these
+	  * lots.</li>
+	  *   <li>Then, real nodes representing the Crossroads are added to
+	  * the graph.</li>
+	  *   <li>Then, each crossroad node is linked with its
+	  * neighbors.</li>
+	  *   <li>Lastly, the road network is cleaned up of isolated nodes
+	  * at the edges of the city as they bear no value for the
+	  * simulation</li>
+	  * </ul>
+	  * </p>
+	  *
+	  *
 	  * @param voronoi The Voronoi Diagram based on the land lots.
-	  * @param g The graph representing the complete road network.
+	  * @param roads The road network graph.
+	  * @param lots The land lots graph.
 	  */
 	 public static void buildRoadsGraph(Geometry voronoi, Graph roads, Graph lots) {
 
-		  // Compute the lots surrounding each crossroad.
+		  // Compute the crossroads structure and position.
 		  Set<Crossroad> crossroads = RoadOps.computeCrossroads(lots);
 
-		  // Add a node representing the crossroad to the road network.
+		  // Add a node representing each crossroad to the road network.
 		  for(Crossroad c : crossroads)
 				RoadOps.placeCrossroad(c, roads);
 
@@ -50,7 +68,7 @@ public class RoadOps {
 	  *
 	  * @param lots The land lots graph.
 	  *
-	  * @return A set of Crossroad.
+	  * @return A set of Crossroads.
 	  */
 	 public static Set<Crossroad> computeCrossroads(Graph lots) {
 
@@ -63,7 +81,21 @@ public class RoadOps {
 	 }
 
 	 /**
+	  * Computes the Crossroad surrounding a specific lot.
 	  *
+	  * <p>A Crossroad contains the lots surrounding it and is built
+	  * under these conditions :
+	  * <ul>
+	  *    <li>These lots form a cycle such that each of them is
+	  * neighbor of all the others (in graph terms, it is a
+	  * clique)</li>
+	  *    <li>These lots all share a common point which will be the
+	  * crossroad position</li>
+	  * </ul>
+	  * </p>
+	  *
+	  * @param lot The land lot which surrounding crossroads are to be
+	  * computed.
 	  */
 	 private static Set<Crossroad> computeCrossroadsFromLot(Node lot) {
 
@@ -79,7 +111,15 @@ public class RoadOps {
 	 }
 
 	 /**
+	  * Recursively builds the cycle of lots forming the surroundings
+	  * of a crossroad.
 	  *
+	  * @param vertex The point that must be shared by each lots of the
+	  * cycle.
+	  * @param currentLot The land lot to be added to the cycle.
+	  * @param crossroad The Crossroad object being computed.
+	  *
+	  * @return A Crossroad object representing the final crossroad.
 	  */
 	 private static Crossroad cycleAroundVertex(Coordinate vertex, Node currentLot, Crossroad crossroad) {
 
@@ -90,6 +130,7 @@ public class RoadOps {
 
 				crossroad = new Crossroad();
 
+				// Store the crossroad position.
 				crossroad.x = vertex.x;
 				crossroad.y = vertex.y;
 		  }
@@ -97,7 +138,8 @@ public class RoadOps {
 		  crossroad.addLot(currentLot);
 
 		  // Continue the cycle with a neighboring lot sharing the
-		  // vertex AND absent from the crossroad being built.
+		  // vertex AND not already contained in the crossroad being
+		  // built.
 
 		  for(Edge link : currentLot.getEachEdge()) {
 
@@ -156,9 +198,15 @@ public class RoadOps {
 	 }
 
 	 /**
-	  * Build the roads linking the crossroads surrounding a lot.
+	  * Builds the roads linking the crossroads surrounding a specific
+	  * lot.
 	  *
-	  * @param lot The lot which surrounding crossroads are to be
+	  * <p>The set of crossroads associated with the lot is iteratively
+	  * intersected with the sets of crossroads associated with its
+	  * neighbors and if two crossroads remain, an edge (a road) can be
+	  * drawn between these two.</p>
+	  *
+	  * @param lot The land lot which surrounding crossroads are to be
 	  * linked.
 	  * @param roads The road network graph.
 	  */

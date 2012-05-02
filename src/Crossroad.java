@@ -3,6 +3,17 @@ import java.util.Set;
 
 import org.graphstream.graph.Node;
 
+/**
+ * A object holding data representing a crossroad.
+ *
+ * <p>It is typically instantiated during the construction of the road
+ * network to store data about crossroads which nodes have not been
+ * created yet.</p>
+ *
+ * <p>It is later kept to serve as a pivot between the node of the
+ * road network representing a crossroad and the nodes of the land
+ * lots graph surrounding it.</p>
+ */
 public class Crossroad {
 
 	 private Set<Node> lots;
