@@ -74,8 +74,14 @@ public class RoadOps {
 
 		  Set<Crossroad> crossroads = new HashSet<Crossroad>();
 
+		  // An empty set that will contain the coordinates of every
+		  // computed crossroad. Each vertex of a land lot will be
+		  // tested against this set to avoid recomputing the same cycle
+		  // several times.
+		  Set<Coordinate> alreadyComputed = new HashSet<Coordinate>();
+
 		  for(Node lot : lots)
-				crossroads.addAll(RoadOps.computeCrossroadsFromLot(lot));
+				crossroads.addAll(RoadOps.computeCrossroadsFromLot(lot, alreadyComputed));
 
 		  return crossroads;
 	 }
@@ -96,8 +102,10 @@ public class RoadOps {
 	  *
 	  * @param lot The land lot which surrounding crossroads are to be
 	  * computed.
+	  * @param alreadyComputed A set containing the coordinates of
+	  * crossroads previously computed.
 	  */
-	 private static Set<Crossroad> computeCrossroadsFromLot(Node lot) {
+	 private static Set<Crossroad> computeCrossroadsFromLot(Node lot, Set<Coordinate> alreadyComputed) {
 
 		  Polygon cell = (Polygon)lot.getAttribute("polygon");
 		  Coordinate[] coords = cell.getCoordinates();
@@ -105,7 +113,12 @@ public class RoadOps {
 		  Set<Crossroad> crossroads = new HashSet<Crossroad>();
 
 		  for(int i = 0, l = coords.length; i < l; ++i)
-				crossroads.add(RoadOps.cycleAroundVertex(coords[i], lot, null));
+				if(!alreadyComputed.contains(coords[i])) {
+
+					 crossroads.add(RoadOps.cycleAroundVertex(coords[i], lot, null));
+
+					 alreadyComputed.add(coords[i]);
+				}
 
 		  return crossroads;
 	 }
