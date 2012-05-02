@@ -58,8 +58,13 @@ public class BackgroundLayer implements LayerRenderer {
 						  g.setColor(new Color(255, 0, 0, alpha));
 						  g.fill(path);
 					 }
+
+					 g.setColor(Color.GRAY);
+					 g.draw(path);
 				}
 		  }
+
+		  // Draw the road network.
 
 		  g.setColor(Color.BLUE);
 		  g.setStroke(new BasicStroke(4));
