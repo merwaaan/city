@@ -31,14 +31,9 @@ public class RoadOps {
 		  // Compute the lots surrounding each crossroad.
 		  Set<Crossroad> crossroads = RoadOps.computeCrossroads(lots);
 
-		  for(Crossroad c : crossroads) {
-
-				// Determine the crossroad position.
-				RoadOps.computeCrossroadPosition(c);
-
-				// Add the crossroad to the road network graph.
+		  // Add a node representing the crossroad to the road network.
+		  for(Crossroad c : crossroads)
 				RoadOps.placeCrossroad(c, c.x, c.y, roads);
-		  }
 
 		  //for(Crossroad c : crossroads)
 				//RoadOps.linkToNeighbors(c, roads);
@@ -85,8 +80,13 @@ public class RoadOps {
 		  // Instantiate the Crossroad object if it is null; typically
 		  // at the first call of this method.
 
-		  if(crossroad == null)
+		  if(crossroad == null) {
+
 				crossroad = new Crossroad();
+
+				crossroad.x = vertex.x;
+				crossroad.y = vertex.y;
+		  }
 
 		  crossroad.addLot(currentLot);
 
@@ -102,150 +102,6 @@ public class RoadOps {
 		  }
 
 		  return crossroad;
-	 }
-
-	 /**
-	  * Compute the crossroads.
-	  *
-	  * <p>A crossroad is defined by a list of lots which positions
-	  * encircle it. The crossroad position is not computed here, we
-	  * only are interested about the surrounding nodes.</p>
-	  *
-	  * <p>To do so, we compute maximal cliques of lots using the
-	  * Bron-Kerbosch algorithm from GraphStream.</p>
-	  *
-	  * @param lots the "lots" graph
-	  */
-	 /*
-	 public static Set<Crossroad> computeCrossroads_OLD(Graph lots) {
-
-		  List<List<Node>> cliques = new ArrayList<List<Node>>();
-		  for(List<Node> clique : Toolkit.getMaximalCliques(lots))
-				cliques.add(clique);
-
-		  Set<Crossroad> crossroads = new HashSet<Crossroad>();
-
-		  // SPECIAL CASE: a clique sharing no vertex.
-		  // To avoid that, we filter the cliques
-
-		  for(int i = 0; i < cliques.size(); ++i) {
-
-				List<Node> clique = cliques.get(i);
-
-				if(RoadOps.sharedVertices(clique).size() == 0) {
-					 cliques.remove(clique);
-					 --i;
-				}
-		  }
-
-		  for(List<Node> clique : cliques) {
-
-				Crossroad crossroad = new Crossroad();
-
-				for(Node lot : clique)
-					 crossroad.addLot(lot);
-
-				crossroads.add(crossroad);
-		  }
-
-		  return crossroads;
-	 }
-
-	 private static Set<Point2D> sharedVertices(List<Node> lots) {
-
-		  ArrayList<Set<Point2D>> sets = new ArrayList<Set<Point2D>>();
-
-		  for(Node lot : lots) {
-
-				Polygon cell = (Polygon)lot.getAttribute("polygon");
-
-				Coordinate[] vertices = cell.getCoordinates();
-
-				Set<Point2D> cellPoints = new HashSet<Point2D>();
-
-				for(int i = 0, l = vertices.length; i < l; ++i)
-					 cellPoints.add(new Point2D.Double(vertices[i].x, vertices[i].y));
-
-				sets.add(cellPoints);
-		  }
-
-		  // The position of the crossroad is the one shared with every
-		  // cell surrounding it.
-
-		  Set<Point2D> intersection = sets.get(0);
-		  for(Set<Point2D> cellPoints : sets)
-				intersection.retainAll(cellPoints);
-
-		  return intersection;
-	 }
-
-	 private static Node getRandomFromSet(Set<Node> lots) {
-
-		  int index = new Random().nextInt(lots.size());
-
-		  int i = 0;
-		  for(Node lot : lots) {
-
-				if (i == index)
-					 return lot;
-
-				++i;
-		  }
-
-		  return null;
-	 }
-	 */
-
-	 /**
-	  * Computes the position of a crossroad based on the lots
-	  * surrounding it.
-	  *
-	  * <p>This method does not modify the road network and the result
-	  * is only stored in the Crossroad object.</p>
-	  *
-	  * @param crossroad The crossroad to place.
-	  */
-	 public static void computeCrossroadPosition(Crossroad crossroad) {
-
-		  // Build for each surrounding lot a set containing the
-		  // positions of its vertex.
-
-		  ArrayList<Set<Point2D>> pointSets = new ArrayList<Set<Point2D>>();
-
-		  for(Node lot : crossroad.getLots()) {
-
-				Polygon cell = (Polygon)lot.getAttribute("polygon");
-
-				Coordinate[] vertices = cell.getCoordinates();
-
-				Set<Point2D> points = new HashSet<Point2D>();
-
-				for(int i = 0, l = vertices.length; i < l; ++i)
-					 points.add(new Point2D.Double(vertices[i].x, vertices[i].y));
-
-				pointSets.add(points);
-		  }
-
-		  // The position of the crossroad is the one shared with every
-		  // cell surrounding it.
-
-		  Set<Point2D> intersection = pointSets.get(0);
-		  for(Set<Point2D> points : pointSets)
-				intersection.retainAll(points);
-
-		  // Store the position in the crossroad.
-
-		  if(intersection.size() == 1) {
-
-				Point2D.Double position = (Point2D.Double)intersection.iterator().next();
-
-				crossroad.x = position.getX();
-				crossroad.y = position.getY();
-		  }
-		  else {
-				System.out.println("OOPS");
-				System.out.println(crossroad.getLots());
-		  }
 	 }
 
 	 /**
