@@ -59,10 +59,23 @@ public class RoadOps {
 	 public static Set<Crossroad> computeCrossroads(Graph lots) {
 
 		  List<List<Node>> cliques = new ArrayList<List<Node>>();
-		  for (List<Node> clique : Toolkit.getMaximalCliques(lots))
+		  for(List<Node> clique : Toolkit.getMaximalCliques(lots))
 				cliques.add(clique);
 
 		  Set<Crossroad> crossroads = new HashSet<Crossroad>();
+
+		  // SPECIAL CASE: a clique sharing no vertex.
+		  // To avoid that, we filter the cliques
+
+		  for(int i = 0; i < cliques.size(); ++i) {
+
+				List<Node> clique = cliques.get(i);
+
+				if(RoadOps.sharedVertices(clique).size() == 0) {
+					 cliques.remove(clique);
+					 --i;
+				}
+		  }
 
 		  for(List<Node> clique : cliques) {
 
@@ -77,6 +90,33 @@ public class RoadOps {
 		  return crossroads;
 	 }
 
+	 private static Set<Point2D> sharedVertices(List<Node> lots) {
+
+		  ArrayList<Set<Point2D>> sets = new ArrayList<Set<Point2D>>();
+
+		  for(Node lot : lots) {
+
+				Polygon cell = (Polygon)lot.getAttribute("polygon");
+
+				Coordinate[] vertices = cell.getCoordinates();
+
+				Set<Point2D> cellPoints = new HashSet<Point2D>();
+
+				for(int i = 0, l = vertices.length; i < l; ++i)
+					 cellPoints.add(new Point2D.Double(vertices[i].x, vertices[i].y));
+
+				sets.add(cellPoints);
+		  }
+
+		  // The position of the crossroad is the one shared with every
+		  // cell surrounding it.
+
+		  Set<Point2D> intersection = sets.get(0);
+		  for(Set<Point2D> cellPoints : sets)
+				intersection.retainAll(cellPoints);
+
+		  return intersection;
+	 }
 
 	 /**
 
@@ -158,14 +198,15 @@ public class RoadOps {
 	  * Computes the position of a crossroad based on the lots
 	  * surrounding it.
 	  *
-	  * <p>The result is stored in the Crossroad object.</p>
+	  * <p>This method does not modify the road network and the result
+	  * is only stored in the Crossroad object.</p>
 	  *
-	  * @param crossroad the crossroad to place
+	  * @param crossroad The crossroad to place.
 	  */
 	 public static void computeCrossroadPosition(Crossroad crossroad) {
 
-		  // Build for each lot a set containing the positions of its
-		  // vertex.
+		  // Build for each surrounding lot a set containing the
+		  // positions of its vertex.
 
 		  ArrayList<Set<Point2D>> pointSets = new ArrayList<Set<Point2D>>();
 
@@ -177,11 +218,8 @@ public class RoadOps {
 
 				Set<Point2D> points = new HashSet<Point2D>();
 
-				for(int i = 0, l = vertices.length; i < l; ++i) {
-
-					 Point2D vertex = new Point2D.Double(vertices[i].x, vertices[i].y);
-					 points.add(vertex);
-				}
+				for(int i = 0, l = vertices.length; i < l; ++i)
+					 points.add(new Point2D.Double(vertices[i].x, vertices[i].y));
 
 				pointSets.add(points);
 		  }
@@ -193,16 +231,18 @@ public class RoadOps {
 		  for(Set<Point2D> points : pointSets)
 				intersection.retainAll(points);
 
-		  // XXX: Sometimes prints an empty list... Must miss some
-		  // crossroads!
-		  //System.out.println(intersection);
-
 		  // Store the position in the crossroad.
-		  if(intersection.size() > 0) {
+
+		  if(intersection.size() == 1) {
 
 				Point2D.Double position = (Point2D.Double)intersection.iterator().next();
+
 				crossroad.x = position.getX();
 				crossroad.y = position.getY();
+		  }
+		  else {
+				System.out.println("OOPS");
+				System.out.println(crossroad.getLots());
 		  }
 	 }
 
@@ -262,7 +302,7 @@ public class RoadOps {
 	 public static void linkToNeighbors(Crossroad crossroad, Graph roads) {
 
 		  Set<Node> lots = crossroad.getLots();
-		  System.out.println(lots);
+
 		  Object[] lotsArray = lots.toArray();
 
 		  // For each pair of lots...
