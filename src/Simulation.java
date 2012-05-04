@@ -71,13 +71,12 @@ public class Simulation {
 		  this.view.setMouseManager(new MouseManager(this));
 
 		  this.camera = this.view.getCamera();
-
 	 }
 
 	 private void initialize() {
 
 		  // Compute n random coordinates.
-		  Coordinate[] coords = getRandomCoords(100, 500);
+		  Coordinate[] coords = getRandomCoords(10, 500);
 		  //Coordinate[] coords = ShapeFileLoader.getLandLots("data/world_borders/world_borders.shp");
 		  //Coordinate[] coords = ShapeFileLoader.getLandLots("data/IGN/PARCELLE.SHP");
 
@@ -91,35 +90,35 @@ public class Simulation {
 		  RoadOps.buildRoadsGraph(voronoi, this.roads, this.lots);
 	 }
 
-	 private FlowAlgorithm flowAlgo;
 	 public void run() {
 
 		  // Save a screenshot.
-		  this.lots.addAttribute("ui.screenshot", "../screenshot.png");
+		  //this.lots.addAttribute("ui.screenshot", "../screenshot.png");
 
-		  /*
-		  flowAlgo = new FordFulkersonAlgorithm();
+		  FlowAlgorithm flowAlgo = new FordFulkersonAlgorithm();
 
-		  Node a = Toolkit.randomNode(this.roads);
-		  Node b = Toolkit.randomNode(this.roads);
-		  flowAlgo.init(this.roads, a.getId(), b.getId());
+		  flowAlgo.setCapacityAttribute("capacity");
+
+		  Node source = Toolkit.randomNode(roads);
+		  Node sink = Toolkit.randomNode(roads);
+		  flowAlgo.init(this.roads, source.getId(), sink.getId());
 
 		  for(Edge road : this.roads.getEachEdge())
-				road.setAttribute("capacity", 0.2 + Math.random() * 0.8);
-		  flowAlgo.setCapacityAttribute("capacity");
+				road.setAttribute("capacity", (int)(Math.random() * 10000));
+
+		  System.out.println("CAPACITY ------------------");
+		  for(Edge road : this.roads.getEachEdge())
+				System.out.println(road.getAttribute("capacity"));
 
 		  flowAlgo.compute();
 
-		  for(Edge road : this.roads.getEachEdge()) {
-				double flow = flowAlgo.getFlow(road.getNode0(), road.getNode1());
-				//System.out.println(flow);
-				road.setAttribute("flow", flow);
-		  }
+		  System.out.println("FLOW ------------------");
+		  for(Edge road : this.roads.getEachEdge())
+				System.out.println(flowAlgo.getFlow(road.getNode0(), road.getNode1()));
 
-		  LinkedList<Node> p = new LinkedList<Node>();
-		  double l = findPath(p, a, b);
-		  System.out.println(p+" "+l);
-		  */
+		  for(Edge road : source.getEachEdge())
+				System.out.println(flowAlgo.getFlow(road.getNode0(), road.getNode1()));
+		  source.addAttribute("source");
 
 		  redraw();
 
@@ -134,52 +133,6 @@ public class Simulation {
 				redraw();
 				pause(1000);
 		  }
-	 }
-
-	 protected double findPath(LinkedList<Node> path, Node source, Node target) {
-		  System.out.println(source + " " + source.getDegree() + " -> " + target);
-		  path.addLast(source);
-
-		  if (source == target)
-				return Double.MAX_VALUE;
-
-		  double minCf;
-
-		  for (int i = 0; i < source.getDegree(); i++) {
-				Edge e = source.getEdge(i);
-				Node o = e.getOpposite(source);
-
-				if (flowAlgo.getCapacity(source, o) - flowAlgo.getFlow(source, o) > 0
-					 && !path.contains(o)) {
-					 if ((minCf = findPath(path, o, target)) > 0)
-						  return Math.min(minCf,
-												flowAlgo.getCapacity(source, o) - flowAlgo.getFlow(source, o));
-				}
-		  }
-
-		  path.removeLast();
-		  return 0;
-	 }
-	 /**
-	  * Generate `lotCount` geometrical coordinates with X and Y values
-	  * within [-`offset`, +`offset`].
-	  */
-	 private Coordinate[] getRandomCoords(int n, int offset) {
-
-		  Coordinate[] coords = new Coordinate[n];
-
-		  int offset2 = offset * 2;
-
-		  for(int i = 0; i < coords.length; ++i) {
-
-				// Choose a random position.
-				float x = (float)(Math.random() * offset2 - offset);
-				float y = (float)(Math.random() * offset2 - offset);
-
-				coords[i] = new Coordinate(x, y);
-		  }
-
-		  return coords;
 	 }
 
 	 /*************************
@@ -212,4 +165,27 @@ public class Simulation {
 				e.printStackTrace();
 		  }
 	 }
+
+	 /**
+	  * Generate `lotCount` geometrical coordinates with X and Y values
+	  * within [-`offset`, +`offset`].
+	  */
+	 private Coordinate[] getRandomCoords(int n, int offset) {
+
+		  Coordinate[] coords = new Coordinate[n];
+
+		  int offset2 = offset * 2;
+
+		  for(int i = 0; i < coords.length; ++i) {
+
+				// Choose a random position.
+				float x = (float)(Math.random() * offset2 - offset);
+				float y = (float)(Math.random() * offset2 - offset);
+
+				coords[i] = new Coordinate(x, y);
+		  }
+
+		  return coords;
+	 }
+
 }

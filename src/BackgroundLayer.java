@@ -87,7 +87,13 @@ public class BackgroundLayer implements LayerRenderer {
 				double x = (Double)n.getAttribute("x");
 				double y = (Double)n.getAttribute("y");
 
-				g.fillOval((int)x - 5, (int)y - 5, 10, 10);
+				if(n.hasAttribute("source")) {
+					 g.setColor(Color.GREEN);
+					 g.fillOval((int)x - 5, (int)y - 5, 10, 10);
+					 g.setColor(Color.BLUE);
+				}
+				else
+					 g.fillOval((int)x - 5, (int)y - 5, 10, 10);
 		  }
 
 		  // Restore the transformation matrix.

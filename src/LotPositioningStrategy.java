@@ -17,7 +17,7 @@ public class LotPositioningStrategy extends AbstractStrategy {
 				// Change the node size accordingly.
 				int min = 3, max = 20;
 				int nodeSize = (int)(min + size * (max - min));
-				lot.setAttribute("ui.style", "size: " + nodeSize + "px;");
+				//lot.setAttribute("ui.style", "size: " + nodeSize + "px;");
 		  }
 	 }
 
