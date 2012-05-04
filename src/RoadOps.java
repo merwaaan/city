@@ -50,17 +50,28 @@ public class RoadOps {
 		  Set<Crossroad> crossroads = RoadOps.computeCrossroads(lots);
 
 		  // Add a node representing each crossroad to the road network.
-		  for(Crossroad c : crossroads)
-				RoadOps.placeCrossroad(c, roads);
+		  for(Crossroad cross : crossroads)
+				RoadOps.placeCrossroad(cross, roads);
 
 		  // Add edges (roads) between nodes (crossroads).
-		  for(Node l : lots)
-				RoadOps.placeRoadsAroundLot(l, roads);
+		  for(Node lot : lots)
+				RoadOps.placeRoadsAroundLot(lot, roads);
 
 		  // Remove phony crossroads at the edge of the city.
-		  for(Node c : roads)
-				if(c.getDegree() == 0)
-					 roads.removeNode(c);
+		  for(int i = 0; i < roads.getNodeCount(); ++i) {
+				Node cross = roads.getNode(i);
+				if(cross.getDegree() == 0) {
+					 roads.removeNode(cross);
+					 --i;
+				}
+		  }
+
+		  for(Node cross : roads)
+				if(cross.getDegree() == 0)
+					 roads.removeNode(cross);
+
+		  for(Node n : roads)
+				System.out.println(n.getDegree());
 	 }
 
 	 /**
