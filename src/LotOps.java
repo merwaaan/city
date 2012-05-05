@@ -49,19 +49,23 @@ public class LotOps {
 	  * positions of the seeds of each land lot.
 	  * @param voronoi The Voronoi diagram based on the land lots
 	  * seeds.
-	  *
 	  * @param sim The simulation.
 	  */
-	 public static void buildLotsGraph(List<Coordinate> coords, Geometry voronoi, Simulation sim) {
+	 public static void buildLotsGraph(Geometry voronoi, Simulation sim) {
 
-		 for(Coordinate coord : coords) {
+		 for(Coordinate coord : sim.lotCoords) {
 
-				Node lot = LotOps.placeLot(coord.x, coord.y, sim.lots);
+			 // Add a node representing the current lot to the land
+			 // lot graph.
+			 Node lot = LotOps.placeLot(coord.x, coord.y, sim);
 
-				LotOps.bindLotToPolygon(lot, voronoi);
+			 // Attach the Voronoi cell to the lot as a node
+			 // attribute.
+			 LotOps.bindLotToPolygon(lot, voronoi);
 		  }
 
-		  //  edges between neighbors.
+		  // Draw edges representing neighborhood relationships
+		  // between adjacent lots.
 		  for(Node lot : sim.lots)
 				LotOps.linkToNeighbors(lot, sim);
 	 }
@@ -69,14 +73,15 @@ public class LotOps {
 	 /**
 	  * Adds and positions a new node to the "lots" graph.
 	  *
-	  * @param x The position of the lot seed on the x-axis.
-	  * @param y The position of the lot seed on the y-axis.
+	  * @param x The position of the lot on the x-axis.
+	  * @param y The position of the lot on the y-axis.
+	  * @param sim The simulation.
 	  *
 	  * @return The newly added node.
 	  */
-	 public static Node placeLot(double x, double y, Graph g) {
+	 public static Node placeLot(double x, double y, Simulation sim) {
 
-		  Node lot = g.addNode("lot_" + g.getNodeCount());
+		  Node lot = sim.lots.addNode("lot_" + sim.lots.getNodeCount());
 
 		  lot.setAttribute("x", x);
 		  lot.setAttribute("y", y);
@@ -88,35 +93,15 @@ public class LotOps {
 	  * Gives the coordinates of a lot.
 	  *
 	  * @param lot The lot which position is queried.
-	  * @param g The graph containing the aforementioned lot.
 	  *
 	  * @return A Coordinate representing the position of the lot seed.
 	  */
-	 public static Coordinate getLotCoordinates(Node lot, Graph g) {
+	 public static Coordinate getLotCoordinates(Node lot) {
 
 		  double x = (Double)lot.getAttribute("x");
 		  double y = (Double)lot.getAttribute("y");
 
 		  return new Coordinate(x, y);
-	 }
-
-	 /**
-	  * Gives the coordinates of every lots.
-	  *
-	  * @param g The graph containing the lots.
-	  *
-	  * @return An array of Coordinate containing the position of the
-	  * lots seeds.
-	  */
-	 public static Coordinate[] getLotsCoordinates(Graph g) {
-
-		  Coordinate[] coords = new Coordinate[g.getNodeCount()];
-
-		  int index = 0;
-		  for(Node lot : g)
-				coords[index++] = LotOps.getLotCoordinates(lot, g);
-
-		  return coords;
 	 }
 
 	 /**
@@ -266,52 +251,6 @@ public class LotOps {
 				if(!cell.intersects(neighborCell))
 					 sim.lots.removeEdge(link);
 		  }
-	 }
-
-	 public static boolean isLotNeighborWith(Node lot, Node neighbor) {
-
-		  return lot.hasEdgeBetween(neighbor);
-	 }
-
-	 public static boolean isLotNeighborWith(Node lot, List<Node> neighbors) {
-
-		  for(Node neighbor : neighbors)
-				if(!lot.hasEdgeBetween(neighbor))
-					 return false;
-
-		  return true;
-	 }
-
-	 public static Coordinate[] getCellCoordinates(Node lot) {
-
-		  Polygon cell = (Polygon)lot.getAttribute("polygon");
-
-		  return cell.getCoordinates();
-	 }
-
-	 public static List<Point2D> getCellPoints2D(Node lot) {
-
-		  Coordinate[] coords = LotOps.getCellCoordinates(lot);
-
-		  List<Point2D> points = new ArrayList<Point2D>();
-
-		  for(int i = 0, l = coords.length; i < l; ++i)
-				points.add(new Point2D.Double(coords[i].x, coords[i].y));
-
-		  return points;
-	 }
-
-	 public static boolean hasVertex(Node lot, Coordinate coord) {
-
-		  Polygon cell = (Polygon)lot.getAttribute("polygon");
-
-		  Coordinate[] coords = cell.getCoordinates();
-
-		  for(int i = 0, l = coords.length; i < l; ++i)
-				if(coord.equals(coords[i]))
-					 return true;
-
-		  return false;
 	 }
 
 	public static boolean collectionContainsPolygon(GeometryCollection collection, Polygon polygon) {

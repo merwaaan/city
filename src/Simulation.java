@@ -87,7 +87,7 @@ public class Simulation {
 		  // computed coordinates.
 		  Geometry voronoi = LotOps.voronoiDiagram(this.lotCoords);
 
-		  LotOps.buildLotsGraph(this.lotCoords, voronoi, this);
+		  LotOps.buildLotsGraph(voronoi, this);
 
 		  RoadOps.buildRoadsGraph(voronoi, this.roads, this.lots);
 	 }

@@ -41,7 +41,7 @@ public class CityOps {
 
 		  // Add the new lot to the land lots graph at the appropriate
 		  // position.
-		  Node newLot = LotOps.placeLot(coord.x, coord.y, sim.lots);
+		  Node newLot = LotOps.placeLot(coord.x, coord.y, sim);
 
 		  // Add the new lot coordinate to the simulation list.
 		  sim.lotCoords.add(coord);
