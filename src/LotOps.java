@@ -1,8 +1,11 @@
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Geometry;
+import com.vividsolutions.jts.geom.GeometryCollection;
 import com.vividsolutions.jts.geom.GeometryFactory;
+import com.vividsolutions.jts.geom.MultiPoint;
 import com.vividsolutions.jts.geom.Point;
 import com.vividsolutions.jts.geom.Polygon;
+import com.vividsolutions.jts.triangulate.VoronoiDiagramBuilder;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -15,29 +18,52 @@ import org.graphstream.graph.Node;
 public class LotOps {
 
 	 /**
+	  * Builds a Voronoi diagram describing the city structure.
+	  *
+	  * @param coords An array of Coordinate containing the position of
+	  * each land lot.
+	  */
+	 public static Geometry voronoiDiagram(List<Coordinate> coords) {
+
+		 Coordinate[] coordsArray = new Coordinate[coords.size()];
+		 int i = 0;
+		 for(Coordinate coord : coords)
+			 coordsArray[i++] = coord;
+
+		 MultiPoint points = (new GeometryFactory()).createMultiPoint(coordsArray);
+
+		  VoronoiDiagramBuilder voronoiBuilder = new VoronoiDiagramBuilder();
+		  voronoiBuilder.setSites(points);
+
+		  Geometry voronoi = voronoiBuilder.getDiagram(new GeometryFactory());
+
+		  return voronoi;
+	 }
+
+	 /**
 	  * Populates the "lots" graph. This method should only be called
 	  * during the initialization phase of the simulation as new lots
 	  * are later inserted dynamically.
 	  *
-	  * @param coords An array of Coordinate corresponding to the
+	  * @param coords A list of Coordinate corresponding to the
 	  * positions of the seeds of each land lot.
 	  * @param voronoi The Voronoi diagram based on the land lots
 	  * seeds.
 	  *
-	  * @param g The graph to be populated.
+	  * @param sim The simulation.
 	  */
-	 public static void buildLotsGraph( Coordinate[] coords, Geometry voronoi, Graph g) {
+	 public static void buildLotsGraph(List<Coordinate> coords, Geometry voronoi, Simulation sim) {
 
-		  for(int i = 0, l = coords.length; i < l; ++i) {
+		 for(Coordinate coord : coords) {
 
-				Node lot = LotOps.placeLot(coords[i].x, coords[i].y, g);
+				Node lot = LotOps.placeLot(coord.x, coord.y, sim.lots);
 
-				bindLotToPolygon(lot, voronoi);
+				LotOps.bindLotToPolygon(lot, voronoi);
 		  }
 
 		  //  edges between neighbors.
-		  for(Node lot : g)
-				LotOps.linkToNeighbors(lot, g);
+		  for(Node lot : sim.lots)
+				LotOps.linkToNeighbors(lot, sim);
 	 }
 
 	 /**
@@ -119,6 +145,25 @@ public class LotOps {
 		  return null;
 	 }
 
+	 public static Polygon getLotCell(Node lot, Geometry voronoi) {
+
+		 double x = (Double)lot.getAttribute("x");
+		 double y = (Double)lot.getAttribute("y");
+
+		 Point seed = (new GeometryFactory()).createPoint(new Coordinate(x, y));
+
+		 for(int i = 0, l = voronoi.getNumGeometries(); i < l; ++i) {
+
+			 Polygon cell = (Polygon)voronoi.getGeometryN(i);
+
+			 if(seed.within(cell))
+				 return cell;
+		 }
+
+		 return null;
+	 }
+
+
 	 /**
 	  * Associate a lot with its corresponding Voronoi cell. The cell
 	  * is then recorded in the Node as an attribute.
@@ -170,55 +215,18 @@ public class LotOps {
 	 }
 
 	 /**
-	  * Clips every lots cells to the general shape of the city. This
-	  * method is used to get rid of the large cells occupying the
-	  * exterior edges of the Voronoi diagram.
-	  *
-	  * @param g The graph containing lots to be clipped.
-	  */
-	 public static void clipLotsToCity(Graph g) {
-
-		  Polygon cityHull = CityOps.getCityHull(g);
-
-		  for(Node lot : g)
-				LotOps.clipLotToCity(lot, cityHull, g);
-	 }
-
-	 /**
-	  * Clips a unique lot cell to the general shape of the city.
-	  *
-	  * @param lot The lot to be clipped.
-	  * @param cityHull A Polygon representing the general shape of the
-	  * city. The final cell will be the intersection between th city
-	  * hull and the lot cell.
-	  * @param g The graph containing every lots.
-	  */
-	 public static void clipLotToCity(Node lot, Polygon cityHull, Graph g) {
-
-		  Polygon cell = (Polygon)lot.getAttribute("polygon");
-
-		  if(cityHull == null)
-				cityHull = CityOps.getCityHull(g);
-
-		  Polygon newCell = (Polygon)cell.intersection(cityHull);
-
-		  lot.setAttribute("polygon", newCell);
-	 }
-
-	 /**
 	  * Adds edges between a lot and the adjacent ones. Two lots are
 	  * considered neighbors if their cells are touching (i.e. if they
 	  * share a Voronoi edge).
 	  *
 	  * @param lot The lot to be linked with its neighbors.
-	  * @param g The graph containing the lot and the possible
-	  * neighbors.
+	  * @param sim The simulation.
 	  */
-	 public static void linkToNeighbors(Node lot, Graph g) {
+	 public static void linkToNeighbors(Node lot, Simulation sim) {
 
 		  Polygon polygon = (Polygon)lot.getAttribute("polygon");
 
-		  for(Node otherLot : g) {
+		  for(Node otherLot : sim.lots) {
 
 				if(lot == otherLot || lot.hasEdgeBetween(otherLot))
 					 continue;
@@ -226,37 +234,37 @@ public class LotOps {
 				Polygon otherPolygon = (Polygon)otherLot.getAttribute("polygon");
 
 				if(polygon.intersects(otherPolygon))
-					 g.addEdge("road_" + lot.getId() + "_" + otherLot.getId(), lot, otherLot);
+					 sim.lots.addEdge("road_" + lot.getId() + "_" + otherLot.getId(), lot, otherLot);
 		  }
 	 }
 
 	 /**
 	  * Removes edges between lots that are no longer adjacent.
 	  *
-	  * This method is typically called when the topology of the "lots"
-	  * graph could have been compromised by an update (e.g. a lot
-	  * insertion).
+	  * This method is typically called when the topology of the land
+	  * lots graph could have been compromised by an update (e.g. a
+	  * lot insertion).
 	  *
 	  * @param lot The lot to be updated.
-	  * @param g The graph containing the lot and its neighbors.
+	  * @param sim The simulation.
 	  */
-	 public static void unlinkFromInvalidNeighbors(Node lot, Graph g) {
+	 public static void unlinkFromInvalidNeighbors(Node lot, Simulation sim) {
 
-		  Polygon polygon = (Polygon)lot.getAttribute("polygon");
+		  Polygon cell = (Polygon)lot.getAttribute("polygon");
 
-		  for(Edge e : lot.getEachEdge()) {
+		  for(Edge link : lot.getEachEdge()) {
 
 				// XXX: check for the edge validity as getEachEdge()
 				// sometimes passes a null edge. Weird.
-				if(e == null)
+				if(link == null)
 					 continue;
 
-				Node neighbor = e.getOpposite(lot);
+				Node neighbor = link.getOpposite(lot);
 
-				Polygon neighborPolygon = (Polygon)neighbor.getAttribute("polygon");
+				Polygon neighborCell = (Polygon)neighbor.getAttribute("polygon");
 
-				if(!polygon.intersects(neighborPolygon))
-					 g.removeEdge(e);
+				if(!cell.intersects(neighborCell))
+					 sim.lots.removeEdge(link);
 		  }
 	 }
 
@@ -305,4 +313,14 @@ public class LotOps {
 
 		  return false;
 	 }
+
+	public static boolean collectionContainsPolygon(GeometryCollection collection, Polygon polygon) {
+
+		for(int i = 0, l = collection.getNumGeometries(); i < l; ++i)
+			if(collection.getGeometryN(i).equals(polygon))
+				return true;
+
+		return false;
+	}
+
 }

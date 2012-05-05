@@ -7,8 +7,8 @@ public class Test {
 	 public static void main(String[] args) {
 
 		  new Simulation().run();
-		  if(true) return;
 
+		  /*
 		  Graph g = new SingleGraph("test");
 
 		  Node n0 = g.addNode("0");
@@ -64,6 +64,7 @@ public class Test {
 				Node nn2 = road.getNode1();
 				System.out.println(flowAlgo.getFlow(nn1, nn2));
 		  }
+		  */
 	 }
 
 }

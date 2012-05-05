@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Random;
 import java.util.LinkedList;
 
@@ -25,6 +26,8 @@ public class Simulation {
 	  * represent the neighborhood relationships between adjacent lots.
 	  */
 	 public Graph lots;
+
+	public List<Coordinate> lotCoords;
 
 	 /**
 	  * The "roads" graph containing every constructible routes based
@@ -76,17 +79,16 @@ public class Simulation {
 	 private void initialize() {
 
 		  // Compute n random coordinates.
-		  Coordinate[] coords = getRandomCoords(10, 500);
+		  this.lotCoords = getRandomCoords(50, 500);
 		  //Coordinate[] coords = ShapeFileLoader.getLandLots("data/world_borders/world_borders.shp");
 		  //Coordinate[] coords = ShapeFileLoader.getLandLots("data/IGN/PARCELLE.SHP");
 
 		  // Build a Voronoi diagram for which seeds are the previously
 		  // computed coordinates.
-		  Geometry voronoi = CityOps.voronoiDiagram(coords, true);
+		  Geometry voronoi = LotOps.voronoiDiagram(this.lotCoords);
 
-		  // Build the "lots" and "roads" graphs using the coordinates
-		  // and the Voronoi Diagram.
-		  LotOps.buildLotsGraph(coords, voronoi, this.lots);
+		  LotOps.buildLotsGraph(this.lotCoords, voronoi, this);
+
 		  RoadOps.buildRoadsGraph(voronoi, this.roads, this.lots);
 	 }
 
@@ -95,6 +97,7 @@ public class Simulation {
 		  // Save a screenshot.
 		  //this.lots.addAttribute("ui.screenshot", "../screenshot.png");
 
+		 /*
 		  FlowAlgorithm flowAlgo = new FordFulkersonAlgorithm();
 
 		  flowAlgo.setCapacityAttribute("capacity");
@@ -119,6 +122,7 @@ public class Simulation {
 		  for(Edge road : source.getEachEdge())
 				System.out.println(flowAlgo.getFlow(road.getNode0(), road.getNode1()));
 		  source.addAttribute("source");
+		 */
 
 		  redraw();
 
@@ -170,19 +174,19 @@ public class Simulation {
 	  * Generate `lotCount` geometrical coordinates with X and Y values
 	  * within [-`offset`, +`offset`].
 	  */
-	 private Coordinate[] getRandomCoords(int n, int offset) {
+	 private List<Coordinate> getRandomCoords(int n, int offset) {
 
-		  Coordinate[] coords = new Coordinate[n];
+		 List<Coordinate> coords = new ArrayList<Coordinate>();
 
 		  int offset2 = offset * 2;
 
-		  for(int i = 0; i < coords.length; ++i) {
+		  for(int i = 0; i < n; ++i) {
 
 				// Choose a random position.
 				float x = (float)(Math.random() * offset2 - offset);
 				float y = (float)(Math.random() * offset2 - offset);
 
-				coords[i] = new Coordinate(x, y);
+				coords.add(new Coordinate(x, y));
 		  }
 
 		  return coords;
