@@ -11,6 +11,7 @@ import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CityOps {
 
@@ -53,24 +54,29 @@ public class CityOps {
 		  // Compute a new Voronoi diagram.
 		  GeometryCollection newVoronoi = (GeometryCollection)LotOps.voronoiDiagram(sim.lotCoords);
 
+		  // Instanciate a list of lots modified by the new lot
+		  // insertion. Only these lots will have their neighborhoods
+		  // updated.
+		  List<Node> changedLots = new ArrayList<Node>();
+
 		  // Bind each changed lot with its new polygon.
 		  for(Node lot : sim.lots) {
 
 			  Polygon cell = (Polygon)lot.getAttribute("polygon");
 
 			  if(cell == null || !LotOps.collectionContainsPolygon(newVoronoi, cell)) {
+
 				  cell = LotOps.getLotCell(lot, newVoronoi);
 				  lot.setAttribute("polygon", cell);
+
+				  changedLots.add(lot);
 			  }
 		  }
 
-		  //for(Node lot : sim.lots)
-		  //	  System.out.println("a  "+lot.getAttribute("polygon"));
-
-		  // Update neighborhood relationships.
-		  for(Node lot : sim.lots)
+		  // Update the neighborhoods of the updated lots.
+		  for(Node lot : changedLots)
 				LotOps.unlinkFromInvalidNeighbors(lot, sim);
-		  for(Node lot : sim.lots)
+		  for(Node lot : changedLots)
 			  LotOps.linkToNeighbors(lot, sim);
 	 }
 
