@@ -74,10 +74,17 @@ public class CityOps {
 		  }
 
 		  // Update the neighborhoods of the updated lots.
+
 		  for(Node lot : changedLots)
 				LotOps.unlinkFromInvalidNeighbors(lot, sim);
+
 		  for(Node lot : changedLots)
 			  LotOps.linkToNeighbors(lot, sim);
+
+		  // Update the roads surrounding the updated lots.
+
+
+
 	 }
 
 }

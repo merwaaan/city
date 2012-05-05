@@ -89,7 +89,7 @@ public class Simulation {
 
 		  LotOps.buildLotsGraph(voronoi, this);
 
-		  RoadOps.buildRoadsGraph(voronoi, this.roads, this.lots);
+		  RoadOps.buildRoadsGraph(voronoi, this);
 	 }
 
 	 public void run() {
