@@ -36,7 +36,7 @@ public class CityOps {
 		  // Find the existing cell within which the new lot will be
 		  // built.
 
-		  Node oldLot = LotOps.getLotAt(x, y, sim.lots);
+		  Node oldLot = LotOps.getLotAt(x, y, sim);
 
 		  if(oldLot == null) {
 				System.err.println("Tried to add a new lot beyond the borders");

@@ -88,6 +88,8 @@ public class LotOps {
 		  lot.setAttribute("x", x);
 		  lot.setAttribute("y", y);
 
+		  lot.setAttribute("label", lot.getId());
+
 		  //
 
 		  lot.setAttribute("pivots", new HashSet<CrossroadPivot>());
@@ -128,21 +130,21 @@ public class LotOps {
 	 }
 
 	 /**
-	  * Gives the lot associated with the cell at the given position.
+	  * Gives the lot at the given position.
 	  *
 	  * @param x The x-axis coordinate of the queried position.
 	  * @param y The y-axis coordinate of the queried position.
-	  * @param g The graph containing the lots.
+	  * @param sim The simulation.
 	  *
 	  * @return The Node representing the corresponding lot or null if
 	  * it does not exist.
 	  */
-	 public static Node getLotAt(double x, double y, Graph g) {
+	 public static Node getLotAt(double x, double y, Simulation sim) {
 
 		  Coordinate coord = new Coordinate(x, y);
 		  Point seed = (new GeometryFactory()).createPoint(coord);
 
-		  for(Node lot : g) {
+		  for(Node lot : sim.lots) {
 
 				Polygon cell = (Polygon)lot.getAttribute("polygon");
 

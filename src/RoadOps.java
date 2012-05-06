@@ -121,21 +121,11 @@ public class RoadOps {
 
 							// Update the mapping.
 
-							//System.out.println(lot+" "+neighbor);
-							//System.out.println(lotCrossroad+" "+neighborCrossroad);
-							//System.out.println(lotCrossroad.getAttribute("x")+" "+lotCrossroad.getAttribute("y"));
-
-							sim.pivots.remove(neighborCrossroad);
-
-							//System.out.println("1 "+sim.pivots.get(lotCrossroad));
 							sim.pivots.get(lotCrossroad).lots.add(neighbor);
 
 							neighborPivots.remove(sim.pivots.get(neighborCrossroad));
 
-							//System.out.println("2 "+sim.pivots.get(lotCrossroad));
-							//neighborPivots.add(sim.pivots.get(lotCrossroad));
-
-							//System.out.println();
+							neighborPivots.add(sim.pivots.get(lotCrossroad));
 						}
 					}
 				}
