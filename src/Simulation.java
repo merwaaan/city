@@ -1,7 +1,10 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 import java.util.LinkedList;
 
 import javax.swing.JFrame;
@@ -36,6 +39,8 @@ public class Simulation {
 	  */
 	 public Graph roads;
 
+	public Map<Node, CrossroadPivot> pivots;
+
 	 /**
 	  * Strategies are processes that are applied to the city at each
 	  * iteration of the simulation. They are rules describing its
@@ -52,12 +57,24 @@ public class Simulation {
 
 	 public Simulation() {
 
+		 // Land lots.
+
 		  this.lots = new SingleGraph("land lots");
 		  this.lots.addAttribute("ui.stylesheet", lotsStyle);
 
+		  this.lotCoords = null;
+
+		  // Roads.
+
 		  this.roads = new SingleGraph("road network");
 
+		  this.pivots = new HashMap<Node, CrossroadPivot>();
+
+		  // Strategies.
+
 		  this.strategies = new ArrayList<AbstractStrategy>();
+
+		  // Misc.
 
 		  this.geomFact = new GeometryFactory();
 
@@ -78,10 +95,10 @@ public class Simulation {
 
 	 private void initialize() {
 
-		  // Compute n random coordinates.
-		  this.lotCoords = getRandomCoords(50, 500);
-		  //Coordinate[] coords = ShapeFileLoader.getLandLots("data/world_borders/world_borders.shp");
-		  //Coordinate[] coords = ShapeFileLoader.getLandLots("data/IGN/PARCELLE.SHP");
+		 // Compute n random coordinates.
+		 this.lotCoords = getRandomCoords(100, 500);
+		 //this.lotCoords = ShapeFileLoader.getLandLots("data/world_borders/world_borders.shp");
+		 //this.lotCoords = ShapeFileLoader.getLandLots("data/IGN/PARCELLE.SHP");
 
 		  // Build a Voronoi diagram for which seeds are the previously
 		  // computed coordinates.
@@ -95,7 +112,7 @@ public class Simulation {
 	 public void run() {
 
 		  // Save a screenshot.
-		  //this.lots.addAttribute("ui.screenshot", "../screenshot.png");
+		  this.lots.addAttribute("ui.screenshot", "../screenshot.png");
 
 		 /*
 		  FlowAlgorithm flowAlgo = new FordFulkersonAlgorithm();
@@ -191,5 +208,16 @@ public class Simulation {
 
 		  return coords;
 	 }
+
+	public String getNextId(Graph g) {
+
+		if(g.getNodeCount() == 0)
+			return "0";
+
+		Node last = g.getNode(g.getNodeCount() - 1);
+		int lastId = lastId = Integer.parseInt(last.getId());
+
+		return (lastId + 1) + "";
+	}
 
 }

@@ -6,6 +6,7 @@ import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.geotools.data.DataStore;
@@ -20,7 +21,7 @@ import org.opengis.geometry.Geometry;
 
 final class ShapeFileLoader {
 
-	 public static Coordinate[] getLandLots(String fileName) {
+	 public static List<Coordinate> getLandLots(String fileName) {
 
 		  ArrayList<Point> points = new ArrayList<Point>();
 
@@ -59,9 +60,9 @@ final class ShapeFileLoader {
 		  }
 
 		  // From ArrayList of Point to array of Coordinate.
-		  Coordinate[] coords = new Coordinate[points.size()];
+		  List<Coordinate> coords = new ArrayList<Coordinate>();
 		  for(int i = 0, l = points.size(); i < l; ++i)
-				coords[i] = points.get(i).getCoordinate();
+			  coords.add(points.get(i).getCoordinate());
 
 		  return coords;
 	 }
