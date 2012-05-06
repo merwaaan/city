@@ -96,7 +96,7 @@ public class Simulation {
 	 private void initialize() {
 
 		 // Compute n random coordinates.
-		 this.lotCoords = getRandomCoords(100, 500);
+		 this.lotCoords = getRandomCoords(100, 2000);
 		 //this.lotCoords = ShapeFileLoader.getLandLots("data/world_borders/world_borders.shp");
 		 //this.lotCoords = ShapeFileLoader.getLandLots("data/IGN/PARCELLE.SHP");
 

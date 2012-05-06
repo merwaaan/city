@@ -88,8 +88,6 @@ public class LotOps {
 		  lot.setAttribute("x", x);
 		  lot.setAttribute("y", y);
 
-		  lot.setAttribute("label", lot.getId());
-
 		  //
 
 		  lot.setAttribute("pivots", new HashSet<CrossroadPivot>());
