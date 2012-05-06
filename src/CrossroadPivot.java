@@ -14,51 +14,31 @@ import org.graphstream.graph.Node;
  * road network representing a crossroad and the nodes of the land
  * lots graph surrounding it.</p>
  */
-public class Crossroad {
+public class CrossroadPivot {
 
-	 private Set<Node> lots;
-
-	 public double x;
-	 public double y;
+	public Set<Node> lots;
 
 	 public Node node;
 
-	 public Crossroad() {
+	 public CrossroadPivot() {
 
 		  this.lots = new HashSet<Node>();
 	 }
 
-	 public void addLot(Node lot) {
-
-		  this.lots.add(lot);
-	 }
-
-	 public Set<Node> getLots() {
-
-		  return this.lots;
-	 }
-
-	 public boolean containsLot(Node lot) {
-
-		  return this.lots.contains(lot);
-	 }
-
-	 public int size() {
-
-		  return this.lots.size();
-	 }
-
 	 public boolean equals(Object o) {
 
-		  if(o instanceof Crossroad) {
+		  if(o instanceof CrossroadPivot) {
 
-				Crossroad c = (Crossroad)o;
+				CrossroadPivot c = (CrossroadPivot)o;
 
-				if(this.size() != c.size())
+				if(!this.node.equals(c.node))
+					return false;
+
+				if(this.lots.size() != c.lots.size())
 					 return false;
 
 				for(Node lot : this.lots)
-					 if(!c.containsLot(lot))
+					 if(!c.lots.contains(lot))
 						  return false;
 		  }
 
@@ -72,7 +52,7 @@ public class Crossroad {
 
 	 public String toString() {
 
-		  StringBuilder sb = new StringBuilder("[ ");
+		  StringBuilder sb = new StringBuilder("[ (" + this.node + ") ");
 
 		  for(Node lot : this.lots) {
 				sb.append(lot.getId());

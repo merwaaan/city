@@ -7,11 +7,14 @@ import com.vividsolutions.jts.geom.Point;
 import com.vividsolutions.jts.geom.Polygon;
 
 import org.graphstream.graph.Edge;
-import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class CityOps {
 
@@ -42,14 +45,14 @@ public class CityOps {
 
 		  // Add the new lot to the land lots graph at the appropriate
 		  // position.
-		  Node newLot = LotOps.placeLot(coord.x, coord.y, sim);
+		  Node newLot = LotOps.addLot(coord.x, coord.y, sim);
 
 		  // Add the new lot coordinate to the simulation list.
 		  sim.lotCoords.add(coord);
 
 		  // XXX: For debugging purposes.
-		  oldLot.setAttribute("ui.style", "fill-color: orange;");
-		  newLot.setAttribute("ui.style", "fill-color: green;");
+		  //oldLot.setAttribute("ui.style", "fill-color: orange;");
+		  //newLot.setAttribute("ui.style", "fill-color: green;");
 
 		  // Compute a new Voronoi diagram.
 		  GeometryCollection newVoronoi = (GeometryCollection)LotOps.voronoiDiagram(sim.lotCoords);
@@ -81,10 +84,31 @@ public class CityOps {
 		  for(Node lot : changedLots)
 			  LotOps.linkToNeighbors(lot, sim);
 
-		  // Update the roads surrounding the updated lots.
+		  // Remove the road network nodes associated with and only
+		  // with the updated lots.
 
+		  Set<Node> changedCrossroads = new HashSet<Node>();
+		  for(Node lot : changedLots)
+			  for(CrossroadPivot pivot : (Set<CrossroadPivot>)lot.getAttribute("pivots")) {
 
+				  Node crossroad = pivot.node;
 
+				  if(RoadOps.crossroadOnlySharedBy(crossroad, changedLots, sim))
+					  changedCrossroads.add(crossroad);
+			  }
+
+		  for(Node crossroad : new HashSet<Node>(changedCrossroads))
+			  RoadOps.removeCrossroad(crossroad, sim);
+
+		  // Recompute the sub-networks of these lots.
+
+		  for(Node lot : changedLots)
+			  RoadOps.buildRoadsAroundLot(lot, sim);
+
+		  // Merge with the road network.
+
+		  for(Node lot : changedLots)
+			  RoadOps.mergeLotRoadsWithNeighbors(lot, sim);
 	 }
 
 }

@@ -82,13 +82,13 @@ public class BackgroundLayer implements LayerRenderer {
 				g.drawLine((int)aX, (int)aY, (int)bX, (int)bY);
 		  }
 
-		  for(Node n : this.sim.roads) {
+		  for(Node crossroad : this.sim.roads) {
 
-				double x = (Double)n.getAttribute("x");
-				double y = (Double)n.getAttribute("y");
+				double x = (Double)crossroad.getAttribute("x");
+				double y = (Double)crossroad.getAttribute("y");
 
-				if(n.hasAttribute("source")) {
-					 g.setColor(Color.GREEN);
+				if(crossroad.hasAttribute("c")) {
+					 g.setColor(Color.YELLOW);
 					 g.fillOval((int)x - 5, (int)y - 5, 10, 10);
 					 g.setColor(Color.BLUE);
 				}

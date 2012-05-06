@@ -9,7 +9,9 @@ import com.vividsolutions.jts.triangulate.VoronoiDiagramBuilder;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.graphstream.graph.Edge;
 import org.graphstream.graph.Graph;
@@ -57,7 +59,7 @@ public class LotOps {
 
 			 // Add a node representing the current lot to the land
 			 // lot graph.
-			 Node lot = LotOps.placeLot(coord.x, coord.y, sim);
+			 Node lot = LotOps.addLot(coord.x, coord.y, sim);
 
 			 // Attach the Voronoi cell to the lot as a node
 			 // attribute.
@@ -71,7 +73,7 @@ public class LotOps {
 	 }
 
 	 /**
-	  * Adds and positions a new node to the "lots" graph.
+	  * Adds a new node to the land lots graph.
 	  *
 	  * @param x The position of the lot on the x-axis.
 	  * @param y The position of the lot on the y-axis.
@@ -79,15 +81,36 @@ public class LotOps {
 	  *
 	  * @return The newly added node.
 	  */
-	 public static Node placeLot(double x, double y, Simulation sim) {
+	 public static Node addLot(double x, double y, Simulation sim) {
 
 		  Node lot = sim.lots.addNode("lot_" + sim.lots.getNodeCount());
 
 		  lot.setAttribute("x", x);
 		  lot.setAttribute("y", y);
 
+		  //
+
+		  lot.setAttribute("pivots", new HashSet<CrossroadPivot>());
+
 		  return lot;
 	 }
+
+	 /**
+	  * Removes a node from the land lots graph.
+	  *
+	  * @param lot The node to be deleted.
+	  * @param sim The simulation.
+	  */
+	public static void removeLot(Node lot, Simulation sim) {
+
+		sim.roads.removeNode(lot);
+
+		//
+
+		Set<CrossroadPivot> pivots = (Set<CrossroadPivot>)lot.getAttribute("pivots");
+		for(CrossroadPivot pivot : pivots)
+			pivot.lots.remove(pivot);
+	}
 
 	 /**
 	  * Gives the coordinates of a lot.

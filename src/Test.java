@@ -4,11 +4,12 @@ import org.graphstream.algorithm.flow.FlowAlgorithm;
 import org.graphstream.algorithm.flow.FordFulkersonAlgorithm;
 
 public class Test {
+
 	 public static void main(String[] args) {
 
-		  new Simulation().run();
+		 new Simulation().run();
 
-		  /*
+		 /*
 		  Graph g = new SingleGraph("test");
 
 		  Node n0 = g.addNode("0");

@@ -15,6 +15,7 @@ public class MouseManager extends DefaultMouseManager {
 		  this.sim = sim;
 	 }
 
+	int s = 1;
 	 public void mouseClicked(MouseEvent event) {
 
 		  int xPx = event.getX();
@@ -27,5 +28,8 @@ public class MouseManager extends DefaultMouseManager {
 		  double[] coordsGu = this.sim.px2gu(xPxCentered, yPxCentered);
 
 		  CityOps.insertLot(coordsGu[0], coordsGu[1], this.sim);
+
+		  // Save a screenshot.
+		  this.sim.lots.addAttribute("ui.screenshot", "../screenshot" + s++ + ".png");
 	 }
 }
