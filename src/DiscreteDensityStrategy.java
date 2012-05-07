@@ -7,13 +7,34 @@ import org.graphstream.graph.*;
 
 public class DiscreteDensityStrategy extends AbstractStrategy {
 
-	 private List<Density> cachedDensityTypes;
+	 public static Density[] cachedDensityTypes = {
+		  Density.EMPTY,
+		  Density.LOW,
+		  Density.HIGH
+	 };
 
-	 private double[][] weights = {
-		  {0.99, 0.1, 0.05, 0.01},
-		  {0.01, 0.99, 0.01, 0.01},
-		  {0.01, 0.05, 0.99, 0.01},
-		  {0.01, 0, 0, 0.99}
+	 private double[][][] weights = {
+
+		  // from EMPTY
+		  {
+				{1, -1, -1}, // to EMPTY
+				{1, 1, -1}, // to LOW
+				{1, 0, 1} // to HIGH
+		  },
+
+		  // from LOW
+		  {
+				{0, -1, 1}, // to EMPTY
+				{0, 1, -1}, // to LOW
+				{-1, -1, -1} // to HIGH
+		  },
+
+		  // from HIGH
+		  {
+				{1, 1, -1}, // to EMPTY
+				{1, 1, -1}, // to LOW
+				{0, -1, 1} // to HIGH
+		  }
 	 };
 
 	 public DiscreteDensityStrategy(Simulation sim) {
@@ -21,28 +42,14 @@ public class DiscreteDensityStrategy extends AbstractStrategy {
 	 }
 
 	 /**
-	  * Caches the different types of density for faster access.
-	  */
-	 private void cacheDensityTypes() {
-
-		  this.cachedDensityTypes = new ArrayList<Density>();
-
-		  for(Density d : Density.values())
-				this.cachedDensityTypes.add(d);
-	 }
-
-	 /**
 	  * Gives a random type of density.
 	  */
 	 private Density randomDensity() {
 
-		  return this.cachedDensityTypes.get((int)(Math.random() * this.cachedDensityTypes.size()));
+		  return this.cachedDensityTypes[(int)(Math.random() * this.cachedDensityTypes.length)];
 	 }
 
 	 void prepare() {
-
-		  if(this.cachedDensityTypes == null)
-				cacheDensityTypes();
 
 		  // Give a "density" attribute to each lot.
 		  for(Node lot : this.sim.lots)
@@ -59,7 +66,7 @@ public class DiscreteDensityStrategy extends AbstractStrategy {
 				for(Density density : this.cachedDensityTypes)
 					 potentials.put(density, potential(lot, density));
 
-				Density next = roulette(potentials);
+				Density next = roulette(lot, potentials);
 
 				lot.setAttribute("nextDensity", next);
 		  }
@@ -67,24 +74,36 @@ public class DiscreteDensityStrategy extends AbstractStrategy {
 		  // Switch states.
 		  for(Node lot : this.sim.lots)
 				lot.setAttribute("density", lot.getAttribute("nextDensity"));
-
-
 	 }
 
 	 private int[] getNeighborDensities(List<Node> neighbors) {
 
 		  // Count the density types of the neighbors.
 
-		  int[] densities = new int[4];
+		  int[] densities = new int[this.cachedDensityTypes.length];
 
 		  for(Node neighbor : neighbors) {
 
 				Density density = (Density)neighbor.getAttribute("density");
 
-				++densities[this.cachedDensityTypes.indexOf(density)];
+				++densities[densityIndex(density)];
 		  }
 
 		  return densities;
+	 }
+
+	 private int densityIndex(Density density) {
+
+		  switch(density) {
+		  case EMPTY:
+				return 0;
+		  case LOW:
+				return 1;
+		  case HIGH:
+				return 2;
+		  }
+
+		  return -1;
 	 }
 
 	 private double potential(Node lot, Density targetDensity) {
@@ -98,11 +117,13 @@ public class DiscreteDensityStrategy extends AbstractStrategy {
 		  // Get the density of the current lot.
 		  Density lotDensity = (Density)lot.getAttribute("density");
 
+		  double[][] weights = this.weights[densityIndex(lotDensity)];
+
 		  double potential = 0;
 
 		  // Weight.
-		  for(int i = 0, l = this.cachedDensityTypes.size(); i < l; ++i)
-				potential += densities[i] * this.weights[this.cachedDensityTypes.indexOf(lotDensity)][i];
+		  for(int i = 0, l = this.cachedDensityTypes.length; i < l; ++i)
+				potential += densities[i] * weights[densityIndex(targetDensity)][i];
 
 		  // Normalize.
 		  potential /= neighbors.size();
@@ -110,35 +131,36 @@ public class DiscreteDensityStrategy extends AbstractStrategy {
 		  return potential;
 	 }
 
-	 private Density roulette(Map<Density, Double> potentials) {
+	 private Density roulette(Node lot, Map<Density, Double> potentials) {
 
 		  // Build a roulette wheel.
-		  double[] wheel = {
-				potentials.get(Density.EMPTY),
-				potentials.get(Density.LOW),
-				potentials.get(Density.MEDIUM),
-				potentials.get(Density.HIGH),
-		  };
+		  List<Double> wheel = new ArrayList<Double>();
+		  List<Density> types = new ArrayList<Density>();
+		  for(int i = 0, l = this.cachedDensityTypes.length; i < l; ++i)
+				if(potentials.get(this.cachedDensityTypes[i]) > 0) {
+					 wheel.add(potentials.get(this.cachedDensityTypes[i]));
+					 types.add(this.cachedDensityTypes[i]);
+				}
 
 		  // Sum up potentials.
 		  double total = 0;
-		  for(int i = 0, l = wheel.length; i < l; ++i)
-				total += wheel[i];
+		  for(Double potential : wheel)
+				total += potential;
 
 		  // Pick a random value.
 		  double x = Math.random() * total;
 
 		  // Return the associated density.
 		  double acc = 0;
-		  for(int i = 0, l = wheel.length; i < l; ++i) {
+		  for(int i = 0, l = wheel.size(); i < l; ++i) {
 
-				acc += wheel[i];
+				acc += wheel.get(i);
 
 				if(x <= acc)
-					 return this.cachedDensityTypes.get(i);
+					 return types.get(i);
 		  }
 
-		  return Density.HIGH;
+		  return (Density)lot.getAttribute("density");
 	 }
 
 }

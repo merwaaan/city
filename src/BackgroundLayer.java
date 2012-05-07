@@ -69,9 +69,6 @@ public class BackgroundLayer implements LayerRenderer {
 						  case LOW:
 								g.setColor(new Color(255, 0, 0, 100));
 								break;
-						  case MEDIUM:
-								g.setColor(new Color(255, 0, 0, 150));
-								break;
 						  case HIGH:
 								g.setColor(new Color(255, 0, 0, 200));
 								break;

@@ -95,10 +95,10 @@ public class Simulation {
 
 	 private void initialize() {
 
-		 // Compute n random coordinates.
-		 this.lotCoords = getRandomCoords(100, 500);
-		 //this.lotCoords = ShapeFileLoader.getLandLots("data/world_borders/world_borders.shp");
-		 //this.lotCoords = ShapeFileLoader.getLandLots("data/IGN/PARCELLE.SHP");
+		  // Compute n random coordinates.
+		  this.lotCoords = getRandomCoords(1000, 500);
+		  //this.lotCoords = ShapeFileLoader.getLandLots("data/world_borders/world_borders.shp");
+		  //this.lotCoords = ShapeFileLoader.getLandLots("data/IGN/PARCELLE.SHP");
 
 		  // Build a Voronoi diagram for which seeds are the previously
 		  // computed coordinates.
