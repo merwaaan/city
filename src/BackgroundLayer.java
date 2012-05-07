@@ -51,11 +51,32 @@ public class BackgroundLayer implements LayerRenderer {
 
 					 // Color the cell according to density if the
 					 // corresponding attribute is present.
-					 Double densityD = (Double)lot.getAttribute("density");
-					 if(densityD != null) {
-						  double density = densityD.doubleValue();
-						  int alpha = (int)(density * 255);
-						  g.setColor(new Color(255, 0, 0, alpha));
+					 Object density = lot.getAttribute("density");
+
+					 if(density != null && density instanceof Double) {
+
+						  double d = ((Double)density).doubleValue();
+						  int r = (int)(d * 255);
+						  g.setColor(new Color(r, 0, 0));
+						  g.fill(path);
+					 }
+					 else if(density != null && density instanceof Density) {
+						  //System.out.println(density);
+						  switch((Density)density) {
+						  case EMPTY:
+								g.setColor(Color.WHITE);
+								break;
+						  case LOW:
+								g.setColor(new Color(255, 0, 0, 100));
+								break;
+						  case MEDIUM:
+								g.setColor(new Color(255, 0, 0, 150));
+								break;
+						  case HIGH:
+								g.setColor(new Color(255, 0, 0, 200));
+								break;
+						  }
+
 						  g.fill(path);
 					 }
 

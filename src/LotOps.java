@@ -276,13 +276,23 @@ public class LotOps {
 		  }
 	 }
 
-	public static boolean collectionContainsPolygon(GeometryCollection collection, Polygon polygon) {
+	 public static boolean collectionContainsPolygon(GeometryCollection collection, Polygon polygon) {
 
-		for(int i = 0, l = collection.getNumGeometries(); i < l; ++i)
-			if(collection.getGeometryN(i).equals(polygon))
-				return true;
+		  for(int i = 0, l = collection.getNumGeometries(); i < l; ++i)
+				if(collection.getGeometryN(i).equals(polygon))
+					 return true;
 
-		return false;
-	}
+		  return false;
+	 }
+
+	 public static List<Node> getNeighbors(Node lot) {
+
+		  List<Node> neighbors = new ArrayList<Node>();
+
+		  for(Edge link : lot.getEachEdge())
+				neighbors.add(link.getOpposite(lot));
+
+		  return neighbors;
+	 }
 
 }

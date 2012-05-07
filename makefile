@@ -25,6 +25,8 @@ FILES=\
 	BackgroundLayer \
 	CityOps \
 	CrossroadPivot \
+	Density \
+	DiscreteDensityStrategy \
 	LotOps \
 	LotPositioningStrategy \
 	MouseManager \
