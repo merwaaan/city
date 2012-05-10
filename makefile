@@ -31,6 +31,7 @@ FILES=\
 	LotPositioningStrategy \
 	MouseManager \
 	RandomDensityStrategy \
+	RoadDevelopmentStrategy \
 	RoadOps \
 	ShapeFileLoader \
 	Simulation \
