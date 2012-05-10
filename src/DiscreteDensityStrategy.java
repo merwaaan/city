@@ -3,7 +3,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.graphstream.graph.*;
+import org.graphstream.graph.Node;
+import org.graphstream.stream.SinkAdapter;
 
 public class DiscreteDensityStrategy extends AbstractStrategy {
 
@@ -37,8 +38,29 @@ public class DiscreteDensityStrategy extends AbstractStrategy {
 		  }
 	 };
 
+	 class DiscreteDensitySink extends SinkAdapter {
+
+		  Simulation sim;
+		  DiscreteDensityStrategy strategy;
+
+		  DiscreteDensitySink(Simulation sim, DiscreteDensityStrategy strategy) {
+
+				this.sim = sim;
+				this.strategy = strategy;
+		  }
+
+		  public void nodeAdded(String graphId, long time, String nodeId) {
+
+				Node lot = this.sim.lots.getNode(nodeId);
+
+				prepareLot(lot);
+		  }
+	 }
+
 	 public DiscreteDensityStrategy(Simulation sim) {
 		  super(sim);
+
+		  this.sim.lots.addElementSink(new DiscreteDensitySink(this.sim, this));
 	 }
 
 	 /**
@@ -53,7 +75,12 @@ public class DiscreteDensityStrategy extends AbstractStrategy {
 
 		  // Give a "density" attribute to each lot.
 		  for(Node lot : this.sim.lots)
-				lot.setAttribute("density", randomDensity());
+				prepareLot(lot);
+	 }
+
+	 private void prepareLot(Node lot) {
+
+		  lot.setAttribute("density", randomDensity());
 	 }
 
 	 public void update() {
