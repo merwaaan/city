@@ -57,9 +57,32 @@ public class RoadDevelopmentStrategy extends AbstractStrategy {
 					 crossroad.setAttribute("supply", demand);
 				}
 
-		  // Scale demand values to avoid infeasibility.
+		  // Scale values to avoid infeasibility.
 
-		  System.out.println(totalSupply+" "+totalDemand+" ");
+		  double ratio = -(double)totalDemand / totalSupply;
+
+		  Node last = null;
+
+		  totalSupply = 0;
+		  for(Node crossroad : this.sim.roads)
+				if(RoadOps.isCrossroadBuilt(crossroad)) {
+
+					 int supply = (Integer)crossroad.getAttribute("supply");
+
+					 int scaledSupply = (int)(supply * ratio);
+
+					 crossroad.setAttribute("supply", scaledSupply);
+
+					 totalSupply += scaledSupply;
+
+					 last = crossroad;
+				}
+
+		  //
+
+		  int supply = (Integer)last.getAttribute("supply");
+		  supply += (-totalDemand) - totalSupply;
+		  last.setAttribute("supply", supply);
 
 		  /*double part = (double)disconnected.size() / connected.size();
 
