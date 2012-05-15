@@ -65,10 +65,10 @@ public class RoadOps {
 
 		  // Add the edges linking the crossroads.
 
-		  for(int i = 0, l = crossroads.size(); i < l; ++i) {
+		  for(int i = 0, l = crossroads.size() - 1; i < l; ++i) {
 
 				Node a = crossroads.get(i);
-				Node b = crossroads.get((i + 1) % l);
+				Node b = crossroads.get(i + 1);
 
 				sim.roads.addEdge(a+"_"+b, a, b);
 		  }
