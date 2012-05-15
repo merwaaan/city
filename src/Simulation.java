@@ -11,8 +11,6 @@ import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
 
 import org.graphstream.algorithm.Toolkit;
-import org.graphstream.algorithm.flow.FlowAlgorithm;
-import org.graphstream.algorithm.flow.FordFulkersonAlgorithm;
 import org.graphstream.graph.*;
 import org.graphstream.graph.implementations.SingleGraph;
 import org.graphstream.ui.geom.Vector2;
@@ -96,7 +94,7 @@ public class Simulation {
 	 private void initialize() {
 
 		  // Compute n random coordinates.
-		  this.lotCoords = getRandomCoords(1000, 500);
+		  this.lotCoords = getRandomCoords(300, 500);
 		  //this.lotCoords = ShapeFileLoader.getLandLots("data/world_borders/world_borders.shp");
 		  //this.lotCoords = ShapeFileLoader.getLandLots("data/IGN/PARCELLE.SHP");
 
@@ -114,36 +112,9 @@ public class Simulation {
 		  // Save a screenshot.
 		  this.lots.addAttribute("ui.screenshot", "../screenshot.png");
 
-		 /*
-		  FlowAlgorithm flowAlgo = new FordFulkersonAlgorithm();
-
-		  flowAlgo.setCapacityAttribute("capacity");
-
-		  Node source = Toolkit.randomNode(roads);
-		  Node sink = Toolkit.randomNode(roads);
-		  flowAlgo.init(this.roads, source.getId(), sink.getId());
-
-		  for(Edge road : this.roads.getEachEdge())
-				road.setAttribute("capacity", (int)(Math.random() * 10000));
-
-		  System.out.println("CAPACITY ------------------");
-		  for(Edge road : this.roads.getEachEdge())
-				System.out.println(road.getAttribute("capacity"));
-
-		  flowAlgo.compute();
-
-		  System.out.println("FLOW ------------------");
-		  for(Edge road : this.roads.getEachEdge())
-				System.out.println(flowAlgo.getFlow(road.getNode0(), road.getNode1()));
-
-		  for(Edge road : source.getEachEdge())
-				System.out.println(flowAlgo.getFlow(road.getNode0(), road.getNode1()));
-		  source.addAttribute("source");
-		 */
-
-		  redraw();
-
+		  //
 		  this.strategies.add(new DiscreteDensityStrategy(this));
+		  this.strategies.add(new RoadDevelopmentStrategy(this));
 
 		  for(int i = 0; i < 100; ++i) {
 

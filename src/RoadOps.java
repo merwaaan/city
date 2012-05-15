@@ -19,16 +19,16 @@ import org.graphstream.graph.Node;
 
 public class RoadOps {
 
-	/**
-	 * Populates the graph representing the road network.
-	 *
-	 * @param voronoi The voronoi diagram of the city.
-	 * @param sim The simulation.
-	 */
+	 /**
+	  * Populates the graph representing the road network.
+	  *
+	  * @param voronoi The voronoi diagram of the city.
+	  * @param sim The simulation.
+	  */
 	 public static void buildRoadsGraph(Geometry voronoi, Simulation sim) {
 
-		 // Build individual sub-network of roads and crossroads for
-		 // each lot.
+		  // Build individual sub-network of roads and crossroads for
+		  // each lot.
 		  for(Node lot : sim.lots)
 				RoadOps.buildRoadsAroundLot(lot, sim);
 
@@ -37,16 +37,16 @@ public class RoadOps {
 				RoadOps.mergeLotRoadsWithNeighbors(lot, sim);
 	 }
 
-	/**
-	 * Builds a sub-network of crossroads and roads surrounding a single lot.
-	 *
-	 * <p>The sub-network is composed of crossroads placed at the
-	 * position of the vertices of the Voronoi cell and of roads
-	 * linking them.</p>
-	 *
-	 * @param lot The land lot.
-	 * @param sim The simulation.
-	 */
+	 /**
+	  * Builds a sub-network of crossroads and roads surrounding a single lot.
+	  *
+	  * <p>The sub-network is composed of crossroads placed at the
+	  * position of the vertices of the Voronoi cell and of roads
+	  * linking them.</p>
+	  *
+	  * @param lot The land lot.
+	  * @param sim The simulation.
+	  */
 	 public static void buildRoadsAroundLot(Node lot, Simulation sim) {
 
 		  Polygon cell = (Polygon)lot.getAttribute("polygon");
@@ -58,9 +58,9 @@ public class RoadOps {
 
 		  for(int i = 0, l = vertices.length; i < l; ++i) {
 
-			  Node crossroad = RoadOps.addCrossroad(vertices[i].x, vertices[i].y, sim);
+				Node crossroad = RoadOps.addCrossroad(vertices[i].x, vertices[i].y, sim);
 
-			  crossroads.add(crossroad);
+				crossroads.add(crossroad);
 		  }
 
 		  // Add the edges linking the crossroads.
@@ -76,25 +76,25 @@ public class RoadOps {
 		  // Update mapping.
 
 		  for(Node crossroad : crossroads)
-			  sim.pivots.get(crossroad).lots.add(lot);
+				sim.pivots.get(crossroad).lots.add(lot);
 
 		  Set<CrossroadPivot> pivots = new HashSet<CrossroadPivot>();
 		  for(Node crossroad : crossroads)
-			  pivots.add(sim.pivots.get(crossroad));
+				pivots.add(sim.pivots.get(crossroad));
 		  lot.setAttribute("pivots", pivots);
 	 }
 
-	/**
-	 * Merges the sub-network of roads of a lot with those of the
-	 * neighboring lots.
-	 *
-	 * @param lot The current lot.
-	 * @param sim The simulation.
-	 */
+	 /**
+	  * Merges the sub-network of roads of a lot with those of the
+	  * neighboring lots.
+	  *
+	  * @param lot The current lot.
+	  * @param sim The simulation.
+	  */
 	 public static void mergeLotRoadsWithNeighbors(Node lot, Simulation sim) {
 
-		 // Get the crossroads surrounding the current lot.
-		 Set<CrossroadPivot> lotPivots = (Set<CrossroadPivot>)lot.getAttribute("pivots");
+		  // Get the crossroads surrounding the current lot.
+		  Set<CrossroadPivot> lotPivots = (Set<CrossroadPivot>)lot.getAttribute("pivots");
 
 		  // Merge the sub-network of the lot with those of the
 		  // neighboring lots.
@@ -108,26 +108,26 @@ public class RoadOps {
 
 				for(CrossroadPivot lotPivot : lotPivots) {
 
-					for(CrossroadPivot neighborPivot : new HashSet<CrossroadPivot>(neighborPivots)) {
+					 for(CrossroadPivot neighborPivot : new HashSet<CrossroadPivot>(neighborPivots)) {
 
-						Node lotCrossroad = lotPivot.node;
-						Node neighborCrossroad = neighborPivot.node;
+						  Node lotCrossroad = lotPivot.node;
+						  Node neighborCrossroad = neighborPivot.node;
 
-						if(lotCrossroad.getAttribute("x").equals(neighborCrossroad.getAttribute("x")) &&
-						   lotCrossroad.getAttribute("y").equals(neighborCrossroad.getAttribute("y"))) {
+						  if(lotCrossroad.getAttribute("x").equals(neighborCrossroad.getAttribute("x")) &&
+							  lotCrossroad.getAttribute("y").equals(neighborCrossroad.getAttribute("y"))) {
 
-							// Merge the two crossroads.
-							RoadOps.mergeCrossroads(lotCrossroad, lot, neighborCrossroad, neighbor, sim);
+								// Merge the two crossroads.
+								RoadOps.mergeCrossroads(lotCrossroad, lot, neighborCrossroad, neighbor, sim);
 
-							// Update the mapping.
+								// Update the mapping.
 
-							sim.pivots.get(lotCrossroad).lots.add(neighbor);
+								sim.pivots.get(lotCrossroad).lots.add(neighbor);
 
-							neighborPivots.remove(sim.pivots.get(neighborCrossroad));
+								neighborPivots.remove(sim.pivots.get(neighborCrossroad));
 
-							neighborPivots.add(sim.pivots.get(lotCrossroad));
-						}
-					}
+								neighborPivots.add(sim.pivots.get(lotCrossroad));
+						  }
+					 }
 				}
 		  }
 
@@ -135,28 +135,28 @@ public class RoadOps {
 		  // merging as they were doublets.
 		  for(int i = 0; i < sim.roads.getNodeCount(); ++i)
 				if(sim.roads.getNode(i).getDegree() == 0) {
-					RoadOps.removeCrossroad(sim.roads.getNode(i), sim);
+					 RoadOps.removeCrossroad(sim.roads.getNode(i), sim);
 					 --i;
 				}
 	 }
 
-	/**
-	 * Merges two nodes belonging to two different sub-networks but
-	 * representing the same crossroad.
-	 *
-	 * <p>The crossroad of the second lot to be merged will be
-	 * disconnected from the graph and all of its neighbors will be
-	 * linked with the crossroad of the first lot.</p>
-	 *
-	 * @param crossA The first crossroad.
-	 * @param lotA The lot associated with the first crossroad.
-	 * @param crossB The second crossroad.
-	 * @param lotB The lot associated with the second crossroad.
-	 * @param sim The Simulation.
-	 */
+	 /**
+	  * Merges two nodes belonging to two different sub-networks but
+	  * representing the same crossroad.
+	  *
+	  * <p>The crossroad of the second lot to be merged will be
+	  * disconnected from the graph and all of its neighbors will be
+	  * linked with the crossroad of the first lot.</p>
+	  *
+	  * @param crossA The first crossroad.
+	  * @param lotA The lot associated with the first crossroad.
+	  * @param crossB The second crossroad.
+	  * @param lotB The lot associated with the second crossroad.
+	  * @param sim The Simulation.
+	  */
 	 private static void mergeCrossroads(Node crossA, Node lotA, Node crossB, Node lotB, Simulation sim) {
 
-		 // Build a list containing B neighbors.
+		  // Build a list containing B neighbors.
 		  List<Node> crossBNeighbors = new ArrayList<Node>();
 		  for(Edge e : crossB.getEachEdge())
 				crossBNeighbors.add(e.getOpposite(crossB));
@@ -171,18 +171,18 @@ public class RoadOps {
 		  }
 	 }
 
-	public static boolean crossroadOnlySharedBy(Node crossroad, List<Node> changedLots, Simulation sim) {
+	 public static boolean crossroadOnlySharedBy(Node crossroad, List<Node> changedLots, Simulation sim) {
 
-		CrossroadPivot pivot = (CrossroadPivot)crossroad.getAttribute("pivot");
+		  CrossroadPivot pivot = (CrossroadPivot)crossroad.getAttribute("pivot");
 
-		Set<Node> associatedLots = pivot.lots;
+		  Set<Node> associatedLots = pivot.lots;
 
-		for(Node lot : associatedLots)
-			if(!changedLots.contains(lot))
-				return false;
+		  for(Node lot : associatedLots)
+				if(!changedLots.contains(lot))
+					 return false;
 
-		return true;
-	}
+		  return true;
+	 }
 
 	 /**
 	  * Adds a new crossroad to the road graph.
@@ -195,7 +195,7 @@ public class RoadOps {
 	  */
 	 public static Node addCrossroad(double x, double y, Simulation sim) {
 
-		 Node crossroad = sim.roads.addNode(""+Math.random());
+		  Node crossroad = sim.roads.addNode(""+Math.random());
 
 		  crossroad.setAttribute("x", x);
 		  crossroad.setAttribute("y", y);
@@ -223,25 +223,46 @@ public class RoadOps {
 	  * @param crossroad The crossroad to be deleted.
 	  * @param sim The simulation.
 	  */
-	public static void removeCrossroad(Node crossroad, Simulation sim) {
+	 public static void removeCrossroad(Node crossroad, Simulation sim) {
 
-		// Remove the node from the graph.
+		  // Remove the node from the graph.
 
-		sim.roads.removeNode(crossroad);
+		  sim.roads.removeNode(crossroad);
 
-		// Remove the pivot from the simulation.
+		  // Remove the pivot from the simulation.
 
-		sim.pivots.remove(crossroad);
+		  sim.pivots.remove(crossroad);
 
-		// Remove the pivot from lots who have it referenced.
+		  // Remove the pivot from lots who have it referenced.
 
-		CrossroadPivot pivot = (CrossroadPivot)crossroad.getAttribute("pivot");
+		  CrossroadPivot pivot = (CrossroadPivot)crossroad.getAttribute("pivot");
 
-		for(Node lot : sim.lots) {
+		  for(Node lot : sim.lots) {
 
-			Set<CrossroadPivot> pivots = (Set<CrossroadPivot>)lot.getAttribute("pivots");
+				Set<CrossroadPivot> pivots = (Set<CrossroadPivot>)lot.getAttribute("pivots");
 
-			pivots.remove(pivot);
-		}
-	}
+				pivots.remove(pivot);
+		  }
+	 }
+
+	 public static void buildRoad(Edge road) {
+
+		  // Build the road.
+		  road.addAttribute("built");
+
+		  // Build the crossroads at each end of the road.
+		  road.getNode0().addAttribute("built");
+		  road.getNode1().addAttribute("built");
+	 }
+
+	 public static boolean isRoadBuilt(Edge road) {
+
+		  return road.hasAttribute("built");
+	 }
+
+	 public static boolean isCrossroadBuilt(Node crossroad) {
+
+		  return crossroad.hasAttribute("built");
+	 }
+
 }

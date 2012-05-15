@@ -84,7 +84,6 @@ public class BackgroundLayer implements LayerRenderer {
 
 		  // Draw the road network.
 
-		  g.setColor(Color.BLUE);
 		  g.setStroke(new BasicStroke(4));
 
 		  for(Edge road : this.sim.roads.getEachEdge()) {
@@ -97,6 +96,11 @@ public class BackgroundLayer implements LayerRenderer {
 				double bX = (Double)b.getAttribute("x");
 				double bY = (Double)b.getAttribute("y");
 
+				if(road.hasAttribute("built"))
+					 g.setColor(Color.GREEN);
+				else
+					 g.setColor(Color.BLUE);
+
 				g.drawLine((int)aX, (int)aY, (int)bX, (int)bY);
 		  }
 
@@ -105,13 +109,12 @@ public class BackgroundLayer implements LayerRenderer {
 				double x = (Double)crossroad.getAttribute("x");
 				double y = (Double)crossroad.getAttribute("y");
 
-				if(crossroad.hasAttribute("c")) {
-					 g.setColor(Color.YELLOW);
-					 g.fillOval((int)x - 5, (int)y - 5, 10, 10);
-					 g.setColor(Color.BLUE);
-				}
+				if(crossroad.hasAttribute("built"))
+					 g.setColor(Color.GREEN);
 				else
-					 g.fillOval((int)x - 5, (int)y - 5, 10, 10);
+					 g.setColor(Color.BLUE);
+
+				g.fillOval((int)x - 5, (int)y - 5, 10, 10);
 		  }
 
 		  // Restore the transformation matrix.
