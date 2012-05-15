@@ -25,22 +25,41 @@ public class RoadDevelopmentStrategy extends AbstractStrategy {
 
 	 public void update() {
 
-		  for(Node crossroad : this.sim.roads) {
+		  // Crossroads of already built road segments have a positive
+		  // supply which is function of the density of the surrounding
+		  // lots.
 
-				// Crossroads of already built road segments have a positive
-				// supply which is function of the density of the surrounding
-				// lots.
-				if(RoadOps.isCrossroadBuilt(crossroad))
-					 crossroad.setAttribute("supply", crossroadSupply(crossroad));
+		  int totalSupply = 0;
 
-				// Crossroads that are not part of an already built road
-				// segment have a negative supply (a demand) which is function
-				// of the density of the surrounding lots.
-				else
-					 crossroad.setAttribute("supply", -crossroadSupply(crossroad));
-		  }
+		  for(Node crossroad : this.sim.roads)
+				if(RoadOps.isCrossroadBuilt(crossroad)) {
 
-		  // TODO scale values to avoid infeasibility
+					 int supply = crossroadSupply(crossroad);
+
+					 totalSupply += supply;
+
+					 crossroad.setAttribute("supply", supply);
+				}
+
+		  // Crossroads that are not part of an already built road
+		  // segment have a negative supply (a demand) which is function
+		  // of the density of the surrounding lots.
+
+		  int totalDemand = 0;
+
+		  for(Node crossroad : this.sim.roads)
+				if(!RoadOps.isCrossroadBuilt(crossroad)) {
+
+					 int demand = -crossroadSupply(crossroad);
+
+					 totalDemand += demand;
+
+					 crossroad.setAttribute("supply", demand);
+				}
+
+		  // Scale demand values to avoid infeasibility.
+
+		  System.out.println(totalSupply+" "+totalDemand+" ");
 
 		  /*double part = (double)disconnected.size() / connected.size();
 
@@ -60,7 +79,7 @@ public class RoadDevelopmentStrategy extends AbstractStrategy {
 		  System.out.println(simplex.getSolutionStatus());
 
 		  // Build the a best road.
-		  RoadOps.buildRoad(roulette(simplex));
+		  RoadOps.buildRoad(best(simplex));
 	 }
 
 	 private int crossroadSupply(Node crossroad) {
@@ -73,6 +92,20 @@ public class RoadDevelopmentStrategy extends AbstractStrategy {
 				supply += ((Density)lot.getAttribute("density")).index() * 1000;
 
 		  return supply;
+	 }
+
+	 private Edge best(NetworkSimplex simplex) {
+
+		  Edge bestRoad = null;
+		  int maxFlow = 0;
+
+		  for(Edge road : this.sim.roads.getEachEdge())
+				if(simplex.getFlow(road) > maxFlow) {
+					 bestRoad = road;
+					 maxFlow = simplex.getFlow(road);
+				}
+
+		  return bestRoad;
 	 }
 
 	 private Edge roulette(NetworkSimplex simplex) {
