@@ -100,7 +100,7 @@ Une idée très exploitée dans ce domaine est d'associer un potentiel de
 transition à chaque cellule et ce, vers tous les états qu'elles
 peuvent prendre. Dans les modèles déterministes, la transition vers
 l'état à plus haut potentiel est appliquée tandis que dans les modèles
-stochastiques, un tirage aléatoire biaisée est préféré. Le potentiel
+stochastiques, un tirage aléatoire biaisé est préféré. Le potentiel
 d'une cellule à passer à un nouvel état est déterminé en fonction de
 paramètres propres à la simulation. Peuvent être pris en compte
 l'élévation du terrain, la densité de population, la proximité d'axes
@@ -115,7 +115,7 @@ chaque variable peut être pondéré. Puisque les variations
 individuelles de paramètres n'émergent pas de manière transparente à
 la surface de la simulation, les modèles urbains basés sur des
 automates cellulaires doivent être finement calibrés et leur réalisme
-est un défi en soi. Pour contourner ce problème, Yeh et Li prône
+est un défi en soi. Pour contourner ce problème, Yeh et Li prônent
 l'usage d'un réseau de neurones pour pondérer chaque paramètre à
 partir de l'analyse de données cartographiques historiques
 \cite{Yeh2002}.
@@ -179,6 +179,20 @@ simulation urbaine, premièrement parce qu'une ville est un système
 complexe et désordonné, deuxièmement parce les processus qui s'y
 déroulent sont réglés sur différentes échelles temporelles.
 
+Bien que les automates cellulaires soient couramment utilisés pour
+simuler le traffic routier (dans leur version 1D CITATION ou 2D
+\cite{Queloz1996}), ils s'accordent peu avec la construction même d'un
+réseau viaire. Dans les simulations cellulaires urbaines, le
+positionnement des routes a un impact sur le développement des
+cellules puisque le viaire attire le bâti mais le réseau est souvent
+fourni en entrée et reste fixe. Nous sommes amener à nous interroger
+sur la capacité des automates cellulaires à modéliser le développement
+routier. Les relations de proximité les caractérisant sont-elles
+adaptées à la construction de structures dont l'échelle est celle de
+la ville et non plus celle de la parcelle ? Est-il bénéfique de
+représenter une route par un ensemble de cellules ou plutôt par une
+entité unique ?
+
 Les automates cellulaires ne sont pas l'unique moyen de modéliser la
 croissance urbaine. Plusieurs simulations existantes sont des systèmes
 multi-agent \cite{Lechnera,Lechner2004}. Dans ces cas, un agent est
@@ -187,6 +201,15 @@ vendre, les développer ou changer leur type. Les actions qu'il
 entreprent sont évaluées en fonction de l'impact sur la ville
 (changement de la valeur immobilière, avis de la population) et des
 réglementations locales afin d'éviter toute configuration illégale.
+En dehors de la sphère des automates cellulaires, quelques techniques
+procédurales de génération de routes ont été décrites plus haut. Dans
+les modèles à base d'agents, une solution est de mettre en place, en
+plus des agents promoteurs, deux types d'agents traceurs. Les
+\textit{extenders} parcourent toute la surface du terrain à la
+recherche de bâtiments isolés puis tracent une route jusqu'au réseau
+urbain. Les \textit{connectors} se déplacent uniquement sur le réseau
+viaire et y raccordent les bâtiments non connectés se trouvant dans
+leur rayon de détection \cite{Lechnera}. PLUS?
 
 D'autres solutions s'éloignant des systèmes complexes et penchant du
 côté de la génération procédurale de contenu existent. Souvent, le
@@ -202,53 +225,29 @@ réseau routier existant en faisant varier leur déviation angulaire et
 un paramètre de bruit; la route finale est celle pour laquelle la
 variation d'altitude est la plus faible. CityEngine \cite{Parish2001}
 utilise un L-System dont les règles permettent de reproduire les
-différents motifs quadrillés, radiaux et organiques que l'on trouve
+différents motifs quadrillés, radiaux et organiques que l'on retrouve
 dans une ville. La nature récursive des L-Systems permet à ces motifs
 de se combiner et d'apparaître à différents niveaux de profondeur; les
-résultats sont saisissants. Dans une autre simulation \cite{Chen2008},
-le tracé des routes suit les \textit{hyperstreamlines} formées par un
-champ de vecteurs. Ce champ est calculé par combinaison de plusieurs
-autres champs de vecteurs, chacun représentant des contraintes
-directionnelles particulières telles que les zones interdites (eau,
-espaces verts), l'altitude et la densité de population. Ces techniques
-sont intrinsèquement géométriques, et comme précisé plus haut, le
-résultat est purement visuel, mais elles représentent une source
-d'inspiration à ne pas négliger.
+résultats sont saisissants. Dans une autre simulation, le tracé des
+routes suit les \textit{hyperstreamlines} \cite{Chen2008} formées par
+un champ de vecteurs. Ce champ est calculé par combinaison de
+plusieurs autres champs de vecteurs, chacun représentant des
+contraintes directionnelles particulières telles que les zones
+interdites (eau, espaces verts), l'altitude et la densité de
+population. Ces techniques sont intrinsèquement géométriques, et comme
+précisé plus haut, le résultat est purement visuel, mais elles
+représentent une source d'inspiration à ne pas négliger.
 
-Bien que les automates cellulaires soient couramment utilisés pour
-simuler le traffic routier (dans leur version 1D CITATION ou 2D
-\cite{Queloz1996}), ils s'accordent peu avec la construction même d'un
-réseau viaire. Dans les simulations cellulaires urbaines, le
-positionnement des routes a un impact sur le développement des
-cellules puisque le viaire attire le bâti mais le réseau est souvent
-fourni en entrée et reste fixe. Nous sommes amener à nous interroger
-sur la capacité des automates cellulaires à modéliser le développement
-routier. Les relations de proximité les caractérisant sont-elles
-adaptées à la construction de structures dont l'échelle est celle de
-la ville et non plus celle de la parcelle ? Est-il bénéfique de
-représenter une route par un ensemble de cellules ou plutôt par une
-entité unique ?
-
-En dehors de la sphère des automates cellulaires, quelques techniques
-procédurales de génération de routes ont été décrites plus haut. Dans
-les modèles à base d'agents, une solution est de mettre en place, en
-plus des agents promoteurs, deux types d'agents traceurs. Les
-\textit{extenders} parcourent toute la surface du terrain à la
-recherche de bâtiments isolés puis tracent une route jusqu'au réseau
-urbain. Les \textit{connectors} se déplacent uniquement sur le réseau
-viaire et y raccordent les bâtiments non connectés se trouvant dans
-leur rayon de détection \cite{Lechnera}. PLUS?
-
-L'un des seuls modèles gérant à la fois l'évolution du réseau viaire
-et du bâti est présenté par Weber \cite{Weber2009} et n'emploie pas
-d'automate cellulaire. Le principe est le suivant : à chaque
-agrandissement du réseau urbain, on crée plusieurs routes virtuelles
-en suivant des règles géométriques précises (allongement des voies
-existantes, limitation du degré des carrefours à 4, l'angle entre
-chaque rue tend vers 90 degrés). Parmi les $n$ routes générées, une
-seule sera construite. Pour la choisir, le traffic sur ces nouvelles
-routes est simulé et l'on identifie celle qui sera la plus bénéfique
-au réseau. AUTRES PAPIERS?
+Souvent, SPECIALISATION L'un des seuls modèles gérant à la fois
+l'évolution du réseau viaire et du bâti est présenté par Weber
+\cite{Weber2009} et n'emploie pas d'automate cellulaire. Le principe
+est le suivant : à chaque agrandissement du réseau urbain, on crée
+plusieurs routes virtuelles en suivant des règles géométriques
+précises (allongement des voies existantes, limitation du degré des
+carrefours à 4, l'angle entre chaque rue tend vers 90 degrés). Parmi
+les $n$ routes générées, une seule sera construite. Pour la choisir,
+le traffic sur ces nouvelles routes est simulé et l'on identifie celle
+qui sera la plus bénéfique au réseau. AUTRES PAPIERS?
 
 \section{Structure et construction}
 
@@ -266,6 +265,8 @@ Voronoï.
 
 GROSSE DEFINITION
 
+JUSTIFICATION
+
 La vue d'un diagramme de Voronoï évoque naturellement le maillage de
 la ville, où chaque parcelle de terrain est représentée par une
 cellule et les parcelles voisines sont en contact. Ces frontières,
@@ -273,21 +274,19 @@ prenant la forme des arêtes du diagramme de Voronoi, sont d'une
 importance capitale puisqu'elles correspondent aux espaces entre les
 bâtiments, et donc aux tracés des routes potentielles. Chaque cellule
 de Voronoï représente donc l'espace d'une parcelle tandis que chaque
-arête est une voie potentiellement constructible.
-
-Les parcelles dont les cellules sont en contact (partageant une arête)
-sont considérées comme voisines et, à la manière des automates
-cellulaires, l'état d'une parcelle dépend de l'état des ses voisines.
+arête est une voie potentiellement constructible. Les parcelles dont
+les cellules sont en contact (partageant une arête) sont considérées
+comme voisines et, à la manière des automates cellulaires, l'état
+d'une parcelle dépend de l'état des ses voisines.
 
 Avant d'aller plus loin et de détailler la construction d'une telle
 structure et les règles régissant son évolution, il nous faut préciser
-certaines particularités.
-
-Premièrement, l'espace qu'une cellule occupe ne réprésente absolument
-pas sa couverture cadastrale. On admet que l'empreinte du bâtiment est
-globalement contenue dans cette dernière sans aucune garantie qu'elle
-n'en déborde pas ou, à l'opposé, que la taille de la parcelle soit du
-même ordre de grandeur que l'aire de sa cellule.
+certaines particularités. Premièrement, l'espace qu'une cellule occupe
+ne réprésente absolument pas sa couverture cadastrale. On admet que
+l'empreinte du bâtiment est globalement contenue dans cette dernière
+sans aucune garantie qu'elle n'en déborde pas ou, à l'opposé, que la
+taille de la parcelle soit du même ordre de grandeur que l'aire de sa
+cellule.
 
 IMAGE
 
@@ -300,6 +299,8 @@ direction ou sa courbure.
 
 IMAGE
 
+AUTRE PROBLEME
+
 \subsection{Construction}
 
 Notre système urbain est décrit sur deux niveaux; plus précisément,
@@ -310,7 +311,7 @@ couches différentes du réseau urbain.
 \subsubsection{Le graphe parcellaire}
 
 Le graphe parcellaire correspond à la couche bâti. Ses n\oe uds sont
-les centres des parcelles et chacune des ses arêtes représente une
+les centres des parcelles et chacune de ses arêtes représente une
 relation de voisinage entre deux parcelles.
 
 Un diagramme de Voronoï valide est nécessaire à la construction de ce
@@ -352,9 +353,21 @@ coordonnées initiales, on l'agrandit de quelques unités afin que les
 parcelles ne soient pas collées à la bordure extérieure et on conserve
 uniquement l'intersection du diagramme original et de cette enveloppe.
 
+EN FAIT, NON !
+
 IMAGE
 
-DYNAMIQUE?
+La finalité de cet exercice n'est pas seulement de faire évoluer
+l'automate cellulaire irrégulier que forme cette structure mais aussi
+de lui permettre de se transformer au cours du temps, de s'étendre par
+morphogenèse. Il est donc absolument nécessaire de la dôter de
+fonctionnalités d'automodification dynamiques qui modifieront les
+sous-parties du graphe incrémentalement, en opposition au traitement
+décrit précedemment qui ???.
+
+UN PEU DE TRAVAIL
+
+PAS TRES RAPIDE (MAIS PAS IMPORTANT)
 
 \subsubsection{Le graphe viaire}
 
@@ -378,25 +391,65 @@ sommet pivot.
 IMAGE
 
 On remarque que ces clusters de parcelles semblent être des
-sous-graphes complets maximaux. Dans un premier temps, l'usage de
-l'algorithme de TRUC a été envisagée (et mis inutilement en place !)
-mais certains cas particuliers nous laisse entrevoir le fait qu'une
-contrainte supplémentaire est manquante. En effet, la recherche d'une
-clique maximale par l'algorithme cité ne prend pas en compte la
-nécessité que les cellules du cluster partagent un sommet. Sur
-l'exemple de la figure ???, quatres cellules forment une clique sans
-pour autant avoir un sommet de Voronoï en commun.
+sous-graphes complets maximaux. Dans un premier temps, l'utilisation
+de l'algorithme de Bron-Kerbosch a été envisagé (et appliqué,
+inutilement !) mais certains cas particuliers nous laisse entrevoir
+le fait qu'une contrainte supplémentaire est manquante. En effet, la
+recherche d'une clique maximale par l'algorithme cité ne prend pas en
+compte la nécessité que les cellules du cluster partagent un
+sommet. Sur l'exemple de la figure ???, quatres cellules forment une
+clique sans pour autant avoir un sommet de Voronoï en commun.
 
 IMAGE TRIANGLE
 
-ALGO PERSO
+Puisque que l'algorithme de Bron-Kerbosch se révèle inadapté à l'usage
+que l'on souhaitait en faire, il a été nécessaire de réflechir à une
+autre méthode pour déterminer la position des carrefours et, surtout,
+les parcelles à y associer. Une procédure a donc été mise en place
+pour détecter ces clusters de parcelles pivotant autout d'un même
+croisement. L'idée de base est de construire tous les groupes de
+parcelles tels que :
 
-Les résultats sont enregistrés dans une structure de données associant
-à chaque carrefour sa position dans l'espace et les parcelles
-l'entourant mais le graphe viaire n'a pour l'instant pas été
-peuplé. Pour ce faire, on ajoute pour chaque croisement un n\oe ud et
-comme pour le graphe parcellaire il faut encore connecter ces n\oe
-uds. BLABLA DELAUNAY/VORONOI
+\begin{itemize}
+\item{Toutes les parcelles d'un groupe soient voisines entres elles}
+\item{Les groupes soient maximaux}
+\item{Les parcelles d'un groupe aient tous un sommet en commun}
+\end{itemize}
+
+Le dernier critère est la contrainte manquante à la définition des
+cliques maximales. Concrètement, la construction de toutes ces listes
+se résume à la construction de tous les cycles BLABLA. Ensuite,
+ROUTES.
+
+Un désavantage de cette méthode, outre sa complexité algorithmique,
+est que seules les arêtes partagées par au moins deux parcelles
+deviennent des routes. Ainsi, on remarque que les arête délimitant la
+bordure de la ville (celles à l'extérieur du diagramme de Voronoï)
+sont absentes. Il semble pourtant nécessaire que toutes les arête du
+diagramme deviennent de potentielles voies car, dans notre modèle, la
+route est le support du bâti. Et si aucune route ne peut se construire
+à la bordure de la ville, aucun bâtiment ne s'y installera et la ville
+ne grandira jamais.
+
+Une solution MAIS
+
+IMAGE
+
+Finalement, nous nous sommes tournés vers une solution plus claire,
+plus simple et permettant de transfomer en routes potentielles toutes
+les arêtes sans exception : la construction puis la fusion de
+sous-réseaux routiers. Dans le cadre de la tentative précédente,
+chaque carrefour était identifié est placé dans le graphe viaire sous
+la forme d'un n\oe ud mais la phase de placement des routes (la
+liaison des n\oe uds par des arêtes) se faisaient une fois tous les
+croisements placés. Il est clairement plus simple de créer pour chaque
+parcelle un sous-réseau routier composé de ses propres sommets et de
+els relier immédiatement. Une fois tous ces petits graphes crées ont
+les fusionnent tous en prenant comme critère d'identification des
+sommets leur position. On obtient au final un réseau routier complet
+duquel aucune arête ne manque.
+
+IMAGE
 
 \subsubsection{Importation de données géographiques}
 
@@ -404,13 +457,7 @@ SHAPEFILE
 
 \section{\'Evolution}
 
-DONNEES???
-
-\subsection{Le viaire}
-
-
-
-\subsection{Le bâti}
+DONNEES
 
 \subsubsection{L'évolution de la densité}
 
