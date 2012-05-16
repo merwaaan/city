@@ -25,6 +25,9 @@ public class RoadDevelopmentStrategy extends AbstractStrategy {
 
 	 public void update() {
 
+		  for(Node crossroad : this.sim.roads)
+				crossroad.setAttribute("capacity", 10);
+
 		  // Crossroads of already built road segments have a positive
 		  // supply which is function of the density of the surrounding
 		  // lots.
@@ -123,7 +126,7 @@ public class RoadDevelopmentStrategy extends AbstractStrategy {
 		  int maxFlow = 0;
 
 		  for(Edge road : this.sim.roads.getEachEdge())
-				if(simplex.getFlow(road) >= maxFlow) {
+				if(!RoadOps.isRoadBuilt(road) && simplex.getFlow(road) >= maxFlow) {
 					 bestRoad = road;
 					 maxFlow = simplex.getFlow(road);
 				}

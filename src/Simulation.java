@@ -28,7 +28,7 @@ public class Simulation {
 	  */
 	 public Graph lots;
 
-	public List<Coordinate> lotCoords;
+	 public List<Coordinate> lotCoords;
 
 	 /**
 	  * The "roads" graph containing every constructible routes based
@@ -37,7 +37,7 @@ public class Simulation {
 	  */
 	 public Graph roads;
 
-	public Map<Node, CrossroadPivot> pivots;
+	 public Map<Node, CrossroadPivot> pivots;
 
 	 /**
 	  * Strategies are processes that are applied to the city at each
@@ -55,10 +55,10 @@ public class Simulation {
 
 	 public Simulation() {
 
-		 // Land lots.
+		  // Land lots.
 
 		  this.lots = new SingleGraph("land lots");
-		  this.lots.addAttribute("ui.stylesheet", lotsStyle);
+		  this.lots.addAttribute("ui.stylesheet", this.lotsStyle);
 
 		  this.lotCoords = null;
 
@@ -94,7 +94,7 @@ public class Simulation {
 	 private void initialize() {
 
 		  // Compute n random coordinates.
-		  this.lotCoords = getRandomCoords(300, 500);
+		  this.lotCoords = getRandomCoords(100, 1000);
 		  //this.lotCoords = ShapeFileLoader.getLandLots("data/world_borders/world_borders.shp");
 		  //this.lotCoords = ShapeFileLoader.getLandLots("data/IGN/PARCELLE.SHP");
 
@@ -163,7 +163,7 @@ public class Simulation {
 	  */
 	 private List<Coordinate> getRandomCoords(int n, int offset) {
 
-		 List<Coordinate> coords = new ArrayList<Coordinate>();
+		  List<Coordinate> coords = new ArrayList<Coordinate>();
 
 		  int offset2 = offset * 2;
 
@@ -179,15 +179,15 @@ public class Simulation {
 		  return coords;
 	 }
 
-	public String getNextId(Graph g) {
+	 public String getNextId(Graph g) {
 
-		if(g.getNodeCount() == 0)
-			return "0";
+		  if(g.getNodeCount() == 0)
+				return "0";
 
-		Node last = g.getNode(g.getNodeCount() - 1);
-		int lastId = lastId = Integer.parseInt(last.getId());
+		  Node last = g.getNode(g.getNodeCount() - 1);
+		  int lastId = lastId = Integer.parseInt(last.getId());
 
-		return (lastId + 1) + "";
-	}
+		  return (lastId + 1) + "";
+	 }
 
 }

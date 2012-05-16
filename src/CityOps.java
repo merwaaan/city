@@ -111,4 +111,28 @@ public class CityOps {
 			  RoadOps.mergeLotRoadsWithNeighbors(lot, sim);
 	 }
 
+	 public static int getNumBuiltRoadsAround(Node lot) {
+
+		  int n = 0;
+
+		  Set<CrossroadPivot> pivots = (Set<CrossroadPivot>)lot.getAttribute("pivots");
+
+		  CrossroadPivot[] pivots_a = pivots.toArray(new CrossroadPivot[0]);
+
+		  for(int i = 0, l1 = pivots_a.length; i < l1; ++i) {
+
+				Node c0 = pivots_a[i].node;
+
+				for(int j = i + 1; j < l1; ++j) {
+
+					 Node c1 = pivots_a[j].node;
+
+					 if(c0.hasEdgeBetween(c1) && c0.getEdgeBetween(c1).hasAttribute("built"))
+						  ++n;
+				}
+		  }
+
+		  return n;
+	 }
+
 }

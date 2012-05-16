@@ -113,24 +113,10 @@ public class DiscreteDensityStrategy extends AbstractStrategy {
 
 				Density density = (Density)neighbor.getAttribute("density");
 
-				++densities[densityIndex(density)];
+				densities[density.index()] += 1 + CityOps.getNumBuiltRoadsAround(neighbor);
 		  }
 
 		  return densities;
-	 }
-
-	 private int densityIndex(Density density) {
-
-		  switch(density) {
-		  case EMPTY:
-				return 0;
-		  case LOW:
-				return 1;
-		  case HIGH:
-				return 2;
-		  }
-
-		  return -1;
 	 }
 
 	 private double potential(Node lot, Density targetDensity) {
@@ -144,13 +130,13 @@ public class DiscreteDensityStrategy extends AbstractStrategy {
 		  // Get the density of the current lot.
 		  Density lotDensity = (Density)lot.getAttribute("density");
 
-		  double[][] weights = this.weights[densityIndex(lotDensity)];
+		  double[][] weights = this.weights[lotDensity.index()];
 
 		  double potential = 0;
 
 		  // Weight.
 		  for(int i = 0, l = this.cachedDensityTypes.length; i < l; ++i)
-				potential += densities[i] * weights[densityIndex(targetDensity)][i];
+				potential += densities[i] * weights[targetDensity.index()][i];
 
 		  // Normalize.
 		  potential /= neighbors.size();
