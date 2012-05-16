@@ -11,7 +11,7 @@ public class LotPositioningStrategy extends AbstractStrategy {
 		  for(Node lot : this.sim.lots) {
 
 				// Give a "size" attribute to each lot.
-				double size = Math.random();
+				double size = this.sim.rnd.nextDouble();
 				lot.setAttribute("size", size);
 
 				// Change the node size accordingly.

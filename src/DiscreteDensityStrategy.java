@@ -68,7 +68,7 @@ public class DiscreteDensityStrategy extends AbstractStrategy {
 	  */
 	 private Density randomDensity() {
 
-		  return this.cachedDensityTypes[(int)(Math.random() * this.cachedDensityTypes.length)];
+		  return this.cachedDensityTypes[this.sim.rnd.nextInt(this.cachedDensityTypes.length)];
 	 }
 
 	 void prepare() {
@@ -161,7 +161,7 @@ public class DiscreteDensityStrategy extends AbstractStrategy {
 				total += potential;
 
 		  // Pick a random value.
-		  double x = Math.random() * total;
+		  double x = this.sim.rnd.nextDouble() * total;
 
 		  // Return the associated density.
 		  double acc = 0;

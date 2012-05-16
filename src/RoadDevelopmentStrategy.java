@@ -151,7 +151,7 @@ public class RoadDevelopmentStrategy extends AbstractStrategy {
 				total += flow;
 
 		  // Pick a random value.
-		  double x = Math.random() * total;
+		  int x = this.sim.rnd.nextInt(total);
 
 		  // Return the associated density.
 		  int acc = 0;

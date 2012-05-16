@@ -9,7 +9,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.Set;
 
 import org.graphstream.algorithm.Toolkit;
@@ -195,7 +194,8 @@ public class RoadOps {
 	  */
 	 public static Node addCrossroad(double x, double y, Simulation sim) {
 
-		  Node crossroad = sim.roads.addNode(""+Math.random());
+		  // TODO attribute real ID!
+		  Node crossroad = sim.roads.addNode(""+sim.rnd.nextLong());
 
 		  crossroad.setAttribute("x", x);
 		  crossroad.setAttribute("y", y);

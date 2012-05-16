@@ -46,6 +46,8 @@ public class Simulation {
 	  */
 	 private ArrayList<AbstractStrategy> strategies;
 
+	 public Random rnd;
+
 	 private String lotsStyle = "node {size: 5px; fill-color: black;} edge {fill-color: black;}";
 
 	 private View view;
@@ -73,6 +75,8 @@ public class Simulation {
 		  this.strategies = new ArrayList<AbstractStrategy>();
 
 		  // Misc.
+
+		  this.rnd = new Random(123456789);
 
 		  this.geomFact = new GeometryFactory();
 
@@ -170,8 +174,8 @@ public class Simulation {
 		  for(int i = 0; i < n; ++i) {
 
 				// Choose a random position.
-				float x = (float)(Math.random() * offset2 - offset);
-				float y = (float)(Math.random() * offset2 - offset);
+				int x = this.rnd.nextInt(offset2) - offset;
+				int y = this.rnd.nextInt(offset2) - offset;
 
 				coords.add(new Coordinate(x, y));
 		  }
