@@ -126,7 +126,7 @@ public class RoadDevelopmentStrategy extends AbstractStrategy {
 		  int maxFlow = 0;
 
 		  for(Edge road : this.sim.roads.getEachEdge())
-				if(!RoadOps.isRoadBuilt(road) && simplex.getFlow(road) >= maxFlow) {
+				if(!RoadOps.isRoadBuilt(road) && RoadOps.isNextToBuiltRoad(road) && simplex.getFlow(road) >= maxFlow) {
 					 bestRoad = road;
 					 maxFlow = simplex.getFlow(road);
 				}

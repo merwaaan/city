@@ -245,6 +245,15 @@ public class RoadOps {
 		  }
 	 }
 
+	 /**
+	  * "Builds" a road of the existing road network.
+	  *
+	  * The edge representing the road is already in the road network
+	  * but a boolean attribute "built" is added to differenciate it
+	  * from the potential roads.
+	  *
+	  * @param road The road to build.
+	  */
 	 public static void buildRoad(Edge road) {
 
 		  // Build the road.
@@ -255,14 +264,31 @@ public class RoadOps {
 		  road.getNode1().addAttribute("built");
 	 }
 
+	 /**
+	  * Checks if the supplied road is built (in the other case it is
+	  * already part of the road network but only as a potential road).
+	  *
+	  * @param road The road to check.
+	  */
 	 public static boolean isRoadBuilt(Edge road) {
 
 		  return road.hasAttribute("built");
 	 }
 
+	 /**
+	  * Checks if the supplied crossroad is one of the extremities of a
+	  * built road.
+	  *
+	  * @param crossroad The crossroad to check.
+	  */
 	 public static boolean isCrossroadBuilt(Node crossroad) {
 
 		  return crossroad.hasAttribute("built");
+	 }
+
+	 public static boolean isNextToBuiltRoad(Edge road) {
+
+		  return road.getNode0().hasAttribute("built") || road.getNode1().hasAttribute("built");
 	 }
 
 }
