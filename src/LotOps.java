@@ -295,4 +295,46 @@ public class LotOps {
 		  return neighbors;
 	 }
 
+	 /**
+	  * "Builds" a lot of the existing urban network.
+	  *
+	  * The node representing the lot is already in the urban network
+	  * but a boolean attribute "built" is added to differenciate it
+	  * from the potential lots.
+	  *
+	  * @param lot The lot to build.
+	  */
+	 public static void buildLot(Node lot) {
+
+		  // Build the road.
+		  lot.addAttribute("built");
+	 }
+
+	 /**
+	  * Checks if the supplied lot is built (in the other case it is
+	  * already part of the urban network but only as a potential lot).
+	  *
+	  * @param lot The lot to check.
+	  */
+	 public static boolean isLotBuilt(Node lot) {
+
+		  return lot.hasAttribute("built");
+	 }
+
+	 /**
+	  * Checks if the supplied lot is next to a built road.
+	  *
+	  * @param lot The lot to check.
+	  */
+	 public static boolean isNextToBuiltRoad(Node lot) {
+
+		  Set<CrossroadPivot> pivots = (Set<CrossroadPivot>)lot.getAttribute("pivots");
+
+		  for(CrossroadPivot pivot : pivots)
+				if(RoadOps.isCrossroadBuilt(pivot.node))
+					 return true;
+
+		  return false;
+	 }
+
 }

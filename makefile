@@ -27,6 +27,7 @@ FILES=\
 	CrossroadPivot \
 	Density \
 	DiscreteDensityStrategy \
+	LotConstructionStrategy \
 	LotOps \
 	LotPositioningStrategy \
 	MouseManager \

@@ -286,6 +286,12 @@ public class RoadOps {
 		  return crossroad.hasAttribute("built");
 	 }
 
+	 /**
+	  * Checks if the supplied road is linked to a built road via one
+	  * of its crossroads.
+	  *
+	  * @param road The road to check.
+	  */
 	 public static boolean isNextToBuiltRoad(Edge road) {
 
 		  return road.getNode0().hasAttribute("built") || road.getNode1().hasAttribute("built");
