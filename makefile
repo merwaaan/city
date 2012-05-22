@@ -21,7 +21,6 @@ LIBS=\
 
 FILES=\
 	AbstractStrategy \
-	AverageDensityStrategy \
 	BackgroundLayer \
 	CityOps \
 	CrossroadPivot \
@@ -31,7 +30,6 @@ FILES=\
 	LotOps \
 	LotPositioningStrategy \
 	MouseManager \
-	RandomDensityStrategy \
 	RoadDevelopmentStrategy \
 	RoadOps \
 	ShapeFileLoader \
