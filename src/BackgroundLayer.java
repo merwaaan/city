@@ -16,6 +16,8 @@ public class BackgroundLayer implements LayerRenderer {
 
 	 private Simulation sim;
 
+	 private int faded = 30;
+
 	 public BackgroundLayer(Simulation sim) {
 
 		  this.sim = sim;
@@ -51,31 +53,27 @@ public class BackgroundLayer implements LayerRenderer {
 
 					 // Color the cell according to density if the
 					 // corresponding attribute is present.
-					 Object density = lot.getAttribute("density");
+					 Density density = (Density)lot.getAttribute("density");
 
-					 if(density != null && density instanceof Double) {
+					 int alpha = LotOps.isLotBuilt(lot) ? 255 : this.faded;
 
-						  double d = ((Double)density).doubleValue();
-						  int r = (int)(d * 255);
-						  g.setColor(new Color(r, 0, 0));
-						  g.fill(path);
-					 }
-					 else if(density != null && density instanceof Density) {
-						  //System.out.println(density);
-						  switch((Density)density) {
+					 if(density != null) {
+						  switch(density) {
 						  case EMPTY:
-								g.setColor(Color.WHITE);
+								g.setColor(new Color(255, 255, 255, alpha));
 								break;
 						  case LOW:
-								g.setColor(new Color(255, 0, 0, 100));
+								g.setColor(new Color(255, 145, 145, alpha));
 								break;
 						  case HIGH:
-								g.setColor(new Color(255, 0, 0, 200));
+								g.setColor(new Color(255, 48, 48, alpha));
 								break;
 						  }
-
-						  g.fill(path);
 					 }
+					 else
+						  g.setColor(Color.GREEN);
+
+					 g.fill(path);
 
 					 g.setColor(Color.GRAY);
 					 g.draw(path);
@@ -96,10 +94,9 @@ public class BackgroundLayer implements LayerRenderer {
 				double bX = (Double)b.getAttribute("x");
 				double bY = (Double)b.getAttribute("y");
 
-				if(road.hasAttribute("built"))
-					 g.setColor(Color.GREEN);
-				else
-					 g.setColor(Color.BLUE);
+				int alpha = RoadOps.isRoadBuilt(road) ? 255 : this.faded;
+
+				g.setColor(new Color(0, 126, 255, alpha));
 
 				g.drawLine((int)aX, (int)aY, (int)bX, (int)bY);
 		  }
@@ -109,10 +106,9 @@ public class BackgroundLayer implements LayerRenderer {
 				double x = (Double)crossroad.getAttribute("x");
 				double y = (Double)crossroad.getAttribute("y");
 
-				if(crossroad.hasAttribute("built"))
-					 g.setColor(Color.GREEN);
-				else
-					 g.setColor(Color.BLUE);
+				int alpha = RoadOps.isCrossroadBuilt(crossroad) ? 255 : this.faded;
+
+				g.setColor(new Color(0, 126, 255, alpha));
 
 				g.fillOval((int)x - 5, (int)y - 5, 10, 10);
 		  }
