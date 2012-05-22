@@ -38,6 +38,9 @@ public class BackgroundLayer implements LayerRenderer {
 		  // Draw the Voronoi cells.
 		  for(Node lot : this.sim.lots) {
 
+				if(!this.sim.showPotentialLots && !LotOps.isLotBuilt(lot))
+					 continue;
+
 				Polygon poly = (Polygon)lot.getAttribute("polygon");
 				if(poly != null) {
 
@@ -51,8 +54,7 @@ public class BackgroundLayer implements LayerRenderer {
 						  path.lineTo(nextPoint.x, nextPoint.y);
 					 }
 
-					 // Color the cell according to density if the
-					 // corresponding attribute is present.
+					 // Color the cell according to density.
 					 Density density = (Density)lot.getAttribute("density");
 
 					 int alpha = LotOps.isLotBuilt(lot) ? 255 : this.faded;
@@ -75,16 +77,32 @@ public class BackgroundLayer implements LayerRenderer {
 
 					 g.fill(path);
 
+					 //
+
 					 g.setColor(Color.GRAY);
+
+					 if(LotOps.isLotBuilt(lot))
+						  g.setStroke(new BasicStroke(2));
+					 else
+						  g.setStroke(new BasicStroke(1,
+																BasicStroke.CAP_BUTT,
+																BasicStroke.JOIN_MITER,
+																10,
+																new float[]{10},
+																0));
+
 					 g.draw(path);
 				}
 		  }
 
 		  // Draw the road network.
 
-		  g.setStroke(new BasicStroke(4));
+		  g.setStroke(new BasicStroke(5));
 
 		  for(Edge road : this.sim.roads.getEachEdge()) {
+
+				if(!RoadOps.isRoadBuilt(road))
+					 continue;
 
 				Node a = road.getNode0();
 				Node b = road.getNode1();
@@ -94,21 +112,20 @@ public class BackgroundLayer implements LayerRenderer {
 				double bX = (Double)b.getAttribute("x");
 				double bY = (Double)b.getAttribute("y");
 
-				int alpha = RoadOps.isRoadBuilt(road) ? 255 : this.faded;
-
-				g.setColor(new Color(0, 126, 255, alpha));
+				g.setColor(new Color(0, 126, 255));
 
 				g.drawLine((int)aX, (int)aY, (int)bX, (int)bY);
 		  }
 
 		  for(Node crossroad : this.sim.roads) {
 
+				if(!RoadOps.isCrossroadBuilt(crossroad))
+					 continue;
+
 				double x = (Double)crossroad.getAttribute("x");
 				double y = (Double)crossroad.getAttribute("y");
 
-				int alpha = RoadOps.isCrossroadBuilt(crossroad) ? 255 : this.faded;
-
-				g.setColor(new Color(0, 126, 255, alpha));
+				g.setColor(new Color(0, 126, 255));
 
 				g.fillOval((int)x - 5, (int)y - 5, 10, 10);
 		  }

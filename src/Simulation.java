@@ -46,14 +46,22 @@ public class Simulation {
 	  */
 	 private ArrayList<AbstractStrategy> strategies;
 
-	 public Random rnd;
+	 /**
+	  * Display options.
+	  *
+	  * showPotentialLots enables the drawing of lots that have not
+	  * been built yet.
+	  */
+	 public boolean showPotentialLots = true;
 
-	 private String lotsStyle = "node {size: 5px; fill-color: black;} edge {fill-color: black;}";
+	 private String lotsStyle = "node {fill-mode: none; size: 5px;} edge {visibility-mode: hidden;}";
 
 	 private View view;
 	 private Camera camera;
 
 	 private GeometryFactory geomFact;
+
+	 public Random rnd;
 
 	 public Simulation() {
 
