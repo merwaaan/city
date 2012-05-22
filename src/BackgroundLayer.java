@@ -35,72 +35,81 @@ public class BackgroundLayer implements LayerRenderer {
 		  // y-axis.
 		  g.scale(ratio, -ratio);
 
-		  // Draw the Voronoi cells.
+		  // ART!
+		  drawLots(g);
+		  drawRoads(g);
+
+		  // Restore the transformation matrix.
+		  g.dispose();
+	 }
+
+	 /**
+	  * Draws the lots composing the urban system.
+	  *
+	  * Only Voronoi cells are drawn as the neighborhood relationships
+	  * are handled by the GS viewer.
+	  */
+	 private void drawLots(Graphics2D g) {
+
 		  for(Node lot : this.sim.lots) {
 
+				// Only draw potential lots if the option is enabled.
 				if(!this.sim.showPotentialLots && !LotOps.isLotBuilt(lot))
 					 continue;
 
 				Polygon poly = (Polygon)lot.getAttribute("polygon");
-				if(poly != null) {
+				if(poly == null)
+					 continue;
 
-					 Coordinate[] vertices = poly.getCoordinates();
+				// Build a path going through each vertex.
 
-					 GeneralPath path = new GeneralPath();
-					 path.moveTo(vertices[0].x, vertices[0].y);
+				Coordinate[] vertices = poly.getCoordinates();
+				GeneralPath path = new GeneralPath();
 
-					 for(int i = 1, l = vertices.length; i < l; ++i) {
-						  Coordinate nextPoint = vertices[i % vertices.length];
-						  path.lineTo(nextPoint.x, nextPoint.y);
-					 }
-
-					 // Color the cell according to density.
-					 Density density = (Density)lot.getAttribute("density");
-
-					 int alpha = LotOps.isLotBuilt(lot) ? 255 : this.faded;
-
-					 if(density != null) {
-						  switch(density) {
-						  case EMPTY:
-								g.setColor(new Color(255, 255, 255, alpha));
-								break;
-						  case LOW:
-								g.setColor(new Color(255, 145, 145, alpha));
-								break;
-						  case HIGH:
-								g.setColor(new Color(255, 48, 48, alpha));
-								break;
-						  }
-					 }
-					 else
-						  g.setColor(Color.GREEN);
-
-					 g.fill(path);
-
-					 //
-
-					 g.setColor(Color.GRAY);
-
-					 if(LotOps.isLotBuilt(lot))
-						  g.setStroke(new BasicStroke(2));
-					 else
-						  g.setStroke(new BasicStroke(1,
-																BasicStroke.CAP_BUTT,
-																BasicStroke.JOIN_MITER,
-																10,
-																new float[]{10},
-																0));
-
-					 g.draw(path);
+				path.moveTo(vertices[0].x, vertices[0].y);
+				for(int i = 1, l = vertices.length; i < l; ++i) {
+					 Coordinate nextPoint = vertices[i % vertices.length];
+					 path.lineTo(nextPoint.x, nextPoint.y);
 				}
-		  }
 
-		  // Draw the road network.
+				// Fill the cell according to density.
+				Density density = (Density)lot.getAttribute("density");
+
+				if(density != null)
+					 g.setColor(density.color(LotOps.isLotBuilt(lot) ? 255 : this.faded));
+				else
+					 g.setColor(Color.GREEN);
+
+				g.fill(path);
+
+				// Stroke the cell.
+
+				g.setColor(Color.GRAY);
+
+				if(LotOps.isLotBuilt(lot))
+					 g.setStroke(new BasicStroke(2));
+				else
+					 g.setStroke(new BasicStroke(1,
+														  BasicStroke.CAP_BUTT,
+														  BasicStroke.JOIN_MITER,
+														  10,
+														  new float[]{10},
+														  0));
+
+				g.draw(path);
+		  }
+	 }
+
+	 /**
+	  * Draws the road network.
+	  */
+	 private void drawRoads(Graphics2D g) {
 
 		  g.setStroke(new BasicStroke(5));
 
 		  for(Edge road : this.sim.roads.getEachEdge()) {
 
+				// Only shows built roads.
 				if(!RoadOps.isRoadBuilt(road))
 					 continue;
 
@@ -117,6 +126,7 @@ public class BackgroundLayer implements LayerRenderer {
 				g.drawLine((int)aX, (int)aY, (int)bX, (int)bY);
 		  }
 
+		  /*
 		  for(Node crossroad : this.sim.roads) {
 
 				if(!RoadOps.isCrossroadBuilt(crossroad))
@@ -129,8 +139,7 @@ public class BackgroundLayer implements LayerRenderer {
 
 				g.fillOval((int)x - 5, (int)y - 5, 10, 10);
 		  }
-
-		  // Restore the transformation matrix.
-		  g.dispose();
+		  */
 	 }
+
 }

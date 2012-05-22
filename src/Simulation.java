@@ -52,7 +52,7 @@ public class Simulation {
 	  * showPotentialLots enables the drawing of lots that have not
 	  * been built yet.
 	  */
-	 public boolean showPotentialLots = true;
+	 public boolean showPotentialLots = false;
 
 	 private String lotsStyle = "node {fill-mode: none; size: 5px;} edge {visibility-mode: hidden;}";
 
