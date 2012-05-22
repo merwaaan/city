@@ -98,7 +98,7 @@ public class Simulation {
 	 private void initialize() {
 
 		  // Compute n random coordinates.
-		  this.lotCoords = getRandomCoords(100, 1000);
+		  this.lotCoords = getRandomCoords(500, 1000);
 		  //this.lotCoords = ShapeFileLoader.getLandLots("data/world_borders/world_borders.shp");
 		  //this.lotCoords = ShapeFileLoader.getLandLots("data/IGN/PARCELLE.SHP");
 
@@ -120,7 +120,7 @@ public class Simulation {
 		  this.strategies.add(new DiscreteDensityStrategy(this));
 		  this.strategies.add(new RoadDevelopmentStrategy(this));
 
-		  for(int i = 0; i < 100; ++i) {
+		  for(int i = 0; i < 100000; ++i) {
 
 				for(AbstractStrategy strategy : this.strategies)
 					 strategy.update();

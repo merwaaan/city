@@ -87,15 +87,6 @@ public class RoadDevelopmentStrategy extends AbstractStrategy {
 		  supply += (-totalDemand) - totalSupply;
 		  last.setAttribute("supply", supply);
 
-		  /*double part = (double)disconnected.size() / connected.size();
-
-		  Node[] connected_arr = connected.toArray(new Node[0]);
-
-		  connected_arr[0].setAttribute("supply", part == Math.floor(part) ? (int)part : (int)part + 1);
-		  for(int i = 1, l = connected_arr.length; i < l; ++i)
-				connected_arr[i].setAttribute("supply", (int)part);
-		  */
-
 		  // Simplex network algorithm.
 
 		  NetworkSimplex simplex = new NetworkSimplex("supply", "capacity", "cost");
