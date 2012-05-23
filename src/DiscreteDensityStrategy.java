@@ -15,37 +15,22 @@ public class DiscreteDensityStrategy extends AbstractStrategy {
 	 };
 
 	 private double[][] affinities = {
-		  {1, 0.5, 0}, // EMPTY
+		  {1, 0.5, 0},   // EMPTY
 		  {0.5, 1, 0.3}, // LOW
 		  {0, 0.3, 1}    // HIGH
 	 };
 
 	 private double[] roadAffinities = {
-		  0.2, // EMPTY
-		  0.7, // LOW
+		  0.1, // EMPTY
+		  0.6, // LOW
 		  1    // HIGH
 	 };
 
-	 private double[] ratios = {0.1, 0.6, 0.3};
-
-	 class DiscreteDensitySink extends SinkAdapter {
-
-		  Simulation sim;
-		  DiscreteDensityStrategy strategy;
-
-		  DiscreteDensitySink(Simulation sim, DiscreteDensityStrategy strategy) {
-
-				this.sim = sim;
-				this.strategy = strategy;
-		  }
-
-		  public void nodeAdded(String graphId, long time, String nodeId) {
-
-				Node lot = this.sim.lots.getNode(nodeId);
-
-				prepareLot(lot);
-		  }
-	 }
+	 private double[] ratios = {
+		  0.1, // EMPTY
+		  1, // LOW
+		  0.2  // HIGH
+	 };
 
 	 public DiscreteDensityStrategy(Simulation sim) {
 		  super(sim);
@@ -66,15 +51,6 @@ public class DiscreteDensityStrategy extends AbstractStrategy {
 		  // Give "density" and "age" attributes to each lot.
 		  for(Node lot : this.sim.lots)
 				prepareLot(lot);
-	 }
-
-	 private void prepareLot(Node lot) {
-
-		  Density d = randomDensity();
-		  lot.setAttribute("density", d);
-		  lot.setAttribute("nextDensity", d);
-
-		  lot.setAttribute("age", this.sim.rnd.nextInt(10));
 	 }
 
 	 public void update() {
@@ -108,9 +84,7 @@ public class DiscreteDensityStrategy extends AbstractStrategy {
 
 	 private boolean ready(Node lot) {
 
-		  int age = (Integer)lot.getAttribute("age");
-
-		  return age > 20;
+		  return (Integer)lot.getAttribute("age") > 20;
 	 }
 
 	 private int[] getNeighborDensities(List<Node> neighbors) {
@@ -144,16 +118,15 @@ public class DiscreteDensityStrategy extends AbstractStrategy {
 
 		  // Weight.
 		  for(int i = 0, l = this.cachedDensityTypes.length; i < l; ++i)
-				potential += densities[i] * affinities[targetDensity.index()][i] * roadAffinities[targetDensity.index()];
+				potential += densities[i] * affinities[targetDensity.index()][i];
+
+		  // Scale with respect to the road effect.
+		  potential *= roadAffinities[targetDensity.index()];
 
 		  // Scale with respect to the ratios.
-		  //potential *= ratios[targetDensity.index()];
+		  potential *= ratios[targetDensity.index()];
 
-		  // Scale with respect to the age of the lot.
-		  /*double age = (Integer)lot.getAttribute("age");
-		  if(targetDensity != lotDensity)
-				potential += Math.min(1, Math.max(0, Math.log(age)));
-		  */
+		  // TODO age???
 
 		  // Normalize.
 		  potential /= neighbors.size();
@@ -191,6 +164,38 @@ public class DiscreteDensityStrategy extends AbstractStrategy {
 		  }
 
 		  return (Density)lot.getAttribute("density");
+	 }
+
+	 /**
+	  * A sink watching for newly added lots so that they can be
+	  * prepared and associated with the appropriate attributes.
+	  */
+	 class DiscreteDensitySink extends SinkAdapter {
+
+		  Simulation sim;
+		  DiscreteDensityStrategy strategy;
+
+		  DiscreteDensitySink(Simulation sim, DiscreteDensityStrategy strategy) {
+
+				this.sim = sim;
+				this.strategy = strategy;
+		  }
+
+		  public void nodeAdded(String graphId, long time, String nodeId) {
+
+				Node lot = this.sim.lots.getNode(nodeId);
+
+				prepareLot(lot);
+		  }
+	 }
+
+	 private void prepareLot(Node lot) {
+
+		  Density d = randomDensity();
+		  lot.setAttribute("density", d);
+		  lot.setAttribute("nextDensity", d);
+
+		  lot.setAttribute("age", this.sim.rnd.nextInt(10));
 	 }
 
 }

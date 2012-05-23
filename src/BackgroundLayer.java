@@ -171,7 +171,7 @@ public class BackgroundLayer implements LayerRenderer {
 	 }
 
 	 /**
-	  * A sink watching for any attribute change if the lots network.
+	  * A sink watching for any attribute change in the lots network.
 	  *
 	  * When a lot change its state to another density type, the color
 	  * transition is started.

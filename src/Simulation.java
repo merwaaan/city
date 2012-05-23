@@ -65,7 +65,7 @@ public class Simulation {
 	 /**
 	  * Minimum delay between each update.
 	  */
-	 private long stepDuration = 1000;
+	 private long stepDuration = 400;
 
 	 private View view;
 	 private Camera camera;
@@ -117,7 +117,7 @@ public class Simulation {
 	 private void initialize() {
 
 		  // Compute n random coordinates.
-		  this.lotCoords = getRandomCoords(100, 1000);
+		  this.lotCoords = getRandomCoords(200, 1000);
 		  //this.lotCoords = ShapeFileLoader.getLandLots("data/world_borders/world_borders.shp");
 		  //this.lotCoords = ShapeFileLoader.getLandLots("data/IGN/PARCELLE.SHP");
 
