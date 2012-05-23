@@ -26,7 +26,7 @@ public class RoadDevelopmentStrategy extends AbstractStrategy {
 	 public void update() {
 
 		  for(Node crossroad : this.sim.roads)
-				crossroad.setAttribute("capacity", 10);
+				crossroad.setAttribute("capacity", 10000);
 
 		  // Crossroads of already built road segments have a positive
 		  // supply which is function of the density of the surrounding
@@ -51,7 +51,7 @@ public class RoadDevelopmentStrategy extends AbstractStrategy {
 		  int totalDemand = 0;
 
 		  for(Node crossroad : this.sim.roads)
-				if(!RoadOps.isCrossroadBuilt(crossroad)) {
+				if(!RoadOps.isCrossroadBuilt(crossroad) && RoadOps.isNextToBuiltCrossroad(crossroad)) {
 
 					 int demand = -crossroadSupply(crossroad);
 
@@ -106,7 +106,7 @@ public class RoadDevelopmentStrategy extends AbstractStrategy {
 		  Set<Node> surroundingLots = ((CrossroadPivot)crossroad.getAttribute("pivot")).lots;
 
 		  for(Node lot : surroundingLots)
-				supply += ((Density)lot.getAttribute("density")).index() * 1000;
+				supply += ((Density)lot.getAttribute("density")).index();
 
 		  return supply;
 	 }
@@ -117,7 +117,7 @@ public class RoadDevelopmentStrategy extends AbstractStrategy {
 		  int maxFlow = 0;
 
 		  for(Edge road : this.sim.roads.getEachEdge())
-				if(!RoadOps.isRoadBuilt(road) && RoadOps.isNextToBuiltRoad(road) && simplex.getFlow(road) >= maxFlow) {
+				if(simplex.getFlow(road) >= maxFlow && !RoadOps.isRoadBuilt(road) && RoadOps.isNextToBuiltRoad(road)) {
 					 bestRoad = road;
 					 maxFlow = simplex.getFlow(road);
 				}
@@ -157,6 +157,9 @@ public class RoadDevelopmentStrategy extends AbstractStrategy {
 		  return roads.get(roads.size() - 1);
 	 }
 
+	 /**
+	  *
+	  */
 	 class RoadDevelopmentSink extends SinkAdapter {
 
 		  Simulation sim;

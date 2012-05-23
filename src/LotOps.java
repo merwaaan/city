@@ -322,7 +322,8 @@ public class LotOps {
 	 }
 
 	 /**
-	  * Checks if the supplied lot is next to a built road.
+	  * Checks if the supplied lot is next to a built road (if it have
+	  * at least one built crossroad).
 	  *
 	  * @param lot The lot to check.
 	  */

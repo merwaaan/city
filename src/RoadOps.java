@@ -297,4 +297,18 @@ public class RoadOps {
 		  return road.getNode0().hasAttribute("built") || road.getNode1().hasAttribute("built");
 	 }
 
+	 /**
+	  * Checks if the supplied road is linked to a built crossroad.
+	  *
+	  * @param crossroad The crossroad to check.
+	  */
+	 public static boolean isNextToBuiltCrossroad(Node crossroad) {
+
+		  for(Edge road : crossroad.getEachEdge())
+				if(RoadOps.isCrossroadBuilt(road.getOpposite(crossroad)))
+					 return true;
+
+		  return false;
+	 }
+
 }

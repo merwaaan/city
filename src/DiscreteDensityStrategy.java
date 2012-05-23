@@ -58,7 +58,7 @@ public class DiscreteDensityStrategy extends AbstractStrategy {
 		  // Compute next state.
 		  for(Node lot : this.sim.lots) {
 
-				if(!ready(lot))
+				if(!ready(lot) || !LotOps.isNextToBuiltRoad(lot))
 					 continue;
 
 				Map<Density, Double> potentials = new HashMap<Density, Double>();
