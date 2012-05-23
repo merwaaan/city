@@ -137,8 +137,10 @@ public class DiscreteDensityStrategy extends AbstractStrategy {
 	 private Density roulette(Node lot, Map<Density, Double> potentials) {
 
 		  // Build a roulette wheel.
+
 		  List<Double> wheel = new ArrayList<Double>();
 		  List<Density> types = new ArrayList<Density>();
+
 		  for(int i = 0, l = this.cachedDensityTypes.length; i < l; ++i)
 				if(potentials.get(this.cachedDensityTypes[i]) > 0) {
 					 wheel.add(potentials.get(this.cachedDensityTypes[i]));

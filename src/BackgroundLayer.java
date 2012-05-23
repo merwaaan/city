@@ -90,20 +90,13 @@ public class BackgroundLayer implements LayerRenderer {
 				// Fill the cell according to density.
 				Density density = (Density)lot.getAttribute("density");
 
-				/*
-				if(density != null)
-					 g.setColor(density.color(LotOps.isLotBuilt(lot) ? 255 : this.faded));
-				else
-					 g.setColor(Color.GREEN);
-				*/
-
 				if(this.transitions.containsKey(lot))
 					 g.setColor(this.transitions.get(lot).current);
 				else {
 					 Density d = (Density)lot.getAttribute("density");
 
 					 if(d != null)
-						  g.setColor(d.color(255));
+						  g.setColor(d.color(LotOps.isLotBuilt(lot) ? 255 : this.faded));
 					 else
 						  g.setColor(Color.GREEN);
 				}

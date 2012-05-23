@@ -1,7 +1,5 @@
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.graphstream.algorithm.Toolkit;
 import org.graphstream.algorithm.networksimplex.NetworkSimplex;
@@ -103,7 +101,7 @@ public class RoadDevelopmentStrategy extends AbstractStrategy {
 
 		  int supply = 0;
 
-		  Set<Node> surroundingLots = ((CrossroadPivot)crossroad.getAttribute("pivot")).lots;
+		  List<Node> surroundingLots = ((CrossroadPivot)crossroad.getAttribute("pivot")).lots;
 
 		  for(Node lot : surroundingLots)
 				supply += ((Density)lot.getAttribute("density")).index();

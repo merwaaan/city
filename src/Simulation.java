@@ -1,11 +1,8 @@
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import java.util.Set;
-import java.util.LinkedList;
 
 import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
@@ -52,7 +49,7 @@ public class Simulation {
 	  * showPotentialLots enables the drawing of lots that have not
 	  * been built yet.
 	  */
-	 public boolean showPotentialLots = false;
+	 public boolean showPotentialLots = true;
 
 	 private String lotsStyle = "node {fill-mode: none; size: 5px;} edge {visibility-mode: hidden;}";
 

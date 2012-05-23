@@ -1,5 +1,5 @@
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.graphstream.graph.Node;
 
@@ -16,13 +16,13 @@ import org.graphstream.graph.Node;
  */
 public class CrossroadPivot {
 
-	public Set<Node> lots;
+	 public List<Node> lots;
 
 	 public Node node;
 
 	 public CrossroadPivot() {
 
-		  this.lots = new HashSet<Node>();
+		  this.lots = new ArrayList<Node>();
 	 }
 
 	 public boolean equals(Object o) {
@@ -32,7 +32,7 @@ public class CrossroadPivot {
 				CrossroadPivot c = (CrossroadPivot)o;
 
 				if(!this.node.equals(c.node))
-					return false;
+					 return false;
 
 				if(this.lots.size() != c.lots.size())
 					 return false;
@@ -43,11 +43,6 @@ public class CrossroadPivot {
 		  }
 
 		  return true;
-	 }
-
-	 public int hashCode() {
-
-		  return this.lots.hashCode();
 	 }
 
 	 public String toString() {

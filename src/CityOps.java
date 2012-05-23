@@ -11,10 +11,8 @@ import org.graphstream.graph.Node;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public class CityOps {
 
@@ -47,12 +45,8 @@ public class CityOps {
 		  // position.
 		  Node newLot = LotOps.addLot(coord.x, coord.y, sim);
 
-		  // Add the new lot coordinate to the simulation list.
+		  // Add the new lot coordinate to the global list.
 		  sim.lotCoords.add(coord);
-
-		  // XXX: For debugging purposes.
-		  //oldLot.setAttribute("ui.style", "fill-color: orange;");
-		  //newLot.setAttribute("ui.style", "fill-color: green;");
 
 		  // Compute a new Voronoi diagram.
 		  GeometryCollection newVoronoi = (GeometryCollection)LotOps.voronoiDiagram(sim.lotCoords);
@@ -87,17 +81,17 @@ public class CityOps {
 		  // Remove the road network nodes associated with and only
 		  // with the updated lots.
 
-		  Set<Node> changedCrossroads = new HashSet<Node>();
+		  List<Node> changedCrossroads = new ArrayList<Node>();
 		  for(Node lot : changedLots)
-			  for(CrossroadPivot pivot : (Set<CrossroadPivot>)lot.getAttribute("pivots")) {
+			  for(CrossroadPivot pivot : (List<CrossroadPivot>)lot.getAttribute("pivots")) {
 
 				  Node crossroad = pivot.node;
 
-				  if(RoadOps.crossroadOnlySharedBy(crossroad, changedLots, sim))
+				  if(RoadOps.crossroadOnlySharedBy(crossroad, changedLots, sim) && !changedCrossroads.contains(crossroad))
 					  changedCrossroads.add(crossroad);
 			  }
 
-		  for(Node crossroad : new HashSet<Node>(changedCrossroads))
+		  for(Node crossroad : new ArrayList<Node>(changedCrossroads))
 			  RoadOps.removeCrossroad(crossroad, sim);
 
 		  // Recompute the sub-networks of these lots.
@@ -115,7 +109,7 @@ public class CityOps {
 
 		  int n = 0;
 
-		  Set<CrossroadPivot> pivots = (Set<CrossroadPivot>)lot.getAttribute("pivots");
+		  List<CrossroadPivot> pivots = (ArrayList<CrossroadPivot>)lot.getAttribute("pivots");
 
 		  CrossroadPivot[] pivots_a = pivots.toArray(new CrossroadPivot[0]);
 

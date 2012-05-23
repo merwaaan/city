@@ -6,10 +6,8 @@ import java.awt.Color;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.graphstream.algorithm.Toolkit;
 import org.graphstream.graph.Edge;
@@ -72,12 +70,15 @@ public class RoadOps {
 				sim.roads.addEdge(a+"_"+b, a, b);
 		  }
 
-		  // Update mapping.
+		  // Update mappings.
 
-		  for(Node crossroad : crossroads)
-				sim.pivots.get(crossroad).lots.add(lot);
+		  for(Node crossroad : crossroads) {
+				List<Node> lotsAroundCross = sim.pivots.get(crossroad).lots;
+				if(!lotsAroundCross.contains(lot))
+					 lotsAroundCross.add(lot);
+		  }
 
-		  Set<CrossroadPivot> pivots = new HashSet<CrossroadPivot>();
+		  List<CrossroadPivot> pivots = new ArrayList<CrossroadPivot>();
 		  for(Node crossroad : crossroads)
 				pivots.add(sim.pivots.get(crossroad));
 		  lot.setAttribute("pivots", pivots);
@@ -93,7 +94,7 @@ public class RoadOps {
 	 public static void mergeLotRoadsWithNeighbors(Node lot, Simulation sim) {
 
 		  // Get the crossroads surrounding the current lot.
-		  Set<CrossroadPivot> lotPivots = (Set<CrossroadPivot>)lot.getAttribute("pivots");
+		  List<CrossroadPivot> lotPivots = (List<CrossroadPivot>)lot.getAttribute("pivots");
 
 		  // Merge the sub-network of the lot with those of the
 		  // neighboring lots.
@@ -103,11 +104,11 @@ public class RoadOps {
 				Node neighbor = link.getOpposite(lot);
 
 				// Get the crossroads surrounding the neighbor lot.
-				Set<CrossroadPivot> neighborPivots = (Set<CrossroadPivot>)neighbor.getAttribute("pivots");
+				List<CrossroadPivot> neighborPivots = (List<CrossroadPivot>)neighbor.getAttribute("pivots");
 
 				for(CrossroadPivot lotPivot : lotPivots) {
 
-					 for(CrossroadPivot neighborPivot : new HashSet<CrossroadPivot>(neighborPivots)) {
+					 for(CrossroadPivot neighborPivot : new ArrayList<CrossroadPivot>(neighborPivots)) {
 
 						  Node lotCrossroad = lotPivot.node;
 						  Node neighborCrossroad = neighborPivot.node;
@@ -118,13 +119,17 @@ public class RoadOps {
 								// Merge the two crossroads.
 								RoadOps.mergeCrossroads(lotCrossroad, lot, neighborCrossroad, neighbor, sim);
 
-								// Update the mapping.
+								// Update mappings.
 
-								sim.pivots.get(lotCrossroad).lots.add(neighbor);
+								List<Node> lotsAroundCross = sim.pivots.get(lotCrossroad).lots;
+								if(!lotsAroundCross.contains(neighbor))
+									 lotsAroundCross.add(neighbor);
 
 								neighborPivots.remove(sim.pivots.get(neighborCrossroad));
 
-								neighborPivots.add(sim.pivots.get(lotCrossroad));
+								CrossroadPivot pivot = sim.pivots.get(lotCrossroad);
+								if(!neighborPivots.contains(pivot))
+									 neighborPivots.add(pivot);
 						  }
 					 }
 				}
@@ -174,7 +179,7 @@ public class RoadOps {
 
 		  CrossroadPivot pivot = (CrossroadPivot)crossroad.getAttribute("pivot");
 
-		  Set<Node> associatedLots = pivot.lots;
+		  List<Node> associatedLots = pivot.lots;
 
 		  for(Node lot : associatedLots)
 				if(!changedLots.contains(lot))
@@ -204,7 +209,7 @@ public class RoadOps {
 
 		  CrossroadPivot pivot = new CrossroadPivot();
 		  pivot.node = crossroad;
-		  pivot.lots = new HashSet<Node>();
+		  pivot.lots = new ArrayList<Node>();
 
 		  // Record the pivot in the simulation.
 
@@ -237,12 +242,8 @@ public class RoadOps {
 
 		  CrossroadPivot pivot = (CrossroadPivot)crossroad.getAttribute("pivot");
 
-		  for(Node lot : sim.lots) {
-
-				Set<CrossroadPivot> pivots = (Set<CrossroadPivot>)lot.getAttribute("pivots");
-
-				pivots.remove(pivot);
-		  }
+		  for(Node lot : sim.lots)
+				((List<CrossroadPivot>)lot.getAttribute("pivots")).remove(pivot);
 	 }
 
 	 /**

@@ -9,9 +9,7 @@ import com.vividsolutions.jts.triangulate.VoronoiDiagramBuilder;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.graphstream.graph.Edge;
 import org.graphstream.graph.Graph;
@@ -90,7 +88,7 @@ public class LotOps {
 
 		  //
 
-		  lot.setAttribute("pivots", new HashSet<CrossroadPivot>());
+		  lot.setAttribute("pivots", new ArrayList<CrossroadPivot>());
 
 		  return lot;
 	 }
@@ -107,7 +105,7 @@ public class LotOps {
 
 		//
 
-		Set<CrossroadPivot> pivots = (Set<CrossroadPivot>)lot.getAttribute("pivots");
+		List<CrossroadPivot> pivots = (List<CrossroadPivot>)lot.getAttribute("pivots");
 		for(CrossroadPivot pivot : pivots)
 			pivot.lots.remove(pivot);
 	}
@@ -329,7 +327,7 @@ public class LotOps {
 	  */
 	 public static boolean isNextToBuiltRoad(Node lot) {
 
-		  Set<CrossroadPivot> pivots = (Set<CrossroadPivot>)lot.getAttribute("pivots");
+		  List<CrossroadPivot> pivots = (List<CrossroadPivot>)lot.getAttribute("pivots");
 
 		  for(CrossroadPivot pivot : pivots)
 				if(RoadOps.isCrossroadBuilt(pivot.node))

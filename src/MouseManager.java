@@ -1,7 +1,5 @@
-import java.awt.Color;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
-import java.util.Set;
 
 import org.graphstream.graph.*;
 import org.graphstream.ui.swingViewer.util.DefaultMouseManager;
@@ -10,12 +8,13 @@ public class MouseManager extends DefaultMouseManager {
 
 	 private Simulation sim;
 
+	 private int screenshotIndex = 1;
+
 	 public MouseManager(Simulation sim) {
 
 		  this.sim = sim;
 	 }
 
-	int s = 1;
 	 public void mouseClicked(MouseEvent event) {
 
 		  int xPx = event.getX();
@@ -30,6 +29,6 @@ public class MouseManager extends DefaultMouseManager {
 		  CityOps.insertLot(coordsGu[0], coordsGu[1], this.sim);
 
 		  // Save a screenshot.
-		  this.sim.lots.addAttribute("ui.screenshot", "../screenshot" + s++ + ".png");
+		  this.sim.lots.addAttribute("ui.screenshot", "../screenshot" + screenshotIndex++ + ".png");
 	 }
 }
