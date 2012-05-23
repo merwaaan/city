@@ -56,6 +56,17 @@ public class Simulation {
 
 	 private String lotsStyle = "node {fill-mode: none; size: 5px;} edge {visibility-mode: hidden;}";
 
+	 /**
+	  * Current time.
+	  */
+	 public long now;
+	 private long lastStep;
+
+	 /**
+	  * Minimum delay between each update.
+	  */
+	 private long stepDuration = 1000;
+
 	 private View view;
 	 private Camera camera;
 
@@ -129,13 +140,19 @@ public class Simulation {
 		  this.strategies.add(new RoadDevelopmentStrategy(this));
 		  this.strategies.add(new LotConstructionStrategy(this));
 
-		  for(int i = 0; i < 100000; ++i) {
+		  while(true) {
 
-				for(AbstractStrategy strategy : this.strategies)
-					 strategy.update();
+				this.now = System.currentTimeMillis();
+
+				if(this.now - this.lastStep > this.stepDuration) {
+
+					 for(AbstractStrategy strategy : this.strategies)
+						  strategy.update();
+
+					 this.lastStep = now;
+				}
 
 				redraw();
-				pause(1000);
 		  }
 	 }
 

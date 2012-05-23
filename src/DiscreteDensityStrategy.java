@@ -50,7 +50,7 @@ public class DiscreteDensityStrategy extends AbstractStrategy {
 	 public DiscreteDensityStrategy(Simulation sim) {
 		  super(sim);
 
-		  this.sim.lots.addElementSink(new DiscreteDensitySink(this.sim, this));
+		  this.sim.lots.addSink(new DiscreteDensitySink(this.sim, this));
 	 }
 
 	 /**

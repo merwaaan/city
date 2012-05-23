@@ -3,14 +3,19 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.GeneralPath;
 
-import org.graphstream.graph.Edge;
-import org.graphstream.graph.Node;
-import org.graphstream.ui.graphicGraph.GraphicGraph;
-import org.graphstream.ui.swingViewer.LayerRenderer;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.Polygon;
+
+import org.graphstream.graph.Edge;
+import org.graphstream.graph.Node;
+import org.graphstream.stream.SinkAdapter;
+import org.graphstream.ui.graphicGraph.GraphicGraph;
+import org.graphstream.ui.swingViewer.LayerRenderer;
 
 public class BackgroundLayer implements LayerRenderer {
 
@@ -18,12 +23,22 @@ public class BackgroundLayer implements LayerRenderer {
 
 	 private int faded = 30;
 
+	 private Map<Node, Transition> transitions;
+
+	 private long transitionDuration = 1000;
+
 	 public BackgroundLayer(Simulation sim) {
 
 		  this.sim = sim;
+
+		  this.transitions = new ConcurrentHashMap<Node, Transition>();
+
+		  this.sim.lots.addSink(new LotWatcher(this.sim, this));
 	 }
 
 	 public void render(Graphics2D g, GraphicGraph graph, double ratio, int w, int h, double minx, double miny, double maxx, double maxy) {
+
+		  this.updateTransitions();
 
 		  // Save the transformation matrix.
 		  g = (Graphics2D)g.create();
@@ -75,10 +90,23 @@ public class BackgroundLayer implements LayerRenderer {
 				// Fill the cell according to density.
 				Density density = (Density)lot.getAttribute("density");
 
+				/*
 				if(density != null)
 					 g.setColor(density.color(LotOps.isLotBuilt(lot) ? 255 : this.faded));
 				else
 					 g.setColor(Color.GREEN);
+				*/
+
+				if(this.transitions.containsKey(lot))
+					 g.setColor(this.transitions.get(lot).current);
+				else {
+					 Density d = (Density)lot.getAttribute("density");
+
+					 if(d != null)
+						  g.setColor(d.color(255));
+					 else
+						  g.setColor(Color.GREEN);
+				}
 
 				g.fill(path);
 
@@ -140,6 +168,108 @@ public class BackgroundLayer implements LayerRenderer {
 				g.fillOval((int)x - 5, (int)y - 5, 10, 10);
 		  }
 		  */
+	 }
+
+	 /**
+	  * A sink watching for any attribute change if the lots network.
+	  *
+	  * When a lot change its state to another density type, the color
+	  * transition is started.
+	  */
+	 class LotWatcher extends SinkAdapter {
+
+		  Simulation sim;
+		  BackgroundLayer layer;
+
+		  LotWatcher(Simulation sim, BackgroundLayer layer) {
+
+				this.sim = sim;
+				this.layer = layer;
+		  }
+
+		  public void nodeAttributeChanged(String graphId, long time, String nodeId, String attr, Object oldVal, Object newVal) {
+
+				if(!attr.equals("density"))
+					 return;
+
+				Node lot = this.sim.lots.getNode(nodeId);
+				boolean built = LotOps.isLotBuilt(lot);
+
+				Color c1 = ((Density)oldVal).color(255);
+				long t1 = BackgroundLayer.this.sim.now;;
+
+				Color c2 = ((Density)newVal).color(255);
+				long t2 = t1 + BackgroundLayer.this.transitionDuration;
+
+				this.layer.transitions.put(lot, new Transition(c1, t1, c2, t2));
+		  }
+	 }
+
+	 /**
+	  *
+	  */
+	 class Transition {
+
+		  public Color color1;
+		  public long t1;
+
+		  public Color color2;
+		  public long t2;
+
+		  public Color current;
+
+		  public Transition(Color color1, long t1, Color color2, long t2) {
+
+				this.color1 = color1;
+				this.t1 = t1;
+
+				this.color2 = color2;
+				this.t2 = t2;
+
+				this.current = color1;
+		  }
+	 }
+
+	 private void updateTransitions() {
+
+		  Iterator it = this.transitions.entrySet().iterator();
+
+		  while(it.hasNext()) {
+
+				Map.Entry pair = (Map.Entry)it.next();
+
+				updateTransition((Node)pair.getKey(), (Transition)pair.getValue(), this.sim.now);
+		  }
+	 }
+
+	 private void updateTransition(Node lot, Transition transition, long now) {
+
+		  float progress = (float)(now - transition.t1) / this.transitionDuration;
+
+		  if(progress > 1)
+				this.transitions.remove(lot);
+
+		  int r1 = transition.color1.getRed();
+		  int g1 = transition.color1.getGreen();
+		  int b1 = transition.color1.getBlue();
+
+		  int r2 = transition.color2.getRed();
+		  int g2 = transition.color2.getGreen();
+		  int b2 = transition.color2.getBlue();
+
+		  int r = clamp(r1 + progress * (r2 - r1));
+		  int g = clamp(g1 + progress * (g2 - g1));
+		  int b = clamp(b1 + progress * (b2 - b1));
+
+		  transition.current = new Color(r, g, b);
+	 }
+
+	 private int clamp(float x) {
+
+		  x = x > 0 ? x : 0;
+		  x = x < 255 ? x : 255;
+
+		  return (int)x;
 	 }
 
 }

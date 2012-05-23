@@ -93,7 +93,7 @@ public class RoadDevelopmentStrategy extends AbstractStrategy {
 
 		  simplex.init(this.sim.roads);
 		  simplex.compute();
-		  System.out.println(simplex.getSolutionStatus());
+		  //System.out.println(simplex.getSolutionStatus());
 
 		  // Build the a best road.
 		  RoadOps.buildRoad(best(simplex));
