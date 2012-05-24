@@ -92,7 +92,7 @@ public class Simulation {
 
 		  // Misc.
 
-		  this.rnd = new Random(123456789);
+		  this.rnd = new Random(110186);
 
 		  this.geomFact = new GeometryFactory();
 
@@ -135,7 +135,7 @@ public class Simulation {
 		  //
 		  this.strategies.add(new DiscreteDensityStrategy(this));
 		  this.strategies.add(new RoadDevelopmentStrategy(this));
-		  this.strategies.add(new LotConstructionStrategy(0.7, this));
+		  this.strategies.add(new LotConstructionStrategy(0.6, this));
 
 		  while(true) {
 

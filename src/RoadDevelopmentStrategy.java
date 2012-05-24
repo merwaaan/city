@@ -17,7 +17,7 @@ public class RoadDevelopmentStrategy extends AbstractStrategy {
 
 	 void prepare() {
 
-		  Edge road = Toolkit.randomEdge(this.sim.roads);
+		  Edge road = Toolkit.randomEdge(this.sim.roads, this.sim.rnd);
 		  RoadOps.buildRoad(road);
 	 }
 
