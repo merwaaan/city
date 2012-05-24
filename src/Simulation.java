@@ -136,6 +136,7 @@ public class Simulation {
 		  this.strategies.add(new DiscreteDensityStrategy(this));
 		  this.strategies.add(new RoadDevelopmentStrategy(this));
 		  this.strategies.add(new LotConstructionStrategy(0.6, this));
+		  this.strategies.add(new PotentialLotConstructionStrategy(this));
 
 		  while(true) {
 
