@@ -1,8 +1,8 @@
-abstract class AbstractStrategy {
+abstract class Strategy {
 
 	 protected Simulation sim;
 
-	 public AbstractStrategy(Simulation sim) {
+	 public Strategy(Simulation sim) {
 
 		  this.sim = sim;
 

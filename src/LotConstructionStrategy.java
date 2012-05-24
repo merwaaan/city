@@ -1,6 +1,6 @@
 import org.graphstream.graph.Node;
 
-public class LotConstructionStrategy extends AbstractStrategy {
+public class LotConstructionStrategy extends Strategy {
 
 	 private double growthRate;
 	 private double acc;

@@ -41,7 +41,7 @@ public class Simulation {
 	  * iteration of the simulation. They are rules describing its
 	  * evolution.
 	  */
-	 private ArrayList<AbstractStrategy> strategies;
+	 private ArrayList<Strategy> strategies;
 
 	 /**
 	  * Display options.
@@ -88,7 +88,7 @@ public class Simulation {
 
 		  // Strategies.
 
-		  this.strategies = new ArrayList<AbstractStrategy>();
+		  this.strategies = new ArrayList<Strategy>();
 
 		  // Misc.
 
@@ -144,7 +144,7 @@ public class Simulation {
 
 				if(this.now - this.lastStep > this.stepDuration) {
 
-					 for(AbstractStrategy strategy : this.strategies)
+					 for(Strategy strategy : this.strategies)
 						  strategy.update();
 
 					 this.lastStep = now;

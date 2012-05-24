@@ -6,7 +6,7 @@ import java.util.Map;
 import org.graphstream.graph.Node;
 import org.graphstream.stream.SinkAdapter;
 
-public class DiscreteDensityStrategy extends AbstractStrategy {
+public class DiscreteDensityStrategy extends Strategy {
 
 	 public static Density[] cachedDensityTypes = {
 		  Density.EMPTY,

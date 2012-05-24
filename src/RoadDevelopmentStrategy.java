@@ -7,7 +7,7 @@ import org.graphstream.graph.Edge;
 import org.graphstream.graph.Node;
 import org.graphstream.stream.SinkAdapter;
 
-public class RoadDevelopmentStrategy extends AbstractStrategy {
+public class RoadDevelopmentStrategy extends Strategy {
 
 	 public RoadDevelopmentStrategy(Simulation sim) {
 		  super(sim);
