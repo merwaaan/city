@@ -60,7 +60,7 @@ public class Simulation {
 	  * field. If its value is -1, no fields are displayed.
 	  */
 	 public boolean showPotentialLots = true;
-	 public int showWhichVectorField = 0;
+	 public int showWhichVectorField = -1;
 
 	 private String lotsStyle = "node {fill-mode: none; size: 5px;} edge {visibility-mode: hidden;}";
 

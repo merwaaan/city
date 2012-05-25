@@ -14,7 +14,10 @@ public class PotentialLotStrategy extends Strategy {
 
 		  // Choose appropriate vector fields.
 
-		  this.fields.add(new DensityField(this.sim, 30));
+		  int frequency = 100;
+		  this.fields.add(new DensityField(this.sim, frequency));
+		  //this.fields.add(new RoadField(this.sim, frequency));
+		  //this.fields.add(new PatternField(this.sim, frequency));
 	 }
 
 	 void prepare() {

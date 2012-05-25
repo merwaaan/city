@@ -140,8 +140,6 @@ public class DensityStrategy extends Strategy {
 		  // Scale with respect to the ratios.
 		  potential *= ratios[targetDensity.index()];
 
-		  // TODO age???
-
 		  // Normalize.
 		  potential /= neighbors.size();
 
