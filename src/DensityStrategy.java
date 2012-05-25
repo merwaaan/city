@@ -84,7 +84,21 @@ public class DensityStrategy extends Strategy {
 
 	 private boolean ready(Node lot) {
 
-		  return (Integer)lot.getAttribute("age") > 20;
+		  int age = (Integer)lot.getAttribute("age");
+
+		  double p = sigmoid(age);
+		  double r = this.sim.rnd.nextDouble();
+
+		  return r < p;
+	 }
+
+	 private double sigmoid(int x) {
+
+		  // XXX flatter?
+		  double weight = 0.1;
+		  double offset = 50;
+
+		  return 1 / (1 + Math.exp(-weight * (x - offset)));
 	 }
 
 	 private int[] getNeighborDensities(List<Node> neighbors) {
