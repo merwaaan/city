@@ -17,24 +17,10 @@ public class MouseManager extends DefaultMouseManager {
 
 	 public void mouseClicked(MouseEvent event) {
 
-		  // Left click: insert a new node
+		  // Left click: save screen shot.
 
-		  if(event.getButton() == MouseEvent.BUTTON1) {
-
-				int xPx = event.getX();
-				int yPx = event.getY();
-
-				Rectangle bounds = this.view.getBounds();
-				double xPxCentered = xPx - bounds.getWidth() / 2;
-				double yPxCentered = -(yPx - bounds.getHeight() / 2);
-
-				double[] coordsGu = this.sim.px2gu(xPxCentered, yPxCentered);
-
-				CityOps.insertLot(coordsGu[0], coordsGu[1], this.sim);
-
-				// Save a screenshot.
+		  if(event.getButton() == MouseEvent.BUTTON1)
 				this.sim.lots.addAttribute("ui.screenshot", "../screenshot" + screenshotIndex++ + ".png");
-		  }
 
 		  // Right click: display a different vector field.
 
@@ -49,5 +35,19 @@ public class MouseManager extends DefaultMouseManager {
 				else
 					 ++this.sim.showWhichVectorField;
 		  }
+
+		  // Interactive node insertion code, we never know...
+		  /*
+		  int xPx = event.getX();
+		  int yPx = event.getY();
+
+		  Rectangle bounds = this.view.getBounds();
+		  double xPxCentered = xPx - bounds.getWidth() / 2;
+		  double yPxCentered = -(yPx - bounds.getHeight() / 2);
+
+		  double[] coordsGu = this.sim.px2gu(xPxCentered, yPxCentered);
+
+		  CityOps.insertLot(coordsGu[0], coordsGu[1], this.sim);
+		  */
 	 }
 }
