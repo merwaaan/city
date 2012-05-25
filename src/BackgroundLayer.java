@@ -14,6 +14,7 @@ import com.vividsolutions.jts.geom.Polygon;
 import org.graphstream.graph.Edge;
 import org.graphstream.graph.Node;
 import org.graphstream.stream.SinkAdapter;
+import org.graphstream.ui.geom.Vector2;
 import org.graphstream.ui.graphicGraph.GraphicGraph;
 import org.graphstream.ui.swingViewer.LayerRenderer;
 
@@ -33,7 +34,7 @@ public class BackgroundLayer implements LayerRenderer {
 
 		  this.transitions = new ConcurrentHashMap<Node, Transition>();
 
-		  this.sim.lots.addSink(new LotWatcher(this.sim, this));
+		  this.sim.lots.addSink(new TransitionSink(this.sim, this));
 	 }
 
 	 public void render(Graphics2D g, GraphicGraph graph, double ratio, int w, int h, double minx, double miny, double maxx, double maxy) {
@@ -53,6 +54,7 @@ public class BackgroundLayer implements LayerRenderer {
 		  // ART!
 		  drawLots(g);
 		  drawRoads(g);
+		  drawVectorField(g);
 
 		  // Restore the transformation matrix.
 		  g.dispose();
@@ -163,18 +165,48 @@ public class BackgroundLayer implements LayerRenderer {
 		  */
 	 }
 
+	 private void drawVectorField(Graphics2D g) {
+
+		  PotentialLotStrategy strategy = (PotentialLotStrategy)this.sim.strategies.get("potential lot construction");
+		  if(strategy == null)
+				return;
+
+		  if(this.sim.showWhichVectorField < 0)
+				return;
+
+		  VectorField field = strategy.fields.get(this.sim.showWhichVectorField);
+
+		  for(int i = 0; i < field.vectors.length; ++i)
+				for(int j = 0; j < field.vectors[i].length; ++j) {
+
+					 g.setColor(Color.ORANGE);
+
+					 Vector2 pos = field.position(i, j);
+					 int x1 = (int)pos.x();
+					 int y1 = (int)pos.y();
+
+					 g.fillOval(x1 - 5, y1 - 5, 10, 10);
+
+					 Vector2 vec = field.vectors[i][j];
+					 int x2 = x1 + (int)vec.x() * 10;
+					 int y2 = y1 + (int)vec.y() * 10;
+
+					 g.drawLine(x1, y1, x2, y2);
+				}
+	 }
+
 	 /**
 	  * A sink watching for any attribute change in the lots network.
 	  *
-	  * When a lot change its state to another density type, the color
+	  * When a lot change its state to another density type, a color
 	  * transition is started.
 	  */
-	 class LotWatcher extends SinkAdapter {
+	 class TransitionSink extends SinkAdapter {
 
 		  Simulation sim;
 		  BackgroundLayer layer;
 
-		  LotWatcher(Simulation sim, BackgroundLayer layer) {
+		  TransitionSink(Simulation sim, BackgroundLayer layer) {
 
 				this.sim = sim;
 				this.layer = layer;
@@ -199,7 +231,7 @@ public class BackgroundLayer implements LayerRenderer {
 	 }
 
 	 /**
-	  *
+	  * Holds color transition data.
 	  */
 	 class Transition {
 

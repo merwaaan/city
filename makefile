@@ -20,22 +20,23 @@ LIBS=\
 	jts-1.12
 
 FILES=\
-	AbstractStrategy \
 	BackgroundLayer \
 	CityOps \
 	CrossroadPivot \
 	Density \
-	DiscreteDensityStrategy \
-	LotConstructionStrategy \
+	DensityField \
+	DensityStrategy \
+	LotStrategy \
 	LotOps \
-	LotPositioningStrategy \
 	MouseManager \
-	PotentialLotConstructionStrategy \
-	RoadDevelopmentStrategy \
+	PotentialLotStrategy \
+	RoadStrategy \
 	RoadOps \
 	ShapeFileLoader \
 	Simulation \
-	Test
+	Strategy \
+	Test \
+	VectorField
 
 CP:= $(addprefix $(LIB_DIR)/,$(LIBS))
 CP:= $(addsuffix .jar,$(CP))

@@ -25,6 +25,8 @@ public class Simulation {
 	  */
 	 public Graph lots;
 
+	 public int width;
+
 	 public List<Coordinate> lotCoords;
 
 	 /**
@@ -34,6 +36,11 @@ public class Simulation {
 	  */
 	 public Graph roads;
 
+	 /**
+	  * A pivot is used to associate a lot with the surrounding
+	  * crossroads and, conversely, a crossroad with the surrounding
+	  * lots.
+	  */
 	 public Map<Node, CrossroadPivot> pivots;
 
 	 /**
@@ -41,15 +48,19 @@ public class Simulation {
 	  * iteration of the simulation. They are rules describing its
 	  * evolution.
 	  */
-	 private ArrayList<Strategy> strategies;
+	 public HashMap<String, Strategy> strategies;
 
 	 /**
 	  * Display options.
 	  *
-	  * showPotentialLots enables the drawing of lots that have not
+	  * `showPotentialLots` enables the drawing of lots that have not
 	  * been built yet.
+	  *
+	  * `showWhichVectorField` is the index of the displayed vector
+	  * field. If its value is -1, no fields are displayed.
 	  */
 	 public boolean showPotentialLots = true;
+	 public int showWhichVectorField = 0;
 
 	 private String lotsStyle = "node {fill-mode: none; size: 5px;} edge {visibility-mode: hidden;}";
 
@@ -88,7 +99,7 @@ public class Simulation {
 
 		  // Strategies.
 
-		  this.strategies = new ArrayList<Strategy>();
+		  this.strategies = new HashMap<String, Strategy>();
 
 		  // Misc.
 
@@ -113,8 +124,10 @@ public class Simulation {
 
 	 private void initialize() {
 
+		  this.width = 2000;
+
 		  // Compute n random coordinates.
-		  this.lotCoords = getRandomCoords(500, 1000);
+		  this.lotCoords = getRandomCoords(500);
 		  //this.lotCoords = ShapeFileLoader.getLandLots("data/world_borders/world_borders.shp");
 		  //this.lotCoords = ShapeFileLoader.getLandLots("data/IGN/PARCELLE.SHP");
 
@@ -132,11 +145,11 @@ public class Simulation {
 		  // Save a screenshot.
 		  this.lots.addAttribute("ui.screenshot", "../screenshot.png");
 
-		  //
-		  this.strategies.add(new DiscreteDensityStrategy(this));
-		  this.strategies.add(new RoadDevelopmentStrategy(this));
-		  this.strategies.add(new LotConstructionStrategy(0.6, this));
-		  this.strategies.add(new PotentialLotConstructionStrategy(this));
+		  // Choose appropriate strategies.
+		  this.strategies.put("cellular automata", new DensityStrategy(this));
+		  this.strategies.put("road development", new RoadStrategy(this));
+		  this.strategies.put("lot construction", new LotStrategy(0.6, this));
+		  this.strategies.put("potential lot construction", new PotentialLotStrategy(this));
 
 		  while(true) {
 
@@ -144,7 +157,7 @@ public class Simulation {
 
 				if(this.now - this.lastStep > this.stepDuration) {
 
-					 for(Strategy strategy : this.strategies)
+					 for(Strategy strategy : this.strategies.values())
 						  strategy.update();
 
 					 this.lastStep = now;
@@ -186,20 +199,22 @@ public class Simulation {
 	 }
 
 	 /**
-	  * Generate `lotCount` geometrical coordinates with X and Y values
-	  * within [-`offset`, +`offset`].
+	  * Generates random geometrical coordinates.
+	  *
+	  * @param n The number of coordinates requested.
+	  * @return A list of coordinates.
 	  */
-	 private List<Coordinate> getRandomCoords(int n, int offset) {
+	 private List<Coordinate> getRandomCoords(int n) {
 
 		  List<Coordinate> coords = new ArrayList<Coordinate>();
 
-		  int offset2 = offset * 2;
+		  int half = this.width / 2;
 
 		  for(int i = 0; i < n; ++i) {
 
 				// Choose a random position.
-				int x = this.rnd.nextInt(offset2) - offset;
-				int y = this.rnd.nextInt(offset2) - offset;
+				int x = this.rnd.nextInt(this.width) - half;
+				int y = this.rnd.nextInt(this.width) - half;
 
 				coords.add(new Coordinate(x, y));
 		  }

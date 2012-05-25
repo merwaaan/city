@@ -7,12 +7,12 @@ import org.graphstream.graph.Edge;
 import org.graphstream.graph.Node;
 import org.graphstream.stream.SinkAdapter;
 
-public class RoadDevelopmentStrategy extends Strategy {
+public class RoadStrategy extends Strategy {
 
-	 public RoadDevelopmentStrategy(Simulation sim) {
+	 public RoadStrategy(Simulation sim) {
 		  super(sim);
 
-		  this.sim.lots.addElementSink(new RoadDevelopmentSink(this.sim, this));
+		  this.sim.lots.addElementSink(new RoadStrategySink(this.sim, this));
 	 }
 
 	 void prepare() {
@@ -158,12 +158,12 @@ public class RoadDevelopmentStrategy extends Strategy {
 	 /**
 	  *
 	  */
-	 class RoadDevelopmentSink extends SinkAdapter {
+	 class RoadStrategySink extends SinkAdapter {
 
 		  Simulation sim;
-		  RoadDevelopmentStrategy strategy;
+		  RoadStrategy strategy;
 
-		  RoadDevelopmentSink(Simulation sim, RoadDevelopmentStrategy strategy) {
+		  RoadStrategySink(Simulation sim, RoadStrategy strategy) {
 
 				this.sim = sim;
 				this.strategy = strategy;

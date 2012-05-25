@@ -1,11 +1,11 @@
 import org.graphstream.graph.Node;
 
-public class LotConstructionStrategy extends Strategy {
+public class LotStrategy extends Strategy {
 
 	 private double growthRate;
 	 private double acc;
 
-	 public LotConstructionStrategy(double growthRate, Simulation sim) {
+	 public LotStrategy(double growthRate, Simulation sim) {
 		  super(sim);
 
 		  this.growthRate = growthRate;

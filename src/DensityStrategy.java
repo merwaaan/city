@@ -6,7 +6,7 @@ import java.util.Map;
 import org.graphstream.graph.Node;
 import org.graphstream.stream.SinkAdapter;
 
-public class DiscreteDensityStrategy extends Strategy {
+public class DensityStrategy extends Strategy {
 
 	 public static Density[] cachedDensityTypes = {
 		  Density.EMPTY,
@@ -32,10 +32,10 @@ public class DiscreteDensityStrategy extends Strategy {
 		  0.2  // HIGH
 	 };
 
-	 public DiscreteDensityStrategy(Simulation sim) {
+	 public DensityStrategy(Simulation sim) {
 		  super(sim);
 
-		  this.sim.lots.addSink(new DiscreteDensitySink(this.sim, this));
+		  this.sim.lots.addSink(new DensityStrategySink(this.sim, this));
 	 }
 
 	 /**
@@ -172,12 +172,12 @@ public class DiscreteDensityStrategy extends Strategy {
 	  * A sink watching for newly added lots so that they can be
 	  * prepared and associated with the appropriate attributes.
 	  */
-	 class DiscreteDensitySink extends SinkAdapter {
+	 class DensityStrategySink extends SinkAdapter {
 
 		  Simulation sim;
-		  DiscreteDensityStrategy strategy;
+		  DensityStrategy strategy;
 
-		  DiscreteDensitySink(Simulation sim, DiscreteDensityStrategy strategy) {
+		  DensityStrategySink(Simulation sim, DensityStrategy strategy) {
 
 				this.sim = sim;
 				this.strategy = strategy;
