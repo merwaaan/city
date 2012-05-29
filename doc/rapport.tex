@@ -2,20 +2,16 @@
 
 \usepackage[utf8]{inputenc}
 \usepackage[francais]{babel}
-\usepackage{multicol}
 \usepackage{subfig}
 
 \usepackage{tikz}
 \usetikzlibrary{calc}
 
-\usepackage[margin=1.2in]{geometry}
-\setlength{\columnsep}{2pc}
-
 \usepackage[natbib=true,sorting=none,style=numeric,url=false,doi=false,isbn=false]{biblatex}
 %\addbibresource{references}
 \bibliography{references}
 
-\title{TITRE}
+\title{Coévolution de réseau viaire et du bâti}
 \author{Merwan Achibet}
 \date{}
 
@@ -35,11 +31,21 @@ abstract abstract abstract abstract abstract abstract abstract
 abstract abstract abstract abstract abstract abstract abstract
 \end{abstract}
 
-\begin{multicols}{2}
+\newpage
 
-\section{Introduction}
+\tableofcontents
+
+\newpage
+
+REMERCIEMENTS
+
+\newpage
+
+\section*{Introduction}
 
 \section{\'Etat de l'art}
+
+\subsection{Automates cellulaires et simulation urbaine}
 
 La modélisation de systèmes complexes est longtemps uniquement passée
 par l'usage de méthodes mathématiques; typiquement, des systèmes
@@ -193,6 +199,8 @@ la ville et non plus celle de la parcelle ? Est-il bénéfique de
 représenter une route par un ensemble de cellules ou plutôt par une
 entité unique ?
 
+\subsection{Approches alternatives}
+
 Les automates cellulaires ne sont pas l'unique moyen de modéliser la
 croissance urbaine. Plusieurs simulations existantes sont des systèmes
 multi-agent \cite{Lechnera,Lechner2004}. Dans ces cas, un agent est
@@ -249,9 +257,25 @@ les $n$ routes générées, une seule sera construite. Pour la choisir,
 le traffic sur ces nouvelles routes est simulé et l'on identifie celle
 qui sera la plus bénéfique au réseau. AUTRES PAPIERS?
 
-\section{Structure et construction}
+\section{Le modèle}
 
 \subsection{Structure}
+
+\subsection{Mécanismes évolutionnels}
+
+\subsubsection{Automate cellulaire graphe}
+
+\subsubsection{Expansion du réseau routier}
+
+\subsubsection{Construction des parcelles}
+
+\subsubsection{Prévision des parcelles}
+
+\section{Construction}
+
+\subsection{Structure}
+
+BOUGER CA PLUS HAUT
 
 Comme énoncé précédemment, les automates cellulaires sont des
 structures versatiles et puissantes dont le formalisme originel impose
@@ -453,17 +477,11 @@ IMAGE
 
 \subsubsection{Importation de données géographiques}
 
-SHAPEFILE
+SHAPEFILE, BLABLA, PAS TRES INTERESSANT
 
-\section{\'Evolution}
+\section{Mesures}
 
-DONNEES
-
-\subsubsection{L'évolution de la densité}
-
-\subsubsection{La croissance de la ville (MORPHOGENESE?)}
-
-\end{multicols}
+HEUUUUUUUU
 
 \printbibliography
 
