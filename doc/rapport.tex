@@ -2,7 +2,8 @@
 
 \usepackage[utf8]{inputenc}
 \usepackage[francais]{babel}
-\usepackage{subfig}
+\usepackage{caption}
+\usepackage{subcaption}
 
 \usepackage{tikz}
 \usetikzlibrary{calc}
@@ -170,8 +171,22 @@ résidentiel) mais il faut aussi prendre en compte les alentours plus
 distants (la centrale thermique se trouvant à 500 mètres du site peut
 poser problème). Une solution possible est d'étendre les voisinages de
 von Neumann et de Moore tout en conservant leur forme
-caractéristique. + AUTOMATE CELLULAIRE GRAPHE (THESE O'SULLIVAN)
+caractéristique. + AUTOMATE CELLULAIRE GRAPHE (THESE O'SULLIVAN) DIFF
+CRITERES (EUCLID, VISIB, MANH)
 \cite{O'Sullivan2000,0'Sullivan2001}.
+
+\begin{figure}
+  \begin{subfigure}[b]{.5\linewidth}
+    \centering
+    \input{images/CA-simple.tikz}
+    \caption{Automate cellulaire classique}
+  \end{subfigure}
+  \begin{subfigure}[b]{.5\linewidth}
+    \centering
+    \input{images/CA-graph.tikz}
+    \caption{Automate cellulaire graphe}
+  \end{subfigure}
+\end{figure}
 
 Une prise de liberté quant à l'aspect temporel est aussi
 envisageable. Un automate cellulaire strict est synchrone, i.e. les
@@ -261,6 +276,126 @@ qui sera la plus bénéfique au réseau. AUTRES PAPIERS?
 
 \subsection{Structure}
 
+Comme énoncé précédemment, les automates cellulaires sont des
+structures versatiles et puissantes dont le formalisme originel impose
+néanmoins quelques limitations; l'une des principales étant, à nos
+yeux, un maillage régulier et statique.
+
+Pour répondre à notre problématique, il est nécessaire d'employer une
+structure souple et dynamique permettant de représenter à la fois le
+bâti et le viaire. On propose à cet effet d'utiliser le diagramme de
+Voronoï.
+
+Un diagramme de Voronoï est une subdivision de l'espace basée sur
+l'évaluation de distances à des points particuliers, les
+générateurs. Chaque point de l'espace est considéré comme appartenant
+à l'espace d'un générateur (sa cellule de Voronoï) si la distance
+séparant ces deux élements est inférieure à la distance séparant le
+point de tous les autres générateurs. Autrement dit, chaque point
+appartient à la cellule de Voronoï du générateur qui lui est le plus
+proche.
+
+IMAGE
+
+Quelques propriétés notables.
+
+Les diagrammes de Voronoï trouvent de nombreuses applications en
+science ; on peut en citer quelques unes. En robotique, les obstacles
+présents dans un environnement peuvent être assimilés à des
+générateurs et un robot cherchant à maximiser leur évitement préférera
+longer les frontières des cellules (les arêtes de Voronoï). En
+sociologie géographique, ils permettent d'opposer les zones
+d'influence de différents éléments urbains et répondent à des
+questions telles que : quel magasin un piéton sera-t-il plus
+susceptible de visiter selon la zone dans laquelle il se trouve ? En
+géologie, ils permettent de modéliser les écoulements souterrains
+d'eau. En biologie, on les utilise pour simuler la croissance
+cellulaire. DETAILS?
+
+On remarque qu'une grille régulière, comme celles présentes dans les
+automates cellulaires classiques correspond à un diagramme de Voronoï
+dans laquelle les générateurs sont alignés et régulièrement
+disposés.
+
+IMAGE
+
+Un diagramme de Voronoï représente notre espace urbain et c'est tout
+naturellement que l'on imagine chaque cellule représenter une parcelle
+cadastrale. L'usage du diagramme permet d'identifier les parcelles
+voisines comme étant celles partageant une arête de Voronoï. Le graphe
+de voisinage est ainsi construit, sa structure prenant la forme duale
+du diagramme de Voronoï : la triangulation de Delaunay. Ce premier
+graphe décrit le réseau d'influences mettant en relation les parcelles
+proches les unes des autres et servira à définir les relations de
+voisinages régissant l'évolution de l'automate cellulaire.
+
+Cette structure permet de décrire un canevas urbain de base mais la
+composante routière est encore absente. Chaque arête de Voronoï
+correspond à un espace entre deux parcelles, et est susceptible
+d'accueillir une route. On choisit donc de construire un second
+graphe, dual au graphe du bâti, dont les arêtes seront les routes
+potentielles entre chaque bâtiment et les n\oe uds des carrefours (sur
+les sommets des cellules). On l'appelle le graphe routier
+\textit{potentiel}. L'évolution du réseau viaire consiste à choisir
+quelles arêtes prendre dans le réseau routier \textit{potentiel} pour
+les mettre dans le réseau routier \textit{construit} en fonction de
+qualités internes au système (en pratique, on leur joint une étiquette
+spéciale).
+
+La potentialité est une part importante de ce modèle : on choisit
+quelles routes construire pour mieux servir la ville, mais aussi
+quelles parcelles. À cet effet, il est nécessaire de préparer les
+bords de la ville en y ajoutant des parcelles elles aussi potentielles
+pour porter la morphogénèse du système. Ce placement de parcelles
+invisibles se fait continuellement et permet de prévoir à court terme
+l'évolution de la ville tout en laissant la sélection de quelles
+parcelles construire être fonction de
+
+Il est essentiel de dissocier le polygone représentant la cellule de
+Voronoï associée à une parcelle de sa véritable empreinte
+cadastrale. Une cellule représente l'influence d'une parcelle dans
+l'espace urbain et possède comme seul point commun avec l'empreinte
+son centre. Similairement, une arête indique qu'une voie passe entre
+deux parcelles sans pour autant fournir ses coordonnées ou sa
+courbure. Si l'on souhaite, dans un but infographique, générer une
+image de notre ville à partir de ce modèle, un travail
+d'interprétation est nécessaire. OUT OF SCOPE
+
+\begin{figure}
+  \begin{subfigure}[b]{\linewidth}
+    \centering
+    \includegraphics[width=3.8cm]{images/voronoi-interpA0.png}
+    \caption{aaa}
+  \end{subfigure}
+
+  \centering
+  \begin{subfigure}[b]{.3\linewidth}
+    \centering
+    \includegraphics[width=3.8cm]{images/voronoi-interpA1.png}
+    \caption{aaa}
+  \end{subfigure}
+  \begin{subfigure}[b]{.35\linewidth}
+    \centering
+    \includegraphics[width=3.8cm]{images/voronoi-interpA2.png}
+    \caption{aaa}
+  \end{subfigure}
+  \begin{subfigure}[b]{.3\linewidth}
+    \centering
+    \includegraphics[width=3.8cm]{images/voronoi-interpA3.png}
+    \caption{aaa}
+  \end{subfigure}
+\end{figure}
+
+Idéalement, ce modèle doit être capable de simuler la croissance d'une
+ville déjà bien établie mais il doit aussi être possible de partir
+d'une feuille blanche et de générer des villes totalement imaginaires,
+notamment afin de tester les effets de différents paramètres. Autre
+contrainte ; on souhaite que le modèle reste général et que toute
+contrainte non prévue initialement (influence de l'altitude, de la
+pente, interaction volontaire) soit possible.
+
+Quatre mécanismes
+
 \subsection{Mécanismes évolutionnels}
 
 \subsubsection{Automate cellulaire graphe}
@@ -272,60 +407,6 @@ qui sera la plus bénéfique au réseau. AUTRES PAPIERS?
 \subsubsection{Prévision des parcelles}
 
 \section{Construction}
-
-\subsection{Structure}
-
-BOUGER CA PLUS HAUT
-
-Comme énoncé précédemment, les automates cellulaires sont des
-structures versatiles et puissantes dont le formalisme originel impose
-néanmoins quelques limitations; la principale étant, à nos yeux, un
-maillage figé et statique.
-
-Pour répondre à notre problématique, il est nécéssaire d'employer une
-structure souple et dynamique permettant de représenter à la fois le
-bâti et le viaire. On propose à cet effet d'utiliser le diagramme de
-Voronoï.
-
-GROSSE DEFINITION
-
-JUSTIFICATION
-
-La vue d'un diagramme de Voronoï évoque naturellement le maillage de
-la ville, où chaque parcelle de terrain est représentée par une
-cellule et les parcelles voisines sont en contact. Ces frontières,
-prenant la forme des arêtes du diagramme de Voronoi, sont d'une
-importance capitale puisqu'elles correspondent aux espaces entre les
-bâtiments, et donc aux tracés des routes potentielles. Chaque cellule
-de Voronoï représente donc l'espace d'une parcelle tandis que chaque
-arête est une voie potentiellement constructible. Les parcelles dont
-les cellules sont en contact (partageant une arête) sont considérées
-comme voisines et, à la manière des automates cellulaires, l'état
-d'une parcelle dépend de l'état des ses voisines.
-
-Avant d'aller plus loin et de détailler la construction d'une telle
-structure et les règles régissant son évolution, il nous faut préciser
-certaines particularités. Premièrement, l'espace qu'une cellule occupe
-ne réprésente absolument pas sa couverture cadastrale. On admet que
-l'empreinte du bâtiment est globalement contenue dans cette dernière
-sans aucune garantie qu'elle n'en déborde pas ou, à l'opposé, que la
-taille de la parcelle soit du même ordre de grandeur que l'aire de sa
-cellule.
-
-IMAGE
-
-Deuxième point important : les arêtes de Voronoï qui forment le réseau
-routier potentiel portent uniquement des informations topologiques et
-ne traduisent aucunement le tracé exact des routes qu'elles
-représentent. Autrement dit, une telle arête décrit qu'une voie passe
-entre deux bâtiments précis sans pour autant renseigner sur sa
-direction ou sa courbure.
-
-IMAGE
-
-AUTRE PROBLEME
-
-\subsection{Construction}
 
 Notre système urbain est décrit sur deux niveaux; plus précisément,
 par deux graphes. On distingue donc le graphe parcellaire du graphe
@@ -484,70 +565,5 @@ SHAPEFILE, BLABLA, PAS TRES INTERESSANT
 HEUUUUUUUU
 
 \printbibliography
-
-\begin{figure}[h]
-
-  \centering
-
-  \subfloat[Automate cellulaire simple]{
-
-    \begin{tikzpicture}
-      \draw[step=1,gray] (0,0) grid (3,3);
-
-      \node at (0.5,0.5) {G};
-      \node at (1.5,0.5) {H};
-      \node at (2.5,0.5) {I};
-      \node at (0.5,1.5) {D};
-      \node at (1.5,1.5) {E};
-      \node at (2.5,1.5) {F};
-      \node at (0.5,2.5) {A};
-      \node at (1.5,2.5) {B};
-      \node at (2.5,2.5) {C};
-    \end{tikzpicture}
-
-  }
-
-  \subfloat[Automate cellulaire graphe]{
-
-    \begin{tikzpicture}
-      \draw (0.5,0.5) node[circle,draw] (g) {G};
-      \draw (1.5,0.5) node[circle,draw] (h) {H};
-      \draw (2.5,0.5) node[circle,draw] (i) {I};
-      \draw (0.5,1.5) node[circle,draw] (d) {D};
-      \draw (1.5,1.5) node[circle,draw] (e) {E};
-      \draw (2.5,1.5) node[circle,draw] (f) {F};
-      \draw (0.5,2.5) node[circle,draw] (a) {A};
-      \draw (1.5,2.5) node[circle,draw] (b) {B};
-      \draw (2.5,2.5) node[circle,draw] (c) {C};
-
-      \draw (a) -- (b);
-      \draw (a) -- (e);
-      \draw (a) -- (d);
-      \draw (b) -- (c);
-      \draw (b) -- (f);
-      \draw (b) -- (e);
-      \draw (b) -- (d);
-      \draw (b) -- (f);
-      \draw (c) -- (f);
-      \draw (d) -- (e);
-      \draw (d) -- (h);
-      \draw (d) -- (g);
-      \draw (e) -- (c);
-      \draw (e) -- (f);
-      \draw (e) -- (i);
-      \draw (e) -- (h);
-      \draw (e) -- (g);
-      \draw (f) -- (i);
-      \draw (f) -- (h);
-      \draw (g) -- (h);
-      \draw (h) -- (i);
-    \end{tikzpicture}
-
-  }
-
-  \caption{}
-  \label{}
-
-\end{figure}
 
 \end{document}

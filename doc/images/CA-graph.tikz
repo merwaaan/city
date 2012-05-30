@@ -1,0 +1,33 @@
+\begin{tikzpicture}
+  \draw (0.5,0.5) node[circle,draw] (g) {G};
+  \draw (1.5,0.5) node[circle,draw] (h) {H};
+  \draw (2.5,0.5) node[circle,draw] (i) {I};
+  \draw (0.5,1.5) node[circle,draw] (d) {D};
+  \draw (1.5,1.5) node[circle,draw] (e) {E};
+  \draw (2.5,1.5) node[circle,draw] (f) {F};
+  \draw (0.5,2.5) node[circle,draw] (a) {A};
+  \draw (1.5,2.5) node[circle,draw] (b) {B};
+  \draw (2.5,2.5) node[circle,draw] (c) {C};
+
+  \draw (a) -- (b);
+  \draw (a) -- (e);
+  \draw (a) -- (d);
+  \draw (b) -- (c);
+  \draw (b) -- (f);
+  \draw (b) -- (e);
+  \draw (b) -- (d);
+  \draw (b) -- (f);
+  \draw (c) -- (f);
+  \draw (d) -- (e);
+  \draw (d) -- (h);
+  \draw (d) -- (g);
+  \draw (e) -- (c);
+  \draw (e) -- (f);
+  \draw (e) -- (i);
+  \draw (e) -- (h);
+  \draw (e) -- (g);
+  \draw (f) -- (i);
+  \draw (f) -- (h);
+  \draw (g) -- (h);
+  \draw (h) -- (i);
+\end{tikzpicture}
