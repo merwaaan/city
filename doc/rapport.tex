@@ -18,9 +18,13 @@
 
 \begin{document}
 
+% TODO make a nice front page
 \maketitle
 
 \begin{abstract}
+abstract abstract abstract abstract abstract abstract abstract
+abstract abstract abstract abstract abstract abstract abstract
+abstract abstract abstract abstract abstract abstract abstract
 abstract abstract abstract abstract abstract abstract abstract
 abstract abstract abstract abstract abstract abstract abstract
 abstract abstract abstract abstract abstract abstract abstract
@@ -43,6 +47,22 @@ REMERCIEMENTS
 \newpage
 
 \section{Introduction}
+
+PROBLEMATIQUE IMPORTANTE, DE PLUS EN PLUS
+
+SYSTEME URBAIN = SYSTEME COMPLEXE
+
+IDEE
+
+PLAN
+
+- état de l'art : approche historique, AC, autres
+
+- modèle
+
+- côté pratique
+
+- mesures et validation (!)
 
 \section{\'Etat de l'art}
 
@@ -73,29 +93,29 @@ d'une personne remplissant les cases d'un tableau infini CITATION.
 
 Entraîné par cette mouvance procédurale et en réaction aux réseaux de
 neurones de McCulloch et Pitts, John von Neumann introduit le terme
-\textit{automate} en 1946. Simplement, un automate est une machine qui
-opère sur des données fournies en entrée en fonction de règles
-internes prédéfinies. On choisit de se concentrer sur une
-sous-catégorie d'automates, les automates finis à états, changeant
+\textit{automate} en 1946 CITATION. Simplement, un automate est une
+machine qui opère sur des données fournies en entrée en fonction de
+règles internes prédéfinies DETAILS. On choisit de se concentrer sur
+une sous-catégorie d'automates, les automates finis à états, changeant
 leur représentation interne selon des règles de transition. John von
 Neumann et Stanislaw Ulam joignent leurs travaux pour concevoir
-l'automate cellulaire : un système comprenant un ensemble d'automates
-à états spatialement localisés (typiquement sous forme de grille) et
-interconnectés en fonction de leur proximité. Les entrées de chaque
-automate correspondent alors aux états des automates voisins et de
-cette organisation se dégagent de fortes relations
+l'automate cellulaire CITATION : un système comprenant un ensemble
+d'automates à états spatialement localisés (typiquement sous forme de
+grille) et interconnectés en fonction de leur proximité. Les entrées
+de chaque automate correspondent alors aux états des automates voisins
+et de cette organisation se dégagent de fortes relations
 d'interdépendance. Le jeu de la vie de Conway en est un exemple
 classique. La simplicité de ses règles, mise en contraste avec la
 variété des configurations engendrées, témoigne de la richesse des
 automates cellulaires CITATION.
 
 Les automates cellulaires ont depuis été extensivement étudiés et sont
-appliqués à de nombreux phénomènes biologiques, physiques et sociaux
-\cite{Ganguly}. La motivation d'Ulam lors de leur conception était
-d'ailleurs de modéliser la croissance de cristaux. On peut aussi citer
-en exemple la simulation de la dynamique de fluides \cite{Frisch1986},
-de la croissance de tumeurs \cite{Kansal2000}, de l'évolution
-d'épidémies \cite{Fu2003}, de la ségrégation de population
+appliqués à l'étude de nombreux phénomènes biologiques, physiques et
+sociaux \cite{Ganguly}. La motivation d'Ulam lors de leur conception
+était d'ailleurs de modéliser la croissance de cristaux. On peut aussi
+citer en exemple la simulation de la dynamique de fluides
+\cite{Frisch1986}, de la croissance de tumeurs \cite{Kansal2000}, de
+l'évolution d'épidémies \cite{Fu2003}, de la ségrégation de population
 CITATION-SCHELLING. Leur caractère spatial laisse supposer qu'ils sont
 particulièrement adaptés aux applications géographiques, et plus
 précisément, urbaines. Ils ne fûrent paradoxalement pas immédiatement
@@ -109,12 +129,12 @@ peuvent prendre. Dans les modèles déterministes, la transition vers
 l'état à plus haut potentiel est appliquée tandis que dans les modèles
 stochastiques, un tirage aléatoire biaisé est préféré. Le potentiel
 d'une cellule à passer à un nouvel état est déterminé en fonction de
-paramètres propres à la simulation. Peuvent être pris en compte
-l'élévation du terrain, la densité de population, la proximité d'axes
-routiers, la proximité de centres urbains, l'âge des parcelle, leur
-valeur; en fait, toute combinaison d'attributs relatifs à un réseau
-urbain. Par exemple, dans une simulation représentant les différents
-types d'usage, le passage d'une cellule à l'état \textit{résidentiel}
+paramètres propres au modèle. Peuvent être pris en compte l'élévation
+du terrain, la densité de population, la proximité d'axes routiers, la
+proximité de centres urbains, l'âge des parcelle, leur valeur; en
+fait, toute combinaison d'attributs relatifs à un réseau urbain. Par
+exemple, dans une simulation représentant les différents types
+d'usage, le passage d'une cellule à l'état \textit{résidentiel}
 pourrait dépendre de la proximité des commerces et des routes et de
 l'éloignement des zones industrielles. Bien sûr, un nombre élevé de
 paramètres à prendre en compte requiert un couplage fin et l'impact de
@@ -146,13 +166,14 @@ installations humaines ou non (état booléen)
 de leur type d'usage (\textit{résidentiel}, \textit{commercial} et
 \textit{industriel} \cite{Lechner} et plus
 \cite{Dubos-Paillard203}). Représenter des quantités réelles est moins
-aisé. Pour symboliser la densité au c\oe ur d'un ensemble urbain,
-Semboloni utilise par exemple un automate cellulaire de dimension
-trois dans lequel plus une pile de cellules occupées est haute et plus
-la zone représentée est peuplée \cite{Semboloni2000}. Plus
-généralement, on peut s'autoriser à représenter l'état d'une cellule
-par un vecteur contenant des valeurs réelles; des règles de
-transitions adaptées et mesurées sont alors à mettre en place.
+aisé. Pour symboliser plus finement la densité au c\oe ur d'un
+ensemble urbain, Semboloni utilise par exemple un automate cellulaire
+de dimension trois dans lequel plus une pile de cellules actives est
+haute et plus la zone représentée est peuplée
+\cite{Semboloni2000}. Plus généralement, on peut s'autoriser à
+représenter l'état d'une cellule par un vecteur contenant des valeurs
+réelles; des règles de transitions adaptées et mesurées sont alors à
+mettre en place.
 
 L'homogénéité d'un automate cellulaire fait partie intégrante de sa
 définition originelle : en mettant de côté l'état qu'elles adoptent,
@@ -224,44 +245,44 @@ vendre, les développer ou changer leur type. Les actions qu'il
 entreprent sont évaluées en fonction de l'impact sur la ville
 (changement de la valeur immobilière, avis de la population) et des
 réglementations locales afin d'éviter toute configuration illégale.
-En dehors de la sphère des automates cellulaires, quelques techniques
-procédurales de génération de routes ont été décrites plus haut. Dans
-les modèles à base d'agents, une solution est de mettre en place, en
-plus des agents promoteurs, deux types d'agents traceurs. Les
-\textit{extenders} parcourent toute la surface du terrain à la
-recherche de bâtiments isolés puis tracent une route jusqu'au réseau
-urbain. Les \textit{connectors} se déplacent uniquement sur le réseau
-viaire et y raccordent les bâtiments non connectés se trouvant dans
-leur rayon de détection \cite{Lechnera}. PLUS?
+Pour la construction du réseau routier, une solution est de mettre en
+place, en plus des agents promoteurs, deux types d'agents
+traceurs. Les \textit{extenders} parcourent toute la surface du
+terrain à la recherche de bâtiments isolés puis tracent une route
+jusqu'au réseau urbain. Les \textit{connectors} se déplacent
+uniquement sur le réseau viaire et y raccordent les bâtiments non
+connectés se trouvant dans leur rayon de détection
+\cite{Lechnera}. PLUS?
 
 D'autres solutions s'éloignant des systèmes complexes et penchant du
 côté de la génération procédurale de contenu existent. Souvent, le
 domaine d'application de telles méthodes est l'infographie, le cinéma
 et le jeu vidéo et l'objectif est alors de construire de manière
 automatique une ville visuellement réaliste sans se soucier de son
-caractère fonctionnel. Usuellement, la première étape est de générer
-un réseau viaire complet puis de placer le bâti en subdivisant
-récursivement les niches vides formées par les routes. Dans Citygen
+caractère fonctionnel. Usuellement, l'organisation parcellaire dépend
+entièrement du réseau routier car la première étape est souvent de
+générer un réseau viaire complet puis de placer le bâti en subdivisant
+récursivement les niches vides formées par les voies. Dans Citygen
 \cite{Kelly2007}, un point $p$ de l'espace est aléatoirement choisi
 puis on calcule un ensemble de plusieurs routes raccordant $p$ au
 réseau routier existant en faisant varier leur déviation angulaire et
 un paramètre de bruit; la route finale est celle pour laquelle la
-variation d'altitude est la plus faible. CityEngine \cite{Parish2001}
-utilise un L-System dont les règles permettent de reproduire les
-différents motifs quadrillés, radiaux et organiques que l'on retrouve
-dans une ville. La nature récursive des L-Systems permet à ces motifs
-de se combiner et d'apparaître à différents niveaux de profondeur; les
-résultats sont saisissants. Dans une autre simulation, le tracé des
-routes suit les \textit{hyperstreamlines} \cite{Chen2008} formées par
-un champ de vecteurs. Ce champ est calculé par combinaison de
-plusieurs autres champs de vecteurs, chacun représentant des
+variation d'altitude est la plus faible. ECHANTILLONAGE CityEngine
+\cite{Parish2001} utilise un L-System dont les règles permettent de
+reproduire les différents motifs quadrillés, radiaux et organiques que
+l'on retrouve dans une ville. La nature récursive des L-Systems permet
+à ces motifs de se combiner et d'apparaître à différents niveaux de
+profondeur; les résultats sont saisissants. Dans une autre simulation,
+le tracé des routes suit les \textit{hyperstreamlines} \cite{Chen2008}
+formées par un champ de vecteurs. Ce champ est calculé par combinaison
+de plusieurs autres champs de vecteurs, chacun représentant des
 contraintes directionnelles particulières telles que les zones
 interdites (eau, espaces verts), l'altitude et la densité de
 population. Ces techniques sont intrinsèquement géométriques, et comme
 précisé plus haut, le résultat est purement visuel, mais elles
 représentent une source d'inspiration à ne pas négliger.
 
-Souvent, SPECIALISATION L'un des seuls modèles gérant à la fois
+Souvent, SPECIALISATION. L'un des seuls modèles gérant à la fois
 l'évolution du réseau viaire et du bâti est présenté par Weber
 \cite{Weber2009} et n'emploie pas d'automate cellulaire. Le principe
 est le suivant : à chaque agrandissement du réseau urbain, on crée
@@ -269,8 +290,9 @@ plusieurs routes virtuelles en suivant des règles géométriques
 précises (allongement des voies existantes, limitation du degré des
 carrefours à 4, l'angle entre chaque rue tend vers 90 degrés). Parmi
 les $n$ routes générées, une seule sera construite. Pour la choisir,
-le traffic sur ces nouvelles routes est simulé et l'on identifie celle
-qui sera la plus bénéfique au réseau. AUTRES PAPIERS?
+le traffic sur ces nouvelles routes est simulé par des agents piétons
+et véhicules et l'on identifie celle qui sera la plus bénéfique au
+réseau. AUTRES PAPIERS?
 
 \section{Le modèle}
 
@@ -283,8 +305,8 @@ yeux, un maillage régulier et statique.
 
 Pour répondre à notre problématique, il est nécessaire d'employer une
 structure souple et dynamique permettant de représenter à la fois le
-bâti et le viaire. On propose à cet effet d'utiliser le diagramme de
-Voronoï.
+bâti et le viaire. PLUS D'ARGUMENTS. On propose à cet effet d'utiliser
+le diagramme de Voronoï.
 
 Un diagramme de Voronoï est une subdivision de l'espace basée sur
 l'évaluation de distances à des points particuliers, les
@@ -295,38 +317,39 @@ point de tous les autres générateurs. Autrement dit, chaque point
 appartient à la cellule de Voronoï du générateur qui lui est le plus
 proche.
 
-IMAGE
+\begin{figure}[h]
+
+  \caption{Un diagramme de Voronoï. Chaque cercle noir est un générateur.}
+  \label{fig:voronoi}
+\end{figure}
 
 Quelques propriétés notables.
 
 Les diagrammes de Voronoï trouvent de nombreuses applications en
-science ; on peut en citer quelques unes. En robotique, les obstacles
-présents dans un environnement peuvent être assimilés à des
-générateurs et un robot cherchant à maximiser leur évitement préférera
-longer les frontières des cellules (les arêtes de Voronoï). En
-sociologie géographique, ils permettent d'opposer les zones
-d'influence de différents éléments urbains et répondent à des
-questions telles que : quel magasin un piéton sera-t-il plus
-susceptible de visiter selon la zone dans laquelle il se trouve ? En
-géologie, ils permettent de modéliser les écoulements souterrains
-d'eau. En biologie, on les utilise pour simuler la croissance
-cellulaire. DETAILS?
+science. En robotique, les obstacles présents dans un environnement
+peuvent être assimilés à des générateurs et un robot cherchant à
+maximiser leur évitement préférera longer les frontières des cellules
+(les arêtes de Voronoï). En sociologie géographique, ils permettent
+d'opposer les zones d'influence de différents éléments urbains et
+répondent à des questions telles que : quel magasin un piéton
+sera-t-il plus susceptible de visiter selon la zone dans laquelle il
+se trouve ? En géologie, ils permettent de modéliser les écoulements
+souterrains d'eau. En biologie, on les utilise pour simuler la
+croissance cellulaire. DETAILS?
 
 On remarque qu'une grille régulière, comme celles présentes dans les
 automates cellulaires classiques correspond à un diagramme de Voronoï
 dans laquelle les générateurs sont alignés et régulièrement
-disposés.
-
-IMAGE
+disposés. PAS TRES UTILE
 
 Un diagramme de Voronoï représente notre espace urbain et c'est tout
 naturellement que l'on imagine chaque cellule représenter une parcelle
 cadastrale. L'usage du diagramme permet d'identifier les parcelles
-voisines comme étant celles partageant une arête de Voronoï. Le graphe
-de voisinage est ainsi construit, sa structure prenant la forme duale
-du diagramme de Voronoï : la triangulation de Delaunay. Ce premier
-graphe décrit le réseau d'influences mettant en relation les parcelles
-proches les unes des autres et servira à définir les relations de
+voisines comme étant celles partageant une arête de Voronoï. Un graphe
+de voisinage est ainsi construit, et adopte la forme duale du
+diagramme de Voronoï : la triangulation de Delaunay. Ce premier graphe
+décrit le réseau d'influences mettant en relation les parcelles
+proches les unes des autres et servira à établir les relations de
 voisinages régissant l'évolution de l'automate cellulaire.
 
 Cette structure permet de décrire un canevas urbain de base mais la
@@ -339,8 +362,7 @@ les sommets des cellules). On l'appelle le graphe routier
 \textit{potentiel}. L'évolution du réseau viaire consiste à choisir
 quelles arêtes prendre dans le réseau routier \textit{potentiel} pour
 les mettre dans le réseau routier \textit{construit} en fonction de
-qualités internes au système (en pratique, on leur joint une étiquette
-spéciale).
+qualités internes au système.
 
 La potentialité est une part importante de ce modèle : on choisit
 quelles routes construire pour mieux servir la ville, mais aussi
@@ -349,20 +371,21 @@ bords de la ville en y ajoutant des parcelles elles aussi potentielles
 pour porter la morphogénèse du système. Ce placement de parcelles
 invisibles se fait continuellement et permet de prévoir à court terme
 l'évolution de la ville tout en laissant la sélection de quelles
-parcelles construire être fonction de
+parcelles construire être fonction de REFORMULER
 
 Il est essentiel de dissocier le polygone représentant la cellule de
-Voronoï associée à une parcelle de sa véritable empreinte
+Voronoï associée à une parcelle et sa véritable empreinte
 cadastrale. Une cellule représente l'influence d'une parcelle dans
 l'espace urbain et possède comme seul point commun avec l'empreinte
 son centre. Similairement, une arête indique qu'une voie passe entre
 deux parcelles sans pour autant fournir ses coordonnées ou sa
 courbure. Si l'on souhaite, dans un but infographique, générer une
 image de notre ville à partir de ce modèle, un travail
-d'interprétation est nécessaire. OUT OF SCOPE
+d'interprétation est nécessaire. La figure \ref{fig:interp} illustre
+ce ??? et donne, pour un diagramme de Voronoï trivial, plusieurs
+interprétations envisageables. OUT OF SCOPE
 
-% TODO fix the irregular gaps between subfigures
-\begin{figure}
+\begin{figure}[h]
 
   \centering
   \subcaptionbox{}[0.9\linewidth][c]{
@@ -389,19 +412,33 @@ d'une feuille blanche et de générer des villes totalement imaginaires,
 notamment afin de tester les effets de différents paramètres. Autre
 contrainte ; on souhaite que le modèle reste général et que toute
 contrainte non prévue initialement (influence de l'altitude, de la
-pente, interaction volontaire) soit possible.
+pente, interaction volontaire) soit aisémente prise en compte.
 
-Quatre mécanismes
+Ce modèle comprend quatre mécanismes distincts que l'on a voulu
+généraux afin de pouvoir en altérer un sans compromettre la fiabilité
+de la simulation. Trois de ces mécanismes évaluent la ville
+potentielles dont l'on dispose (le réseau routier potentiel et le bâti
+potentiel, donc) afin de sélectionner quels élements construire
+définitivement et, au contraire, quels élements ignorer. Le quatrième
+est quant à lui chargé de faire croître la partie potentielle de la
+ville et donc de prévoir à court-terme l'évolution futur du système.
+
+IMAGE !
+
+INSISTER SUR LA POTENTIALITE
+
+PARALLELE REEL : on prévoit des infrastructure -> on construit des
+routes -> on construit les infrastructure
 
 \subsection{Mécanismes évolutionnels}
 
-\subsubsection{Automate cellulaire graphe}
+\subsubsection{Prévision des parcelles}
 
 \subsubsection{Expansion du réseau routier}
 
 \subsubsection{Construction des parcelles}
 
-\subsubsection{Prévision des parcelles}
+\subsubsection{Automate cellulaire graphe}
 
 \section{Construction}
 
@@ -560,6 +597,12 @@ SHAPEFILE, BLABLA, PAS TRES INTERESSANT
 \section{Mesures}
 
 HEUUUUUUUU
+
+\section{Conclusion}
+
+RESUME
+CONSTAT
+PERSPECTIVES (DYNAMIQUES INTERNES, REALISME)
 
 \printbibliography
 
