@@ -42,7 +42,7 @@ REMERCIEMENTS
 
 \newpage
 
-\section*{Introduction}
+\section{Introduction}
 
 \section{\'Etat de l'art}
 
@@ -361,29 +361,26 @@ courbure. Si l'on souhaite, dans un but infographique, générer une
 image de notre ville à partir de ce modèle, un travail
 d'interprétation est nécessaire. OUT OF SCOPE
 
+% TODO fix the irregular gaps between subfigures
 \begin{figure}
-  \begin{subfigure}[b]{\linewidth}
-    \centering
-    \includegraphics[width=3.8cm]{images/voronoi-interpA0.png}
-    \caption{aaa}
-  \end{subfigure}
 
   \centering
-  \begin{subfigure}[b]{.3\linewidth}
-    \centering
-    \includegraphics[width=3.8cm]{images/voronoi-interpA1.png}
-    \caption{aaa}
-  \end{subfigure}
-  \begin{subfigure}[b]{.35\linewidth}
-    \centering
-    \includegraphics[width=3.8cm]{images/voronoi-interpA2.png}
-    \caption{aaa}
-  \end{subfigure}
-  \begin{subfigure}[b]{.3\linewidth}
-    \centering
-    \includegraphics[width=3.8cm]{images/voronoi-interpA3.png}
-    \caption{aaa}
-  \end{subfigure}
+  \subcaptionbox{}[0.9\linewidth][c]{
+    \includegraphics[width=.3\linewidth]{images/voronoi-interpA0.png}
+  }
+
+  \subcaptionbox{}[.3\linewidth][c]{
+    \includegraphics[width=.3\linewidth]{images/voronoi-interpA1.png}
+  }
+  \subcaptionbox{}[.3\linewidth][c]{
+    \includegraphics[width=.3\linewidth]{images/voronoi-interpA2.png}
+  }
+  \subcaptionbox{}[.3\linewidth][c]{
+    \includegraphics[width=.3\linewidth]{images/voronoi-interpA3.png}
+  }
+
+  \caption{Un diagramme de Voronoï simple et trois interprétations possibles}
+  \label{fig:interp}
 \end{figure}
 
 Idéalement, ce modèle doit être capable de simuler la croissance d'une
@@ -413,7 +410,7 @@ par deux graphes. On distingue donc le graphe parcellaire du graphe
 viaire car, bien qu'ils soient étroitement liés, ils représentent des
 couches différentes du réseau urbain.
 
-\subsubsection{Le graphe parcellaire}
+\subsection{Le graphe parcellaire}
 
 Le graphe parcellaire correspond à la couche bâti. Ses n\oe uds sont
 les centres des parcelles et chacune de ses arêtes représente une
@@ -474,7 +471,7 @@ UN PEU DE TRAVAIL
 
 PAS TRES RAPIDE (MAIS PAS IMPORTANT)
 
-\subsubsection{Le graphe viaire}
+\subsection{Le graphe viaire}
 
 Le graphe viaire correspond à la couche routière. Ses n\oe uds sont
 des carrefours, aux croisements des parcelles, et ses arête des voies.
@@ -556,7 +553,7 @@ duquel aucune arête ne manque.
 
 IMAGE
 
-\subsubsection{Importation de données géographiques}
+\subsection{Importation de données géographiques}
 
 SHAPEFILE, BLABLA, PAS TRES INTERESSANT
 
