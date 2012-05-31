@@ -151,6 +151,13 @@ article de Waldo Tobler, en 1975, que le rapprochement entre les
 automates cellulaires et le domaine de la géographie apparaît
 clairement \cite{Tobler1975}.
 
+\begin{figure}
+  \centering
+  \includegraphics[width=8cm]{images/schelling.png}
+  \caption{}
+  \label{fig:schelling}
+\end{figure}
+
 Une idée très exploitée dans ce domaine est d'associer un potentiel de
 transition à chaque cellule et ce, vers tous les états qu'elles
 peuvent prendre. Dans les modèles déterministes, la transition vers
@@ -237,7 +244,12 @@ la couverture de l'espace n'est plus complète (des vides entre les
 cellules apparaissent) et le voisinage diffère lui aussi. Mais
 TOPOLOGIE REELLE.
 
-IMAGE DE LA THESE O'SULLIVAN
+\begin{figure}
+  \centering
+  \includegraphics[width=.6\linewidth]{images/gca.png}
+  \caption{LEGENDE \cite{O'Sullivan2000}}
+  \label{fig:sullivan}
+\end{figure}
 
 \begin{figure}
   \begin{subfigure}[b]{.5\linewidth}
@@ -465,7 +477,7 @@ potentielles dont l'on dispose (le réseau routier potentiel et le bâti
 potentiel, donc) afin de sélectionner quels élements construire
 définitivement et, au contraire, quels élements ignorer. Le quatrième
 est quant à lui chargé de faire croître la partie potentielle de la
-ville et donc de prévoir à court-terme l'évolution futur du système.
+ville et donc de prévoir à court-terme l'évolution future du système.
 
 IMAGE !
 
@@ -474,15 +486,103 @@ INSISTER SUR LA POTENTIALITE
 PARALLELE REEL : on prévoit des infrastructure -> on construit des
 routes -> on construit les infrastructure
 
-\subsection{Mécanismes évolutionnels}
+\subsection{Mécanismes}
 
-\subsubsection{Prévision des parcelles}
+\subsubsection{Automate cellulaire graphe}
+
+MODELE GENERAL
+
+ICI DENSITE : SIMPLE
+
+ACG OSULLIVAN (COUV TOTALE)
+
+VOISINAGE : contact
+
+INFLUENCE TOUT
+
+REGLES
+
+L'application de ces règles produit des configurations satisfaisantes
+lorsque l'on observe l'état du système de façon instantanée à un temps
+$t$ mais l'évolution globale l'est moins car l'automate cellulaire est
+instable. La nature dynamique du système ne facilite pas son équilibre
+et les parcelles changent continuellement d'état alors que dans une
+ville elles restent statiques pendant de longues périodes ; on n'y
+détruit pas chaque année les installations à l'intérieur d'une
+parcelle pour en reconstruire de nouvelles. Il est donc important
+d'associer à chaque cellule un élan favorisant la persistance de son
+état en fonction de son âge. Les fonctions sigmoïdes, fréquemment
+employées en modélisation de systèmes complexes, sont idéales pour
+exprimer cette probabilité de changement en fonction du temps. DETAILS
+
+\begin{figure}[ht]
+  \centering
+  \subcaptionbox{}[.4\linewidth][c]{
+    $f(x) = \frac{1}{1 + e^{-x}}$
+  }
+  \subcaptionbox{}[.4\linewidth][c]{
+    PLOT
+  }
+  \caption{Sigmoïde classique}
+  \label{fig:sigmoide1}
+\end{figure}
+
+
+\begin{figure}[ht]
+  \centering
+  \subcaptionbox{}[.4\linewidth][c]{
+    $f(t) = \frac{1}{1 + e^{-0.1t-50}}$
+  }
+  \subcaptionbox{}[.4\linewidth][c]{
+    PLOT
+  }
+  \caption{Probabilité de changement d'état en fonction du temps}
+  \label{fig:sigmoide1}
+\end{figure}
+
+\subsubsection{Placement des parcelles potentielles}
+
+Le second mécanisme place de nouvelles parcelles en bordure de la
+ville et est responsable de sa croissance dans l'espace. Les nouvelles
+parcelles placées bénéficient néanmoins d'un statut spécial car elles
+sont considérées comme \textit{potentielles} et se démarquent des
+parcelles \textit{construites} par leur impact sur l'évolution du
+système :
+
+\begin{itemize}
+\item{L'état d'une parcelle potentielle dépend de toutes ses voisines}
+\item{Une parcelle potentielle n'influence pas l'état des parcelles
+  voisines construites}
+\end{itemize}
+
+En quelques mots, le placement se déroule
+
+PREVISION COURT TERME
+
+CHAMP
+
+
+F BATI
+
+F VIAIRE
+
+F PLEIN DE TRUCS
+
+GRAINE
+
+ARRET (AIRE ? SIGMOIDE ?)
+
+IMAGES
 
 \subsubsection{Expansion du réseau routier}
 
+IDEE
+
+NETWORK SIMPLEX
+
 \subsubsection{Construction des parcelles}
 
-\subsubsection{Automate cellulaire graphe}
+CHOIX
 
 \section{Construction}
 

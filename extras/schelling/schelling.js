@@ -145,6 +145,7 @@ function draw() {
 		}
 	}
 
+	/*
 	// Draw white lines between cells.
 
 	ctxt.strokeStyle = 'white'
@@ -160,5 +161,5 @@ function draw() {
 		ctxt.lineTo(i * cellSize, canvasSize);
 		ctxt.stroke();
 	}
-
+	*/
 }

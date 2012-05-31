@@ -3,7 +3,7 @@ var canvasSize;
 
 var cells = [];
 
-var worldSize = 200;
+var worldSize = 50;
 var cellSize;
 
 window.onload = function() {
