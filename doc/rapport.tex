@@ -86,7 +86,7 @@ base d'automates cellulaires tout en adoptant un point de vue
 historique pour justifier l'adoption de cette structure. Le modèle
 conçu dans le cadre de ce stage de recherche est ensuite présenté en
 seconde partie. La troisième section aborde des problématiques
-pratiques rencontrées lors de l'implémentation du-dit modèle. Enfin,
+pratiques rencontrées lors de l'implémentation dudit modèle. Enfin,
 des mesures diverses sont employées pour tester et valider ce travail
 dans la quatrième partie.
 
@@ -115,22 +115,16 @@ humaine; on ne résout pas un problème en utilisant des fonctions
 associant une quantité à un résultat mais on agit véritablement sur
 ses données. L'idée de base de Turing était d'ailleurs d'assimiler le
 fonctionnement de sa machine au travail d'une personne remplissant les
-cases d'un tableau infini CITATION.
+cases d'un tableau infini.
 
-Entraîné par cette mouvance procédurale et en réaction aux réseaux de
-neurones de McCulloch et Pitts, John von Neumann introduit en 1946 le
-terme d'\textit{automate} CITATION pour désigner plus généralement ces
-machines CAPABLE DE?. Une sous-catégorie d'automates, les automates
-fini (\textit{finite state machine}), a pour particularité de changer
-sa représentation interne en fonction des traitements effectués et ce,
-parmi un ensemble fini d'état ; cette qualité permettant de modèliser
-de façon discrète de nombreux phénomènes naturels. John von Neumann et
+TRANSITION. Entraîné par cette mouvance procédurale et en réaction aux
+réseaux de neurones de McCulloch et Pitts, John von Neumann et
 Stanislaw Ulam joignent leurs travaux pour concevoir l'automate
-cellulaire CITATION : un système comprenant un ensemble d'automates à
-états spatialement localisés (typiquement sous forme de grille) et
-interconnectés en fonction de leur proximité. Les entrées de chaque
-automate correspondent alors aux états des automates voisins et de
-cette organisation se dégagent de fortes relations
+cellulaire en 19??  CITATION WOLFRAM : un système comprenant un
+ensemble d'automates à états spatialement localisés (typiquement sous
+forme de grille) et interconnectés en fonction de leur proximité. Les
+entrées de chaque automate correspondent alors aux états des automates
+voisins et de cette organisation se dégagent de fortes relations
 d'interdépendance. Le jeu de la vie de Conway en est un exemple
 classique. La simplicité de ses règles, mise en contraste avec la
 variété des configurations engendrées, témoigne de la richesse des
@@ -138,18 +132,18 @@ automates cellulaires CITATION.
 
 Les automates cellulaires ont depuis été extensivement étudiés et sont
 appliqués à l'étude de nombreux phénomènes biologiques, physiques et
-sociaux \cite{Ganguly}. La motivation d'Ulam lors de leur conception
+sociaux \cite{Ganguly2003}. La motivation d'Ulam lors de leur conception
 était d'ailleurs de modéliser la croissance de cristaux. On peut aussi
 citer en exemple la simulation de la dynamique de fluides
 \cite{Frisch1986}, de la croissance de tumeurs \cite{Kansal2000}, de
 l'évolution d'épidémies \cite{Fu2003}, de la ségrégation de population
-CITATION-SCHELLING. Leur caractère spatial laisse supposer qu'ils sont
-particulièrement adaptés aux applications géographiques, et dans le
-cadre de notre problématique, urbaines. Ils ne fûrent paradoxalement
-pas immédiatement exploités à cet effet et c'est seulement suite à un
-article de Waldo Tobler, en 1975, que le rapprochement entre les
-automates cellulaires et le domaine de la géographie apparaît
-clairement \cite{Tobler1975}.
+\cite{Schelling1969}. Leur caractère spatial laisse supposer qu'ils
+sont particulièrement adaptés aux applications géographiques, et dans
+le cadre de notre problématique, urbaines. Ils ne fûrent
+paradoxalement pas immédiatement exploités à cet effet et c'est
+seulement suite à un article de Waldo Tobler, en 1975, que le
+rapprochement entre les automates cellulaires et le domaine de la
+géographie apparaît clairement \cite{Tobler1975}.
 
 \begin{figure}
   \centering
@@ -197,7 +191,7 @@ d'analyse, la description de quantités pouvant arborer un éventail
 infini de valeurs est alors impossible. Plus concrètement, il est aisé
 de catégoriser les cellules d'un espace selon le fait, par exemple,
 qu'elles contiennent des installations humaines ou non (état booléen)
-\cite{Benguigui2004,Cornu} ou de façon plus sophistiquée, en fonction
+\cite{Benguigui2004,Cornu2008} ou de façon plus sophistiquée, en fonction
 de leur type d'usage (\textit{résidentiel}, \textit{commercial} et
 \textit{industriel} \cite{Lechner} et plus
 \cite{Dubos-Paillard203}). Représenter des quantités réelles et des
@@ -229,7 +223,7 @@ poser problème). Une solution possible est d'étendre les voisinages de
 von Neumann et de Moore tout en conservant leur forme caractéristique
 CITATION. O'Sullivan a choisi de relaxer cette contrainte de
 partionnement spatial régulier pour faire un pas dans la direction du
-réalisme \cite{O'Sullivan2000,0'Sullivan2001} : conventionnellement,
+réalisme \cite{O'Sullivan2000,O'Sullivan2001} : conventionnellement,
 une cellule d'automate correspond à un sous-espace urbain ou bien une
 parcelle cadastrale mais dans chacun de ces cas le modèle se base
 évidemment sur une simplification grossière de l'espace étudié. Il
@@ -294,7 +288,7 @@ entité unique ? PRECISER
 
 Les automates cellulaires ne sont pas l'unique moyen de modéliser la
 croissance urbaine. Plusieurs simulations existantes sont des systèmes
-multi-agent \cite{Lechnera,Lechner2004}. Dans ces cas, un agent est
+multi-agent \cite{Lechner2003,Lechner2004}. Dans ces cas, un agent est
 assimilé à un promoteur immobilier et peut acheter des terres, les
 vendre, les développer ou changer leur type. Les actions qu'il
 entreprend sont évaluées en fonction de l'impact sur la ville
@@ -318,7 +312,7 @@ caractère fonctionnel. Usuellement, l'organisation parcellaire dépend
 entièrement du réseau routier car la première étape est souvent de
 générer un réseau viaire complet puis de placer le bâti en subdivisant
 récursivement les niches vides formées par les voies. Dans Citygen
-\cite{Kelly2007}, un point $p$ de l'espace est aléatoirement choisi
+\cite{Kelly2006b}, un point $p$ de l'espace est aléatoirement choisi
 puis on calcule un ensemble de plusieurs routes raccordant $p$ au
 réseau routier existant en faisant varier leur déviation angulaire et
 un paramètre de bruit; la route finale est celle pour laquelle la
@@ -511,9 +505,9 @@ ville elles restent statiques pendant de longues périodes ; on n'y
 détruit pas chaque année les installations à l'intérieur d'une
 parcelle pour en reconstruire de nouvelles. Il est donc important
 d'associer à chaque cellule un élan favorisant la persistance de son
-état en fonction de son âge. Les fonctions sigmoïdes, fréquemment
-employées en modélisation de systèmes complexes, sont idéales pour
-exprimer cette probabilité de changement en fonction du temps. DETAILS
+état selon son âge. Les fonctions sigmoïdes, fréquemment employées en
+modélisation de systèmes complexes, sont idéales pour exprimer cette
+probabilité de changement en fonction du temps. DETAILS
 
 \begin{figure}[ht]
   \centering
@@ -553,36 +547,96 @@ système :
 \item{L'état d'une parcelle potentielle dépend de toutes ses voisines}
 \item{Une parcelle potentielle n'influence pas l'état des parcelles
   voisines construites}
+\item{Une parcelle potentielle peut accueillir une route}
 \end{itemize}
 
-En quelques mots, le placement se déroule
+Cette influence unidirectionnelle dans le mécanisme cellulaire permet
+à la parcelle potentielle d'être prête et accordée à son environnement
+proche si elle est construite par la suite sans pour autant que les
+parcelles déjà construites ne soient influencées par une parcelle
+n'existant pas.
 
-PREVISION COURT TERME
+En quelques mots, le placement se déroule comme suit :
 
-CHAMP
+\begin{enumerate}
+\item{On détermine les centres de la ville en fonction de la densité}
+\item{On dépose sur un des centres une \textit{graine} mobile qui
+  servira de générateur à la nouvelle parcelle}
+\item{La graine se déplace sous l'influence des variables inhérentes à
+  la ville}
+\item{Quand la graine stoppe son mouvement, on y crée la parcelle}
+\end{enumerate}
 
+DETECTION DES CENTRES
 
-F BATI
+Le déplacement de la graine est un processus pouvant potentiellement
+prendre en compte de nombreuses variables. Dans l'application
+d'exemple que l'on décrit, seules la densité et le placement des
+routes peuvent guider la graine, car ce sont les seuls données
+traîtées. Cependant, on souhaite que le modèle soit extensible et
+qu'il soit capable de supporter d'autres variables et contraintes : la
+valeur des sols par exemple, ou bien la pente des zones envisagées ou
+l'impossibilité de s'installer sur certains types de terrain (forêts,
+plans d'eau). De cette idée de graine se déplaçant en fonction
+d'influences diverses transpire un véritable aspect physique.
 
-F VIAIRE
+Pour rester en accord avec cet aspect physique on emploie un champ de
+vecteur généré à partir de l'état du sytème urbain pour guider la
+graine vers sa destination. Puisque de nombreux paramètres sont à
+prendre en comptre, on utilise un champ de vecteur par paramètre que
+l'on souhaite exprimer puis on les combine, ce qui permet de pondérer
+l'impact de chaque donnée.
 
-F PLEIN DE TRUCS
+Par exemple,
 
-GRAINE
+DENSITE
+
+PATTERN
+
+COMMENTAIRE
+
+IMAGES : densité / routes / obstacle / altitude
 
 ARRET (AIRE ? SIGMOIDE ?)
-
-IMAGES
-
-\subsubsection{Expansion du réseau routier}
-
-IDEE
-
-NETWORK SIMPLEX
 
 \subsubsection{Construction des parcelles}
 
 CHOIX
+
+\subsubsection{Expansion du réseau routier}
+
+Le placement des parcelles se base sur le réseau routier puisque pour
+qu'une parcelle soit construite, elle doit être reliée à au moins une
+voie. Les voies sont quant à elle dépendantes des parcelles car selon
+notre définition, une route est une arête de Voronoï d'une parcelle
+(potentielle ou construite). Ce cycle est similaire à la morphogénèse
+d'une ville car le processus d'extension que l'on observe dans un cas
+d'urbanisme réel est le suivant :
+
+\begin{enumerate}
+\item{On prévoit d'installer des bâtiments en bordure de ville (les
+  parcelles potentielles)}
+\item{On construit une route avant de construire les parcelles}
+\item{On construit plus tard les parcelles}
+\end{enumerate}
+
+les routes sont donc supports aux parcelles et leur construction est
+motivée par la perspective de nouvelles parcelles. Les parcelles
+potentielles étant placées par un mécanisme explicité plus haut, il
+reste à sélectionner quelles arêtes du diagramme de Voronoï vont
+devenir de véritables routes. On retrouve ici aussi le vocabulaire de
+la potentialité utilisé au niveau parcellaire : les arêtes de Voronoï
+sont considérées comme routes \textit{potentielles} et
+
+La sélection les routes aptes à être construites doit être justifiée
+par un besoin fonctionnel assurant une activité interne de la ville
+efficace. Dans le cas du réseau viaire, on cherche donc à éviter les
+engorgements et donc à organiser le maillage routier de façon à ce que
+les zones à forte densité soient correctement desservies. DENSITE
+
+NETWORK SIMPLEX
+
+CONNEXITE
 
 \section{Construction}
 
