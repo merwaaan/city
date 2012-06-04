@@ -145,10 +145,15 @@ seulement suite à un article de Waldo Tobler, en 1975, que le
 rapprochement entre les automates cellulaires et le domaine de la
 géographie apparaît clairement \cite{Tobler1975}.
 
+CELLULE = ZONE
+
+BOUGER SCHELLING ICI
+
 \begin{figure}
   \centering
   \includegraphics[width=8cm]{images/schelling.png}
-  \caption{}
+  \caption{Configuration produite par le modèle de Schelling. Chacune
+    des deux couleurs représente une population différente.}
   \label{fig:schelling}
 \end{figure}
 
@@ -194,7 +199,7 @@ qu'elles contiennent des installations humaines ou non (état booléen)
 \cite{Benguigui2004,Cornu2008} ou de façon plus sophistiquée, en fonction
 de leur type d'usage (\textit{résidentiel}, \textit{commercial} et
 \textit{industriel} \cite{Lechner} et plus
-\cite{Dubos-Paillard203}). Représenter des quantités réelles et des
+\cite{Dubos-Paillard2003}). Représenter des quantités réelles et des
 variations continues est moins aisé. Pour symboliser plus finement la
 densité au c\oe ur d'un ensemble urbain, Semboloni utilise par exemple
 un automate cellulaire de dimension trois dans lequel plus une pile de
@@ -241,7 +246,8 @@ TOPOLOGIE REELLE.
 \begin{figure}
   \centering
   \includegraphics[width=.6\linewidth]{images/gca.png}
-  \caption{LEGENDE \cite{O'Sullivan2000}}
+  \caption{Hoxton, un quartier de Londres, modélisé par l'automate
+    cellulaire graphe de David O'Sullivan \cite{O'Sullivan2000}.}
   \label{fig:sullivan}
 \end{figure}
 
@@ -249,12 +255,12 @@ TOPOLOGIE REELLE.
   \begin{subfigure}[b]{.5\linewidth}
     \centering
     \input{images/CA-simple.tikz}
-    \caption{Automate cellulaire classique}
+    \caption{Automate cellulaire classique.}
   \end{subfigure}
   \begin{subfigure}[b]{.5\linewidth}
     \centering
     \input{images/CA-graph.tikz}
-    \caption{Automate cellulaire graphe}
+    \caption{Automate cellulaire graphe.}
   \end{subfigure}
 \end{figure}
 
@@ -301,7 +307,7 @@ terrain à la recherche de bâtiments isolés puis tracent une route
 jusqu'au réseau urbain. Les \textit{connectors} se déplacent
 uniquement sur le réseau viaire et y raccordent les bâtiments non
 connectés se trouvant dans leur rayon de détection
-\cite{Lechnera}. PLUS?
+\cite{Lechner2003}. PAS LE BON ORDRE
 
 D'autres solutions s'éloignant des systèmes complexes et penchant du
 côté de la génération procédurale de contenu existent. Souvent, le
@@ -321,15 +327,23 @@ variation d'altitude est la plus faible. ECHANTILLONAGE CityEngine
 reproduire les différents motifs quadrillés, radiaux et organiques que
 l'on retrouve dans une ville. La nature récursive des L-Systems permet
 à ces motifs de se combiner et d'apparaître à différents niveaux de
-profondeur; les résultats sont saisissants. Dans une autre simulation,
-le tracé des routes suit les \textit{hyperstreamlines} \cite{Chen2008}
-formées par un champ de vecteurs. Ce champ est calculé par combinaison
-de plusieurs autres champs de vecteurs, chacun représentant des
-contraintes directionnelles particulières telles que les zones
-interdites (eau, espaces verts), l'altitude et la densité de
-population. Ces techniques sont intrinsèquement géométriques, et comme
-précisé plus haut, le résultat est purement visuel, mais elles
-représentent une source d'inspiration à ne pas négliger.
+profondeur; les résultats sont saisissants (voir figure
+\ref{fig:cityengine}). Dans une autre simulation, le tracé des routes
+suit les \textit{hyperstreamlines} \cite{Chen2008} formées par un
+champ de vecteurs. Ce champ est calculé par combinaison de plusieurs
+autres champs de vecteurs, chacun représentant des contraintes
+directionnelles particulières telles que les zones interdites (eau,
+espaces verts), l'altitude et la densité de population. Ces techniques
+sont intrinsèquement géométriques, et comme précisé plus haut, le
+résultat est purement visuel, mais elles représentent une source
+d'inspiration à ne pas négliger.
+
+\begin{figure}
+  \centering
+  \includegraphics[width=.8\linewidth]{images/cityengine.png}
+  \caption{CityEngine \cite{Parish2001}.}
+  \label{fig:cityengine}
+\end{figure}
 
 Souvent, SPECIALISATION. L'un des seuls modèles gérant à la fois
 l'évolution du réseau viaire et du bâti est présenté par Weber
@@ -341,31 +355,40 @@ carrefours à 4, l'angle entre chaque rue tend vers 90 degrés). Parmi
 les $n$ routes générées, une seule sera construite. Pour la choisir,
 le traffic sur ces nouvelles routes est simulé par des agents piétons
 et véhicules et l'on identifie celle qui sera la plus bénéfique au
-réseau. AUTRES PAPIERS?
+réseau.
 
 \section{Le modèle}
 
 \subsection{Structure}
 
-Comme énoncé précédemment, les automates cellulaires sont des
-structures versatiles et puissantes dont le formalisme originel impose
-néanmoins quelques limitations; l'une des principales étant, à nos
-yeux, un maillage régulier et statique.
+Les automates cellulaires sont des structures versatiles et puissantes
+dont le formalisme originel impose néanmoins quelques limitations;
+l'une des principales étant, à nos yeux, un maillage régulier et
+statique. Pour répondre à notre problématique, il est nécessaire
+d'employer une structure respectant les critères suivants :
 
-Pour répondre à notre problématique, il est nécessaire d'employer une
-structure souple et dynamique permettant de représenter à la fois le
-bâti et le viaire. PLUS D'ARGUMENTS. On propose à cet effet d'utiliser
-le diagramme de Voronoï.
+\begin{itemize}
+\item{Elle doit partitionner l'espace à la manière d'un automate
+  cellulaire mais de façon irrégulière}
+\item{Elle doit permettre de mettre en relation les éléments du
+  système voisins; \textit{i. e.} des relations de voisinages pourront
+  être déduites de sa topologie}
+\item{Elle doit pouvoir représenter à la fois le réseau routier et le
+  bâti}
+\end{itemize}
 
-Un diagramme de Voronoï est une subdivision de l'espace basée sur
-l'évaluation de distances à des points particuliers, les
-générateurs. Chaque point de l'espace est considéré comme appartenant
-à l'espace d'un générateur (sa cellule de Voronoï) si la distance
-séparant ces deux élements est inférieure à la distance séparant le
-point de tous les autres générateurs. Autrement dit, chaque point
-appartient à la cellule de Voronoï du générateur qui lui est le plus
-proche.
+AUTRES ?
 
+Le diagramme de Voronoï est un candidat idéal. Sa constitution est
+intrinsèquement spatiale puisqu'il s'agit d'un partionnement axé
+autour de points spéciaux, les générateurs, chacun possédant une
+cellule contenant tous les points plus proches de ce générateur que de
+tout autre CITATION WOLFRAM. Autrement dit, la distance séparant un
+point $p$ placé dans une cellule de Voronoï et le générateur de cette
+même cellule est inférieure à la distance séparant $p$ de tous les
+autres générateurs.
+
+REFAIRE IMAGE
 \begin{figure}[h]
   \centering
   \includegraphics[width=0.5\linewidth]{images/voronoi.png}
@@ -373,7 +396,7 @@ proche.
   \label{fig:voronoi}
 \end{figure}
 
-Quelques propriétés notables.
+Quelques propriétés notables. ARETE PERP. STABILITE.
 
 Les diagrammes de Voronoï trouvent de nombreuses applications en
 science. En robotique, les obstacles présents dans un environnement
@@ -383,57 +406,52 @@ maximiser leur évitement préférera longer les frontières des cellules
 d'opposer les zones d'influence de différents éléments urbains et
 répondent à des questions telles que : quel magasin un piéton
 sera-t-il plus susceptible de visiter selon la zone dans laquelle il
-se trouve ? En géologie, ils permettent de modéliser les écoulements
-souterrains d'eau. En biologie, on les utilise pour simuler la
-croissance cellulaire. DETAILS?
+se trouve ? Leur utilisation pour l'étude de l'épidémie de choléra
+londonienne en 1854 à permis de mettre en relation fontaines publiques
+infectées (les générateurs) et les zones ??? (les cellules). En
+géologie, ils permettent de modéliser les écoulements souterrains
+d'eau GARDER?. En biologie, on les utilise pour simuler la croissance
+cellulaire. DETAILS?
 
-On remarque qu'une grille régulière, comme celles présentes dans les
-automates cellulaires classiques correspond à un diagramme de Voronoï
-dans laquelle les générateurs sont alignés et régulièrement
-disposés. PAS TRES UTILE
+Comme leur homonymie le laisse supposer, la cellule de Voronoï
+remplace la cellule carrée de l'AC. On remarque qu'une grille
+régulière, comme celles présentes dans les automates cellulaires
+classiques correspond à un diagramme de Voronoï dans laquelle les
+générateurs sont alignés et régulièrement disposés. Une tesselation de
+Voronoï peut être considérée comme une généralisation de la structure
+grillagée ; notre première contrainte est satisfaite.
 
-Un diagramme de Voronoï représente notre espace urbain et c'est tout
-naturellement que l'on imagine chaque cellule représenter une parcelle
-cadastrale. L'usage du diagramme permet d'identifier les parcelles
-voisines comme étant celles partageant une arête de Voronoï. Un graphe
-de voisinage est ainsi construit, et adopte la forme duale du
-diagramme de Voronoï : la triangulation de Delaunay. Ce premier graphe
-décrit le réseau d'influences mettant en relation les parcelles
-proches les unes des autres et servira à établir les relations de
-voisinages régissant l'évolution de l'automate cellulaire.
+À l'échelle de ce modèle, chaque cellule représente une parcelle
+cadastrale et on utilise comme générateur le centre de son
+empreinte. Le diagramme permet d'identifier les parcelles voisines
+comme étant celles partageant une arête de Voronoï. Un graphe de
+voisinage est ainsi construit, et adopte la forme duale du diagramme
+de Voronoï : la triangulation de Delaunay. Ce premier graphe décrit le
+réseau de voisinage mettant en relation les parcelles proches les unes
+des autres et satisfait la seconde contrainte.
 
-Cette structure permet de décrire un canevas urbain de base mais la
-composante routière est encore absente. Chaque arête de Voronoï
-correspond à un espace entre deux parcelles, et est susceptible
-d'accueillir une route. On choisit donc de construire un second
-graphe, dual au graphe du bâti, dont les arêtes seront les routes
-potentielles entre chaque bâtiment et les n\oe uds des carrefours (sur
-les sommets des cellules). On l'appelle le graphe routier
-\textit{potentiel}. L'évolution du réseau viaire consiste à choisir
-quelles arêtes prendre dans le réseau routier \textit{potentiel} pour
-les mettre dans le réseau routier \textit{construit} en fonction de
-qualités internes au système.
+Cette structure permet de décrire un canevas urbain de base dans
+lequel l'espace d'influence de chaque parcelle est décrit mais la
+composante routière est encore absente du modèle. Chaque arête de
+Voronoï indique un espace entre deux parcelles et est donc susceptible
+d'accueillir une route. Dans une véritable ville, chaque parcelle
+n'est pas encerclée de voies et l'un des objectifs de la simulation
+est de déterminer quelles arêtes accueilleront des routes. Le
+diagramme de Voronoï suffit bien à représenter à la fois les éléments
+du viaire et du bâti et notre dernière contrainte est
+statisfaite. SYNONYME SATISFAIRE ?
 
-La potentialité est une part importante de ce modèle : on choisit
-quelles routes construire pour mieux servir la ville, mais aussi
-quelles parcelles. À cet effet, il est nécessaire de préparer les
-bords de la ville en y ajoutant des parcelles elles aussi potentielles
-pour porter la morphogénèse du système. Ce placement de parcelles
-invisibles se fait continuellement et permet de prévoir à court terme
-l'évolution de la ville tout en laissant la sélection de quelles
-parcelles construire être fonction de REFORMULER
-
-Il est essentiel de dissocier le polygone représentant la cellule de
-Voronoï associée à une parcelle et sa véritable empreinte
-cadastrale. Une cellule représente l'influence d'une parcelle dans
-l'espace urbain et possède comme seul point commun avec l'empreinte
-son centre. Similairement, une arête indique qu'une voie passe entre
-deux parcelles sans pour autant fournir ses coordonnées ou sa
+Il est essentiel de dissocier le polygone convexe qu'est la cellule de
+Voronoï associée à une parcelle et la véritable empreinte cadastrale
+de cette dernière. Une cellule représente l'influence d'une parcelle
+dans l'espace urbain et possède comme seul point commun avec
+l'empreinte son centre puisqu'il s'agit du générateur de la
+cellule. Similairement, une arête peut indiquer qu'une voie passe
+entre deux parcelles sans pour autant fournir ses coordonnées ou sa
 courbure. Si l'on souhaite, dans un but infographique, générer une
 image de notre ville à partir de ce modèle, un travail
-d'interprétation est nécessaire. La figure \ref{fig:interp} illustre
-ce ??? et donne, pour un diagramme de Voronoï trivial, plusieurs
-interprétations envisageables. OUT OF SCOPE
+d'interprétation est nécessaire (voir la figure \ref{fig:interp}) et
+n'a pas été traîté à l'occasion de ce projet.
 
 \begin{figure}[h]
 
@@ -452,41 +470,58 @@ interprétations envisageables. OUT OF SCOPE
     \includegraphics[width=.3\linewidth]{images/voronoi-interpA3.png}
   }
 
-  \caption{Un diagramme de Voronoï simple et trois interprétations possibles}
+  \caption{Un diagramme de Voronoï trivial et trois interprétations possibles.}
   \label{fig:interp}
 \end{figure}
 
-Idéalement, ce modèle doit être capable de simuler la croissance d'une
-ville déjà bien établie mais il doit aussi être possible de partir
-d'une feuille blanche et de générer des villes totalement imaginaires,
-notamment afin de tester les effets de différents paramètres. Autre
-contrainte ; on souhaite que le modèle reste général et que toute
-contrainte non prévue initialement (influence de l'altitude, de la
-pente, interaction volontaire) soit aisémente prise en compte.
+\subsection{Potentialité}
 
-Ce modèle comprend quatre mécanismes distincts que l'on a voulu
-généraux afin de pouvoir en altérer un sans compromettre la fiabilité
-de la simulation. Trois de ces mécanismes évaluent la ville
-potentielles dont l'on dispose (le réseau routier potentiel et le bâti
-potentiel, donc) afin de sélectionner quels élements construire
-définitivement et, au contraire, quels élements ignorer. Le quatrième
-est quant à lui chargé de faire croître la partie potentielle de la
-ville et donc de prévoir à court-terme l'évolution future du système.
+Via le terme \textit{potentialité}, on souhaite exprimer l'opposition
+entre deux types d'éléments : les \textit{potentiels} et les
+\textit{construits}.
 
-IMAGE !
+Un élément \textit{construit} est une parcelle ou une voie dont
+l'existence physique est avérée. Il existe \textit{en dur} et affecte
+ses alentours. L'ensemble des éléments construit forme la ville, le
+résultat généré à l'issu de l'application de notre modèle (voir figure
+\ref{fig:construit}).
 
-INSISTER SUR LA POTENTIALITE
+\begin{figure}
+  \centering
+  IMAGE
+  \caption{Les parcelles et les routes construites forment la ville.}
+  \label{fig:construit}
+\end{figure}
 
-PARALLELE REEL : on prévoit des infrastructure -> on construit des
-routes -> on construit les infrastructure
+Un élément \textit{potentiel} peut être assimilé à une idée germant
+dans l'esprit de l'urbaniste ; à une possibilité envisagée. Un élément
+potentiel est par la suite soit construit, soit ignoré et oublié. Il
+sert de prévision à court-terme quant à l'avenir de la ville et guide
+sa morphogénèse. La figure \ref{fig:potentiel} reprend la micro-ville
+de la figure \ref{fig:construit} et laisse apparaître
+
+\begin{figure}
+  \centering
+  IMAGE++
+  \caption{Les parcelles et routes potentielles guident la croissance
+    de la ville.}
+  \label{fig:potentiel}
+\end{figure}
+
+IMPACT UNIDIRECTIONNEL (sans aller dans le détail de l'AC)
+
+L'essence du modèle est de placer des éléments potentiels puis de
+choisir lesquels construire. Il comprend quatre mécanismes distincts
+que l'on a voulu généraux afin de pouvoir en altérer un sans
+compromettre la fiabilité de la simulation.
 
 \subsection{Mécanismes}
 
 \subsubsection{Automate cellulaire graphe}
 
-MODELE GENERAL
-
 ICI DENSITE : SIMPLE
+
+POURQUOI DENSITE ?
 
 ACG OSULLIVAN (COUV TOTALE)
 
@@ -517,7 +552,7 @@ probabilité de changement en fonction du temps. DETAILS
   \subcaptionbox{}[.4\linewidth][c]{
     PLOT
   }
-  \caption{Sigmoïde classique}
+  \caption{Sigmoïde classique.}
   \label{fig:sigmoide1}
 \end{figure}
 
@@ -530,7 +565,7 @@ probabilité de changement en fonction du temps. DETAILS
   \subcaptionbox{}[.4\linewidth][c]{
     PLOT
   }
-  \caption{Probabilité de changement d'état en fonction du temps}
+  \caption{Probabilité de changement d'état en fonction du temps.}
   \label{fig:sigmoide1}
 \end{figure}
 
@@ -573,7 +608,7 @@ Le déplacement de la graine est un processus pouvant potentiellement
 prendre en compte de nombreuses variables. Dans l'application
 d'exemple que l'on décrit, seules la densité et le placement des
 routes peuvent guider la graine, car ce sont les seuls données
-traîtées. Cependant, on souhaite que le modèle soit extensible et
+considérées. Cependant, on souhaite que le modèle soit extensible et
 qu'il soit capable de supporter d'autres variables et contraintes : la
 valeur des sols par exemple, ou bien la pente des zones envisagées ou
 l'impossibilité de s'installer sur certains types de terrain (forêts,
