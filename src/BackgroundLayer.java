@@ -100,7 +100,7 @@ public class BackgroundLayer implements LayerRenderer {
 					 if(d != null)
 						  g.setColor(d.color(LotOps.isLotBuilt(lot) ? 255 : this.faded));
 					 else
-						  g.setColor(Color.GREEN);
+						  g.setColor(Color.WHITE);
 				}
 
 				g.fill(path);
@@ -120,6 +120,12 @@ public class BackgroundLayer implements LayerRenderer {
 														  0));
 
 				g.draw(path);
+
+				// Draw the center.
+				g.setColor(Color.BLACK);
+				int x = ((Double)lot.getAttribute("x")).intValue();
+				int y = ((Double)lot.getAttribute("y")).intValue();
+				g.fillOval(x, y, 3, 3);
 		  }
 	 }
 

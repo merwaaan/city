@@ -9,26 +9,26 @@ import org.graphstream.stream.SinkAdapter;
 public class DensityStrategy extends Strategy {
 
 	 public static Density[] cachedDensityTypes = {
-		  Density.EMPTY,
 		  Density.LOW,
+		  Density.MEDIUM,
 		  Density.HIGH
 	 };
 
 	 private double[][] affinities = {
-		  {1, 0.5, 0},   // EMPTY
-		  {0.5, 1, 0.3}, // LOW
+		  {1, 0.5, 0},   // LOW
+		  {0.5, 1, 0.3}, // MEDIUM
 		  {0, 0.3, 1}    // HIGH
 	 };
 
 	 private double[] roadAffinities = {
-		  0.1, // EMPTY
-		  0.6, // LOW
+		  0.1, // LOW
+		  0.6, // MEDIUM
 		  1    // HIGH
 	 };
 
 	 private double[] ratios = {
-		  0.1, // EMPTY
-		  1, // LOW
+		  0.1, // LOW
+		  1,   // MEDIUM
 		  0.2  // HIGH
 	 };
 

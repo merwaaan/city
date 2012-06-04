@@ -20,7 +20,13 @@ abstract class VectorField {
 		  this.nn = n * n;
 
 		  this.vectors = new Vector2[n][n];
+
+		  for(int i = 0; i < this.vectors.length; ++i)
+				for(int j = 0; j < this.vectors[i].length; ++j)
+					 this.vectors[i][j] = new Vector2();
 	 }
+
+	 abstract void compute();
 
 	 public Vector2 influence(int x, int y, int radius) {
 

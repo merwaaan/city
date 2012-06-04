@@ -103,7 +103,7 @@ public class Simulation {
 
 		  // Misc.
 
-		  this.rnd = new Random(110186);
+		  this.rnd = new Random(110186123);
 
 		  this.geomFact = new GeometryFactory();
 
@@ -128,6 +128,7 @@ public class Simulation {
 
 		  // Compute n random coordinates.
 		  this.lotCoords = getRandomCoords(500);
+		  //this.lotCoords = getFixedCoords();
 		  //this.lotCoords = ShapeFileLoader.getLandLots("data/world_borders/world_borders.shp");
 		  //this.lotCoords = ShapeFileLoader.getLandLots("data/IGN/PARCELLE.SHP");
 
@@ -218,6 +219,21 @@ public class Simulation {
 
 				coords.add(new Coordinate(x, y));
 		  }
+
+		  return coords;
+	 }
+
+	 /**
+	  * Generates a fixed configuration to base report figures upon.
+	  */
+	 	 private List<Coordinate> getFixedCoords() {
+
+		  List<Coordinate> coords = new ArrayList<Coordinate>();
+
+		  coords.add(new Coordinate(-300, 500));
+		  coords.add(new Coordinate(-500, -500));
+		  coords.add(new Coordinate(200, -300));
+		  coords.add(new Coordinate(500, 0));
 
 		  return coords;
 	 }
