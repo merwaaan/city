@@ -1,11 +1,12 @@
-set title 'TITRE'
-set xrange [-10:150]
-set yrange [-2:2]
-set xlabel 't'
-set ylabel 'P'
-set function style lines
+set terminal png
+set output 'sigmoid.png'
 
-weight = 0.1
-offset = 50
+set title 'Sigmoïde'
+set xrange [-5:5]
+set yrange [-0.5:1.5]
+set xlabel 'x'
+set ylabel 'f(x)'
 
-f(x) = 1 / (1 + exp(-weight * (x - offset)))
+f(x) = 1 / (1 + exp(-x))
+
+plot f(x)
