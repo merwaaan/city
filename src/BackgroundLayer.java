@@ -194,8 +194,8 @@ public class BackgroundLayer implements LayerRenderer {
 					 g.fillOval(x1 - 5, y1 - 5, 10, 10);
 
 					 Vector2 vec = field.vectors[i][j];
-					 int x2 = x1 + (int)vec.x() * 10;
-					 int y2 = y1 + (int)vec.y() * 10;
+					 int x2 = x1 + (int)(vec.x() * 50);
+					 int y2 = y1 + (int)(vec.y() * 50);
 
 					 g.drawLine(x1, y1, x2, y2);
 				}

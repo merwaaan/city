@@ -38,7 +38,6 @@ abstract class VectorField {
 		  int x = -this.sim.width / 2 + j * this.frequency;
 		  int y = -this.sim.width / 2 + i * this.frequency;
 
-		  //System.out.println(i+" "+j+" "+x+" "+y);
 		  return new Vector2(x, y);
 	 }
 

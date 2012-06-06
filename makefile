@@ -30,6 +30,7 @@ FILES=\
 	LotOps \
 	MouseManager \
 	PotentialLotStrategy \
+	RoadField \
 	RoadStrategy \
 	RoadOps \
 	ShapeFileLoader \
