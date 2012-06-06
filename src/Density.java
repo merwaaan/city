@@ -24,14 +24,28 @@ public enum Density {
 
 		  switch(this) {
 		  case LOW:
-				return new Color(255, 255, 255, alpha);
+				return new Color(255, 220, 220, alpha);
 		  case MEDIUM:
-				return new Color(255, 145, 145, alpha);
+				return new Color(255, 130, 130, alpha);
 		  case HIGH:
-				return new Color(255, 48, 48, alpha);
+				return new Color(255, 50, 50, alpha);
 		  }
 
 		  return Color.GREEN;
+	 }
+
+	 public int value() {
+
+		  switch(this) {
+		  case LOW:
+				return 1;
+		  case MEDIUM:
+				return 2;
+		  case HIGH:
+				return 3;
+		  }
+
+		  return 0;
 	 }
 
 }

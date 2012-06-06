@@ -28,7 +28,7 @@ abstract class VectorField {
 
 	 abstract void compute();
 
-	 public Vector2 influence(int x, int y, int radius) {
+	 public Vector2 influence(int x, int y) {
 
 		  return new Vector2();
 	 }
