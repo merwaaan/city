@@ -3,6 +3,8 @@
 \usepackage[utf8]{inputenc}
 \usepackage[francais]{babel}
 
+\usepackage{amsmath}
+
 \usepackage{caption}
 \usepackage{subcaption}
 
@@ -488,16 +490,16 @@ quel magasin un piéton sera-t-il plus susceptible de visiter selon la
 zone dans laquelle il se trouve ? Leur utilisation pour l'étude de
 l'épidémie de choléra londonienne en 1854 à permis de vérifier le lien
 entre fontaines publiques infectées (les générateurs) et zones
-habitables souffrant d'un fort taux de mortalité (les cellules)
+souffrant d'un fort taux de mortalité (les cellules)
 \cite{Thomas2010}.
 
 Comme leur homonymie le laisse supposer, la cellule de Voronoï
-remplace la cellule carrée de l'AC. On remarque qu'une grille
-régulière, comme celles présentes dans les automates cellulaires
-classiques correspond à un diagramme de Voronoï dans laquelle les
-générateurs sont alignés et régulièrement disposés. Une tesselation de
-Voronoï peut être considérée comme une généralisation de la structure
-grillagée ; notre première contrainte est satisfaite.
+remplace la cellule carrée de l'automate cellulaire. On remarque
+qu'une grille régulière, comme celles présentes dans les automates
+cellulaires classiques correspond à un diagramme de Voronoï dans
+laquelle les générateurs sont alignés et régulièrement disposés. Une
+tesselation de Voronoï peut être considérée comme une généralisation
+de la structure grillagée ; notre première contrainte est satisfaite.
 
 À l'échelle de ce modèle, chaque cellule représente une parcelle
 cadastrale et on utilise comme générateur le centre de son
@@ -516,8 +518,18 @@ d'accueillir une route. Dans une véritable ville, chaque parcelle
 n'est pas encerclée de voies et l'un des objectifs de la simulation
 est de déterminer quelles arêtes accueilleront des routes. Le
 diagramme de Voronoï suffit bien à représenter à la fois les éléments
-du viaire et du bâti et notre dernière contrainte est
-statisfaite. SYNONYME SATISFAIRE ?
+du viaire et du bâti et notre dernière contrainte est comblée.
+
+En réalité, dans ce modèle la ville est représentée par deux graphes
+et le diagramme de Voronoï est uniquement employé en tant que point de
+départ. Le premier, le graphe du bâti, a pour n\oe ud les centres des
+parcelles alors que ses arêtes symbolisent les relations de
+voisinage. Le second, le graphe viaire, a des arêtes représentant les
+routes et des n\oe uds carrefour joignant plusieurs voies. Les
+structures des graphe viaire et bâti sont donc entièrement fondées sur
+le diagramme de Voronoï puisqu'il s'agit, respectivement, de
+l'ensemble des arêtes et sommets de Voronoï et de sa triangulation de
+Delaunay. REFORMULER
 
 Il est essentiel de dissocier le polygone convexe qu'est la cellule de
 Voronoï associée à une parcelle et la véritable empreinte cadastrale
@@ -614,20 +626,25 @@ construire. Ce travail a été décomposé en quatre mécanismes distincts.
 
 \subsubsection{Automate cellulaire graphe}
 
-Les définitions de la ville sont multiples et chaque géographe et
-urbaniste propose sa variation MAIS GENERALEMENT
+La dynamique de croissance urbaine est décomposable sur deux axes. La
+croissance horizontale décrit l'expansion spatiale de la ville dont
+l'enveloppe grandit pour occuper plus de territoire tandis que la
+croissance verticale correspond à l'augmentation des densités au sein
+de la ville, souvent à partir d'un ou de plusieurs centres. Le
+mécanisme cellulaire présenté ci-après émule la croissance verticale
+et les variations de densité internes au système.
 
-Une ville est un groupement d'installations humaines axé autour d'un
-ou de plusieurs centres. Il s'agit véritablement d'un système complexe
-et les variables entrant en jeu sont nombreuses. Puisqu'il s'agit
-avant tout d'un foyer de population, les choix appliqués par les
-autorités sont motivés par un besoin de la rendre toujours plus
-fonctionnelle. Cela se traduit, par exemple, par un réseau routier
-construit dans une optique d'optimalité quant au déplacement des
-habitants, même si la réalité est peuplée de contraintes empêchant une
-organisation parfaite. Aussi, PARCELLES. La population et plus
-précisément sa densité sont donc des facteurs majeurs à prendre en
-compte, si ce ne sont les principaux. La ville évolue, de nouveaux
+On voit la ville est un groupement d'installations humaines axé autour
+d'un ou de plusieurs centres. Puisqu'il s'agit avant tout d'un foyer
+de population, les choix appliqués par les autorités sont motivés par
+un besoin de la rendre toujours plus fonctionnelle. Cela se traduit,
+par exemple, par un réseau routier construit dans une optique
+d'optimalité quant au déplacement des habitants, même si la réalité
+est peuplée de contraintes empêchant une organisation parfaite. Au
+niveau parcellaire, cela se traduit par un désir d'équilibrer les
+paysages urbains et d'éviter les contrastes forts. La population et
+plus précisément sa densité sont donc des facteurs majeurs à prendre
+en compte, si ce ne sont les principaux. La ville évolue, de nouveaux
 bâtiments apparaissent, d'autres sont rasés, les quartiers changent et
 le modèle doit être capable de simuler ces changements. C'est bien sûr
 par un automate cellulaire, quoi que quelque peu relaxé, que cet
@@ -638,18 +655,29 @@ On propose de représenter trois différents types de densité
 d'attractivité variantes de façon à ce que les parcelles faibles
 côtoient les parcelles moyennes, les parcelles moyennes côtoient les
 parcelles élevées et les parcelles faibles s'éloignent des parcelles
-élevées, SCHELLING. Ainsi un dégradé discret de densité apparaît comme
-dans une ville réelle. La problématique étant d'étudier la coévolution
-de deux aspects urbains et non seulement l'évolution des densités (qui
-ne sert que de support à l'essort de la ville), on a préféré choisir
-un ???  basique. Malgré cette simplicité, le modèle est conçu pour que
-chaque mécanisme puisse être modifié indépendamment des autres et il
-est tout à fait possible d'utiliser par la suite un automate
-cellulaire plus sophistiqué pour améliorer le réalisme de la
-simulation. La figure \ref{fig:ac} illustre le fonctionnement d'un
-automate cellulaire obéissant à de telles règles.
+élevées. Ce processus d'attraction/répulsion évoque le modèle de
+ségrégation de Schelling à la différence qu'ici trois types de
+\textit{population} interagissent et qu'il n'y a pas de contrainte de
+démenagement (si une parcelle \textit{faible} disparaît, elle ne doit
+pas nécessairement réapparaître ailleurs). Ainsi un dégradé discret de
+densité apparaît comme dans une ville réelle. La problématique étant
+d'étudier la coévolution de deux aspects urbains et non seulement
+l'évolution des densités (qui ne sert que de support à l'essort de la
+ville), on a préféré choisir une règle basique. Malgré cette
+simplicité, le modèle est conçu pour que chaque mécanisme puisse être
+modifié indépendamment des autres et il est tout à fait possible
+d'utiliser par la suite un automate cellulaire plus sophistiqué pour
+améliorer le réalisme de la simulation. On commence par appliquer
+cette règle a un automate cellulaire classique (voir figure
+\ref{fig:ac}).
 
-MATRICE
+\[
+\begin{pmatrix}
+  1 & 1 & 1 \\
+    & 1 & 1 \\
+    &   & 1
+\end{pmatrix}\]
+
 
 \begin{figure}[h]
   \centering
