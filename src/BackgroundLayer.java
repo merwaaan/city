@@ -205,15 +205,18 @@ public class BackgroundLayer implements LayerRenderer {
 
 	 private void drawPaths(Graphics2D g) {
 
+		  g.setColor(Color.GREEN);
+
 		  for(List<Vector2> path : this.sim.paths) {
 
 				GeneralPath p = new GeneralPath();
+
+				g.drawOval((int)path.get(0).x()-5, (int)path.get(0).y()-5, 10, 10);
 
 				p.moveTo(path.get(0).x(), path.get(0).y());
 				for(int i = 1, l = path.size(); i < l; ++i)
 					 p.lineTo(path.get(i).x(), path.get(i).y());
 
-				g.setColor(Color.GREEN);
 				g.draw(p);
 		  }
 	 }

@@ -63,6 +63,7 @@ public class Simulation {
 	 public int showWhichVectorField = 0;
 
 	 public List<List<Vector2>> paths;
+	 public PotentialLotStrategy PLS;
 
 	 private String lotsStyle = "node {fill-mode: none; size: 5px;} edge {visibility-mode: hidden;}";
 
@@ -76,6 +77,7 @@ public class Simulation {
 	  * Minimum delay between each update.
 	  */
 	 private long stepDuration = 400;
+	 private int step = 0;
 
 	 private View view;
 	 private Camera camera;
@@ -147,9 +149,6 @@ public class Simulation {
 
 	 public void run() {
 
-		  // Save a screenshot.
-		  this.lots.addAttribute("ui.screenshot", "../screenshot.png");
-
 		  // Choose appropriate strategies.
 		  this.strategies.put("cellular automata", new DensityStrategy(this));
 		  this.strategies.put("road development", new RoadStrategy(this));
@@ -166,6 +165,7 @@ public class Simulation {
 						  strategy.update();
 
 					 this.lastStep = now;
+					 ++this.step;
 				}
 
 				redraw();
@@ -201,6 +201,15 @@ public class Simulation {
 		  catch(Exception e) {
 				e.printStackTrace();
 		  }
+	 }
+
+	 /**
+	  * Saves a screenshot of the simulation under filename
+	  * `screenshot-X` where X is the step number.
+	  */
+	 public void screenshot() {
+
+		  this.lots.addAttribute("ui.screenshot", "../screenshot-" + this.step + ".png");
 	 }
 
 	 /**
@@ -240,17 +249,6 @@ public class Simulation {
 		  coords.add(new Coordinate(500, 0));
 
 		  return coords;
-	 }
-
-	 public String getNextId(Graph g) {
-
-		  if(g.getNodeCount() == 0)
-				return "0";
-
-		  Node last = g.getNode(g.getNodeCount() - 1);
-		  int lastId = lastId = Integer.parseInt(last.getId());
-
-		  return (lastId + 1) + "";
 	 }
 
 }

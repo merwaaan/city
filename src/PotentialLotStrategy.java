@@ -27,7 +27,7 @@ public class PotentialLotStrategy extends Strategy {
 		  this.weights[0] = 1;
 		  this.weights[1] = 1;
 
-		  spawn();
+		  this.sim.PLS = this;
 	 }
 
 	 void prepare() {
@@ -43,13 +43,20 @@ public class PotentialLotStrategy extends Strategy {
 		  //spawn();
 	 }
 
-	 private void spawn() {
+	 public void spawn() {
 
 		  double x = this.sim.rnd.nextDouble() * this.sim.width - this.sim.width / 2;
 		  double y = this.sim.rnd.nextDouble() * this.sim.width - this.sim.width / 2;
-		  Vector2 seed = new Vector2(x, y);
+
+		  spawn(x, y);
+	 }
+
+	 public void spawn(double x, double y) {
 
 		  List<Vector2> path = new ArrayList<Vector2>();
+
+		  Vector2 seed = new Vector2(x, y);
+		  System.out.println("> "+x+" "+y);
 
 		  for(int i = 0; i < 10; ++i) {
 
@@ -59,6 +66,9 @@ public class PotentialLotStrategy extends Strategy {
 
 				seed.add(inf);
 
+				System.out.println("+ "+inf.x()+" "+inf.y());
+				System.out.println("= "+seed.x()+" "+seed.y());
+
 				path.add(new Vector2(seed));
 		  }
 
@@ -67,20 +77,24 @@ public class PotentialLotStrategy extends Strategy {
 
 	 private Vector2 influence(double x, double y) {
 
-		  Vector2 v = new Vector2();
+		  Vector2 all = new Vector2();
 
 		  for(int i = 0, l = this.fields.size(); i < l; ++i) {
 
-				Vector2 all = this.fields.get(i).influence(x, y);
+				Vector2 v = this.fields.get(i).influence(x, y);
 
-				all.scalarMult(this.weights[i]);
+				v.scalarMult(this.weights[i]);
 
-				v.add(all);
+				all.add(v);
+
+				System.out.println(v + " " + weights[i]);
 		  }
 
-		  v.normalize();
+		  System.out.println(all);
 
-		  return v;
+		  all.normalize();
+
+		  return all;
 	 }
 
 }

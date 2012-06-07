@@ -42,10 +42,10 @@ abstract class VectorField {
 		  double x1 = x0 + this.frequency;
 		  double y1 = y0 + this.frequency;
 
-		  Vector2 a = new Vector2(x0, y0);
-		  Vector2 b = new Vector2(x1, y0);
-		  Vector2 c = new Vector2(x1, y1);
-		  Vector2 d = new Vector2(x0, y1);
+		  Vector2 a = this.vectors[i][j];
+		  Vector2 b = this.vectors[i][j+1];
+		  Vector2 c = this.vectors[i+1][j+1];
+		  Vector2 d = this.vectors[i+1][j];
 
 		  //
 

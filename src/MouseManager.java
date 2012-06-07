@@ -6,9 +6,8 @@ import org.graphstream.ui.swingViewer.util.DefaultMouseManager;
 
 public class MouseManager extends DefaultMouseManager {
 
-	 private Simulation sim;
 
-	 private int screenshotIndex = 1;
+	 private Simulation sim;
 
 	 public MouseManager(Simulation sim) {
 
@@ -17,10 +16,42 @@ public class MouseManager extends DefaultMouseManager {
 
 	 public void mouseClicked(MouseEvent event) {
 
-		  // Left click: save screen shot.
+		  // Left click:
 
-		  if(event.getButton() == MouseEvent.BUTTON1)
-				this.sim.lots.addAttribute("ui.screenshot", "../screenshot" + screenshotIndex++ + ".png");
+		  if(event.getButton() == MouseEvent.BUTTON1) {
+
+				int xPx = event.getX();
+				int yPx = event.getY();
+
+				Rectangle bounds = this.view.getBounds();
+				double xPxCentered = xPx - bounds.getWidth() / 2;
+				double yPxCentered = -(yPx - bounds.getHeight() / 2);
+
+				System.out.println("__________________");
+				System.out.println(xPx+" "+yPx);
+				System.out.println(xPxCentered+" "+yPxCentered);
+
+				this.sim.PLS.spawn(xPxCentered, yPxCentered);
+
+				// Interactive node insertion code.
+				/*
+				  int xPx = event.getX();
+				  int yPx = event.getY();
+
+				  Rectangle bounds = this.view.getBounds();
+				  double xPxCentered = xPx - bounds.getWidth() / 2;
+				  double yPxCentered = -(yPx - bounds.getHeight() / 2);
+
+				  double[] coordsGu = this.sim.px2gu(xPxCentered, yPxCentered);
+
+				  CityOps.insertLot(coordsGu[0], coordsGu[1], this.sim);
+				*/
+		  }
+
+		  // Middle click: save screen shot.
+
+		  else if(event.getButton() == MouseEvent.BUTTON2)
+				this.sim.screenshot();
 
 		  // Right click: display a different vector field.
 
@@ -35,19 +66,6 @@ public class MouseManager extends DefaultMouseManager {
 				else
 					 ++this.sim.showWhichVectorField;
 		  }
-
-		  // Interactive node insertion code, we never know...
-		  /*
-		  int xPx = event.getX();
-		  int yPx = event.getY();
-
-		  Rectangle bounds = this.view.getBounds();
-		  double xPxCentered = xPx - bounds.getWidth() / 2;
-		  double yPxCentered = -(yPx - bounds.getHeight() / 2);
-
-		  double[] coordsGu = this.sim.px2gu(xPxCentered, yPxCentered);
-
-		  CityOps.insertLot(coordsGu[0], coordsGu[1], this.sim);
-		  */
 	 }
+
 }
