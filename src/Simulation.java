@@ -62,6 +62,8 @@ public class Simulation {
 	 public boolean showPotentialLots = true;
 	 public int showWhichVectorField = 0;
 
+	 public List<List<Vector2>> paths;
+
 	 private String lotsStyle = "node {fill-mode: none; size: 5px;} edge {visibility-mode: hidden;}";
 
 	 /**
@@ -102,6 +104,8 @@ public class Simulation {
 		  this.strategies = new HashMap<String, Strategy>();
 
 		  // Misc.
+
+		  this.paths = new ArrayList<List<Vector2>>();
 
 		  this.rnd = new Random(110186123);
 

@@ -5,6 +5,7 @@ import java.awt.geom.GeneralPath;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import com.vividsolutions.jts.geom.Coordinate;
@@ -55,6 +56,7 @@ public class BackgroundLayer implements LayerRenderer {
 		  drawLots(g);
 		  drawRoads(g);
 		  drawVectorField(g);
+		  drawPaths(g);
 
 		  // Restore the transformation matrix.
 		  g.dispose();
@@ -199,6 +201,21 @@ public class BackgroundLayer implements LayerRenderer {
 
 					 g.drawLine(x1, y1, x2, y2);
 				}
+	 }
+
+	 private void drawPaths(Graphics2D g) {
+
+		  for(List<Vector2> path : this.sim.paths) {
+
+				GeneralPath p = new GeneralPath();
+
+				p.moveTo(path.get(0).x(), path.get(0).y());
+				for(int i = 1, l = path.size(); i < l; ++i)
+					 p.lineTo(path.get(i).x(), path.get(i).y());
+
+				g.setColor(Color.GREEN);
+				g.draw(p);
+		  }
 	 }
 
 	 /**
