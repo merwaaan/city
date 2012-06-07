@@ -47,20 +47,92 @@
 
 \end{titlepage}
 
-\begin{abstract}
-abstract abstract abstract abstract abstract abstract abstract
-abstract abstract abstract abstract abstract abstract abstract
-abstract abstract abstract abstract abstract abstract abstract
-abstract abstract abstract abstract abstract abstract abstract
-abstract abstract abstract abstract abstract abstract abstract
-abstract abstract abstract abstract abstract abstract abstract
-abstract abstract abstract abstract abstract abstract abstract
-abstract abstract abstract abstract abstract abstract abstract
-abstract abstract abstract abstract abstract abstract abstract
-abstract abstract abstract abstract abstract abstract abstract
-abstract abstract abstract abstract abstract abstract abstract
-abstract abstract abstract abstract abstract abstract abstract
-\end{abstract}
+{\scshape\textbf Keywords}
+
+Urban system, city morphogenesis, Voronoi diagram, cellular automaton
+
+{\scshape\textbf Extended abstract}
+
+economics???, human???, geographical???, the city truly is a complex
+system. The increasing growth in population and technology produces
+urban systems like the world has never seen before, of increasing
+size, increasing uniqueness??? and increasing complexity. Studying the
+relationships between its internal elements is primordial to the
+understanding of its mechanics and to better predict ???. This expose
+focuses on the relationship between the pattern of human installations
+within the city -- characterized at the atomic level by a basic
+subdivision, the land lot -- and its road network.
+
+Definitions of the city as a whole are many. Through the
+anthropologist's eye it can be seen as a concentration of persons, the
+economist will prefer to view it as a support for the exchange of
+financial and ??? assets and the urbanist as ???. We chose to consider
+that the evolution of a city is driven by its population, translated
+as a measure of its density. This goes in hand with our focus as land
+lots are inhabited by the same people using the surrounding roads to
+go from one place to another and urbanistic??? decisions are motivated
+by a need to optimize the city, to ??? transport and avoid ???.
+
+Study of the domain of urban simulations shows that available
+scientific works can be classified in two different categories. For
+visual rendering purposes, special effects in movies or video games,
+methods have been proposed that generate a visually satisfying system
+without ??? realism. These are often based on empirical observations
+and the main idea is to emulate the patterns found in any urban
+sytem. Scientific??? modeling, on the other hand, prefers to focus on
+the inner qualities of a city, often by studying a subset of those, to
+analyze its current state and extrapolate its future. We ??? latter
+but the former represents a non-negligible source of inspiration.
+
+A reader skimming??? through the field litterature will often
+encounter cellular automata. This structure, which applicability and
+potential complexity has been proven over times, is fit for describing
+any kind of space-related problem. Nevertheless, its rigorous
+formalism may sometimes ??? realism/fidelity and impact the validity
+of the model. For example, a cellular automaton topology is overly???
+regular and representing a city with a set of identical and aligned
+cells seems like a grossière??? simplification. In the same way,
+identical neighborhood, temporal, or ??? may be questionned. We take a
+drastic step towards realism and embrace the spatial aspect of the
+city by replacing the classic cellular automaton with a Voronoï
+diagram following the same basic concepts. Each of its cell represents
+a land lot and neighborhood relationships that are ruled by adjacency
+determine its future state.
+
+The different elements represented in our model (\textit{i. e. lots
+  and roads}) are declined in two flavors???. \textit{Potential}
+elements have a fuzzy??? status ; their spatial characteristics are
+known but until they are definitely built, they have no effect on the
+overall city and only represent an idea, a possible
+outcome. \textit{Built} elements were potential elements that have
+been constructed. They form the physical city. Concisely, the gist of
+the model is to add potential elements to the city and, only later,
+chose which ones will be built and which ones will be forgotten, the
+road network being guided ???. This works has been divided into four
+separate mechanisms for clarity purposes.
+
+The cellular part of the model lets the inner variables of the city
+vary based on the Voronoi tesselation. Here, only population density
+is considered and a set of simple rules reproduces a gradient from
+centers to exterieur?.
+
+The placement of new potential lots is handled by a general ??? based
+on vector fields. Each data we want to consider is represented as a
+vector field that will guide the seed for a new lot. For example, a
+field escaping from high density areas is used to ensure urban
+sprawl. Another points to the closest road such that new lots
+extending the city remain ??? to its main axes. Then all vector fields
+are summed up with varying coefficient. This general approach can
+model any kind of guidance or constraint ; it is possible to use a
+field repelling the seed from any obstacle (unbuildable areas, water).
+
+Which lots should I build?
+
+The road network expansion is fully based on the placement of lots,
+potential or built, as their supports are the Voronoi cells. NETWORK
+SIMPLEX
+
+RESULTAT/MESURES
 
 \newpage
 
@@ -74,13 +146,23 @@ REMERCIEMENTS
 
 \section{Introduction}
 
-PROBLEMATIQUE IMPORTANTE, DE PLUS EN PLUS
+Avec ses enjeux économiques, humains, ???, ???, la ville est
+véritablement un système complexe. La croissance des systèmes urbains
+atteint aujourd'hui un stade imprécédé???. La taille et la complexité
+des villes augmentent STATS. Il est nécéssaire d'étudier ces
+changements pour comprendre les mécanismes sous-jacents à ce type de
+système et pour prévoir leur évolution future. On se concentre ici sur
+l'évolution jointe de deux ensembles majeurs du tissu urbain : le bâti
+et le viaire.
 
-SYSTEME URBAIN = SYSTEME COMPLEXE
+DETAILS
 
-PROBLEMATIQUE
+Ces deux aspects de la ville semblent aller de paire puisque le bâti
+abrite les population tandis que le viaire leur permet de se
+déplacer. Il est ainsi naturel d'utiliser la densité de population
+comme force de guidage à l'évolution de la ville.
 
-IDEE
+DETAILS
 
 La première partie présente un état de l'art de la modélisation de
 systèmes urbains et se concentre particulièrement sur les méthodes à
@@ -134,22 +216,20 @@ automates cellulaires \cite{Gardner1970}.
 
 Les automates cellulaires ont depuis été extensivement étudiés et sont
 appliqués à l'étude de nombreux phénomènes biologiques, physiques et
-sociaux \cite{Ganguly2003}. La motivation d'Ulam lors de leur conception
-était d'ailleurs de modéliser la croissance de cristaux. On peut aussi
-citer en exemple la simulation de la dynamique de fluides
-\cite{Frisch1986}, de la croissance de tumeurs \cite{Kansal2000}, de
-l'évolution d'épidémies \cite{Fu2003}, de la ségrégation de population
-\cite{Schelling1969}. Leur caractère spatial laisse supposer qu'ils
-sont particulièrement adaptés aux applications géographiques, et dans
-le cadre de notre problématique, urbaines. Ils ne fûrent
-paradoxalement pas immédiatement exploités à cet effet et c'est
-seulement suite à un article de Waldo Tobler, en 1975, que le
-rapprochement entre les automates cellulaires et le domaine de la
-géographie apparaît clairement \cite{Tobler1975}.
-
-CELLULE = ZONE
-
-BOUGER SCHELLING ICI
+sociaux \cite{Ganguly2003}. La motivation d'Ulam lors de leur
+conception était d'ailleurs de modéliser la croissance de cristaux. On
+peut aussi citer en exemple la simulation de la dynamique de fluides
+\cite{Frisch1986} et de la croissance de tumeurs
+\cite{Kansal2000}. Leur caractère spatial laisse supposer qu'ils sont
+particulièrement adaptés aux applications géographiques, et dans le
+cadre de notre problématique, urbaines. Ils ne fûrent paradoxalement
+pas immédiatement exploités à cet effet et c'est seulement suite à un
+article de Waldo Tobler, en 1975, que le rapprochement entre les
+automates cellulaires et le domaine de la géographie apparaît
+clairement \cite{Tobler1975}. Sont ensuite publiés des travaux majeurs
+appliquant l'automate cellulaire à eds problématiques géographiques
+multi-échelle telles que l'évolution d'épidémies \cite{Fu2003} et la
+ségrégation de population \cite{Schelling1969}.
 
 \begin{figure}
   \centering
