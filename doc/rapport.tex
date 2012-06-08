@@ -47,59 +47,74 @@
     \includegraphics[width=.25\linewidth]{images/logo-litis.png}
   \end{center}
 
+  \begin{center}
+    {\small Mars - Juin 2012}
+  \end{center}
+
 \end{titlepage}
 
-{\scshape\textbf Keywords}
+\begin{center}
+  {\scshape\textbf Keywords}
+\end{center}
 
-Urban system, city morphogenesis, Voronoi diagram, cellular automaton
+{Urban system, city morphogenesis, Voronoi diagram, cellular automaton.}
 
-{\scshape\textbf Extended abstract}
+\begin{center}
+  {\scshape\textbf Extended abstract}
+\end{center}
 
-economics???, human???, geographical???, the city truly is a complex
-system. The increasing growth in population and technology produces
-urban systems like the world has never seen before, of increasing
-size, increasing uniqueness??? and increasing complexity. Studying the
-relationships between its internal elements is primordial to the
-understanding of its mechanics and to better predict ???. This expose
-focuses on the relationship between the pattern of human installations
-within the city -- characterized at the atomic level by a basic
-subdivision, the land lot -- and its road network.
+Gathering issues of human, economic, geographic and political nature,
+the city truly is a complex system. The increasing growth in
+population and technology produces urban systems like the world has
+never seen before, of increasing size, increasing heterogeneity and
+increasing complexity. Studying the relationships between its internal
+elements is primordial to the understanding of its mechanics and to
+better predict their developement. This work focuses on the
+relationship between the pattern of human installations within the
+city -- characterized at the atomic level by a basic subdivision, the
+land lot -- and its road network.
 
-Definitions of the city as a whole are many. Through the
+Systematic definitions of the city are many. Through the
 anthropologist's eye it can be seen as a concentration of persons, the
 economist will prefer to view it as a support for the exchange of
-financial and ??? assets and the urbanist as ???. We chose to consider
-that the evolution of a city is driven by its population, translated
-as a measure of its density. This goes in hand with our focus as land
-lots are inhabited by the same people using the surrounding roads to
-go from one place to another and urbanistic??? decisions are motivated
-by a need to optimize the city, to ??? transport and avoid ???.
+financial and physical assets and the urbanist as a functional entity
+composed of flows and services. We choose to consider that the
+evolution of a city is driven by its population, translated as a
+measure of its density. This goes in hand with our focus as land lots
+are inhabited by the same people using the surrounding roads to go
+from one place to another and urbanistic decisions are motivated by a
+need to optimize the city, streamlining transport means and avoiding
+high contrasts in the urban fabric.
 
 Study of the domain of urban simulations shows that available
 scientific works can be classified in two different categories. For
 visual rendering purposes, special effects in movies or video games,
 methods have been proposed that generate a visually satisfying system
 without ??? realism. These are often based on empirical observations
-and the main idea is to emulate the patterns found in any urban
-sytem. Scientific??? modeling, on the other hand, prefers to focus on
+and the main idea is to emulate the street patterns found in any urban
+system. Scientific??? modeling, on the other hand, prefers to focus on
 the inner qualities of a city, often by studying a subset of those, to
-analyze its current state and extrapolate its future. We ??? latter
-but the former represents a non-negligible source of inspiration.
+analyze its current state and extrapolate its future. We orient our
+research with the latter in mind but the former represents a
+non-negligible source of inspiration.
 
-A reader skimming??? through the field litterature will often
-encounter cellular automata. This structure, which applicability and
-potential complexity has been proven over times, is fit for describing
-any kind of space-related problem. Nevertheless, its rigorous
-formalism may sometimes ??? realism/fidelity and impact the validity
-of the model. For example, a cellular automaton topology is overly???
+A reader browsing through the field litterature will often encounter
+cellular automata. This structure, which applicability and potential
+complexity has been proven over times, is fit for describing any kind
+of space-related problem. Nevertheless, its rigorous formalism may
+sometimes restrain realism and impact the validity of the model. For
+example, a cellular automaton topology is, by definition, perfectly
 regular and representing a city with a set of identical and aligned
-cells seems like a grossière??? simplification. In the same way,
-identical neighborhood, temporal, or ??? may be questionned. We take a
+cells seems like a coarse simplification. In the same way, the fact
+that each cell has an identical neighborhood structure, the temporal
+synchronism and the state discretization may be questionned. We take a
 drastic step towards realism and embrace the spatial aspect of the
 city by replacing the classic cellular automaton with a Voronoï
 diagram following the same basic concepts. Each of its cell represents
 a land lot and neighborhood relationships that are ruled by adjacency
-determine its future state.
+determine its future state ; the regularity constraint is thus
+relaxed. Voronoi edges delineate the Voronoi space of land lots and,
+as such, are perfect support for roads. +++
 
 The different elements represented in our model (\textit{i. e. lots
   and roads}) are declined in two flavors???. \textit{Potential}
@@ -109,14 +124,15 @@ overall city and only represent an idea, a possible
 outcome. \textit{Built} elements were potential elements that have
 been constructed. They form the physical city. Concisely, the gist of
 the model is to add potential elements to the city and, only later,
-chose which ones will be built and which ones will be forgotten, the
-road network being guided ???. This works has been divided into four
-separate mechanisms for clarity purposes.
+chose which ones will be built and which ones will be forgotten. The
+road network expand to accomodate ++++. This works has been divided
+into four separate mechanisms for clarity purposes.
 
 The cellular part of the model lets the inner variables of the city
 vary based on the Voronoi tesselation. Here, only population density
 is considered and a set of simple rules reproduces a gradient from
-centers to exterieur?.
+centers to exterieur?. The vertical growth assured by this mechanism
++++
 
 The placement of new potential lots is handled by a general ??? based
 on vector fields. Each data we want to consider is represented as a
@@ -134,7 +150,9 @@ The road network expansion is fully based on the placement of lots,
 potential or built, as their supports are the Voronoi cells. NETWORK
 SIMPLEX
 
-RESULTAT/MESURES
+RESULTATS/MESURES
+
+MINI CONC
 
 \newpage
 
