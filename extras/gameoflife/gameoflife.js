@@ -1,6 +1,8 @@
 var ctxt;
 var canvasSize;
 
+Math.seedrandom('graphstream!');
+
 var cells = [];
 
 var worldSize = 50;
