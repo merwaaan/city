@@ -959,7 +959,7 @@ forme d'un ensemble de polygones, chacun représentant une cellule de
 Voronoï, mais aucune autre information, notamment d'adjacence, n'est
 fournie. Une fois le graphe parcellaire peuplé par des n\oe uds
 positionnés aux coordonnées fournies plus tôt, il reste donc à
-calculer les relations de voisinage.
+calculer les relations de voisinage et à ajouter les arêtes.
 
 \begin{figure}
   \centering
@@ -980,19 +980,6 @@ deux n\oe uds du graphe leur étant associés.
   \caption{}
   \label{fig:construction-bati3}
 \end{figure}
-
-On observe sur la figure \ref{fig:construction3} que les parcelles
-situées en bordure de la ville sont dotées d'immenses cellules de
-Voronoï. Afin de ne pas influencer négativement le déroulement de la
-simulation, dans laquelle l'aire des cellules peut avoir un impact sur
-l'évolution du système, on préfère modifier les contours du diagramme
-pour qu'il épouse la forme générale de la ville. Pour ce faire, on
-calcule l'enveloppe convexe du jeu de points utilisés comme
-coordonnées initiales, on l'agrandit de quelques unités afin que les
-parcelles ne soient pas collées à la bordure extérieure et on conserve
-uniquement l'intersection du diagramme original et de cette enveloppe.
-
-EN FAIT NON, GARDER ?
 
 La finalité de cet exercice n'est pas seulement de faire évoluer
 l'automate cellulaire irrégulier que forme cette structure mais aussi
