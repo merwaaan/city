@@ -3,15 +3,13 @@ var canvasSize;
 
 var cells = [];
 
-var worldSize = 10;
+var worldSize = 50;
 var cellSize;
 
-var neighborhoodRadius = 3;
-
 var affinities = [
-	[1, 0.5, 0],
-	[0.5, 1, 0.3],
-	[0, 0.3, 1],
+	[1, 0.01, 0],   // LOW
+	[0.001, 1.5, 0.01], // MEDIUM
+	[0, 0.01, 1.6],   // HIGH
 ];
 
 window.onload = function() {
@@ -29,7 +27,8 @@ window.onload = function() {
 			cells[i][j] = {
 				x: j,
 				y: i,
-				type: Math.round(Math.random() * 2),
+				type: null,
+				next: null,
 				age: Math.round(Math.random() * 100)
 			};
 	}
@@ -39,11 +38,29 @@ window.onload = function() {
 		for(var j = 0; j < worldSize; ++j)
 			cells[i][j].n = neighborhood(cells[i][j]);
 
+	// Initial distribution.
+
+	for(var i = 0; i < worldSize; ++i)
+		for(var j = 0; j < worldSize; ++j) {
+
+			var c = cells[i][j];
+			var d = Math.sqrt(Math.pow(c.x - worldSize / 2, 2) + Math.pow(c.y - worldSize / 2, 2));
+
+			if(d < 5)
+				c.type = 2
+			else if(d < 10)
+				c.type = 1;
+			else
+				c.type = 0;
+		}
+
+	draw();
+
 	// GO!
 	setInterval(function(){
 		update();
 		draw();
-	}, 500);
+	}, 10);
 }
 
 function neighborhood(cell) {
@@ -51,6 +68,8 @@ function neighborhood(cell) {
 	var neighbors = [];
 
 	// To keep things simple: square neighborhood.
+
+	var neighborhoodRadius = 1;
 
 	var x = cell.x;
 	var y = cell.y;
@@ -92,6 +111,8 @@ function neighborhood(cell) {
 	return neighbors;
 }
 
+var it = 0;
+
 function update() {
 
 	for(var i = 0; i < worldSize; ++i)
@@ -101,20 +122,23 @@ function update() {
 
 	// Switch cell types.
 	for(var i = 0; i < worldSize; ++i)
-		for(var j = 0; j < worldSize; ++j)
+		for(var j = 0; j < worldSize; ++j) {
 			if(cells[i][j].next != null) {
 				cells[i][j].type = cells[i][j].next;
 				cells[i][j].age = 0;
 				cells[i][j].next = null;
 			}
-	else
-		++cells[i][j].age;
+			else
+				cells[i][j].age += 1;
+		}
+
+	++it;
 }
 
 function ready(cell) {
 
-	var weight = 0.1;
-	var offset = 50;
+	var weight = 0.02;
+	var offset = 350;
 
 	var r = Math.random();
 
@@ -133,16 +157,16 @@ function next(cell) {
 }
 
 function potential(cell, type) {
-	console.log('---');
+
 	var neighborTypes = [];
-	for(var i = 0; i < 3; ++i){
-		console.log('-');
-		neighborTypes.push(countNeighbors(cell, i));
-	}
+	for(var i = 0; i < 3; ++i)
+		neighborTypes[i] = countNeighbors(cell, i);
 
 	var potential = 0;
 	for(var i = 0; i < 3; ++i)
 		potential += neighborTypes[i] * affinities[type][i];
+
+	potential /= cell.n.length;
 
 	return potential;
 }
@@ -154,9 +178,6 @@ function countNeighbors(cell, type){
 	for(var i in cell.n)
 		if(cell.n[i].type == type)
 			++count;
-
-	if(Math.random() < 0.1)
-		console.log(cell.type, type);
 
 	return count;
 }
@@ -192,18 +213,17 @@ function draw() {
 	for(var i = 0; i < worldSize; ++i)
 		for(var j = 0; j < worldSize; ++j) {
 
-			var color = null;
-			switch(cells[i][j].type) {
-			case 0:
+			var t = cells[i][j].type;
+
+			if(t == 0)
 				color = 'rgb(255, 220, 220)';
-				break;
-			case 1:
+			else if(t == 1)
 				color = 'rgb(255, 130, 130)';
-				break;
-			case 2:
+			else if(t == 2)
 				color = 'rgb(255, 50, 50)';
-				break;
-			}
+			else
+				// If there is green then there's a problem.
+				var color = 'green';
 
 			ctxt.fillStyle = color;
 			ctxt.fillRect(j * cellSize, i * cellSize, cellSize, cellSize);
