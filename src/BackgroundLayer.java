@@ -57,6 +57,7 @@ public class BackgroundLayer implements LayerRenderer {
 		  drawRoads(g);
 		  drawVectorField(g);
 		  drawPaths(g);
+		  drawObstacles(g);
 
 		  // Restore the transformation matrix.
 		  g.dispose();
@@ -218,6 +219,20 @@ public class BackgroundLayer implements LayerRenderer {
 					 p.lineTo(path.get(i).x(), path.get(i).y());
 
 				g.draw(p);
+		  }
+	 }
+
+	 private void drawObstacles(Graphics2D g) {
+
+		  g.setColor(Color.BLACK);
+
+		  for(Obstacle o : this.sim.obstacles) {
+
+				int x = (int)o.position.x();
+				int y = (int)o.position.y();
+				int r = (int)o.radius;
+
+				g.drawOval(x-r, y-r, r*2, r*2);
 		  }
 	 }
 

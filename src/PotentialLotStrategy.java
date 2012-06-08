@@ -20,11 +20,11 @@ public class PotentialLotStrategy extends Strategy {
 		  int frequency = 100;
 		  this.fields.add(new DensityField(this.sim, frequency));
 		  this.fields.add(new RoadField(this.sim, frequency));
-		  //this.fields.add(new ObstacleField(this.sim, frequency));
+		  this.fields.add(new ObstacleField(this.sim, frequency));
 		  //this.fields.add(new PatternField(this.sim, frequency));
 
 		  this.weights = new double[4];
-		  this.weights[0] = 1;
+		  this.weights[0] = 2;
 		  this.weights[1] = 1;
 
 		  this.sim.PLS = this;
@@ -56,23 +56,21 @@ public class PotentialLotStrategy extends Strategy {
 		  List<Vector2> path = new ArrayList<Vector2>();
 
 		  Vector2 seed = new Vector2(x, y);
-		  System.out.println("> "+x+" "+y);
 
 		  for(int i = 0; i < 10; ++i) {
 
 				Vector2 inf = influence(seed.x(), seed.y());
 
-				inf.scalarMult(30);
+				inf.scalarMult(10);
 
 				seed.add(inf);
-
-				System.out.println("+ "+inf.x()+" "+inf.y());
-				System.out.println("= "+seed.x()+" "+seed.y());
 
 				path.add(new Vector2(seed));
 		  }
 
 		  this.sim.paths.add(path);
+
+		  CityOps.insertLot(seed.x(), seed.y(), this.sim);
 	 }
 
 	 private Vector2 influence(double x, double y) {
@@ -86,11 +84,7 @@ public class PotentialLotStrategy extends Strategy {
 				v.scalarMult(this.weights[i]);
 
 				all.add(v);
-
-				System.out.println(v + " " + weights[i]);
 		  }
-
-		  System.out.println(all);
 
 		  all.normalize();
 

@@ -28,7 +28,10 @@ FILES=\
 	DensityStrategy \
 	LotStrategy \
 	LotOps \
+	Measure \
 	MouseManager \
+	Obstacle \
+	ObstacleField \
 	PotentialLotStrategy \
 	RoadField \
 	RoadStrategy \

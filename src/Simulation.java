@@ -63,7 +63,6 @@ public class Simulation {
 	 public int showWhichVectorField = 0;
 
 	 public List<List<Vector2>> paths;
-	 public PotentialLotStrategy PLS;
 
 	 private String lotsStyle = "node {fill-mode: none; size: 5px;} edge {visibility-mode: hidden;}";
 
@@ -72,6 +71,9 @@ public class Simulation {
 	  */
 	 public long now;
 	 private long lastStep;
+
+	 public PotentialLotStrategy PLS;
+	 public List<Obstacle> obstacles;
 
 	 /**
 	  * Minimum delay between each update.
@@ -135,15 +137,14 @@ public class Simulation {
 		  // Compute n random coordinates.
 		  this.lotCoords = getRandomCoords(500);
 		  //this.lotCoords = getFixedCoords();
-		  //this.lotCoords = ShapeFileLoader.getLandLots("data/world_borders/world_borders.shp");
-		  //this.lotCoords = ShapeFileLoader.getLandLots("data/IGN/PARCELLE.SHP");
+		  //this.lotCoords = ShapeFileLoader.getLandLots("data/la_fleche/PARCELLE.SHP", 50000);
 
 		  // Build a Voronoi diagram for which seeds are the previously
 		  // computed coordinates.
 		  Geometry voronoi = LotOps.voronoiDiagram(this.lotCoords);
 
+		  // Build the two graphs based on the diagram.
 		  LotOps.buildLotsGraph(voronoi, this);
-
 		  RoadOps.buildRoadsGraph(voronoi, this);
 	 }
 
