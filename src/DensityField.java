@@ -62,8 +62,6 @@ public class DensityField extends VectorField{
 					 // Reverse the direction so that the vector get away
 					 // from high densities instead of moving towards it.
 					 v.scalarMult(-1);
-
-					 // Normalize.
 					 v.normalize();
 
 					 // Replace.

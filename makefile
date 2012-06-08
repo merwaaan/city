@@ -32,6 +32,7 @@ FILES=\
 	MouseManager \
 	Obstacle \
 	ObstacleField \
+	PatternField \
 	PotentialLotStrategy \
 	RoadField \
 	RoadStrategy \

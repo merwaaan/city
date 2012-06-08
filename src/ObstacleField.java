@@ -1,8 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
 
-import org.graphstream.graph.Edge;
-import org.graphstream.graph.Node;
 import org.graphstream.ui.geom.Vector2;
 
 public class ObstacleField extends VectorField{

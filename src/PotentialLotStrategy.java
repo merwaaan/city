@@ -21,11 +21,13 @@ public class PotentialLotStrategy extends Strategy {
 		  this.fields.add(new DensityField(this.sim, frequency));
 		  this.fields.add(new RoadField(this.sim, frequency));
 		  this.fields.add(new ObstacleField(this.sim, frequency));
-		  //this.fields.add(new PatternField(this.sim, frequency));
+		  this.fields.add(new PatternField(this.sim, frequency));
 
 		  this.weights = new double[4];
 		  this.weights[0] = 2;
 		  this.weights[1] = 1;
+		  this.weights[2] = 4;
+		  this.weights[3] = 2;
 
 		  this.sim.PLS = this;
 	 }
@@ -57,7 +59,7 @@ public class PotentialLotStrategy extends Strategy {
 
 		  Vector2 seed = new Vector2(x, y);
 
-		  for(int i = 0; i < 10; ++i) {
+		  for(int i = 0; i < 50; ++i) {
 
 				Vector2 inf = influence(seed.x(), seed.y());
 
@@ -70,7 +72,7 @@ public class PotentialLotStrategy extends Strategy {
 
 		  this.sim.paths.add(path);
 
-		  CityOps.insertLot(seed.x(), seed.y(), this.sim);
+		  //CityOps.insertLot(seed.x(), seed.y(), this.sim);
 	 }
 
 	 private Vector2 influence(double x, double y) {
