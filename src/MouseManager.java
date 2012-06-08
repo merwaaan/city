@@ -27,11 +27,9 @@ public class MouseManager extends DefaultMouseManager {
 				double xPxCentered = xPx - bounds.getWidth() / 2;
 				double yPxCentered = -(yPx - bounds.getHeight() / 2);
 
-				System.out.println("__________________");
-				System.out.println(xPx+" "+yPx);
-				System.out.println(xPxCentered+" "+yPxCentered);
+				double[] coordsGu = this.sim.px2gu(xPxCentered, yPxCentered);
 
-				this.sim.PLS.spawn(xPxCentered, yPxCentered);
+				this.sim.PLS.spawn(coordsGu[0], coordsGu[1]);
 
 				// Interactive node insertion code.
 				/*

@@ -21,7 +21,7 @@ import org.opengis.geometry.Geometry;
 
 final class ShapeFileLoader {
 
-	 public static List<Coordinate> getLandLots(String fileName) {
+	 public static List<Coordinate> getLandLots(String fileName, int radius) {
 
 		  ArrayList<Point> points = new ArrayList<Point>();
 
