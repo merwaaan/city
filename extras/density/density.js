@@ -1,7 +1,7 @@
 var ctxt;
 var canvasSize;
 
-Math.seedrandom('graphstream!');
+Math.seedrandom('graphstream!!!');
 
 var cells = [];
 
@@ -58,11 +58,7 @@ window.onload = function() {
 
 	draw();
 
-	// GO!
-	setInterval(function(){
-		update();
-		draw();
-	}, 10);
+	go();
 }
 
 function neighborhood(cell) {
@@ -115,6 +111,16 @@ function neighborhood(cell) {
 
 var it = 0;
 
+function go() {
+
+	update();
+	draw();
+
+	setTimeout(go, 1);
+
+	++it;
+}
+
 function update() {
 
 	for(var i = 0; i < worldSize; ++i)
@@ -133,8 +139,6 @@ function update() {
 			else
 				cells[i][j].age += 1;
 		}
-
-	++it;
 }
 
 function ready(cell) {
