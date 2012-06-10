@@ -25,6 +25,12 @@ final class ShapeFileLoader {
 
 		  ArrayList<Point> points = new ArrayList<Point>();
 
+		  // Extreme coordinates must be recorded.
+		  double left = Double.POSITIVE_INFINITY;
+		  double right = Double.NEGATIVE_INFINITY;
+		  double bottom = Double.POSITIVE_INFINITY;
+		  double top = Double.NEGATIVE_INFINITY;
+
 		  try {
 
 				// Load the shapefile.
@@ -51,7 +57,18 @@ final class ShapeFileLoader {
 
 					 Point centroid = ((MultiPolygon)f.getDefaultGeometry()).getCentroid();
 
-					 points.add(centroid);
+					 if(Math.random() < 0.4) {
+						 points.add(centroid);
+
+						 if(centroid.getX() < left)
+							 left = centroid.getX();
+						 if(centroid.getX() > right)
+							 right = centroid.getX();
+						 if(centroid.getY() < bottom)
+							 bottom = centroid.getY();
+						 if(centroid.getY() > top)
+							 top = centroid.getY();
+					 }
 				}
 
 		  }
@@ -63,6 +80,15 @@ final class ShapeFileLoader {
 		  List<Coordinate> coords = new ArrayList<Coordinate>();
 		  for(int i = 0, l = points.size(); i < l; ++i)
 			  coords.add(points.get(i).getCoordinate());
+
+		  // Center the points at (0,0) and scale.
+		  double xoffset = Math.abs(left - right) / 2;
+		  double yoffset = Math.abs(bottom - top) / 2;
+
+		  for(Coordinate c : coords) {
+			  c.x = (c.x - left - xoffset);
+			  c.y = (c.y - bottom - yoffset);
+		  }
 
 		  return coords;
 	 }

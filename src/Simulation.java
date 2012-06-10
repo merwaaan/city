@@ -135,9 +135,9 @@ public class Simulation {
 		  this.width = 2000;
 
 		  // Compute n random coordinates.
-		  this.lotCoords = getRandomCoords(500);
+		  //this.lotCoords = getRandomCoords(500);
 		  //this.lotCoords = getFixedCoords();
-		  //this.lotCoords = ShapeFileLoader.getLandLots("data/la_fleche/PARCELLE.SHP", 50000);
+		  this.lotCoords = ShapeFileLoader.getLandLots("data/reims.shp", 50000);
 
 		  // Build a Voronoi diagram for which seeds are the previously
 		  // computed coordinates.
@@ -155,9 +155,6 @@ public class Simulation {
 		  this.strategies.put("road development", new RoadStrategy(this));
 		  this.strategies.put("lot construction", new LotStrategy(0.6, this));
 		  this.strategies.put("potential lot construction", new PotentialLotStrategy(this));
-
-		 if(true)
-			 return;
 
 		  while(true) {
 

@@ -95,7 +95,9 @@ public class BackgroundLayer implements LayerRenderer {
 				// Fill the cell according to density.
 				Density density = (Density)lot.getAttribute("density");
 
-				if(this.transitions.containsKey(lot))
+				if(!LotOps.isLotBuilt(lot))
+					g.setColor(Color.WHITE);
+				else if(this.transitions.containsKey(lot))
 					 g.setColor(this.transitions.get(lot).current);
 				else {
 					 Density d = (Density)lot.getAttribute("density");
@@ -116,11 +118,11 @@ public class BackgroundLayer implements LayerRenderer {
 					 g.setStroke(new BasicStroke(2));
 				else
 					 g.setStroke(new BasicStroke(1,
-														  BasicStroke.CAP_BUTT,
-														  BasicStroke.JOIN_MITER,
-														  10,
-														  new float[]{10},
-														  0));
+					                             BasicStroke.CAP_BUTT,
+					                             BasicStroke.JOIN_MITER,
+					                             10,
+					                             new float[]{10},
+					                             0));
 
 				g.draw(path);
 

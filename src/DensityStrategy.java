@@ -15,9 +15,9 @@ public class DensityStrategy extends Strategy {
 	 };
 
 	 private double[][] affinities = {
-		  {1, 0.5, 0},   // LOW
-		  {0.5, 1, 0.3}, // MEDIUM
-		  {0, 0.3, 1}    // HIGH
+		  {1, 0.01, 0},   // LOW
+		  {0.001, 1.5, 0.01}, // MEDIUM
+		  {0, 0.01, 1.6}    // HIGH
 	 };
 
 	 private double[] roadAffinities = {
@@ -94,9 +94,8 @@ public class DensityStrategy extends Strategy {
 
 	 private double sigmoid(int x) {
 
-		  // XXX flatter?
-		  double weight = 0.1;
-		  double offset = 50;
+		  double weight = 0.02;
+		  double offset = 350;
 
 		  return 1 / (1 + Math.exp(-weight * (x - offset)));
 	 }
@@ -111,7 +110,7 @@ public class DensityStrategy extends Strategy {
 
 				Density density = (Density)neighbor.getAttribute("density");
 
-				densities[density.index()] += CityOps.getNumBuiltRoadsAround(neighbor);
+				++densities[density.index()]; // += CityOps.getNumBuiltRoadsAround(neighbor);
 		  }
 
 		  return densities;
@@ -135,10 +134,10 @@ public class DensityStrategy extends Strategy {
 				potential += densities[i] * affinities[targetDensity.index()][i];
 
 		  // Scale with respect to the road effect.
-		  potential *= roadAffinities[targetDensity.index()];
+		  //potential *= roadAffinities[targetDensity.index()];
 
 		  // Scale with respect to the ratios.
-		  potential *= ratios[targetDensity.index()];
+		  //potential *= ratios[targetDensity.index()];
 
 		  // Normalize.
 		  potential /= neighbors.size();
@@ -205,9 +204,14 @@ public class DensityStrategy extends Strategy {
 
 	 private void prepareLot(Node lot) {
 
+		 /*
 		  Density d = randomDensity();
 		  lot.setAttribute("density", d);
 		  lot.setAttribute("nextDensity", d);
+		 */
+
+		  lot.setAttribute("density", Density.MEDIUM);
+		  lot.setAttribute("nextDensity", Density.MEDIUM);
 
 		  lot.setAttribute("age", this.sim.rnd.nextInt(10));
 	 }

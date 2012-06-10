@@ -12,7 +12,7 @@ public class ObstacleField extends VectorField{
 
 		  this.obstacles = this.sim.obstacles = new ArrayList<Obstacle>();
 
-		  obstacles.add(new Obstacle(new Vector2(600, -600), 400));
+		  //obstacles.add(new Obstacle(new Vector2(600, -600), 400));
 	 }
 
 	 public void compute() {
@@ -27,6 +27,8 @@ public class ObstacleField extends VectorField{
 
 					 // Find the closest obstacle.
 					 Obstacle o = closestObstacle(p);
+					 if(o == null)
+						 continue;
 
 					 Vector2 sep = new Vector2(o.position);
 					 sep.sub(p);
