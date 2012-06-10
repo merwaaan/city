@@ -1,0 +1,7 @@
+\begin{tikzpicture}[rotate=-90,xscale=-1]
+
+  \draw[black,fill=densitylow] (0,0) -- (0:2) arc (0:33:2) -- cycle;
+  \draw[black,fill=densitymedium] (0,0) -- (33:2) arc (33:166:2) -- cycle;
+  \draw[black,fill=densityhigh] (0,0) -- (166:2) arc (166:360:2) -- cycle;
+
+\end{tikzpicture}

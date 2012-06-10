@@ -1,0 +1,16 @@
+\begin{tikzpicture}
+
+  \fill[densitylow] (0,0) rectangle (1,1);
+  \fill[densitymedium] (1,0) rectangle (2,1);
+  \fill[densityhigh] (2,0) rectangle (3,1);
+  \fill[densitymedium] (0,1) rectangle (1,2);
+  \fill[densitymedium] (1,1) rectangle (2,2);
+  \fill[densityhigh] (2,1) rectangle (3,2);
+  \fill[densitymedium] (0,2) rectangle (1,3);
+  \fill[densityhigh] (1,2) rectangle (2,3);
+  \fill[densityhigh] (2,2) rectangle (3,3);
+
+  \draw[step=1,black] (0,0) grid (3,3);
+
+  \draw[black,line width=2] (1,1) rectangle (2,2);
+\end{tikzpicture}

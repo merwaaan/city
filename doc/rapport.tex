@@ -9,8 +9,11 @@
 \usepackage{subcaption}
 
 \usepackage{tikz}
-
 \usetikzlibrary{calc}
+
+\definecolor{densitylow}{RGB}{255,220,220}
+\definecolor{densitymedium}{RGB}{255,130,130}
+\definecolor{densityhigh}{RGB}{255,50,50}
 
 \usepackage[natbib=true,sorting=none,style=numeric,url=false,doi=false,isbn=false]{biblatex}
 %\addbibresource{references}
@@ -356,12 +359,12 @@ TOPOLOGIE REELLE.
 \begin{figure}
   \begin{subfigure}[b]{.5\linewidth}
     \centering
-    \input{images/CA-simple.tikz}
+    \input{images/ca-simple.tikz}
     \caption{Automate cellulaire classique.}
   \end{subfigure}
   \begin{subfigure}[b]{.5\linewidth}
     \centering
-    \input{images/CA-graph.tikz}
+    \input{images/ca-graph.tikz}
     \caption{Automate cellulaire graphe.}
   \end{subfigure}
 \end{figure}
@@ -652,57 +655,134 @@ de la ville, souvent à partir d'un ou de plusieurs centres. Le
 mécanisme cellulaire présenté ci-après émule la croissance verticale
 et les variations de densité internes au système.
 
-On voit la ville est un groupement d'installations humaines axé autour
-d'un ou de plusieurs centres. Puisqu'il s'agit avant tout d'un foyer
-de population, les choix appliqués par les autorités sont motivés par
-un besoin de la rendre toujours plus fonctionnelle. Cela se traduit,
-par exemple, par un réseau routier construit dans une optique
-d'optimalité quant au déplacement des habitants, même si la réalité
-est peuplée de contraintes empêchant une organisation parfaite. Au
-niveau parcellaire, cela se traduit par un désir d'équilibrer les
-paysages urbains et d'éviter les contrastes forts. La population et
-plus précisément sa densité sont donc des facteurs majeurs à prendre
-en compte, si ce ne sont les principaux. La ville évolue, de nouveaux
-bâtiments apparaissent, d'autres sont rasés, les quartiers changent et
-le modèle doit être capable de simuler ces changements. C'est bien sûr
-par un automate cellulaire, quoi que quelque peu relaxé, que cet
-aspect est géré.
+La densité de population est la quantité principale guidant
+l'évolution de ce modèle. Même si le mécanisme proposé reste
+trivialement simple, il guide les autres mécanismes du modèle : le
+placement de nouvelles parcelles et le choix des routes à
+construire. La ville évolue, de nouveaux bâtiments apparaissent,
+d'autres sont rasés, les quartiers changent et le modèle doit être
+capable de simuler ces changements. C'est bien sûr avec le principe
+des automates cellulaires en tête que nous allons gérer cette
+dynamique.
 
-On propose de représenter trois différents types de densité
-\textit{faible}, \textit{moyenne} et \textit{élevée} bénéficiant
-d'attractivité variantes de façon à ce que les parcelles faibles
-côtoient les parcelles moyennes, les parcelles moyennes côtoient les
-parcelles élevées et les parcelles faibles s'éloignent des parcelles
-élevées. Ce processus d'attraction/répulsion évoque le modèle de
-ségrégation de Schelling à la différence qu'ici trois types de
-\textit{population} interagissent et qu'il n'y a pas de contrainte de
-démenagement (si une parcelle \textit{faible} disparaît, elle ne doit
-pas nécessairement réapparaître ailleurs). Ainsi un dégradé discret de
-densité apparaît comme dans une ville réelle. La problématique étant
-d'étudier la coévolution de deux aspects urbains et non seulement
-l'évolution des densités (qui ne sert que de support à l'essort de la
-ville), on a préféré choisir une règle basique. Malgré cette
-simplicité, le modèle est conçu pour que chaque mécanisme puisse être
-modifié indépendamment des autres et il est tout à fait possible
-d'utiliser par la suite un automate cellulaire plus sophistiqué pour
-améliorer le réalisme de la simulation. On commence par appliquer
-cette règle a un automate cellulaire classique (voir figure
-\ref{fig:ac}).
+On discrétise la densité sur trois paliers : \textit{faible} ($f$),
+\textit{moyenne} ($m$) et \textit{élevée} ($e$). L'état d'une parcelle
+dépend des états de ses voisines. La matrice $A$ décrit des
+coefficients d'affinité mettant en relation les différentes
+densités. Une valeur haute en $A_{ee}$ signifie par exemple que si une
+cellule a de nombreux voisins de densité \textit{élevée} alors elle a
+une grande probabilité de devenir elle-même
+\textit{élevée}. L'équation \ref{eq:transition} permet de formaliser
+ce principe et fournit un score pour chaque état d'arrivée
+possible. $C$ correspond à la cellule dont l'on étudie les
+possibilités et $V_k(C)$ correspond au nombre de voisins de $C$ ayant
+l'état $k$. Finalement et pour obtenir la véritable probabilité de
+passage d'un état à un autre, on normalise chaque score de transition
+et une roue de la fortune biaisée se charge du choix.
 
-\[
-\begin{pmatrix}
-  1 & 0.01 & 0 \\
-  0.001 & 1.5 & 0.01 \\
-  0 & 0.01 & 1.6
-\end{pmatrix}\]
+\begin{equation}
+A =
+\bordermatrix{
+    & f & m & e \cr
+  f & 1 & 0.01 & 0 \cr
+  m & 0.001 & 1.5 & 0.01 \cr
+  e & 0 & 0.01 & 1.6
+}
+\end{equation}
 
-FORMULE
+\begin{equation}
+P_i(C) = \sum_{k \in \{f,m,e\}} V_k(C) E_{ik}
+\label{eq:transition}
+\end{equation}
+
+\begin{equation}
+P_i(C) = \frac{T_i(C)}{\sum_{k \in \{f,m,e\}} T_k(C)}
+\label{eq:normalisation}
+\end{equation}
+
+Imaginons un exemple trivial pour illustrer ce processus. On considère
+l'état que prendra la cellule $C$, au centre du quadrillage de la
+figure \ref{fig-ca-example}. On commence par calculer les scores de
+transition en fonction du voisinage de $C$.
+
+\begin{figure}[h]
+  \centering
+  \input{images/ca-example.tikz}
+  \caption{On cherche à calculer les probabilités transitionnelles
+    pour la cellule centrale, $C$.}
+  \label{fig:ca-example}
+\end{figure}
+
+\begin{align*}
+T_f(C) &= V_f(C) A_{ff} + V_m(C) A_{fm} + V_e(C) A_{fe} \\
+       &= 1 \times 1 + 3 \times 0.01 + 4 \times 0 \\
+       &= 1.03
+\end{align*}
+
+\begin{align*}
+T_m(C) &= V_f(C) A_{mf} + V_m(C) A_{mm} + V_e(C) A_{me} \\
+       &= 1 \times 0.001 + 3 \times 1.5 + 4 \times 0.01 \\
+       &= 4.541
+\end{align*}
+
+\begin{align*}
+T_e(C) &= V_f(C) A_{ef} + V_m(C) A_{em} + V_e(C) A_{ee} \\
+       &= 1 \times 0 + 3 \times 0.01 + 4 \times 1.6 \\
+       &= 6.7
+\end{align*}
+
+On normalise ensuite les scores afin de sélectionner aléatoirement --
+mais de façon biaisée -- le prochain état de $C$. Ici, on observe que
+la cellule a de fortes chances de passer à la densité \textit{élevée}.
+
+\begin{align*}
+P_f(C) &= \frac{T_f(C)}{\sum_{k \in \{f,m,e\}} T_k(C)} \\
+       &= \frac{1.03}{1.03 + 4.541 + 6.7} = 0.084
+\end{align*}
+
+\begin{align*}
+P_f(C) &= \frac{T_f(C)}{\sum_{k \in \{f,m,e\}} T_k(C)} \\
+       &= \frac{1.03}{1.03 + 4.541 + 6.7} = 0.37
+\end{align*}
+
+\begin{align*}
+P_f(C) &= \frac{T_f(C)}{\sum_{k \in \{f,m,e\}} T_k(C)} \\
+       &= \frac{1.03}{1.03 + 4.541 + 6.7} = 0.546
+\end{align*}
+
+AJOUTER FLECHE A ROUE !
+
+\begin{figure}[h]
+  \centering
+  \input{images/ca-wheel.tikz}
+  \caption{LEGENDE}
+\end{figure}
+
+Ce processus d'attraction évoque le modèle de ségrégation de Schelling
+à la différence qu'ici trois types de \textit{population}
+interagissent et qu'il n'y a pas de contrainte de déménagement (dans
+son modèle, si une cellule passe de $A$ à $B$ alors une autre doit
+passer de $B$ à $A$ afin de conserver les mêmes quantités de chaque
+type). Ainsi un dégradé discret de densité apparaît comme dans une
+ville réelle. La problématique étant d'étudier la coévolution de deux
+aspects urbains, le viaire et le bâti, et non seulement l'évolution
+des densités (qui ne sert que de support à l'essort de la ville), on a
+préféré choisir une règle basique. il est néanmoins tout à fait
+possible d'utiliser par la suite un automate cellulaire plus
+sophistiqué pour améliorer le réalisme de la simulation.
+
+On commence par appliquer cette règle a un automate cellulaire
+classique (voir figure \ref{fig:ac}).
 
 \begin{figure}[h]
   \centering
   \subcaptionbox{$t = 0$}[.3\linewidth][c]{
     \includegraphics[width=.3\linewidth]{images/ca_0.png}
   }
+  \subcaptionbox{$t = 25$}[.3\linewidth][c]{
+    \includegraphics[width=.3\linewidth]{images/ca_25.png}
+  }
+
   \subcaptionbox{$t = 50$}[.3\linewidth][c]{
     \includegraphics[width=.3\linewidth]{images/ca_50.png}
   }
@@ -714,17 +794,25 @@ FORMULE
   \label{fig:ac}
 \end{figure}
 
-On remarque que chaque itération transforme entièrement l'état de
-l'automate. Cette situation pourrait être acceptable pour d'autres
-types d'application mais certainement pas pour une simulation urbaine
-dans laquelle les changements sont censés s'opérer à l'échelle de la
-décennie et une relative continuité est attendue \textit{i. e.} un
-bâtiment est construit pour durer, on ne le remplace pas chaque mois !
-Il est donc important d'associer à chaque cellule un élan favorisant
-la persistance de son état selon son âge. Les fonctions sigmoïdes,
-fréquemment employées en modélisation de systèmes complexes, sont
-idéales pour exprimer cette probabilité de changement en fonction du
-temps. DETAILS
+On remarque deux problèmes. Premièrement, l'automate est très
+rapidement métamorphosé. \`A l'itération 25, la disposition de départ
+n'est déjà plus discernable. Hors, la granularité temporelle d'une
+telle simulation doit être fine afin de pouvoir prendre en compte
+chaque modification locale du système urbain. De plus, on observe
+d'itération en itération que chaque cellule voit son état changer en
+permanence -- ce qui est normal pour un automate cellulaire auquel on
+n'a pas adjoint de règle supplémentaire. Il est donc important
+d'associer à chaque cellule un élan favorisant la persistance de son
+état selon son âge afin de ralentir la simulation et d'éviter les
+transitions constantes.. Les fonctions sigmoïdes, fréquemment
+employées en modélisation de systèmes complexes, sont idéales pour
+exprimer cette probabilité de changement en fonction du temps. La
+sigmoïde classique (figure \ref{fig:sigmoide1}) varie de 0 à 1 par une
+courbe croissante caractéristique. On l'altère comme il est visible
+sur la figure \ref{fig:sigmoide2}. Le facteur 0.02 permet d'adoucir la
+pente de la fonction autour de 0 tandis que 350 sert à décaler $f(x)$
+de façon à rester dans le domaine positif, $x$ représentant ici l'âge
+des cellules.
 
 \begin{figure}[ht]
   \centering
@@ -750,10 +838,9 @@ temps. DETAILS
   \label{fig:sigmoide1}
 \end{figure}
 
-On peut voir sur la figure \ref{fig:ac-stable} que le système est plus
-stable et que ETC
-
-FAIRE IMAGE : T0 T1 T2 T10 T50 T100
+La figure \ref{fig:ac-stable} montre un automate cellulaire doté des
+mêmes règles de transition et de la même configuration de départ mais
+pour lequel l'âge des cellules est pris en compte.
 
 \begin{figure}[h]
   \centering
@@ -788,24 +875,30 @@ spatiale contraignante des automates cellulaires et c'est à cet effet
 que l'on a présenté le diagramme de Voronoï. À la manière des
 automates cellulaires graphes de O'Sullivan \cite{O'Sullivan2000},
 chaque parcelle verra son état varier en fonction de son
-voisinage. Voisine établit non pas par ??? mais par la topologie du
-diagramme de Voronoï issu des positions des centres des parcelles. Il
-est à noter qu'à la différence de O'Sullivan, la couverture de
-l'espace est totale puisque l'on ne représente pas les parcelles
-exactes mais leur cellule de Voronoï.
+voisinage. Voisinage établit à partir de la topologie du diagramme de
+Voronoï, lui-même issu des positions des centres des parcelles. Il est
+à noter qu'à la différence de O'Sullivan, la couverture de l'espace
+est totale puisque l'on ne représente pas les parcelles exactes mais
+leur cellule de Voronoï et il est donc impossible que des zones vides
+apparaissent entre les cellules.
 
 Le \textit{graphe du bâti} prend ici la forme duale du diagramme de
 Voronoï : la triangulation de Delaunay et décrit les relations de
 voisinage. Un n\oe ud correspond au centre d'une parcelle et une arête
 lie deux parcelles en tant que voisins.
 
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=.8\linewidth]{images/lots-graph.png}
+  \caption{}
+  \label{fig:lots-graph}
+\end{figure}
+
 IMAGE
 
-Lors de l'éxécution de ce mécanisme cellulaire, les parcelles
-construites influencent tous leur voisins tandis que les parcelles
-potentielles ??? unidirectionnel (BONNE QUESTION).
-
 TRIPLE IMAGE
+
+UNIDIRECTIONALITE
 
 \subsubsection{Placement des parcelles potentielles}
 
