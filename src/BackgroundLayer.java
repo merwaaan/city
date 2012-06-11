@@ -2,6 +2,7 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.GeneralPath;
+import java.awt.geom.Line2D;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.Iterator;
@@ -95,15 +96,15 @@ public class BackgroundLayer implements LayerRenderer {
 				// Fill the cell according to density.
 				Density density = (Density)lot.getAttribute("density");
 
-				if(!LotOps.isLotBuilt(lot))
-					g.setColor(Color.WHITE);
+				if(!LotOps.isLotBuilt(lot) && false)
+					 g.setColor(Color.WHITE);
 				else if(this.transitions.containsKey(lot))
 					 g.setColor(this.transitions.get(lot).current);
 				else {
 					 Density d = (Density)lot.getAttribute("density");
 
 					 if(d != null)
-						  g.setColor(d.color(LotOps.isLotBuilt(lot) ? 255 : this.faded));
+						  g.setColor(d.color(LotOps.isLotBuilt(lot) || true ? 255 : this.faded));
 					 else
 						  g.setColor(Color.WHITE);
 				}
@@ -112,20 +113,21 @@ public class BackgroundLayer implements LayerRenderer {
 
 				// Stroke the cell.
 
-				g.setColor(Color.GRAY);
+				/*
+				  g.setColor(Color.GRAY);
 
-				if(LotOps.isLotBuilt(lot))
-					 g.setStroke(new BasicStroke(2));
-				else
-					 g.setStroke(new BasicStroke(1,
-					                             BasicStroke.CAP_BUTT,
-					                             BasicStroke.JOIN_MITER,
-					                             10,
-					                             new float[]{10},
-					                             0));
+				  if(LotOps.isLotBuilt(lot))
+				  g.setStroke(new BasicStroke(2));
+				  else
+				  g.setStroke(new BasicStroke(1,
+				  BasicStroke.CAP_BUTT,
+				  BasicStroke.JOIN_MITER,
+				  10,
+				  new float[]{10},
+				  0));
 
-				g.draw(path);
-
+				  g.draw(path);
+				*/
 				// Draw the center.
 				g.setColor(Color.BLACK);
 				int x = ((Double)lot.getAttribute("x")).intValue();
@@ -144,7 +146,7 @@ public class BackgroundLayer implements LayerRenderer {
 		  for(Edge road : this.sim.roads.getEachEdge()) {
 
 				// Only shows built roads.
-				if(!RoadOps.isRoadBuilt(road))
+				if(false && !RoadOps.isRoadBuilt(road))
 					 continue;
 
 				Node a = road.getNode0();
@@ -155,24 +157,26 @@ public class BackgroundLayer implements LayerRenderer {
 				double bX = (Double)b.getAttribute("x");
 				double bY = (Double)b.getAttribute("y");
 
-				g.setColor(new Color(0, 126, 255));
+				//g.setColor(new Color(0, 126, 255));
+				g.setColor(new Color(0, 0, 0));
+				g.setStroke(new BasicStroke(3));
 
 				g.drawLine((int)aX, (int)aY, (int)bX, (int)bY);
 		  }
 
 		  /*
-		  for(Node crossroad : this.sim.roads) {
+			 for(Node crossroad : this.sim.roads) {
 
-				if(!RoadOps.isCrossroadBuilt(crossroad))
-					 continue;
+			 if(!RoadOps.isCrossroadBuilt(crossroad))
+			 continue;
 
-				double x = (Double)crossroad.getAttribute("x");
-				double y = (Double)crossroad.getAttribute("y");
+			 double x = (Double)crossroad.getAttribute("x");
+			 double y = (Double)crossroad.getAttribute("y");
 
-				g.setColor(new Color(0, 126, 255));
+			 g.setColor(new Color(0, 126, 255));
 
-				g.fillOval((int)x - 5, (int)y - 5, 10, 10);
-		  }
+			 g.fillOval((int)x - 5, (int)y - 5, 10, 10);
+			 }
 		  */
 	 }
 
@@ -225,6 +229,9 @@ public class BackgroundLayer implements LayerRenderer {
 	 }
 
 	 private void drawObstacles(Graphics2D g) {
+
+		  if(sim.obstacles == null)
+				return;
 
 		  g.setColor(Color.BLACK);
 

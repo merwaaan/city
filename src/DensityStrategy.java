@@ -14,28 +14,44 @@ public class DensityStrategy extends Strategy {
 		  Density.HIGH
 	 };
 
+	 /*
 	 private double[][] affinities = {
-		  {1, 0.01, 0},   // LOW
+		  {0.2, 0, 0},       // LOW
+		  {0.001, 1.2, 0.1}, // MEDIUM
+		  {0.0001, 0.1, 1.7}      // HIGH
+	 };
+	 */
+
+	 private double[][] affinities = {
+		  {1, 0.01, 0},       // LOW
 		  {0.001, 1.5, 0.01}, // MEDIUM
-		  {0, 0.01, 1.6}    // HIGH
-	 };
-
-	 private double[] roadAffinities = {
-		  0.1, // LOW
-		  0.6, // MEDIUM
-		  1    // HIGH
-	 };
-
-	 private double[] ratios = {
-		  0.1, // LOW
-		  1,   // MEDIUM
-		  0.2  // HIGH
+		  {0, 0.01, 1.6}      // HIGH
 	 };
 
 	 public DensityStrategy(Simulation sim) {
 		  super(sim);
 
 		  this.sim.lots.addSink(new DensityStrategySink(this.sim, this));
+
+		  // Prepare an initial configuration with gradual density from
+		  // the center.
+		  for(Node lot : this.sim.lots) {
+
+				double x = (Double)lot.getAttribute("x");
+				double y = (Double)lot.getAttribute("y");
+
+				double dist = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
+
+				Density d;
+				if(dist < 150)
+					 d = Density.HIGH;
+				else if(dist < 300)
+					 d = Density.MEDIUM;
+				else
+					 d = Density.LOW;
+
+				lot.setAttribute("density", d);
+		  }
 	 }
 
 	 /**
@@ -58,7 +74,7 @@ public class DensityStrategy extends Strategy {
 		  // Compute next state.
 		  for(Node lot : this.sim.lots) {
 
-				if(!ready(lot) || !LotOps.isNextToBuiltRoad(lot))
+				if(!ready(lot))// || !LotOps.isNextToBuiltRoad(lot))
 					 continue;
 
 				Map<Density, Double> potentials = new HashMap<Density, Double>();
@@ -73,10 +89,12 @@ public class DensityStrategy extends Strategy {
 
 		  // Switch states.
 		  for(Node lot : this.sim.lots)
-				if(!lot.getAttribute("density").equals(lot.getAttribute("nextDensity"))) {
+				if(lot.getAttribute("nextDensity") != null) {
+
+					 lot.setAttribute("density", lot.getAttribute("nextDensity"));
+					 lot.removeAttribute("nextDensity");
 
 					 lot.setAttribute("age", 0);
-					 lot.setAttribute("density", lot.getAttribute("nextDensity"));
 				}
 				else
 					 lot.setAttribute("age", ((Integer)lot.getAttribute("age")) + 1);
@@ -110,7 +128,7 @@ public class DensityStrategy extends Strategy {
 
 				Density density = (Density)neighbor.getAttribute("density");
 
-				++densities[density.index()]; // += CityOps.getNumBuiltRoadsAround(neighbor);
+				++densities[density.index()];
 		  }
 
 		  return densities;
@@ -132,12 +150,6 @@ public class DensityStrategy extends Strategy {
 		  // Weight.
 		  for(int i = 0, l = this.cachedDensityTypes.length; i < l; ++i)
 				potential += densities[i] * affinities[targetDensity.index()][i];
-
-		  // Scale with respect to the road effect.
-		  //potential *= roadAffinities[targetDensity.index()];
-
-		  // Scale with respect to the ratios.
-		  //potential *= ratios[targetDensity.index()];
 
 		  // Normalize.
 		  potential /= neighbors.size();
@@ -204,16 +216,10 @@ public class DensityStrategy extends Strategy {
 
 	 private void prepareLot(Node lot) {
 
-		 /*
 		  Density d = randomDensity();
 		  lot.setAttribute("density", d);
-		  lot.setAttribute("nextDensity", d);
-		 */
 
-		  lot.setAttribute("density", Density.MEDIUM);
-		  lot.setAttribute("nextDensity", Density.MEDIUM);
-
-		  lot.setAttribute("age", this.sim.rnd.nextInt(10));
+		  lot.setAttribute("age", this.sim.rnd.nextInt(100));
 	 }
 
 }

@@ -135,9 +135,9 @@ public class Simulation {
 		  this.width = 2000;
 
 		  // Compute n random coordinates.
-		  //this.lotCoords = getRandomCoords(500);
+		  this.lotCoords = getRandomCoords(2500);
 		  //this.lotCoords = getFixedCoords();
-		  this.lotCoords = ShapeFileLoader.getLandLots("data/reims.shp", 50000);
+		  //this.lotCoords = ShapeFileLoader.getLandLots("data/reims.shp", 50000);
 
 		  // Build a Voronoi diagram for which seeds are the previously
 		  // computed coordinates.
@@ -152,9 +152,9 @@ public class Simulation {
 
 		  // Choose appropriate strategies.
 		  this.strategies.put("cellular automata", new DensityStrategy(this));
-		  this.strategies.put("road development", new RoadStrategy(this));
-		  this.strategies.put("lot construction", new LotStrategy(0.6, this));
-		  this.strategies.put("potential lot construction", new PotentialLotStrategy(this));
+		  //this.strategies.put("road development", new RoadStrategy(this));
+		  //this.strategies.put("lot construction", new LotStrategy(0.6, this));
+		  //this.strategies.put("potential lot construction", new PotentialLotStrategy(this));
 
 		  while(true) {
 
@@ -166,10 +166,11 @@ public class Simulation {
 						  strategy.update();
 
 					 this.lastStep = now;
-					 ++this.step;
-				}
 
-				redraw();
+					 ++this.step;
+					 System.out.println(step);
+					 redraw();
+				}
 		  }
 	 }
 
