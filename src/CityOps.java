@@ -127,7 +127,8 @@ public class CityOps {
 				// Check if the neighborhood relationship is still valid.
 				if(lot1.hasEdgeBetween(lot2)) {
 					 Edge r = RoadOps.getRoadBetween(lot1, lot2);
-					 RoadOps.buildRoad(r);
+					 if(r != null)
+						  RoadOps.buildRoad(r);
 				}
 		  }
 
