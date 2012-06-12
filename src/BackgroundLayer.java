@@ -199,21 +199,17 @@ public class BackgroundLayer implements LayerRenderer {
 
 		  g.setColor(Color.GREEN);
 
-		  for(List<Vector2> path : this.sim.paths) {
+		  for(int i = 0, l = this.sim.paths.size(); i < l; ++i) {
+
+				List<Vector2> path = this.sim.paths.get(i);
 
 				GeneralPath p = new GeneralPath();
 
 				g.fillOval((int)path.get(0).x()-5, (int)path.get(0).y()-5, 10, 10);
 
-				boolean first = true;
-
-				for(Vector2 v : path)
-					 if(first) {
-						  p.moveTo(v.x(), v.y());
-						  first = false;
-					 }
-				else
-					 p.lineTo(v.x(), v.y());
+				p.moveTo(path.get(0).x(), path.get(0).y());
+				for(int j = 1, l2 = path.size(); j < l2; ++j)
+					 p.lineTo(path.get(j).x(), path.get(j).y());
 
 				g.draw(p);
 		  }
