@@ -71,7 +71,7 @@ the city truly is a complex system. The increasing growth in
 population produces urban systems like the world has never seen
 before, of increasing size, increasing heterogeneity and increasing
 complexity. Studying the relationships between its internal elements
-is primordial to the understanding of its mechanics and to better
+is fundamental to the understanding of its mechanics and to better
 predict their developement. This work focuses on the relationship
 between the pattern of human installations within the city --
 characterized at the atomic level by a basic subdivision, the land lot
@@ -84,7 +84,7 @@ financial and physical assets and the urbanist as a functional entity
 composed of flows and services. We choose to consider that the
 evolution of a city is driven by its population, translated as a
 measure of its density. This goes in hand with our focus as land lots
-are inhabited by the same people using the surrounding roads to go
+are inhabited by the same people that uses the surrounding roads to go
 from one place to another and urbanistic decisions are motivated by a
 need to optimize the city, streamlining transport means and avoiding
 high contrasts in the urban fabric.
@@ -105,19 +105,19 @@ A reader browsing through the field litterature will often encounter
 cellular automata. These structures, which applicability and potential
 complexity has been proven over times, are fit for describing any kind
 of space-related problem. Nevertheless, their rigorous formalism may
-sometimes restrain realism and impact the validity of the model. For
-example, a cellular automaton topology is, by definition, perfectly
-regular and representing a city with a set of identical and aligned
-cells seems like a coarse simplification. In the same way, the fact
-that each cell has an identical neighborhood structure, the temporal
-synchronism and the state discretization may be questionned. We take a
-drastic step towards realism and embrace the spatial aspect of the
-city by replacing the classic cellular automaton with a Voronoï
-diagram following the same basic concepts. Each of its cell represents
-a land lot and neighborhood relationships that are ruled by adjacency
-determine its future state ; the regularity constraint is thus
-relaxed. Voronoi edges delineate the Voronoi space of land lots and,
-as such, are perfect supports for roads.
+sometimes restrain realism and negatively impact the validity of the
+model. For example, a cellular automaton topology is, by definition,
+perfectly regular and representing a city with a set of identical and
+aligned cells seems like a coarse simplification. In the same way, the
+fact that each cell has an identical neighborhood structure, the
+temporal synchronism and the state discretization may be
+questionned. We take a drastic step towards realism and embrace the
+spatial aspect of the city by replacing the classic cellular automaton
+with a Voronoï diagram following the same basic concepts. Each of its
+cell represents a land lot and neighborhood relationships that are
+ruled by adjacency determine its future state ; the regularity
+constraint is thus relaxed. Voronoi edges delineate the Voronoi space
+of land lots and, as such, are perfect supports for roads.
 
 The different elements represented in our model (\textit{i. e.} land
 lots and roads) are declined in two flavors. \textit{Potential}
@@ -128,9 +128,9 @@ outcome. \textit{Built} elements were potential elements that have
 been constructed. They form the physical city. Concisely, the gist of
 the model is to add potential elements to the city and, only later,
 chose which ones will be built and which ones will be forgotten. The
-road network expand to accomodate the growth in density and to support
-anticipated land lots. This process has been divided into three
-separate mechanisms.
+road network expands to accomodate the growth in density and to
+support anticipated land lots. This process has been divided into
+three separate mechanisms.
 
 The cellular part of the model lets the inner variables of the city
 vary based on the Voronoi tesselation and a set of simple rules. Here,
@@ -160,8 +160,6 @@ into the potential domain.
 
 RESULTATS/MESURES
 
-MINI CONC
-
 \newpage
 
 \tableofcontents
@@ -178,21 +176,24 @@ LES VILLES GRANDISSENT
 
 STATISTIQUES
 
-POURQUOI ETUDIER CA ?
+Le système complexe que forme la ville est donc soumis à une forte
+croissance et un réel besoin de contrôler et de prévoir son évolution
+se fait ressentir suite à l'explosion démographique que subissent les
+zones urbaines. C'est dans ce cadre de contrôle et de prévision qu'il
+est nécéssaire d'étudier les mécanismes sous-jacents à une ville pour
+pouvoir les reproduire sous forme de simulations et étudier différents
+scénarios possibles.
 
-Il est nécéssaire d'étudier ces changements pour comprendre les
-mécanismes sous-jacents à ce type de système et pour prévoir leur
-évolution future. On se concentre ici sur l'évolution jointe de deux
-ensembles majeurs du tissu urbain : le bâti et le viaire.
+On se concentre ici sur deux domaines majeurs du tissu urbain, le
+viaire et le bâti, afin d'étudier leur relation de coévolution. Ces
+deux aspects de la ville semblent aller de paire puisque le bâti
+abrite les populations tandis que le viaire leur permet de se déplacer
+d'un point à un autre. C'est la répartition des parcelles et la
+structure du réseau routier existant qui guide l'expansion d'une
+ville. Il est ainsi naturel d'utiliser la densité de population comme
+force de guidage à son évolution.
 
-DETAILS
-
-Ces deux aspects de la ville semblent aller de paire puisque le bâti
-abrite les population tandis que le viaire leur permet de se
-déplacer. Il est ainsi naturel d'utiliser la densité de population
-comme force de guidage à l'évolution de la ville.
-
-DETAILS
+ETOFFER
 
 La première partie présente un état de l'art de la modélisation de
 systèmes urbains et se concentre particulièrement sur les méthodes à
@@ -699,9 +700,9 @@ Une valeur haute en $A_{ee}$ signifie par exemple que si une cellule a
 de nombreux voisins de densité \textit{élevée} alors elle a une grande
 probabilité de devenir elle-même \textit{élevée}. L'équation
 \ref{eq:transition} permet de formaliser ce principe et fournit un
-score $T$ pour chaque état d'arrivée possible. $C$ correspond à la
-cellule dont l'on étudie les possibilités et $V_k(C)$ correspond au
-nombre de voisins de $C$ ayant l'état $k$.
+score $Ti(C)$ quantifiant l'éventualité pour une cellule $C$ de passer
+à l'état $i$. $V_k(C)$ correspond au nombre de voisins de $C$ ayant
+l'état $k$.
 
 \begin{equation}
 T_i(C) = \sum_{k \in \{f,m,e\}} V_k(C) E_{ik}
@@ -718,10 +719,10 @@ P_i(C) = \frac{T_i(C)}{\sum_{k \in \{f,m,e\}} T_k(C)}
 \label{eq:normalisation}
 \end{equation}
 
-Imaginons un exemple trivial pour illustrer ce processus. On considère
-l'état que prendra la cellule $C$, au centre du quadrillage de la
-figure \ref{fig:ca-example}. On commence par calculer les scores de
-transition en fonction du voisinage de $C$.
+Imaginons un exemple trivial pour illustrer ce processus. On souhaite
+calculer l'état que prendra la cellule $C$, au centre du quadrillage
+de la figure \ref{fig:ca-example}. On commence par calculer les scores
+de transition en fonction du voisinage de $C$.
 
 \begin{figure}[h]
   \centering
@@ -774,7 +775,31 @@ type). Ainsi un dégradé discret de densité apparaît comme dans une
 ville réelle.
 
 On commence par appliquer cette règle a un automate cellulaire
-classique (voir figure \ref{fig:ac}).
+classique (voir figure \ref{fig:ac}). On remarque deux
+problèmes. Premièrement, l'état de l'automate change drastiquement en
+juste quelques itérations : au temps 25, la disposition de départ
+n'est déjà plus discernable. Hors, la granularité temporelle d'une
+telle simulation doit être fine afin de pouvoir prendre en compte
+chaque modification locale du système afin qu'elle puisse se
+répercuter sur le reste de l'automate. Deuxièmement, on observe
+d'itération en itération que chaque cellule voit son état changer en
+permanence -- ce qui est normal pour un automate cellulaire auquel on
+n'a pas adjoint de règle supplémentaire. Il est donc important
+d'associer à chaque cellule un élan favorisant la persistance de son
+état selon son âge afin de ralentir la simulation et surtout d'éviter
+les transitions constantes qui ne sont absolument pas fidèles à la
+stabilité d'une ville réelle. Les fonctions sigmoïdes, fréquemment
+employées en modélisation de systèmes complexes, sont idéales pour
+exprimer en fonction du temps une variation subissant un élan de
+croissance en milieu de parcours. La sigmoïde classique (figure
+\ref{fig:sigmoide1}) varie de 0 à 1 par une courbe caractéristique. On
+l'altère comme il est visible sur la figure \ref{fig:sigmoide2} pour
+obtenir une fonction associant une probabilité de changement d'état en
+fonction de l'âge de la cellule considérée. Le facteur 0.02 permet
+d'adoucir la pente de la fonction autour de 0 tandis que 350 sert à la
+décaler $f(x)$ de façon à pouvoir l'utiliser dans le domaine positif.
+
+AJOUTER LEGENDE SUR FIG SIGMOIDES
 
 \begin{figure}[h]
   \centering
@@ -795,28 +820,6 @@ classique (voir figure \ref{fig:ac}).
     retrouve peu de similarités et les changements sont trop rapides.}
   \label{fig:ac}
 \end{figure}
-
-On remarque deux problèmes. Premièrement, l'automate est très
-rapidement métamorphosé. \`A l'itération 25, la disposition de départ
-n'est déjà plus discernable. Hors, la granularité temporelle d'une
-telle simulation doit être fine afin de pouvoir prendre en compte
-chaque modification locale du système. De plus, on observe d'itération
-en itération que chaque cellule voit son état changer en permanence --
-ce qui est normal pour un automate cellulaire auquel on n'a pas
-adjoint de règle supplémentaire. Il est donc important d'associer à
-chaque cellule un élan favorisant la persistance de son état selon son
-âge afin de ralentir la simulation et d'éviter les transitions
-constantes. Les fonctions sigmoïdes, fréquemment employées en
-modélisation de systèmes complexes, sont idéales pour exprimer en
-fonction du temps une variation subissant un fort élan de croissance
-en milieu de parcours. La sigmoïde classique (figure
-\ref{fig:sigmoide1}) varie de 0 à 1 par une courbe croissante
-caractéristique. On l'altère comme il est visible sur la figure
-\ref{fig:sigmoide2} pour obtenir une fonction associant une
-probabilité de changement d'état en fonction de l'âge de la cellule
-considérée. Le facteur 0.02 permet d'adoucir la pente de la fonction
-autour de 0 tandis que 350 sert à décaler $f(x)$ de façon à rester
-dans le domaine positif.
 
 \begin{figure}[ht]
   \centering
