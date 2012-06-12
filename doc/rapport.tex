@@ -4,7 +4,7 @@
 \usepackage[francais]{babel}
 
 \usepackage{amsmath}
-
+\everymath{\displaystyle}
 \usepackage{caption}
 \usepackage{subcaption}
 
@@ -119,11 +119,11 @@ determine its future state ; the regularity constraint is thus
 relaxed. Voronoi edges delineate the Voronoi space of land lots and,
 as such, are perfect supports for roads.
 
-The different elements represented in our model (\textit{i. e. lots
-  and roads}) are declined in two flavors. \textit{Potential} elements
-have a ethereal status ; their spatial characteristics are known but
-until they are definitely built, they have no direct effect on the
-overall city and only represent an idea, a possible
+The different elements represented in our model (\textit{i. e.} land
+lots and roads) are declined in two flavors. \textit{Potential}
+elements have a ethereal status ; their spatial characteristics are
+known but until they are definitely built, they have no direct effect
+on the overall city and only represent an idea, a possible
 outcome. \textit{Built} elements were potential elements that have
 been constructed. They form the physical city. Concisely, the gist of
 the model is to add potential elements to the city and, only later,
@@ -145,11 +145,11 @@ information that we want to consider is represented by a vector field
 that will guide the placement of new lots. For example, a field
 escaping from high density areas is used to ensure urban
 sprawl. Another makes new lots move towards closest road such that
-they remain snapped to the main road axes. All vector fields are then
-summed up with varying coefficient. This general approach can model
-any kind of guidance or constraint ; in particular obstacle avoidance
-so that the city does not extends itself on forbidden areas like
-lakes, beaches or protected forests.
+they remain snapped to the main transport axes. All vector fields are
+then summed up with varying coefficient. This general approach can
+model any kind of guidance or constraint ; in particular obstacle
+avoidance so that the city does not extends itself on forbidden areas
+like lakes, beaches or protected forests.
 
 The third and last mechanism chooses which of the potential elements
 are to be permanently built. Potential roads are chosen with respect
@@ -199,10 +199,10 @@ systèmes urbains et se concentre particulièrement sur les méthodes à
 base d'automates cellulaires tout en adoptant un point de vue
 historique pour justifier l'adoption de cette structure. Le modèle
 conçu dans le cadre de ce stage de recherche est ensuite présenté en
-seconde partie. La troisième section aborde des problématiques
-pratiques rencontrées lors de l'implémentation dudit modèle. Enfin,
-des mesures diverses sont employées pour tester et valider ce travail
-dans la quatrième partie.
+seconde partie. La troisième section aborde des problématiques d'ordre
+pratique rencontrées lors de l'implémentation dudit modèle. Enfin, des
+mesures diverses sont employées pour tester et valider ce travail dans
+la quatrième partie.
 
 \section{\'Etat de l'art}
 
@@ -645,10 +645,10 @@ quelques étapes :
 
 \begin{enumerate}
 \item{Un urbaniste prévoit une nouvelle installation en bordure de
-  ville}
-\item{Cette prévision attire la route}
+  ville;}
+\item{Cette prévision attire la route;}
 \item{La nouvelle route et l'installation potentielle attirent
-  d'autres installations potentielles}
+  d'autres installations potentielles.}
 \end{enumerate}
 REFORMULER
 
@@ -765,13 +765,6 @@ P_f(C) = \frac{T_f(C)}{\sum_{k \in \{f,m,e\}} T_k(C)} = \frac{1.03}{1.03 + 4.541
 P_f(C) = \frac{T_f(C)}{\sum_{k \in \{f,m,e\}} T_k(C)} = \frac{1.03}{1.03 + 4.541 + 6.7} = 0.546
 \end{equation*}
 
-\begin{figure}[h]
-  \centering
-  \input{images/ca-wheel.tikz}
-  \caption{LEGENDE}
-\end{figure}
-VRAIMENT UTILE ?
-
 Ce processus d'attraction évoque le modèle de ségrégation de Schelling
 à la différence qu'ici trois types de \textit{population}
 interagissent et qu'il n'y a pas de contrainte de déménagement (dans
@@ -799,7 +792,7 @@ classique (voir figure \ref{fig:ac}).
     \includegraphics[width=.3\linewidth]{images/ca_100.png}
   }
   \caption{Quatre configurations de l'automate cellulaire. On y
-    retrouve peu de similarités et les changements sont très rapides.}
+    retrouve peu de similarités et les changements sont trop rapides.}
   \label{fig:ac}
 \end{figure}
 
@@ -827,11 +820,11 @@ dans le domaine positif.
 
 \begin{figure}[ht]
   \centering
-  \subcaptionbox{}[.2\linewidth][c]{
-    $f(x) = \frac{1}{1 + e^{-x}}$
+  \subcaptionbox{}[.3\linewidth][c]{
+    \raisebox{3cm}{$f(x) = \frac{1}{ 1 + e^{-x}}$}
   }
-  \subcaptionbox{}[.7\linewidth][c]{
-    \includegraphics[width=.7\linewidth]{images/sigmoid.png}
+  \subcaptionbox{}[.6\linewidth][c]{
+    \includegraphics[width=.6\linewidth]{images/sigmoid.png}
   }
   \caption{Sigmoïde classique.}
   \label{fig:sigmoide1}
@@ -839,11 +832,11 @@ dans le domaine positif.
 
 \begin{figure}[ht]
   \centering
-  \subcaptionbox{}[.7\linewidth][c]{
-    $f(t) = \frac{1}{1 + e^{-0.02(t-350)}}$
+  \subcaptionbox{}[.3\linewidth][c]{
+    \raisebox{3cm}{$f(t) = \frac{1}{1 + e^{-0.02(t-350)}}$}
   }
-  \subcaptionbox{}[.7\linewidth][c]{
-    \includegraphics[width=.7\linewidth]{images/sigmoid-age.png}
+  \subcaptionbox{}[.6\linewidth][c]{
+    \includegraphics[width=.6\linewidth]{images/sigmoid-age.png}
   }
   \caption{Probabilité de changement d'état en fonction du temps.}
   \label{fig:sigmoide2}
@@ -874,8 +867,7 @@ pour lequel l'âge des cellules est pris en compte.
   \subcaptionbox{$t = 6000$}[.3\linewidth][c]{
     \includegraphics[width=.3\linewidth]{images/sca_6000.png}
   }
-  \caption{Trois configurations successives de l'automate cellulaire
-    stabilisé.}
+  \caption{Six configurations de l'automate cellulaire stabilisé.}
   \label{fig:ac-stable}
 \end{figure}
 
@@ -905,54 +897,90 @@ lie deux parcelles en tant que voisins.
   \label{fig:lots-graph}
 \end{figure}
 
-APPLICATION DES REGLES
+\begin{figure}[h]
+  \centering
+  \subcaptionbox{$t = 0$}[.3\linewidth][c]{
+    \includegraphics[width=.3\linewidth]{images/vca_0.png}
+  }
+  \subcaptionbox{$t = 500$}[.3\linewidth][c]{
+    \includegraphics[width=.3\linewidth]{images/vca_500.png}
+  }
+  \subcaptionbox{$t = 1000$}[.3\linewidth][c]{
+    \includegraphics[width=.3\linewidth]{images/vca_1000.png}
+  }
 
-SIX IMAGES
+  \subcaptionbox{$t = 2000$}[.3\linewidth][c]{
+    \includegraphics[width=.3\linewidth]{images/vca_2000.png}
+  }
+  \subcaptionbox{$t = 4000$}[.3\linewidth][c]{
+    \includegraphics[width=.3\linewidth]{images/vca_4000.png}
+  }
+  \subcaptionbox{$t = 6000$}[.3\linewidth][c]{
+    \includegraphics[width=.3\linewidth]{images/vca_6000.png}
+  }
+  \caption{Six configurations du diagramme du diagramme de Voronoï
+    cellulaire.}
+  \label{fig:ac-stable}
+\end{figure}
+
+Plus la simulation avance et plus le système est chargé de parcelles à
+haute densité. Un lectteur averti pourrait argumenter que ce
+comportement est bien différent d'une situation réelle : quel que soit
+le taux de croissance d'une ville, elle ne finit jamais entièrement
+remplie de grands immeubles (pour simplifier). Mais il faut garder à
+l'esprit que le mécanisme présenté dans cette section ne gère que la
+croissance verticale. Par la suite, la croissance horizontale de la
+ville modifiera et étendra sa structure de façon à ce que les
+parcelles en bordures soient plus modestes.
 
 La problématique étant d'étudier la coévolution de deux aspects
 urbains, le viaire et le bâti, et non seulement l'évolution des
 densités (qui ne sert que de support à l'essort de la ville), on a
 préféré choisir une règle basique. il est néanmoins tout à fait
 possible d'utiliser par la suite un automate cellulaire plus
-sophistiqué pour améliorer le réalisme de la simulation.
+sophistiqué pour améliorer le réalisme de la simulation. On pourrait,
+par exemple, prendre en compte les valeurs financières des parcelles
+ou les classes sociales des habitants.
 
 \subsubsection{Placement des éléments potentiels}
 
 Le second mécanisme place de nouvelles parcelles en bordure de la
-ville et est responsable de sa croissance horizontale. Les nouvelles
-parcelles placées bénéficient néanmoins d'un statut spécial car elles
-sont considérées comme \textit{potentielles} et se démarquent des
-parcelles \textit{construites} par leur impact sur l'évolution du
-système :
+ville et est ainsi responsable de sa croissance horizontale.
+
+Les nouvelles parcelles placées bénéficient néanmoins d'un statut
+spécial car elles sont considérées comme \textit{potentielles} et se
+démarquent des parcelles \textit{construites} par leur impact sur
+l'évolution du système :
 
 \begin{itemize}
-\item{L'état d'une parcelle potentielle dépend de toutes ses voisines}
+\item{L'état d'une parcelle potentielle dépend de toutes ses voisines;}
 \item{Une parcelle potentielle n'influence pas l'état des parcelles
-  voisines construites}
-\item{Une parcelle potentielle peut accueillir une route}
+  voisines construites;}
+\item{Une parcelle potentielle peut accueillir des routes sur ses
+  arêtes.}
 \end{itemize}
 
 Cette influence unidirectionnelle dans le mécanisme cellulaire permet
 à la parcelle potentielle d'être prête et accordée à son environnement
 proche si elle est construite par la suite sans pour autant que les
 parcelles déjà construites ne soient influencées par une parcelle
-n'existant pas.
+n'existant pas encore et étant en réalité intangible.
 
 En quelques mots, le placement se déroule comme suit :
 
 \begin{enumerate}
 \item{On détermine les centres de la ville en fonction de la densité}
 \item{On dépose sur un des centres une \textit{graine} mobile qui
-  servira de générateur à la nouvelle parcelle}
+  servira de centre à la nouvelle parcelle;}
 \item{La graine se déplace sous l'influence des variables inhérentes à
-  la ville}
-\item{Quand la graine stoppe son mouvement, on y crée la parcelle}
+  la ville;}
+\item{Quand la graine stoppe son mouvement, on y crée la parcelle.}
 \end{enumerate}
 
 CENTRES?
 
 Le déplacement de la graine est un processus pouvant potentiellement
-prendre en compte de nombreuses variables. Dans l'application
+prendre en compte de nombreuses variables. Dans la simulation
 d'exemple que l'on décrit, seules la densité et le placement des
 routes peuvent guider la graine, car ce sont les seuls données
 considérées. Cependant, on souhaite que le modèle soit extensible et
@@ -963,23 +991,100 @@ plans d'eau). De cette idée de graine se déplaçant en fonction
 d'influences diverses transpire un véritable aspect physique.
 
 Pour rester en accord avec cet aspect physique on emploie un champ de
-vecteur généré à partir de l'état du sytème urbain pour guider la
+vecteurs généré à partir de l'état du sytème urbain pour guider la
 graine vers sa destination. Puisque de nombreux paramètres sont à
-prendre en compte, on utilise un champ de vecteur par paramètre que
+prendre en compte, on utilise un champ de vecteurs par paramètre que
 l'on souhaite exprimer puis on les combine, ce qui permet de pondérer
 l'impact de chaque donnée.
 
-Par exemple,
+On veut évidemment que la densité soit prise en compte dans ce
+placement. Dans une ville, les nouvelles installations ont
+principalement tendance à se répartir sur les frontières de
+l'enveloppe urbain et à s'éloigner des centres, non pas par animosité
+envers l'activité du centre-ville mais simplement par manque
+d'espace. Pour traduire ce phénomène dans le modèle, un premier champ
+fait donc pointer chacun de ses vecteurs vers la parcelle disposant de
+la plus faible densité parmis les voisines de la parcelle sur laquelle
+il est posé.
 
-DENSITE
+\begin{figure}[h]
+  \centering
+  \subcaptionbox{}[.3\linewidth][c]{
+    %\includegraphics[width=.3\linewidth]{images/field_density1.png}
+  }
+  \subcaptionbox{}[.3\linewidth][c]{
+    %\includegraphics[width=.3\linewidth]{images/field_density2.png}
+  }
+  \caption{Le champ de vecteurs densitaire guide les nouvelles
+    parcelles vers l'extérieur de la ville.}
+  \label{fig:field-density}
+\end{figure}
 
-ROUTES
+Il est naturel que les parcelles potentielles soient placées près des
+installations routières existantes. À cet effet, on ajoute un champ
+pour lequel chaque vecteur pointe vers la route construite la plus
+proche.
 
-PATTERN
+\begin{figure}[h]
+  \centering
+  \subcaptionbox{}[.3\linewidth][c]{
+    %\includegraphics[width=.3\linewidth]{images/field_density1.png}
+  }
+  \subcaptionbox{}[.3\linewidth][c]{
+    %\includegraphics[width=.3\linewidth]{images/field_density2.png}
+  }
+  \caption{Le champ de vecteurs viaire guide les nouvelles parcelles
+    vers les routes construites.}
+  \label{fig:field-road}
+\end{figure}
 
-COMMENTAIRE
+Les nouvelles parcelles ne sont pas uniquement disposés en fonction de
+variables internes à la ville car, souvent, l'environnement impose des
+restrictions quand à la direction que l'expansion d'une ville va
+prendre. Parmi ces contraintes, on pense aux zones non constructibles
+comme les plans d'eau, les fôrets mais aussi aux fortes pentes. Le
+champ de vecteur étant dédié à l'évitement de telles zones guident
+vers leur bordure mais, hors de leur aire, l'influence est nulle.
 
-ARRET (AIRE ? SIGMOIDE ?)
+\begin{figure}[h]
+  \centering
+  \subcaptionbox{}[.3\linewidth][c]{
+    %\includegraphics[width=.3\linewidth]{images/field_density1.png}
+  }
+  \subcaptionbox{}[.3\linewidth][c]{
+    %\includegraphics[width=.3\linewidth]{images/field_density2.png}
+  }
+  \caption{Le champ de vecteurs des obstacles évite que de nouvelles
+    parcelles soient placées sur des zones interdites.}
+  \label{fig:field-obstacle}
+\end{figure}
+
+PATTERN?
+
+\begin{equation*}
+  I(x,y) = \alpha I_d(x,y) + \beta I_r(x,y) + \gamma I_o(x,y) + \dots
+\end{equation*}
+
+\begin{figure}[h]
+  \centering
+  \subcaptionbox{}[.3\linewidth][c]{
+    %\includegraphics[width=.3\linewidth]{images/field_density1.png}
+  }
+  \subcaptionbox{}[.3\linewidth][c]{
+    %\includegraphics[width=.3\linewidth]{images/field_density2.png}
+  }
+  \caption{Le champ de vecteurs final est la somme pondérée de tous
+    les autres champs d'influences.}
+  \label{fig:field-sum}
+\end{figure}
+
+Les champs de vecteurs décrit ci-dessus servent uniquement
+d'illustrations et la généralité du concept de ce mécanisme permet à
+l'utilisateur du modèle d'employer les données qu'il juge nécessaires
+afin de mettre en avant certaines caractéristiques d'un système
+urbain.
+
+DEPLACEMENT. VITESSE. ARRET.
 
 \subsubsection{Construction des éléments potentiels}
 
@@ -987,49 +1092,16 @@ ROUTES
 
 PARCELLES
 
-Le placement des parcelles se base sur le réseau routier puisque pour
-qu'une parcelle soit construite, elle doit être reliée à au moins une
-voie. Les voies sont quant à elle dépendantes des parcelles car selon
-notre définition, une route est une arête de Voronoï d'une parcelle
-(potentielle ou construite). Ce cycle est similaire à la morphogénèse
-d'une ville car le processus d'extension que l'on observe dans un cas
-d'urbanisme réel est le suivant :
-
-\begin{enumerate}
-\item{On prévoit d'installer des bâtiments en bordure de ville (les
-  parcelles potentielles)}
-\item{On construit une route avant de construire les parcelles}
-\item{On construit plus tard les parcelles}
-\end{enumerate}
-
-DEJA DIT AILLEURS
-
-les routes sont donc supports aux parcelles et leur construction est
-motivée par la perspective de nouvelles parcelles. Les parcelles
-potentielles étant placées par un mécanisme explicité plus haut, il
-reste à sélectionner quelles arêtes du diagramme de Voronoï vont
-devenir de véritables routes. On retrouve ici aussi le vocabulaire de
-la potentialité utilisé au niveau parcellaire : les arêtes de Voronoï
-sont considérées comme routes \textit{potentielles} et
-
-La sélection les routes aptes à être construites doit être justifiée
-par un besoin fonctionnel assurant une activité interne de la ville
-efficace. Dans le cas du réseau viaire, on cherche donc à éviter les
-engorgements et donc à organiser le maillage routier de façon à ce que
-les zones à forte densité soient correctement desservies. DENSITE
-
-NETWORK SIMPLEX
-
-CONNEXITE
-
 \section{Construction}
 
 Notre système urbain est décrit sur deux niveaux; plus précisément,
 par deux graphes. On distingue le graphe parcellaire du graphe viaire
 car, bien qu'ils soient étroitement liés, ils représentent des couches
-différentes du réseau urbain.
-
-QQUAD MACHIN NON, 2 GRAPHES OUI
+différentes du réseau urbain. Leur topologie est directement issue du
+diagramme de Voronoï et l'on décrit dans cette section les
+problématiques pratiques rencontrées lors de la transition de cette
+structure spatiale de base aux structures relationnelles que sont les
+graphes.
 
 \subsection{Le graphe parcellaire}
 
@@ -1056,8 +1128,8 @@ partir d'une liste de points. Le résultat d'un tel traitement prend la
 forme d'un ensemble de polygones, chacun représentant une cellule de
 Voronoï, mais aucune autre information, notamment d'adjacence, n'est
 fournie. Une fois le graphe parcellaire peuplé par des n\oe uds
-positionnés aux coordonnées fournies plus tôt, il reste donc à
-calculer les relations de voisinage et à ajouter les arêtes.
+positionnés aux coordonnées des centres fournies plus tôt, il reste
+donc à calculer les relations de voisinage et à ajouter les arêtes.
 
 \begin{figure}
   \centering
@@ -1079,11 +1151,6 @@ deux n\oe uds du graphe leur étant associés.
   \label{fig:construction-bati3}
 \end{figure}
 
-La finalité de cet exercice n'est pas seulement de faire évoluer
-l'automate cellulaire irrégulier que forme cette structure mais aussi
-de lui permettre de se transformer au cours du temps, de s'étendre par
-morphogenèse. INSERTION, DELETION
-
 \subsection{Le graphe viaire}
 
 Le graphe viaire correspond à la couche routière. Ses n\oe uds sont
@@ -1091,10 +1158,6 @@ des carrefours, aux croisements des parcelles, et ses arête des
 voies. En pratique, pour différencier les routes potentielles des
 routes construites, on attribue une étiquette spéciale à ces
 dernières.
-
-Comme lors de la construction du graphe parcellaire, on commence par
-placer les n\oe uds (ici des carrefours) puis on veut les relier par
-des arêtes (les routes).
 
 Dans un premier temps, il nous faut déterminer les positions des
 croisements qui feront office de n\oe uds dans le graphe viaire. Cette
@@ -1139,9 +1202,9 @@ croisement. L'idée de base est de construire tous les groupes de
 parcelles tels que :
 
 \begin{itemize}
-\item{Toutes les parcelles d'un groupe soient voisines entres elles}
-\item{Les groupes soient maximaux}
-\item{Les parcelles d'un groupe aient tous un sommet en commun}
+\item{Toutes les parcelles d'un groupe soient voisines entres elles;}
+\item{Les groupes soient maximaux;}
+\item{Les parcelles d'un groupe aient tous un sommet en commun.}
 \end{itemize}
 
 Le dernier critère est la contrainte manquante à la définition des
@@ -1184,6 +1247,13 @@ duquel aucune arête ne manque.
 
 IMAGE
 
+\subsection{Aspect dynamique}
+
+La finalité de cet exercice n'est pas seulement de faire évoluer
+l'automate cellulaire irrégulier que forme cette structure mais aussi
+de lui permettre de se transformer au cours du temps, de s'étendre par
+morphogenèse. INSERTION, DELETION
+
 \section{Mesures}
 
 HEUUUUUUUU...
@@ -1192,9 +1262,15 @@ DEGRE DES CARREFOURS
 
 ELOIGNEMENT DE LA DENSITE PAR RAPPORT AU CENTRE GEOMETRIQUE
 
-ELOIGNEMENT DE LA DENSITE PAR RAPPORT AUX CENTRES
+ELOIGNEMENT DE LA DENSITE PAR RAPPORT AUX CENTRES DENSITAIRES
 
 TAILLE DES PARCELLES ? (BIAIS AU BORD)
+
+ACCESSIBILITE ?
+
+DIAMETRE ?
+
+CENTRALITE ?
 
 \section{Conclusion}
 
