@@ -252,16 +252,19 @@ public class Simulation {
 
 		  List<Coordinate> coords = new ArrayList<Coordinate>();
 
-		  for(int i = 0; i < n; ++i) {
+		  int m = 0;
+
+		  while(m < n) {
 
 				// Choose a random position.
-				int r = this.rnd.nextInt(radius);
-				int a = this.rnd.nextInt(100);
+				int x = this.rnd.nextInt(this.width) - radius;
+				int y = this.rnd.nextInt(this.width) - radius;
 
-				double x = r * Math.cos(a);
-				double y = r * Math.sin(a);
-
-				coords.add(new Coordinate(x, y));
+				// Check that it is in the radius.
+				if(Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2)) < radius) {
+					 coords.add(new Coordinate(x, y));
+					 ++m;
+				}
 		  }
 
 		  this.lotCoords = coords;
