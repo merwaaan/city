@@ -87,20 +87,22 @@ public class DensityStrategy extends Strategy {
 					 lot.setAttribute("density", lot.getAttribute("nextDensity"));
 					 lot.removeAttribute("nextDensity");
 
-					 lot.setAttribute("age", 0);
+					 lot.setAttribute("wait", pickWaitingTime());
 				}
 				else
-					 lot.setAttribute("age", ((Integer)lot.getAttribute("age")) + 1);
+					 lot.setAttribute("wait", ((Integer)lot.getAttribute("wait")) - 1);
 	 }
+
+	private int pickWaitingTime() {
+
+		return (int)((Math.log10(1 / this.sim.rnd.nextDouble() - 1) - 7) / (-0.02));
+	}
 
 	 private boolean ready(Node lot) {
 
-		  int age = (Integer)lot.getAttribute("age");
+		 int wait = (Integer)lot.getAttribute("wait");
 
-		  double p = sigmoid(age);
-		  double r = this.sim.rnd.nextDouble();
-
-		  return r < p;
+		 return wait <= 0;
 	 }
 
 	 private double sigmoid(int x) {
@@ -212,7 +214,7 @@ public class DensityStrategy extends Strategy {
 		  Density d = randomDensity();
 		  lot.setAttribute("density", d);
 
-		  lot.setAttribute("age", this.sim.rnd.nextInt(100));
+		  lot.setAttribute("wait", pickWaitingTime());
 	 }
 
 }
