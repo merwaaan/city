@@ -60,6 +60,7 @@ public class Simulation {
 	  * field. If its value is -1, no fields are displayed.
 	  */
 	 public boolean showPotentialLots = true;
+	 public boolean showLargeCells = false;
 	 public int showWhichVectorField = -1;
 
 	 public List<List<Vector2>> paths;
@@ -132,11 +133,9 @@ public class Simulation {
 
 	 private void initialize() {
 
-		  this.width = 2000;
-
 		  // Compute n random coordinates.
-		  this.lotCoords = getRandomCoords(2500);
-		  //this.lotCoords = getFixedCoords();
+		  //randomCoords(2500, 2000);
+		  radialCoords(200, 1000);
 		  //this.lotCoords = ShapeFileLoader.getLandLots("data/reims.shp", 50000);
 
 		  // Build a Voronoi diagram for which seeds are the previously
@@ -152,9 +151,9 @@ public class Simulation {
 
 		  // Choose appropriate strategies.
 		  this.strategies.put("cellular automata", new DensityStrategy(this));
-		  //this.strategies.put("road development", new RoadStrategy(this));
-		  //this.strategies.put("lot construction", new LotStrategy(0.6, this));
-		  //this.strategies.put("potential lot construction", new PotentialLotStrategy(this));
+		  this.strategies.put("road development", new RoadStrategy(this));
+		  this.strategies.put("lot construction", new LotStrategy(0.6, this));
+		  this.strategies.put("potential lot construction", new PotentialLotStrategy(this));
 
 		  while(true) {
 
@@ -167,8 +166,9 @@ public class Simulation {
 
 					 this.lastStep = now;
 
+					 screenshot();
 					 ++this.step;
-					 System.out.println(step);
+
 					 redraw();
 				}
 		  }
@@ -218,9 +218,11 @@ public class Simulation {
 	  * Generates random geometrical coordinates.
 	  *
 	  * @param n The number of coordinates requested.
-	  * @return A list of coordinates.
+	  * @param width The maximal width of the city.
 	  */
-	 private List<Coordinate> getRandomCoords(int n) {
+	 private void randomCoords(int n, int width) {
+
+		  this.width = width;
 
 		  List<Coordinate> coords = new ArrayList<Coordinate>();
 
@@ -235,22 +237,34 @@ public class Simulation {
 				coords.add(new Coordinate(x, y));
 		  }
 
-		  return coords;
+		  this.lotCoords = coords;
 	 }
 
 	 /**
-	  * Generates a fixed configuration to base report figures upon.
+	  * Generates random geometrical coordinates.
+	  *
+	  * @param n The number of coordinates requested.
+	  * @param radius The maximal width of the city.
 	  */
-	 	 private List<Coordinate> getFixedCoords() {
+	 private void radialCoords(int n, int radius) {
+
+		  this.width = radius * 2;
 
 		  List<Coordinate> coords = new ArrayList<Coordinate>();
 
-		  coords.add(new Coordinate(-300, 500));
-		  coords.add(new Coordinate(-500, -500));
-		  coords.add(new Coordinate(200, -300));
-		  coords.add(new Coordinate(500, 0));
+		  for(int i = 0; i < n; ++i) {
 
-		  return coords;
+				// Choose a random position.
+				int r = this.rnd.nextInt(radius);
+				int a = this.rnd.nextInt(100);
+
+				double x = r * Math.cos(a);
+				double y = r * Math.sin(a);
+
+				coords.add(new Coordinate(x, y));
+		  }
+
+		  this.lotCoords = coords;
 	 }
 
 }

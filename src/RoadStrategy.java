@@ -81,7 +81,9 @@ public class RoadStrategy extends Strategy {
 
 		  //
 
-		  int supply = (Integer)last.getAttribute("supply");
+		  Object supply_ = last.getAttribute("supply");
+		  int supply = (Integer)supply_;
+
 		  supply += (-totalDemand) - totalSupply;
 		  last.setAttribute("supply", supply);
 

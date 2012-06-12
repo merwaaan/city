@@ -14,18 +14,10 @@ public class DensityStrategy extends Strategy {
 		  Density.HIGH
 	 };
 
-	 /*
 	 private double[][] affinities = {
-		  {0.2, 0, 0},       // LOW
-		  {0.001, 1.2, 0.1}, // MEDIUM
-		  {0.0001, 0.1, 1.7}      // HIGH
-	 };
-	 */
-
-	 private double[][] affinities = {
-		  {1, 0.01, 0},       // LOW
-		  {0.001, 1.5, 0.01}, // MEDIUM
-		  {0, 0.01, 1.6}      // HIGH
+		  {1, 0.01, 0},         // LOW
+		  {0.001, 1.5, 0.0001}, // MEDIUM
+		  {0, 0.005, 1.8}       // HIGH
 	 };
 
 	 public DensityStrategy(Simulation sim) {
@@ -33,6 +25,7 @@ public class DensityStrategy extends Strategy {
 
 		  this.sim.lots.addSink(new DensityStrategySink(this.sim, this));
 
+		  /*
 		  // Prepare an initial configuration with gradual density from
 		  // the center.
 		  for(Node lot : this.sim.lots) {
@@ -47,11 +40,12 @@ public class DensityStrategy extends Strategy {
 					 d = Density.HIGH;
 				else if(dist < 300)
 					 d = Density.MEDIUM;
-				else
+ 				else
 					 d = Density.LOW;
 
 				lot.setAttribute("density", d);
 		  }
+		  */
 	 }
 
 	 /**

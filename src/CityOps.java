@@ -59,16 +59,31 @@ public class CityOps {
 		  // Bind each changed lot with its new polygon.
 		  for(Node lot : sim.lots) {
 
-			  Polygon cell = (Polygon)lot.getAttribute("polygon");
+				Polygon cell = (Polygon)lot.getAttribute("polygon");
 
-			  if(cell == null || !LotOps.collectionContainsPolygon(newVoronoi, cell)) {
+				if(cell == null || !LotOps.collectionContainsPolygon(newVoronoi, cell)) {
 
-				  cell = LotOps.getLotCell(lot, newVoronoi);
-				  lot.setAttribute("polygon", cell);
+					 cell = LotOps.getLotCell(lot, newVoronoi);
+					 lot.setAttribute("polygon", cell);
 
-				  changedLots.add(lot);
-			  }
+					 changedLots.add(lot);
+				}
 		  }
+
+		  // Save roads separating pairs of changed lots to restore
+		  // them later.
+
+		  List<Object[]> roadRecords = new ArrayList<Object[]>();
+		  for(Node lot : changedLots)
+				for(int i = 0, l = lot.getDegree(); i < l; ++i) {
+					 Edge link = lot.getEdge(i);
+					 Node neigh = link.getOpposite(lot);
+					 Edge road = RoadOps.getRoadBetween(lot, neigh);
+					 if(road != null && RoadOps.isRoadBuilt(road)) {
+						  Object[] rr = {lot, neigh};
+						  roadRecords.add(rr);
+					 }
+				}
 
 		  // Update the neighborhoods of the updated lots.
 
@@ -76,33 +91,50 @@ public class CityOps {
 				LotOps.unlinkFromInvalidNeighbors(lot, sim);
 
 		  for(Node lot : changedLots)
-			  LotOps.linkToNeighbors(lot, sim);
+				LotOps.linkToNeighbors(lot, sim);
 
 		  // Remove the road network nodes associated with and only
 		  // with the updated lots.
 
 		  List<Node> changedCrossroads = new ArrayList<Node>();
 		  for(Node lot : changedLots)
-			  for(CrossroadPivot pivot : (List<CrossroadPivot>)lot.getAttribute("pivots")) {
+				for(CrossroadPivot pivot : (List<CrossroadPivot>)lot.getAttribute("pivots")) {
 
-				  Node crossroad = pivot.node;
+					 Node crossroad = pivot.node;
 
-				  if(RoadOps.crossroadOnlySharedBy(crossroad, changedLots, sim) && !changedCrossroads.contains(crossroad))
-					  changedCrossroads.add(crossroad);
-			  }
+					 if(RoadOps.crossroadOnlySharedBy(crossroad, changedLots, sim) && !changedCrossroads.contains(crossroad))
+						  changedCrossroads.add(crossroad);
+				}
 
 		  for(Node crossroad : new ArrayList<Node>(changedCrossroads))
-			  RoadOps.removeCrossroad(crossroad, sim);
+				RoadOps.removeCrossroad(crossroad, sim);
 
 		  // Recompute the sub-networks of these lots.
 
 		  for(Node lot : changedLots)
-			  RoadOps.buildRoadsAroundLot(lot, sim);
+				RoadOps.buildRoadsAroundLot(lot, sim);
 
 		  // Merge with the road network.
 
 		  for(Node lot : changedLots)
-			  RoadOps.mergeLotRoadsWithNeighbors(lot, sim);
+				RoadOps.mergeLotRoadsWithNeighbors(lot, sim);
+
+		  // Restore built roads that were erased by the insertion.
+		  for(Object[] rr : roadRecords) {
+				Node lot1 = (Node)rr[0];
+				Node lot2 = (Node)rr[1];
+
+				// Check if the neighborhood relationship is still valid.
+				if(lot1.hasEdgeBetween(lot2)) {
+					 Edge r = RoadOps.getRoadBetween(lot1, lot2);
+					 RoadOps.buildRoad(r);
+				}
+		  }
+
+		  // DEBUG
+		  //System.out.println(newLot.getAttribute("polygon"));
+		  //System.out.println(newLot.getAttribute("pivots"));
+
 	 }
 
 	 public static int getNumBuiltRoadsAround(Node lot) {

@@ -78,6 +78,12 @@ public class BackgroundLayer implements LayerRenderer {
 				if(!this.sim.showPotentialLots && !LotOps.isLotBuilt(lot))
 					 continue;
 
+				/*
+				// Only draw bordering lots if the option is enabled.
+				if(!this.sim.showLargeCells && LotOps.isLargeCell(lot))
+					 continue;
+				*/
+
 				Polygon poly = (Polygon)lot.getAttribute("polygon");
 				if(poly == null)
 					 continue;
@@ -94,45 +100,25 @@ public class BackgroundLayer implements LayerRenderer {
 				}
 
 				// Fill the cell according to density.
-				Density density = (Density)lot.getAttribute("density");
 
-				if(!LotOps.isLotBuilt(lot) && false)
-					 g.setColor(Color.WHITE);
-				else if(this.transitions.containsKey(lot))
-					 g.setColor(this.transitions.get(lot).current);
-				else {
-					 Density d = (Density)lot.getAttribute("density");
+				if(LotOps.isLotBuilt(lot)) {
 
-					 if(d != null)
-						  g.setColor(d.color(LotOps.isLotBuilt(lot) || true ? 255 : this.faded));
-					 else
-						  g.setColor(Color.WHITE);
+					 if(this.transitions.containsKey(lot))
+						  g.setColor(this.transitions.get(lot).current);
+					 else {
+						  Density d = (Density)lot.getAttribute("density");
+
+						  if(d != null)
+								g.setColor(d.color(LotOps.isLotBuilt(lot) || true ? 255 : this.faded));
+						  else
+								g.setColor(Color.WHITE);
+					 }
+
+					 g.fill(path);
 				}
 
-				g.fill(path);
-
-				// Stroke the cell.
-
-				/*
-				  g.setColor(Color.GRAY);
-
-				  if(LotOps.isLotBuilt(lot))
-				  g.setStroke(new BasicStroke(2));
-				  else
-				  g.setStroke(new BasicStroke(1,
-				  BasicStroke.CAP_BUTT,
-				  BasicStroke.JOIN_MITER,
-				  10,
-				  new float[]{10},
-				  0));
-
-				  g.draw(path);
-				*/
-				// Draw the center.
-				g.setColor(Color.BLACK);
-				int x = ((Double)lot.getAttribute("x")).intValue();
-				int y = ((Double)lot.getAttribute("y")).intValue();
-				g.fillOval(x, y, 3, 3);
+				g.setColor(Color.GRAY);
+				g.draw(path);
 		  }
 	 }
 
@@ -146,7 +132,7 @@ public class BackgroundLayer implements LayerRenderer {
 		  for(Edge road : this.sim.roads.getEachEdge()) {
 
 				// Only shows built roads.
-				if(false && !RoadOps.isRoadBuilt(road))
+				if(!RoadOps.isRoadBuilt(road))
 					 continue;
 
 				Node a = road.getNode0();
@@ -157,8 +143,7 @@ public class BackgroundLayer implements LayerRenderer {
 				double bX = (Double)b.getAttribute("x");
 				double bY = (Double)b.getAttribute("y");
 
-				//g.setColor(new Color(0, 126, 255));
-				g.setColor(new Color(0, 0, 0));
+				g.setColor(new Color(0, 126, 255));
 				g.setStroke(new BasicStroke(3));
 
 				g.drawLine((int)aX, (int)aY, (int)bX, (int)bY);
@@ -218,7 +203,7 @@ public class BackgroundLayer implements LayerRenderer {
 
 				GeneralPath p = new GeneralPath();
 
-				g.drawOval((int)path.get(0).x()-5, (int)path.get(0).y()-5, 10, 10);
+				g.fillOval((int)path.get(0).x()-5, (int)path.get(0).y()-5, 10, 10);
 
 				p.moveTo(path.get(0).x(), path.get(0).y());
 				for(int i = 1, l = path.size(); i < l; ++i)

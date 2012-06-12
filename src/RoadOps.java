@@ -312,4 +312,23 @@ public class RoadOps {
 		  return false;
 	 }
 
+	 public static Edge getRoadBetween(Node lot1, Node lot2) {
+
+		  List<CrossroadPivot> pivots1 = (List<CrossroadPivot>)lot1.getAttribute("pivots");
+
+		  List<CrossroadPivot> shared = new ArrayList<CrossroadPivot>();
+		  for(CrossroadPivot p : pivots1)
+				if(p.lots.contains(lot2))
+					 shared.add(p);
+
+		  if(shared.size() != 2)
+				return null;
+
+		  Node c1 = shared.get(0).node;
+		  Node c2 = shared.get(1).node;
+		  Edge road = c1.getEdgeBetween(c2);
+
+		  return road;
+	 }
+
 }

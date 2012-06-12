@@ -188,6 +188,7 @@ public class LotOps {
 
 		  if(cell != null) {
 				lot.setAttribute("polygon", cell);
+				lot.setAttribute("area", cell.getArea());
 				return true;
 		  }
 
@@ -334,6 +335,18 @@ public class LotOps {
 					 return true;
 
 		  return false;
+	 }
+
+	 /**
+	  * Check if the supplied cell is considered as a large one.
+	  * This method is primarily used identify bordering celle.
+	  *
+	  * @param lot The lot to check.
+	  * @return true if the cell is large, false otherwise.
+	  */
+	 public static boolean isLargeCell(Node lot) {
+
+		  return lot.hasAttribute("area") && ((Double)lot.getAttribute("area")) > 50000;
 	 }
 
 }

@@ -16,7 +16,7 @@ abstract class VectorField {
 		  this.sim = sim;
 		  this.frequency = frequency;
 
-		  this.n = this.sim.width / frequency;
+		  this.n = this.sim.width * 2 / frequency;
 		  this.nn = n * n;
 
 		  this.vectors = new Vector2[n][n];
@@ -31,8 +31,8 @@ abstract class VectorField {
 	 public Vector2 influence(double x, double y) {
 
 		  // Compute the indexes from the position.
-		  int j = (this.sim.width / 2 + (int)x) / this.frequency;
-		  int i = (this.sim.width / 2 + (int)y) / this.frequency;
+		  int j = (this.sim.width + (int)x) / this.frequency;
+		  int i = (this.sim.width + (int)y) / this.frequency;
 
 		  // Interpolation.
 
@@ -75,8 +75,8 @@ abstract class VectorField {
 
 	 public Vector2 position(int i, int j) {
 
-		  int x = -this.sim.width / 2 + j * this.frequency;
-		  int y = -this.sim.width / 2 + i * this.frequency;
+		  int x = -this.sim.width + j * this.frequency;
+		  int y = -this.sim.width + i * this.frequency;
 
 		  return new Vector2(x, y);
 	 }

@@ -21,7 +21,7 @@ public class LotStrategy extends Strategy {
 
 		  while(this.acc >= 1)
 				for(Node lot : this.sim.lots)
-					 if(!LotOps.isLotBuilt(lot) && LotOps.isNextToBuiltRoad(lot)) {
+					 if(!LotOps.isLotBuilt(lot) && !LotOps.isLargeCell(lot) && LotOps.isNextToBuiltRoad(lot)) {
 						  LotOps.buildLot(lot);
 						  --this.acc;
 						  break;
