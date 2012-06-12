@@ -331,4 +331,26 @@ public class RoadOps {
 		  return road;
 	 }
 
+	 public static Edge getClosestRoad(int x, int y, Simulation sim) {
+
+		  Edge closest = null;
+		  double closestDist = Double.POSITIVE_INFINITY;
+
+		  for(Edge road : sim.roads.getEachEdge()) {
+
+				Node c = road.getNode0();
+				double cx = (Double)c.getAttribute("x");
+				double cy = (Double)c.getAttribute("y");
+
+				double dist = Math.sqrt(Math.pow(x - cx, 2) + Math.pow(y - cy, 2));
+
+				if(dist < closestDist) {
+					 closest = road;
+					 closestDist = dist;
+				}
+		  }
+
+		  return closest;
+	 }
+
 }

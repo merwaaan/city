@@ -25,7 +25,6 @@ public class DensityStrategy extends Strategy {
 
 		  this.sim.lots.addSink(new DensityStrategySink(this.sim, this));
 
-		  /*
 		  // Prepare an initial configuration with gradual density from
 		  // the center.
 		  for(Node lot : this.sim.lots) {
@@ -36,16 +35,16 @@ public class DensityStrategy extends Strategy {
 				double dist = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
 
 				Density d;
-				if(dist < 150)
+				if(dist < 500)
 					 d = Density.HIGH;
-				else if(dist < 300)
+				else if(dist < 1000)
 					 d = Density.MEDIUM;
  				else
 					 d = Density.LOW;
 
 				lot.setAttribute("density", d);
+				LotOps.buildLot(lot);
 		  }
-		  */
 	 }
 
 	 /**

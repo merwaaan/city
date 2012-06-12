@@ -17,8 +17,7 @@ public class RoadStrategy extends Strategy {
 
 	 void prepare() {
 
-		  Edge road = Toolkit.randomEdge(this.sim.roads, this.sim.rnd);
-		  RoadOps.buildRoad(road);
+		  RoadOps.buildRoad(RoadOps.getClosestRoad(0, 0, this.sim));
 	 }
 
 	 public void update() {

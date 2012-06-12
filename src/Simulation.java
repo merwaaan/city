@@ -166,8 +166,8 @@ public class Simulation {
 
 					 this.lastStep = now;
 
-					 screenshot();
 					 ++this.step;
+					 System.out.println(this.step);
 
 					 redraw();
 				}
