@@ -205,9 +205,15 @@ public class BackgroundLayer implements LayerRenderer {
 
 				g.fillOval((int)path.get(0).x()-5, (int)path.get(0).y()-5, 10, 10);
 
-				p.moveTo(path.get(0).x(), path.get(0).y());
-				for(int i = 1, l = path.size(); i < l; ++i)
-					 p.lineTo(path.get(i).x(), path.get(i).y());
+				boolean first = true;
+
+				for(Vector2 v : path)
+					 if(first) {
+						  p.moveTo(v.x(), v.y());
+						  first = false;
+					 }
+				else
+					 p.lineTo(v.x(), v.y());
 
 				g.draw(p);
 		  }

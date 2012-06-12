@@ -270,7 +270,7 @@ public class LotOps {
 
 				Polygon neighborCell = (Polygon)neighbor.getAttribute("polygon");
 
-				if(!cell.intersects(neighborCell))
+				if(!cell.overlaps(neighborCell))
 					 sim.lots.removeEdge(link);
 		  }
 	 }
