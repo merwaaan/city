@@ -5,8 +5,10 @@
 
 \usepackage{amsmath}
 \everymath{\displaystyle}
+
 \usepackage{caption}
 \usepackage{subcaption}
+\usepackage{float}
 
 \usepackage{tikz}
 \usetikzlibrary{calc}
@@ -263,7 +265,7 @@ multi-échelles telles que l'évolution d'épidémies \cite{Fu2003} et la
 ségrégation de population \cite{Schelling1969} (voir figure
 \ref{fig:schelling}).
 
-\begin{figure}
+\begin{figure}[H]
   \centering
   \includegraphics[width=.6\linewidth]{images/schelling.png}
   \caption{Configuration produite par le modèle de Schelling. Chacune
@@ -362,7 +364,7 @@ la couverture de l'espace n'est plus complète (des vides entre les
 cellules apparaissent) et le voisinage diffère lui aussi mais chacun
 de ces changements ???.
 
-\begin{figure}
+\begin{figure}[H]
   \centering
   \includegraphics[width=.7\linewidth]{images/gca.png}
   \caption{Hoxton, un quartier de Londres, modélisé par l'automate
@@ -456,7 +458,7 @@ population. Ces techniques sont intrinsèquement géométriques, et comme
 précisé plus haut, le résultat est purement visuel, mais elles
 représentent une source d'inspiration à ne pas négliger.
 
-\begin{figure}
+\begin{figure}[H]
   \centering
   \includegraphics[width=.8\linewidth]{images/cityengine.png}
   \caption{CityEngine mélange des motifs urbains extraits de cartes de
@@ -506,7 +508,7 @@ diagramme de Voronoï et on remarque que, naturellement, deux
 générateurs voisins sont équidistants de l'arête les séparant et le
 segment les reliant y est perpendiculaire. DEFINITION PLUS FORMELLE ?
 
-\begin{figure}[h]
+\begin{figure}[!ht]
   \centering
   \includegraphics[width=0.5\linewidth]{images/voronoi.png}
   \caption{Un diagramme de Voronoï. Chaque point noir est un générateur.}
@@ -578,7 +580,7 @@ image de notre ville à partir de ce modèle, un travail
 d'interprétation est nécessaire et n'a pas été traîté à l'occasion de
 ce projet. Un exemple est visible sur la figure \ref{fig:interp}.
 
-\begin{figure}[h]
+\begin{figure}[!ht]
 
   \centering
   \subcaptionbox{}[0.9\linewidth][c]{
@@ -709,22 +711,22 @@ T_i(C) = \sum_{k \in \{f,m,e\}} V_k(C) E_{ik}
 \label{eq:transition}
 \end{equation}
 
-Finalement et pour obtenir la
-véritable probabilité de passage d'un état à un autre, on normalise
-chaque score de transition et une roue de la fortune biaisée se charge
-du choix.
+Pour obtenir la probabilité de passage d'un état à un autre, on
+normalise chaque score de transition et une roue de la fortune biaisée
+se charge du choix.
 
 \begin{equation}
 P_i(C) = \frac{T_i(C)}{\sum_{k \in \{f,m,e\}} T_k(C)}
 \label{eq:normalisation}
 \end{equation}
 
-Imaginons un exemple trivial pour illustrer ce processus. On souhaite
-calculer l'état que prendra la cellule $C$, au centre du quadrillage
-de la figure \ref{fig:ca-example}. On commence par calculer les scores
-de transition en fonction du voisinage de $C$.
+Prenons un exemple trivial pour illustrer ce processus. On souhaite
+évaluer l'état que pourrait prendre la cellule $C$, au centre du
+quadrillage de la figure \ref{fig:ca-example}. Chacune des cellules en
+bordure de cette figure sont voisines de $C$ selon le voisinage de
+Moore. On commence par calculer les scores de transition.
 
-\begin{figure}[h]
+\begin{figure}[!ht]
   \centering
   \input{images/ca-example.tikz}
   \caption{On cherche à calculer les probabilités transitionnelles
@@ -766,21 +768,22 @@ P_f(C) = \frac{T_f(C)}{\sum_{k \in \{f,m,e\}} T_k(C)} = \frac{1.03}{1.03 + 4.541
 P_f(C) = \frac{T_f(C)}{\sum_{k \in \{f,m,e\}} T_k(C)} = \frac{1.03}{1.03 + 4.541 + 6.7} = 0.546
 \end{equation*}
 
-Ce processus d'attraction évoque le modèle de ségrégation de Schelling
-à la différence qu'ici trois types de \textit{population}
-interagissent et qu'il n'y a pas de contrainte de déménagement (dans
-son modèle, si une cellule passe de $A$ à $B$ alors une autre doit
-passer de $B$ à $A$ afin de conserver les mêmes quantités de chaque
-type). Ainsi un dégradé discret de densité apparaît comme dans une
-ville réelle.
+Ce processus basé sur les affinités entre différentes classes évoque
+le modèle de ségrégation de Schelling à la différence qu'ici, trois
+\textit{populations} interagissent et qu'il n'y a pas de contrainte de
+déménagement (dans son modèle, si une cellule passe de $A$ à $B$ alors
+une autre doit passer de $B$ à $A$ ailleurs afin de conserver les
+mêmes quantités de chaque type). Ainsi un dégradé discret de densité
+apparaît comme dans une ville réelle.
 
-On commence par appliquer cette règle a un automate cellulaire
-classique (voir figure \ref{fig:ac}). On remarque deux
-problèmes. Premièrement, l'état de l'automate change drastiquement en
+Si l'on applique cette règle à un automate cellulaire classique, on
+obtient les configurations visibles sur la figure \ref{fig:ac}. On
+remarque deux incohérences séparant le système urbain simulé et une
+ville. Premièrement, l'état de l'automate change drastiquement en
 juste quelques itérations : au temps 25, la disposition de départ
 n'est déjà plus discernable. Hors, la granularité temporelle d'une
 telle simulation doit être fine afin de pouvoir prendre en compte
-chaque modification locale du système afin qu'elle puisse se
+chaque modification locale du système pour qu'elle puisse se
 répercuter sur le reste de l'automate. Deuxièmement, on observe
 d'itération en itération que chaque cellule voit son état changer en
 permanence -- ce qui est normal pour un automate cellulaire auquel on
@@ -790,18 +793,16 @@ d'associer à chaque cellule un élan favorisant la persistance de son
 les transitions constantes qui ne sont absolument pas fidèles à la
 stabilité d'une ville réelle. Les fonctions sigmoïdes, fréquemment
 employées en modélisation de systèmes complexes, sont idéales pour
-exprimer en fonction du temps une variation subissant un élan de
-croissance en milieu de parcours. La sigmoïde classique (figure
-\ref{fig:sigmoide1}) varie de 0 à 1 par une courbe caractéristique. On
-l'altère comme il est visible sur la figure \ref{fig:sigmoide2} pour
-obtenir une fonction associant une probabilité de changement d'état en
-fonction de l'âge de la cellule considérée. Le facteur 0.02 permet
-d'adoucir la pente de la fonction autour de 0 tandis que 350 sert à la
-décaler $f(x)$ de façon à pouvoir l'utiliser dans le domaine positif.
+exprimer en fonction du temps le pasage d'un seuil à un autre. La
+sigmoïde classique (figure \ref{fig:sigmoide1}) varie de 0 à 1 par une
+courbe caractéristique. On l'altère comme il est visible sur la figure
+\ref{fig:sigmoide2} pour obtenir une fonction associant une
+probabilité de changement d'état à l'âge de la cellule considérée. Le
+facteur 0.02 permet d'adoucir la pente de la sigmoïde tandis que 350
+sert à la décaler $f(x)$ de façon à pouvoir l'utiliser dans le domaine
+positif.
 
-AJOUTER LEGENDE SUR FIG SIGMOIDES
-
-\begin{figure}[h]
+\begin{figure}[H]
   \centering
   \subcaptionbox{$t = 0$}[.3\linewidth][c]{
     \includegraphics[width=.3\linewidth]{images/ca_0.png}
@@ -821,7 +822,7 @@ AJOUTER LEGENDE SUR FIG SIGMOIDES
   \label{fig:ac}
 \end{figure}
 
-\begin{figure}[ht]
+\begin{figure}[H]
   \centering
   \subcaptionbox{}[.3\linewidth][c]{
     \raisebox{3cm}{$f(x) = \frac{1}{ 1 + e^{-x}}$}
@@ -833,7 +834,7 @@ AJOUTER LEGENDE SUR FIG SIGMOIDES
   \label{fig:sigmoide1}
 \end{figure}
 
-\begin{figure}[ht]
+\begin{figure}[H]
   \centering
   \subcaptionbox{}[.3\linewidth][c]{
     \raisebox{3cm}{$f(t) = \frac{1}{1 + e^{-0.02(t-350)}}$}
@@ -847,9 +848,10 @@ AJOUTER LEGENDE SUR FIG SIGMOIDES
 
 La figure \ref{fig:ac-stable} montre un automate cellulaire doté des
 mêmes règles de transition et de la même configuration de départ mais
-pour lequel l'âge des cellules est pris en compte.
+pour lequel l'âge des cellules est pris en compte lors de l'évaluation
+de l'état suivant.
 
-\begin{figure}[h]
+\begin{figure}[H]
   \centering
   \subcaptionbox{$t = 0$}[.3\linewidth][c]{
     \includegraphics[width=.3\linewidth]{images/sca_0.png}
@@ -875,32 +877,40 @@ pour lequel l'âge des cellules est pris en compte.
 \end{figure}
 
 Les exemples précédents permettent d'illustrer les règles de
-transition et met en évidence le problème de stabilité mais le
-principe même de cet exposé est de se détacher de la régularité
-spatiale contraignante des automates cellulaires et c'est à cet effet
-que l'on a présenté le diagramme de Voronoï. À la manière des
+transition et mettent en évidence un problème de stabilité et de
+rythme à prendre en compte mais le principe même de cet exposé est de
+se détacher de la régularité spatiale contraignante des automates
+cellulaires et c'est à cet effet que l'on a présenté le diagramme de
+Voronoï plus tôt. Dans notre diagramme de Voronoï, à la manière des
 automates cellulaires graphes de O'Sullivan \cite{O'Sullivan2000},
-chaque parcelle verra son état varier en fonction de son
-voisinage. Voisinage établit à partir de la topologie du diagramme de
-Voronoï, lui-même issu des positions des centres des parcelles. Il est
-à noter qu'à la différence de O'Sullivan, la couverture de l'espace
-est totale puisque l'on ne représente pas les parcelles exactes mais
-leur cellule de Voronoï et il est donc impossible que des zones vides
-apparaissent entre les cellules.
+chaque cellule voit son état varier en fonction de son voisinage ;
+voisinage établit à partir de la topologie du diagramme, lui-même issu
+des positions des centres des parcelles. Il est à noter qu'à la
+différence de O'Sullivan, la couverture de l'espace est totale puisque
+l'on ne représente pas les parcelles exactes mais leur cellule de
+Voronoï et il est donc impossible que des espaces vides apparaissent
+entre les cellules.
 
 Le \textit{graphe du bâti} prend ici la forme duale du diagramme de
-Voronoï : la triangulation de Delaunay et décrit les relations de
+Voronoï, la triangulation de Delaunay, et décrit les relations de
 voisinage. Un n\oe ud correspond au centre d'une parcelle et une arête
-lie deux parcelles en tant que voisins.
+lie deux parcelles si elles sont voisines et partagent une arête. On
+voit sur la figure \ref{fig:lots-graph} que les parcelles en contact
+sont liées. La configuration initiale contient autant de n\oe uds que
+l'automate cellulaire classique mais leur positionnement est aléatoire
+(bien que que homogène). Les quelques itérations du mécanisme
+cellulaire appliqué au diagramme sont visibles sur la figure
+\ref{fig:ac-voronoi} et dévoilent des résultats très similaires à la
+version cellulaire classique.
 
-\begin{figure}[h]
+\begin{figure}[H]
   \centering
   \includegraphics[width=.8\linewidth]{images/lots-graph.png}
   \caption{}
   \label{fig:lots-graph}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[H]
   \centering
   \subcaptionbox{$t = 0$}[.3\linewidth][c]{
     \includegraphics[width=.3\linewidth]{images/vca_0.png}
@@ -921,53 +931,58 @@ lie deux parcelles en tant que voisins.
   \subcaptionbox{$t = 6000$}[.3\linewidth][c]{
     \includegraphics[width=.3\linewidth]{images/vca_6000.png}
   }
-  \caption{Six configurations du diagramme du diagramme de Voronoï
-    cellulaire.}
-  \label{fig:ac-stable}
+  \caption{Six configurations du diagramme de Voronoï cellulaire.}
+  \label{fig:ac-voronoi}
 \end{figure}
 
 Plus la simulation avance et plus le système est chargé de parcelles à
-haute densité. Un lectteur averti pourrait argumenter que ce
+haute densité. Un lecteur averti pourrait argumenter que ce
 comportement est bien différent d'une situation réelle : quel que soit
 le taux de croissance d'une ville, elle ne finit jamais entièrement
-remplie de grands immeubles (pour simplifier). Mais il faut garder à
-l'esprit que le mécanisme présenté dans cette section ne gère que la
-croissance verticale. Par la suite, la croissance horizontale de la
-ville modifiera et étendra sa structure de façon à ce que les
-parcelles en bordures soient plus modestes.
+remplie de grands immeubles et de centres commerciaux. Mais il faut
+garder à l'esprit que le mécanisme présenté dans cette section ne gère
+que la croissance verticale. Par la suite, la croissance horizontale
+de la ville modifiera et étendra sa structure de façon à ce que les
+nouvelles parcelles en bordures soient moins denses. C'est aussi l'un
+des atouts du diagramme de Voronoï qui est une structure hautement
+dynamique en terme de topologie contrairement à un automate
+cellulaire.
 
 La problématique étant d'étudier la coévolution de deux aspects
 urbains, le viaire et le bâti, et non seulement l'évolution des
 densités (qui ne sert que de support à l'essort de la ville), on a
-préféré choisir une règle basique. il est néanmoins tout à fait
-possible d'utiliser par la suite un automate cellulaire plus
-sophistiqué pour améliorer le réalisme de la simulation. On pourrait,
-par exemple, prendre en compte les valeurs financières des parcelles
-ou les classes sociales des habitants.
+préféré choisir une règle basique. Il est néanmoins tout à fait
+possible d'utiliser par la suite des règles cellulaires plus
+sophistiquées pour améliorer le réalisme de la simulation. On
+pourrait, par exemple, prendre en compte les valeurs financières des
+parcelles ou les classes sociales des habitants.
 
 \subsubsection{Placement des éléments potentiels}
 
-Le second mécanisme place de nouvelles parcelles en bordure de la
-ville et est ainsi responsable de sa croissance horizontale.
+Le second mécanisme place de nouveaux éléments urbains en bordure de
+la ville et est ainsi responsable de sa croissance horizontale. Ces
+éléments sont les parcelles et les routes mais on se concentre
+uniquement sur le placement des nouvelles parcelles puisque les routes
+sont intégrées à leur structure.
 
-Les nouvelles parcelles placées bénéficient néanmoins d'un statut
-spécial car elles sont considérées comme \textit{potentielles} et se
-démarquent des parcelles \textit{construites} par leur impact sur
-l'évolution du système :
+Les parcelles et routes nouvellement placées bénéficient néanmoins
+d'un statut spécial car elles sont considérées comme
+\textit{potentielles} et se démarquent des éléments
+\textit{construits} par leur impact sur l'évolution du système :
 
 \begin{itemize}
 \item{L'état d'une parcelle potentielle dépend de toutes ses voisines;}
 \item{Une parcelle potentielle n'influence pas l'état des parcelles
   voisines construites;}
-\item{Une parcelle potentielle peut accueillir des routes sur ses
-  arêtes.}
+\item{Une parcelle potentielle peut accueillir des routes construites
+  sur ses arêtes.}
 \end{itemize}
 
 Cette influence unidirectionnelle dans le mécanisme cellulaire permet
 à la parcelle potentielle d'être prête et accordée à son environnement
 proche si elle est construite par la suite sans pour autant que les
 parcelles déjà construites ne soient influencées par une parcelle
-n'existant pas encore et étant en réalité intangible.
+intangible n'existant pas encore.
 
 En quelques mots, le placement se déroule comme suit :
 
@@ -985,7 +1000,7 @@ CENTRES?
 Le déplacement de la graine est un processus pouvant potentiellement
 prendre en compte de nombreuses variables. Dans la simulation
 d'exemple que l'on décrit, seules la densité et le placement des
-routes peuvent guider la graine, car ce sont les seuls données
+routes peuvent guider la graine, car ce sont les seules données
 considérées. Cependant, on souhaite que le modèle soit extensible et
 qu'il soit capable de supporter d'autres variables et contraintes : la
 valeur des sols par exemple, ou bien la pente des zones envisagées ou
@@ -993,7 +1008,7 @@ l'impossibilité de s'installer sur certains types de terrain (forêts,
 plans d'eau). De cette idée de graine se déplaçant en fonction
 d'influences diverses transpire un véritable aspect physique.
 
-Pour rester en accord avec cet aspect physique on emploie un champ de
+Pour rester en accord avec cet aspect physique, on emploie un champ de
 vecteurs généré à partir de l'état du sytème urbain pour guider la
 graine vers sa destination. Puisque de nombreux paramètres sont à
 prendre en compte, on utilise un champ de vecteurs par paramètre que
@@ -1003,91 +1018,62 @@ l'impact de chaque donnée.
 On veut évidemment que la densité soit prise en compte dans ce
 placement. Dans une ville, les nouvelles installations ont
 principalement tendance à se répartir sur les frontières de
-l'enveloppe urbain et à s'éloigner des centres, non pas par animosité
+l'enveloppe urbaine et à s'éloigner des centres, non pas par animosité
 envers l'activité du centre-ville mais simplement par manque
 d'espace. Pour traduire ce phénomène dans le modèle, un premier champ
 fait donc pointer chacun de ses vecteurs vers la parcelle disposant de
 la plus faible densité parmis les voisines de la parcelle sur laquelle
 il est posé.
 
-\begin{figure}[h]
-  \centering
-  \subcaptionbox{}[.3\linewidth][c]{
-    %\includegraphics[width=.3\linewidth]{images/field_density1.png}
-  }
-  \subcaptionbox{}[.3\linewidth][c]{
-    %\includegraphics[width=.3\linewidth]{images/field_density2.png}
-  }
-  \caption{Le champ de vecteurs densitaire guide les nouvelles
-    parcelles vers l'extérieur de la ville.}
-  \label{fig:field-density}
-\end{figure}
-
 Il est naturel que les parcelles potentielles soient placées près des
-installations routières existantes. À cet effet, on ajoute un champ
-pour lequel chaque vecteur pointe vers la route construite la plus
-proche.
-
-\begin{figure}[h]
-  \centering
-  \subcaptionbox{}[.3\linewidth][c]{
-    %\includegraphics[width=.3\linewidth]{images/field_density1.png}
-  }
-  \subcaptionbox{}[.3\linewidth][c]{
-    %\includegraphics[width=.3\linewidth]{images/field_density2.png}
-  }
-  \caption{Le champ de vecteurs viaire guide les nouvelles parcelles
-    vers les routes construites.}
-  \label{fig:field-road}
-\end{figure}
+installations routières existantes de façon à pouvoir communiquer avec
+les grands axes routiers. À cet effet, on ajoute un champ pour lequel
+chaque vecteur pointe vers la voie construite la plus proche.
 
 Les nouvelles parcelles ne sont pas uniquement disposés en fonction de
 variables internes à la ville car, souvent, l'environnement impose des
-restrictions quand à la direction que l'expansion d'une ville va
+restrictions quant à la direction que l'expansion d'une ville va
 prendre. Parmi ces contraintes, on pense aux zones non constructibles
-comme les plans d'eau, les fôrets mais aussi aux fortes pentes. Le
-champ de vecteur étant dédié à l'évitement de telles zones guident
-vers leur bordure mais, hors de leur aire, l'influence est nulle.
+comme les plans d'eau, les fôrets mais aussi aux fortes pentes. Un
+champ de vecteurs est dédié à l'évitement de telles zones et repousse la
+graine de ces obstacles. Hors de leur aire, l'influence est nulle.
 
-\begin{figure}[h]
-  \centering
-  \subcaptionbox{}[.3\linewidth][c]{
-    %\includegraphics[width=.3\linewidth]{images/field_density1.png}
-  }
-  \subcaptionbox{}[.3\linewidth][c]{
-    %\includegraphics[width=.3\linewidth]{images/field_density2.png}
-  }
-  \caption{Le champ de vecteurs des obstacles évite que de nouvelles
-    parcelles soient placées sur des zones interdites.}
-  \label{fig:field-obstacle}
-\end{figure}
-
-PATTERN?
+EQUATION
 
 \begin{equation*}
   I(x,y) = \alpha I_d(x,y) + \beta I_r(x,y) + \gamma I_o(x,y) + \dots
 \end{equation*}
 
-\begin{figure}[h]
+\begin{figure}[!ht]
   \centering
-  \subcaptionbox{}[.3\linewidth][c]{
-    %\includegraphics[width=.3\linewidth]{images/field_density1.png}
+  \subcaptionbox{La ville.}[.4\linewidth][c]{
+    %\includegraphics[width=.3\linewidth]{images/field_base.png}
   }
-  \subcaptionbox{}[.3\linewidth][c]{
-    %\includegraphics[width=.3\linewidth]{images/field_density2.png}
+  \subcaptionbox{Le champ d'évasion de la densité.}[.4\linewidth][c]{
+    %\includegraphics[width=.3\linewidth]{images/field_density.png}
   }
-  \caption{Le champ de vecteurs final est la somme pondérée de tous
-    les autres champs d'influences.}
-  \label{fig:field-sum}
+
+  \subcaptionbox{Le champ d'attraction des routes}[.4\linewidth][c]{
+    %\includegraphics[width=.3\linewidth]{images/field_road.png}
+  }
+  \subcaptionbox{Le champ de répulsion des obstacles}[.4\linewidth][c]{
+    %\includegraphics[width=.3\linewidth]{images/field_obstacles.png}
+  }
+
+  \subcaptionbox{Le champ de vecteurs global.}[.8\linewidth][c]{
+    %\includegraphics[width=.3\linewidth]{images/field_sum.png}
+  }
+  \caption{}
+  \label{fig:fields}
 \end{figure}
+
+DEPLACEMENT GRAINE. VITESSE. ARRET.
 
 Les champs de vecteurs décrit ci-dessus servent uniquement
 d'illustrations et la généralité du concept de ce mécanisme permet à
 l'utilisateur du modèle d'employer les données qu'il juge nécessaires
 afin de mettre en avant certaines caractéristiques d'un système
 urbain.
-
-DEPLACEMENT. VITESSE. ARRET.
 
 \subsubsection{Construction des éléments potentiels}
 
