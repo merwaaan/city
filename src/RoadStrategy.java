@@ -19,7 +19,7 @@ public class RoadStrategy extends Strategy {
 
 	 public void update() {
 
-		  addRoads(n);
+		  addRoads(10);
 	 }
 
 	 private void addRoads(int n) {
@@ -27,7 +27,7 @@ public class RoadStrategy extends Strategy {
 		  for(Node crossroad : this.sim.roads)
 				crossroad.setAttribute("capacity", 10000);
 
-		  // The central built Crossroad acts as the supplier of
+		  // The central built crossroad acts as the supplier of
 		  // flow.
 
 		  Node centralCrossroad = RoadOps.getClosestBuiltCrossroad(0, 0, sim);
@@ -63,9 +63,10 @@ public class RoadStrategy extends Strategy {
 		  //System.out.println(simplex.getSolutionStatus());
 
 		  // Build the a best road.
-		  = bests(simplex, n);
+		  List<Edge> bests = bests(simplex, n);
 
-		  RoadOps.buildRoad(best(simplex));
+		  for(Edge road : bests)
+			  RoadOps.buildRoad(road);
 	 }
 
 	 private int crossroadSupply(Node crossroad) {
@@ -85,50 +86,56 @@ public class RoadStrategy extends Strategy {
 		  return supply;
 	 }
 
-	 private Edge best(NetworkSimplex simplex, int n) {
+	private List<Edge> bests(NetworkSimplex simplex, int n) {
 
-		  Edge bestRoad = null;
-		  int maxFlow = 0;
+		List<Object[]> records = new ArrayList<Object[]>();
 
-		  for(Edge road : this.sim.roads.getEachEdge())
-				if(simplex.getFlow(road) >= maxFlow && !RoadOps.isRoadBuilt(road) && RoadOps.isNextToBuiltRoad(road)) {
-					 bestRoad = road;
-					 maxFlow = simplex.getFlow(road);
-				}
+		for(Edge road : this.sim.roads.getEachEdge())
+			if(!RoadOps.isRoadBuilt(road) && RoadOps.isNextToBuiltRoad(road)) {
+				Object[] r = new Object[2];
+				r[0] = road;
+				r[1] = simplex.getFlow(road);
+				records.add(r);
+			}
 
-		  return bestRoad;
-	 }
+		List<Edge> results = new ArrayList<Edge>();
 
-	 private Edge roulette(NetworkSimplex simplex) {
+		for(int i = 0; i < n; ++i) {
+			Edge b = maxFlowRoad(records);
+			if(b != null)
+				results.add(b);
+		}
+		System.out.println("dddd "+results.size());
+		return results;
+	}
 
-		  // Fill a roulette wheel.
-		  List<Integer> wheel = new ArrayList<Integer>();
-		  List<Edge> roads = new ArrayList<Edge>();
-		  for(Edge road : this.sim.roads.getEachEdge())
-				if(!RoadOps.isRoadBuilt(road) && simplex.getFlow(road) > 0) {
-					 wheel.add(simplex.getFlow(road));
-					 roads.add(road);
-				}
+	private Edge maxFlowRoad(List<Object[]> records) {
 
-		  // Sum up flows.
-		  int total = 0;
-		  for(Integer flow : wheel)
-				total += flow;
+		// Find the edge of maximum flow.
 
-		  // Pick a random value.
-		  int x = this.sim.rnd.nextInt(total);
+		int index = -1;
+		int maxFlow = -9999999;
 
-		  // Return the associated density.
-		  int acc = 0;
-		  for(int i = 0, l = wheel.size(); i < l; ++i) {
+		for(int i = 0, l = records.size(); i < l; ++i) {
 
-				acc += wheel.get(i);
+			Object[] r = (Object[])records.get(i);
+			int flow = (Integer)r[1];
 
-				if(x <= acc)
-					 return roads.get(i);
-		  }
+			if(flow > maxFlow) {
+				index = i;
+				maxFlow = flow;
+			}
+		}
 
-		  return roads.get(roads.size() - 1);
-	 }
+		Edge edge = null;
+
+		// Remove it from the list.
+		if(index > -1) {
+			Object[] r = records.remove(index);
+			edge = (Edge)r[0];
+		}
+
+		return edge;
+	}
 
 }
