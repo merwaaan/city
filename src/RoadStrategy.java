@@ -19,6 +19,11 @@ public class RoadStrategy extends Strategy {
 
 	 public void update() {
 
+		  addRoads(n);
+	 }
+
+	 private void addRoads(int n) {
+
 		  for(Node crossroad : this.sim.roads)
 				crossroad.setAttribute("capacity", 10000);
 
@@ -58,6 +63,8 @@ public class RoadStrategy extends Strategy {
 		  //System.out.println(simplex.getSolutionStatus());
 
 		  // Build the a best road.
+		  = bests(simplex, n);
+
 		  RoadOps.buildRoad(best(simplex));
 	 }
 
@@ -78,7 +85,7 @@ public class RoadStrategy extends Strategy {
 		  return supply;
 	 }
 
-	 private Edge best(NetworkSimplex simplex) {
+	 private Edge best(NetworkSimplex simplex, int n) {
 
 		  Edge bestRoad = null;
 		  int maxFlow = 0;

@@ -12,7 +12,7 @@ public class ObstacleField extends VectorField{
 
 		  this.obstacles = this.sim.obstacles = new ArrayList<Obstacle>();
 
-		  //obstacles.add(new Obstacle(new Vector2(600, -600), 400));
+		  obstacles.add(new Obstacle(new Vector2(1500, -1500), 400));
 	 }
 
 	 public void compute() {

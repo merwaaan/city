@@ -20,9 +20,17 @@ public class DensityField extends VectorField{
 					 // The base of the vector.
 					 Vector2 p = position(i, j);
 
+					 Node lot = LotOps.getLotAt(p.x(), p.y(), this.sim);
+					 if(lot == null)
+						  continue;
+
 					 // Just get away from the center.
-					 p.scalarMult(1);
-					 p.normalize();
+					 if(LotOps.isLotBuilt(lot)) {
+						  p.scalarMult(1);
+						  p.normalize();
+					 }
+					 else
+						  p = new Vector2();
 
 					 this.vectors[i][j] = p;
 
