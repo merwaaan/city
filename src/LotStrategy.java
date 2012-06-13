@@ -19,13 +19,22 @@ public class LotStrategy extends Strategy {
 
 		  this.acc += this.growthRate;
 
-		  while(this.acc >= 1)
-				for(Node lot : this.sim.lots)
+		  boolean availablePotentialLots = true;
+
+		  while(this.acc >= 1 && availablePotentialLots)
+				for(int i = 0, l = this.sim.lots.getNodeCount(); i < l; ++i) {
+
+					 Node lot = this.sim.lots.getNode(i);
+
 					 if(!LotOps.isLotBuilt(lot) && !LotOps.isLargeCell(lot) && LotOps.isNextToBuiltRoad(lot)) {
 						  LotOps.buildLot(lot);
 						  --this.acc;
 						  break;
 					 }
+
+					 if(i == l - 1)
+						  availablePotentialLots = false;
+				}
 	 }
 
 }
