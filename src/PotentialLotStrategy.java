@@ -1,3 +1,5 @@
+import com.vividsolutions.jts.geom.Polygon;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,8 +43,11 @@ public class PotentialLotStrategy extends Strategy {
 		  for(VectorField field : fields)
 				field.compute();
 
-		  // Spawn some seeds.
-		  spawn();
+		  // Spawn a seed near the center.
+		  int radius = 50;
+		  double x = this.sim.rnd.nextInt(radius * 2) - radius;
+		  double y = this.sim.rnd.nextInt(radius * 2) - radius;
+		  //spawn(x, y);
 	 }
 
 	 public void spawn() {
@@ -59,20 +64,41 @@ public class PotentialLotStrategy extends Strategy {
 
 		  Vector2 seed = new Vector2(x, y);
 
-		  for(int i = 0; i < 50; ++i) {
+		  int steps = 0;
+		  int limit = 100;
+
+		  while(!readyToStop(seed) && steps < limit) {
 
 				Vector2 inf = influence(seed.x(), seed.y());
 
-				inf.scalarMult(10);
+				inf.scalarMult(50);
 
 				seed.add(inf);
 
 				path.add(new Vector2(seed));
+
+				++steps;
 		  }
 
-		  this.sim.paths.add(path);
+		  if(steps < limit)
+				this.sim.paths.add(path);
 
 		  CityOps.insertLot(seed.x(), seed.y(), this.sim);
+	 }
+
+	 private boolean readyToStop(Vector2 seed) {
+
+		  Node lot = LotOps.getLotAt(seed.x(), seed.y(), this.sim);
+		  if(lot == null)
+				return false;
+
+		  Polygon cell = (Polygon)lot.getAttribute("polygon");
+		  if(cell == null)
+				return false;
+
+		  double area = cell.getArea();
+
+		  return area > 50000;
 	 }
 
 	 private Vector2 influence(double x, double y) {

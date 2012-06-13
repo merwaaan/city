@@ -161,10 +161,8 @@ public class Simulation {
 
 				if(this.now - this.lastStep > this.stepDuration) {
 
-					 for(Strategy strategy : this.strategies.values()) {
-						  System.out.println(strategy);
+					 for(Strategy strategy : this.strategies.values())
 						  strategy.update();
-					 }
 
 					 this.lastStep = now;
 

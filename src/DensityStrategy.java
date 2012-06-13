@@ -93,16 +93,17 @@ public class DensityStrategy extends Strategy {
 					 lot.setAttribute("wait", ((Integer)lot.getAttribute("wait")) - 1);
 	 }
 
-	private int pickWaitingTime() {
+	 private int pickWaitingTime() {
 
-		return (int)((Math.log10(1 / this.sim.rnd.nextDouble() - 1) - 7) / (-0.02));
-	}
+		  // Inverse of the sigmoid function.
+		  return (int)((Math.log10(1 / this.sim.rnd.nextDouble() - 1) - 7) / (-0.02));
+	 }
 
 	 private boolean ready(Node lot) {
 
-		 int wait = (Integer)lot.getAttribute("wait");
+		  int wait = (Integer)lot.getAttribute("wait");
 
-		 return wait <= 0;
+		  return wait <= 0;
 	 }
 
 	 private double sigmoid(int x) {

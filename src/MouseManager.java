@@ -1,3 +1,5 @@
+import com.vividsolutions.jts.geom.Polygon;
+
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 
@@ -19,6 +21,22 @@ public class MouseManager extends DefaultMouseManager {
 		  // Left click:
 
 		  if(event.getButton() == MouseEvent.BUTTON1) {
+
+				// Display the area of the clicked cell.
+				/*
+				int xPx = event.getX();
+				int yPx = event.getY();
+
+				Rectangle bounds = this.view.getBounds();
+				double xPxCentered = xPx - bounds.getWidth() / 2;
+				double yPxCentered = -(yPx - bounds.getHeight() / 2);
+
+				double[] coordsGu = this.sim.px2gu(xPxCentered, yPxCentered);
+
+				Node lot = LotOps.getLotAt(coordsGu[0], coordsGu[1], this.sim);
+				Polygon cell = (Polygon)lot.getAttribute("polygon");
+				System.out.println(cell.getArea());
+				*/
 
 				int xPx = event.getX();
 				int yPx = event.getY();
