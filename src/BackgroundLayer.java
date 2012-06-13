@@ -57,7 +57,7 @@ public class BackgroundLayer implements LayerRenderer {
 		  drawLots(g);
 		  drawRoads(g);
 		  drawVectorField(g);
-		  drawPaths(g);
+		  //drawPaths(g);
 		  drawObstacles(g);
 
 		  // Restore the transformation matrix.

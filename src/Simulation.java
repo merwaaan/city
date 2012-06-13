@@ -168,7 +168,7 @@ public class Simulation {
 
 					 ++this.step;
 					 System.out.println(this.step);
-
+					 screenshot();
 					 redraw();
 				}
 		  }

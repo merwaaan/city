@@ -105,7 +105,7 @@ public class RoadStrategy extends Strategy {
 			if(b != null)
 				results.add(b);
 		}
-		System.out.println("dddd "+results.size());
+
 		return results;
 	}
 
