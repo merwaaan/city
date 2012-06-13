@@ -5,14 +5,11 @@ import org.graphstream.algorithm.Toolkit;
 import org.graphstream.algorithm.networksimplex.NetworkSimplex;
 import org.graphstream.graph.Edge;
 import org.graphstream.graph.Node;
-import org.graphstream.stream.SinkAdapter;
 
 public class RoadStrategy extends Strategy {
 
 	 public RoadStrategy(Simulation sim) {
 		  super(sim);
-
-		  this.sim.lots.addElementSink(new RoadStrategySink(this.sim, this));
 	 }
 
 	 void prepare() {
@@ -25,30 +22,21 @@ public class RoadStrategy extends Strategy {
 		  for(Node crossroad : this.sim.roads)
 				crossroad.setAttribute("capacity", 10000);
 
-		  // Crossroads of already built road segments have a positive
-		  // supply which is function of the density of the surrounding
-		  // lots.
+		  // The central built Crossroad acts as the supplier of
+		  // flow.
 
-		  int totalSupply = 0;
+		  Node centralCrossroad = RoadOps.getClosestBuiltCrossroad(0, 0, sim);
 
-		  for(Node crossroad : this.sim.roads)
-				if(RoadOps.isCrossroadBuilt(crossroad)) {
-
-					 int supply = crossroadSupply(crossroad);
-
-					 totalSupply += supply;
-
-					 crossroad.setAttribute("supply", supply);
-				}
-
-		  // Crossroads that are not part of an already built road
-		  // segment have a negative supply (a demand) which is function
-		  // of the density of the surrounding lots.
+		  // Crossroads that are already built or connected to a built
+		  // one have a negative supply (a demand) which is function of
+		  // the density of the surrounding lots.
 
 		  int totalDemand = 0;
 
 		  for(Node crossroad : this.sim.roads)
-				if(!RoadOps.isCrossroadBuilt(crossroad) && RoadOps.isNextToBuiltCrossroad(crossroad)) {
+				if(crossroad != centralCrossroad &&
+					(RoadOps.isCrossroadBuilt(crossroad) ||
+					 RoadOps.isNextToBuiltCrossroad(crossroad))) {
 
 					 int demand = -crossroadSupply(crossroad);
 
@@ -57,34 +45,9 @@ public class RoadStrategy extends Strategy {
 					 crossroad.setAttribute("supply", demand);
 				}
 
-		  // Scale values to avoid infeasibility.
+		  // Finally, let the central crossroad emit enough flow.
 
-		  double ratio = -(double)totalDemand / totalSupply;
-
-		  Node last = null;
-
-		  totalSupply = 0;
-		  for(Node crossroad : this.sim.roads)
-				if(RoadOps.isCrossroadBuilt(crossroad)) {
-
-					 int supply = (Integer)crossroad.getAttribute("supply");
-
-					 int scaledSupply = (int)(supply * ratio);
-
-					 crossroad.setAttribute("supply", scaledSupply);
-
-					 totalSupply += scaledSupply;
-
-					 last = crossroad;
-				}
-
-		  //
-
-		  Object supply_ = last.getAttribute("supply");
-		  int supply = (Integer)supply_;
-
-		  supply += (-totalDemand) - totalSupply;
-		  last.setAttribute("supply", supply);
+		  centralCrossroad.setAttribute("supply", -totalDemand);
 
 		  // Simplex network algorithm.
 
@@ -104,8 +67,13 @@ public class RoadStrategy extends Strategy {
 
 		  List<Node> surroundingLots = ((CrossroadPivot)crossroad.getAttribute("pivot")).lots;
 
-		  for(Node lot : surroundingLots)
-				supply += ((Density)lot.getAttribute("density")).index();
+		  for(Node lot : surroundingLots) {
+				supply += ((Density)lot.getAttribute("density")).index() * 1000;
+				for(int i = 0, l = lot.getDegree(); i < l; ++i) {
+					 Node lot2 = lot.getEdge(i).getOpposite(lot);
+					 supply += ((Density)lot2.getAttribute("density")).index() * 1000;
+				}
+		  }
 
 		  return supply;
 	 }
@@ -154,26 +122,6 @@ public class RoadStrategy extends Strategy {
 		  }
 
 		  return roads.get(roads.size() - 1);
-	 }
-
-	 /**
-	  *
-	  */
-	 class RoadStrategySink extends SinkAdapter {
-
-		  Simulation sim;
-		  RoadStrategy strategy;
-
-		  RoadStrategySink(Simulation sim, RoadStrategy strategy) {
-
-				this.sim = sim;
-				this.strategy = strategy;
-		  }
-
-		  public void edgeAdded(String graphId, long time, String edgeId) {
-
-
-		  }
 	 }
 
 }

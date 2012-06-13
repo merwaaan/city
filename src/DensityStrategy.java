@@ -93,10 +93,13 @@ public class DensityStrategy extends Strategy {
 					 lot.setAttribute("wait", ((Integer)lot.getAttribute("wait")) - 1);
 	 }
 
+	 double weight = 0.1;
+	 double offset = 50;
+
 	 private int pickWaitingTime() {
 
 		  // Inverse of the sigmoid function.
-		  return (int)((Math.log10(1 / this.sim.rnd.nextDouble() - 1) - 7) / (-0.02));
+		  return (int)((Math.log10(1 / this.sim.rnd.nextDouble() - 1) - (weight * offset)) / (-weight));
 	 }
 
 	 private boolean ready(Node lot) {
@@ -107,9 +110,6 @@ public class DensityStrategy extends Strategy {
 	 }
 
 	 private double sigmoid(int x) {
-
-		  double weight = 0.02;
-		  double offset = 350;
 
 		  return 1 / (1 + Math.exp(-weight * (x - offset)));
 	 }
@@ -212,8 +212,7 @@ public class DensityStrategy extends Strategy {
 
 	 private void prepareLot(Node lot) {
 
-		  Density d = randomDensity();
-		  lot.setAttribute("density", d);
+		  lot.setAttribute("density", Density.LOW);
 
 		  lot.setAttribute("wait", pickWaitingTime());
 	 }

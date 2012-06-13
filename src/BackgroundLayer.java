@@ -127,7 +127,7 @@ public class BackgroundLayer implements LayerRenderer {
 	  */
 	 private void drawRoads(Graphics2D g) {
 
-		  g.setStroke(new BasicStroke(5));
+		  g.setStroke(new BasicStroke(7));
 
 		  for(Edge road : this.sim.roads.getEachEdge()) {
 
@@ -144,7 +144,6 @@ public class BackgroundLayer implements LayerRenderer {
 				double bY = (Double)b.getAttribute("y");
 
 				g.setColor(new Color(0, 126, 255));
-				g.setStroke(new BasicStroke(3));
 
 				g.drawLine((int)aX, (int)aY, (int)bX, (int)bY);
 		  }

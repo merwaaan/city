@@ -131,11 +131,6 @@ public class CityOps {
 						  RoadOps.buildRoad(r);
 				}
 		  }
-
-		  // DEBUG
-		  //System.out.println(newLot.getAttribute("polygon"));
-		  //System.out.println(newLot.getAttribute("pivots"));
-
 	 }
 
 	 public static int getNumBuiltRoadsAround(Node lot) {

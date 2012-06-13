@@ -353,4 +353,28 @@ public class RoadOps {
 		  return closest;
 	 }
 
+	 public static Node getClosestBuiltCrossroad(int x, int y, Simulation sim) {
+
+		  Node closest = null;
+		  double closestDist = Double.POSITIVE_INFINITY;
+
+		  for(Node crossroad : sim.roads) {
+
+				if(!RoadOps.isCrossroadBuilt(crossroad))
+					 continue;
+
+				double cx = (Double)crossroad.getAttribute("x");
+				double cy = (Double)crossroad.getAttribute("y");
+
+				double dist = Math.sqrt(Math.pow(x - cx, 2) + Math.pow(y - cy, 2));
+
+				if(dist < closestDist) {
+					 closest = crossroad;
+					 closestDist = dist;
+				}
+		  }
+
+		  return closest;
+	 }
+
 }
