@@ -21,7 +21,7 @@ import org.opengis.geometry.Geometry;
 
 final class ShapeFileLoader {
 
-	 public static List<Coordinate> getLandLots(String fileName, int radius) {
+	 public static void load(String fileName, Simulation sim) {
 
 		  ArrayList<Point> points = new ArrayList<Point>();
 
@@ -37,7 +37,7 @@ final class ShapeFileLoader {
 				File file = new File(fileName);
 				if(file == null) {
 					 System.err.println("Impossible to load file " + fileName);
-					 return null;
+					 return;
 				}
 
 				Map<String, URL> connect = new HashMap<String, URL>();
@@ -90,6 +90,7 @@ final class ShapeFileLoader {
 			  c.y = (c.y - bottom - yoffset);
 		  }
 
-		  return coords;
+		  sim.lotCoords = coords;
+		  sim.width = (int)(right - left);
 	 }
 }

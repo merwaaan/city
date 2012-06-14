@@ -136,7 +136,7 @@ public class Simulation {
 		  // Compute n random coordinates.
 		  //randomCoords(2500, 2000);
 		  //radialCoords(600, 500);
-		  this.lotCoords = ShapeFileLoader.getLandLots("data/le_havre.shp", 50000);
+		  ShapeFileLoader.load("data/le_havre.shp", this);
 
 		  // Build a Voronoi diagram for which seeds are the previously
 		  // computed coordinates.
