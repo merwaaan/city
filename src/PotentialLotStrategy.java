@@ -44,7 +44,7 @@ public class PotentialLotStrategy extends Strategy {
 				field.compute();
 
 		  // Spawn a seed near the center.
-		  int radius = 200;
+		  int radius = 400;
 		  double x = this.sim.rnd.nextInt(radius * 2) - radius;
 		  double y = this.sim.rnd.nextInt(radius * 2) - radius;
 		  spawn(x, y);
@@ -66,16 +66,22 @@ public class PotentialLotStrategy extends Strategy {
 
 		  int steps = 0;
 		  int limit = 100;
+		  double speed = 1;
 
 		  while(!readyToStop(seed) && steps < limit) {
 
+				// Where does the seed should go?
 				Vector2 inf = influence(seed.x(), seed.y());
 
-				inf.scalarMult(50);
-
+				// Make it move.
+				inf.scalarMult(speed);
 				seed.add(inf);
 
 				path.add(new Vector2(seed));
+
+				// Increase speed.
+				speed *= 2;
+				speed = Math.min(speed, 100);
 
 				++steps;
 		  }

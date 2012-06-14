@@ -338,9 +338,16 @@ public class RoadOps {
 
 		  for(Edge road : sim.roads.getEachEdge()) {
 
-				Node c = road.getNode0();
-				double cx = (Double)c.getAttribute("x");
-				double cy = (Double)c.getAttribute("y");
+				Node c1 = road.getNode0();
+				double c1x = (Double)c1.getAttribute("x");
+				double c1y = (Double)c1.getAttribute("y");
+
+				Node c2 = road.getNode1();
+				double c2x = (Double)c2.getAttribute("x");
+				double c2y = (Double)c2.getAttribute("y");
+
+				double cx = (c1x + c2x) / 2;
+				double cy = (c1y + c2y) / 2;
 
 				double dist = Math.sqrt(Math.pow(x - cx, 2) + Math.pow(y - cy, 2));
 

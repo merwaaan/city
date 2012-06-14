@@ -56,7 +56,7 @@ public class BackgroundLayer implements LayerRenderer {
 		  // ART!
 		  drawLots(g);
 		  drawRoads(g);
-		  drawPaths(g);
+		  //drawPaths(g);
 		  drawObstacles(g);
 		  drawVectorField(g);
 

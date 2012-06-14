@@ -14,7 +14,18 @@ public class RoadStrategy extends Strategy {
 
 	 void prepare() {
 
-		  RoadOps.buildRoad(RoadOps.getClosestRoad(0, 0, this.sim));
+		  //RoadOps.buildRoad(RoadOps.getClosestRoad(0, 0, this.sim));
+
+		  for(int i = -600; i < 600; i += 10) {
+				RoadOps.buildRoad(RoadOps.getClosestRoad(i, 50, this.sim));
+				RoadOps.buildRoad(RoadOps.getClosestRoad(i, 0, this.sim));
+				RoadOps.buildRoad(RoadOps.getClosestRoad(i, -50, this.sim));
+		  }
+
+		  /*
+		  for(Edge road : this.sim.roads.getEachEdge())
+				RoadOps.buildRoad(road);
+		  */
 	 }
 
 	 public void update() {
@@ -39,9 +50,10 @@ public class RoadStrategy extends Strategy {
 		  int totalDemand = 0;
 
 		  for(Node crossroad : this.sim.roads)
-				if(crossroad != centralCrossroad &&
+				if(crossroad != centralCrossroad)
+					 /*&&
 					(RoadOps.isCrossroadBuilt(crossroad) ||
-					 RoadOps.isNextToBuiltCrossroad(crossroad))) {
+					RoadOps.isNextToBuiltCrossroad(crossroad)))*/ {
 
 					 int demand = -crossroadSupply(crossroad);
 

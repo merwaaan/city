@@ -64,7 +64,9 @@ public class CityOps {
 				if(cell == null || !LotOps.collectionContainsPolygon(newVoronoi, cell)) {
 
 					 cell = LotOps.getLotCell(lot, newVoronoi);
+
 					 lot.setAttribute("polygon", cell);
+					 lot.setAttribute("area", cell.getArea());
 
 					 changedLots.add(lot);
 				}
@@ -76,9 +78,11 @@ public class CityOps {
 		  List<Object[]> roadRecords = new ArrayList<Object[]>();
 		  for(Node lot : changedLots)
 				for(int i = 0, l = lot.getDegree(); i < l; ++i) {
+
 					 Edge link = lot.getEdge(i);
 					 Node neigh = link.getOpposite(lot);
 					 Edge road = RoadOps.getRoadBetween(lot, neigh);
+
 					 if(road != null && RoadOps.isRoadBuilt(road)) {
 						  Object[] rr = {lot, neigh};
 						  roadRecords.add(rr);

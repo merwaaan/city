@@ -3,6 +3,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.graphstream.graph.Edge;
 import org.graphstream.graph.Node;
 import org.graphstream.stream.SinkAdapter;
 
@@ -35,9 +36,9 @@ public class DensityStrategy extends Strategy {
 				double dist = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
 
 				Density d;
-				if(dist < 500)
+				if(dist < 100)
 					 d = Density.HIGH;
-				else if(dist < 1000)
+				else if(dist < 250)
 					 d = Density.MEDIUM;
  				else
 					 d = Density.LOW;
