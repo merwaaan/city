@@ -99,25 +99,27 @@ class ShapeFileLoader {
 		  List<Coordinate> coords = new ArrayList<Coordinate>();
 		  Map<Coordinate, Density> shpDensities_2 = new HashMap<Coordinate, Density>();
 		  for(Point p : points) {
-				coords.add(p.getCoordinate());
-				shpDensities_2.put(p.getCoordinate(), shpDensities_.get(p));
+			  Coordinate c = p.getCoordinate();
+			  coords.add(c);
+			  shpDensities_2.put(c, shpDensities_.get(p));
 		  }
 
 		  // Center the points at (0,0) and scale.
 		  double xoffset = Math.abs(left - right) / 2;
 		  double yoffset = Math.abs(bottom - top) / 2;
 
+		  Map<Coordinate, Density> shpDensities_3 = new HashMap<Coordinate, Density>();
 		  for(Coordinate c : coords) {
 
-				Coordinate c_ = new Coordinate(c);
+			  Density d = shpDensities_2.get(c);
 
-				c.x = (c.x - left - xoffset);
-				c.y = (c.y - bottom - yoffset);
+			  c.x = (c.x - left - xoffset);
+			  c.y = (c.y - bottom - yoffset);
 
-				shpDensities_2.put(c, shpDensities_2.get(c_));
+			  shpDensities_3.put(c, d);
 		  }
 
-		  this.sim.shpDensities = shpDensities_2;
+		  this.sim.shpDensities = shpDensities_3;
 
 		  /*
 		  class Centerer implements CoordinateFilter {

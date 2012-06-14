@@ -215,9 +215,9 @@ public class DensityStrategy extends Strategy {
 
 	 private void prepareLot(Node lot) {
 
-		  lot.setAttribute("density", Density.LOW);
+		 if(!lot.hasAttribute("density"))
+			 lot.setAttribute("density", Density.LOW);
 
-		  lot.setAttribute("wait", pickWaitingTime());
+		 lot.setAttribute("wait", pickWaitingTime());
 	 }
-
 }
