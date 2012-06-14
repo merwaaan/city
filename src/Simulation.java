@@ -73,8 +73,12 @@ public class Simulation {
 	 public long now;
 	 private long lastStep;
 
+	 // Dirty shortcuts, not enough time to do this cleanly!
 	 public PotentialLotStrategy PLS;
 	 public List<Obstacle> obstacles;
+	 public List<Object[]> mayHaveRoads;
+	 public Coordinate[] shpRoadCoords;
+	 public Map<Coordinate, Density> shpDensities;
 
 	 /**
 	  * Minimum delay between each update.
@@ -133,10 +137,12 @@ public class Simulation {
 
 	 private void initialize() {
 
-		  // Compute n random coordinates.
 		  //randomCoords(2500, 2000);
+
 		  //radialCoords(600, 500);
-		  ShapeFileLoader.load("data/le_havre.shp", this);
+
+		  ShapeFileLoader shpLoader = new ShapeFileLoader(this);
+		  shpLoader.load("data/le_havre.shp", this);
 
 		  // Build a Voronoi diagram for which seeds are the previously
 		  // computed coordinates.
@@ -145,6 +151,29 @@ public class Simulation {
 		  // Build the two graphs based on the diagram.
 		  LotOps.buildLotsGraph(voronoi, this);
 		  RoadOps.buildRoadsGraph(voronoi, this);
+
+		  // Build the road from the shape file.
+		  //for(Coordinate c : this.shpRoadCoords)
+		  //RoadOps.buildRoad(RoadOps.getClosestRoad((int)c.x, (int)c.y,
+		  //this));
+
+		  //System.out.println(shpDensities);
+
+		  // Apply the density from the shape file.
+		  for(Node lot : this.lots) {
+
+				double x = (Double)lot.getAttribute("x");
+				double y = (Double)lot.getAttribute("y");
+				Coordinate c = new Coordinate(x, y);
+
+				Density d = this.shpDensities.get(c);
+				//				System.out.println(c+" "+d);
+				if(d != null) {
+					 lot.setAttribute("density", d);
+					 LotOps.buildLot(lot);
+				}
+		  }
+
 	 }
 
 	 public void run() {
