@@ -510,7 +510,7 @@ segment les reliant y est perpendiculaire. DEFINITION PLUS FORMELLE ?
 
 \begin{figure}[!ht]
   \centering
-  \includegraphics[width=0.5\linewidth]{images/voronoi.png}
+  \includegraphics[width=0.7\linewidth]{images/voronoi.png}
   \caption{Un diagramme de Voronoï. Chaque point noir est un générateur.}
   \label{fig:voronoi}
 \end{figure}
@@ -895,7 +895,7 @@ Le \textit{graphe du bâti} prend ici la forme duale du diagramme de
 Voronoï, la triangulation de Delaunay, et décrit les relations de
 voisinage. Un n\oe ud correspond au centre d'une parcelle et une arête
 lie deux parcelles si elles sont voisines et partagent une arête. On
-voit sur la figure \ref{fig:lots-graph} que les parcelles en contact
+voit sur la figure \ref{fig:delaunay} que les parcelles en contact
 sont liées. La configuration initiale contient autant de n\oe uds que
 l'automate cellulaire classique mais leur positionnement est aléatoire
 (bien que que homogène). Les quelques itérations du mécanisme
@@ -905,9 +905,9 @@ version cellulaire classique.
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=.8\linewidth]{images/lots-graph.png}
+  \includegraphics[width=.7\linewidth]{images/delaunay.png}
   \caption{}
-  \label{fig:lots-graph}
+  \label{fig:delaunay}
 \end{figure}
 
 \begin{figure}[H]
