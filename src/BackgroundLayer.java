@@ -56,9 +56,9 @@ public class BackgroundLayer implements LayerRenderer {
 		  // ART!
 		  drawLots(g);
 		  drawRoads(g);
-		  drawVectorField(g);
-		  //drawPaths(g);
+		  drawPaths(g);
 		  drawObstacles(g);
+		  drawVectorField(g);
 
 		  // Restore the transformation matrix.
 		  g.dispose();
@@ -219,7 +219,7 @@ public class BackgroundLayer implements LayerRenderer {
 		  if(sim.obstacles == null)
 				return;
 
-		  g.setColor(Color.BLACK);
+		  g.setColor(Color.GRAY);
 
 		  for(Obstacle o : this.sim.obstacles) {
 
@@ -227,7 +227,7 @@ public class BackgroundLayer implements LayerRenderer {
 				int y = (int)o.position.y();
 				int r = (int)o.radius;
 
-				g.drawOval(x-r, y-r, r*2, r*2);
+				g.fillOval(x-r, y-r, r*2, r*2);
 		  }
 	 }
 

@@ -27,15 +27,19 @@ public class ObstacleField extends VectorField{
 
 					 // Find the closest obstacle.
 					 Obstacle o = closestObstacle(p);
-					 if(o == null)
-						 continue;
+					 if(o == null) {
+						  this.vectors[i][j] = new Vector2();
+						  continue;
+					 }
 
 					 Vector2 sep = new Vector2(o.position);
 					 sep.sub(p);
 
-					 // Cut if the vector is not in the radius.
-					 if(sep.length() > o.radius)
+					 // Cut if the vector base is not in the radius.
+					 if(sep.length() > o.radius) {
+						  this.vectors[i][j] = new Vector2();
 						  continue;
+					 }
 
 					 // Reverse the direction and normalize.
 					 sep.scalarMult(-1);
