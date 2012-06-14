@@ -227,7 +227,7 @@ public class BackgroundLayer implements LayerRenderer {
 				int y = (int)o.position.y();
 				int r = (int)o.radius;
 
-				g.fillOval(x-r, y-r, r*2, r*2);
+				g.drawOval(x-r, y-r, r*2, r*2);
 		  }
 	 }
 
