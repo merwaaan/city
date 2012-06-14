@@ -14,7 +14,7 @@ public class RoadStrategy extends Strategy {
 
 	 void prepare() {
 
-		  RoadOps.buildRoad(RoadOps.getClosestRoad(0, 0, this.sim));
+		 //RoadOps.buildRoad(RoadOps.getClosestRoad(0, 0, this.sim));
 
 		  /*
 		  for(int i = -600; i < 600; i += 10) {

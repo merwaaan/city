@@ -139,10 +139,10 @@ public class Simulation {
 
 		  //randomCoords(2500, 2000);
 
-		  //radialCoords(600, 500);
+		  radialCoords(600, 500);
 
-		  ShapeFileLoader shpLoader = new ShapeFileLoader(this);
-		  shpLoader.load("data/le_havre.shp", this);
+		  //ShapeFileLoader shpLoader = new ShapeFileLoader(this);
+		  //shpLoader.load("data/le_havre.shp", this);
 
 		  // Build a Voronoi diagram for which seeds are the previously
 		  // computed coordinates.
@@ -160,19 +160,19 @@ public class Simulation {
 		  //System.out.println(shpDensities);
 
 		  // Apply the density from the shape file.
-		  for(Node lot : this.lots) {
+		  if(this.shpDensities != null)
+			  for(Node lot : this.lots) {
 
-				double x = (Double)lot.getAttribute("x");
-				double y = (Double)lot.getAttribute("y");
-				Coordinate c = new Coordinate(x, y);
+				  double x = (Double)lot.getAttribute("x");
+				  double y = (Double)lot.getAttribute("y");
+				  Coordinate c = new Coordinate(x, y);
 
-				Density d = this.shpDensities.get(c);
-				//				System.out.println(c+" "+d);
-				if(d != null) {
-					 lot.setAttribute("density", d);
-					 LotOps.buildLot(lot);
-				}
-		  }
+				  Density d = this.shpDensities.get(c);
+				  if(d != null) {
+					  lot.setAttribute("density", d);
+					  LotOps.buildLot(lot);
+				  }
+			  }
 
 	 }
 
@@ -180,7 +180,7 @@ public class Simulation {
 
 		  // Choose appropriate strategies.
 		  this.strategies.put("cellular automata", new DensityStrategy(this));
-		  this.strategies.put("road development", new RoadStrategy(this));
+		  //this.strategies.put("road development", new RoadStrategy(this));
 		  this.strategies.put("lot construction", new LotStrategy(0.6, this));
 		  this.strategies.put("potential lot construction", new PotentialLotStrategy(this));
 
@@ -200,6 +200,8 @@ public class Simulation {
 					 screenshot();
 					 redraw();
 				}
+
+				return;
 		  }
 	 }
 
