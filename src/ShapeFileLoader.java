@@ -121,7 +121,6 @@ class ShapeFileLoader {
 
 		  this.sim.shpDensities = shpDensities_3;
 
-		  /*
 		  class Centerer implements CoordinateFilter {
 				double l, ox, b, oy;
 				public Centerer(double l, double ox, double b, double oy) {
@@ -139,9 +138,8 @@ class ShapeFileLoader {
 		  // Rebuild the road multi-polygon.
 
 		  MultiPolygon roadGeometry = (MultiPolygon)road.getDefaultGeometry();
-		  this.sim.shpRoadCoords = roadGeometry.getCoordinates();
-		  */
-		  /*
+		  roadGeometry.apply(new Centerer(left, xoffset, bottom, yoffset));
+
 		  //
 
 		  this.sim.mayHaveRoads = new ArrayList<Object[]>();
@@ -157,17 +155,18 @@ class ShapeFileLoader {
 					 Coordinate[] c1c2  = {c1, c2};
 					 LineString line = this.sim.geomFact.createLineString(c1c2);
 
-					 //System.out.println(line+" "+line.getLength());
-					 if(line.getLength() < 1000 && line.intersects(roadGeometry)) {
+					 if(line.intersects(roadGeometry)) {
 						  Object[] r = {
 								new Vector2(c1.x, c1.y),
 								new Vector2(c2.x, c2.y),
 						  };
 						  this.sim.mayHaveRoads.add(r);
 					 }
+
 				}
 		  }
-		  */
+		  System.out.println(sim.mayHaveRoads.size());
+
 		  //
 		  //System.out.println(this.sim.mayHaveRoads.size());
 		  sim.lotCoords = coords;
