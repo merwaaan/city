@@ -196,7 +196,7 @@ public class BackgroundLayer implements LayerRenderer {
 
 					 Vector2 vec = field.vectors[i][j];
 
-					 vec.normalize();
+					 //vec.normalize();
 
 					 int x2 = x1 + (int)(vec.x() * 50);
 					 int y2 = y1 + (int)(vec.y() * 50);

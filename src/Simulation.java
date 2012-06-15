@@ -62,7 +62,7 @@ public class Simulation {
 	  */
 	 public boolean showPotentialLots = true;
 	 public boolean showLargeCells = false;
-	 public int showWhichVectorField = -1;
+	 public int showWhichVectorField = 2;
 
 	 public List<List<Vector2>> paths;
 

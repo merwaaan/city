@@ -12,9 +12,9 @@ public class ObstacleField extends VectorField{
 
 		  this.obstacles = this.sim.obstacles = new ArrayList<Obstacle>();
 
-		  obstacles.add(new Obstacle(new Vector2(-1900, -2500), 2000));
-		  obstacles.add(new Obstacle(new Vector2(0, -6000), 4000));
-		  obstacles.add(new Obstacle(new Vector2(-5500, 0), 4000));
+		  obstacles.add(new Obstacle(new Vector2(-1900, -2500), 2000, 3000));
+		  obstacles.add(new Obstacle(new Vector2(0, -6000), 4000, 5000));
+		  obstacles.add(new Obstacle(new Vector2(-5500, 0), 4000, 5000));
 
 		  //obstacles.add(new Obstacle(new Vector2(700, -700), 500));
 	 }
@@ -37,9 +37,26 @@ public class ObstacleField extends VectorField{
 						  Vector2 base = new Vector2(o.position);
 						  base.sub(p);
 
-						  evasion.add(base);
+						  double d = base.length();
+
+						  // If the vector is inside the obstacle, its
+						  // length is 1.
+						  if(d < o.radius) {
+								base.normalize();
+								evasion.add(base);
+						  }
+						  // If it is inside the falloff radius, its length
+						  // is within [0,1].
+						  else if(d < o.falloff) {
+								double ratio = 1 - (d - o.radius) / (o.falloff - o.radius);
+								base.normalize();
+								base.scalarMult(ratio);
+								evasion.add(base);
+						  }
 					 }
-					 evasion.normalize();
+
+					 // Scale the vector between 0 and 1.
+					 evasion.set(evasion.x() / obstacles.size(), evasion.y() / obstacles.size());
 
 					 // Reverse the direction.
 					 evasion.scalarMult(-1);
@@ -58,7 +75,7 @@ public class ObstacleField extends VectorField{
 				Vector2 base = new Vector2(o.position);
 				base.sub(pos);
 
-				if(base.length() < o.radius)
+				if(base.length() < o.radius + o.falloff)
 					 obstacles.add(o);
 		  }
 
