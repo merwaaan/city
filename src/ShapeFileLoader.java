@@ -68,7 +68,7 @@ class ShapeFileLoader {
 
 						  Point centroid = ((MultiPolygon)f.getDefaultGeometry()).getCentroid();
 
-						  if(type.equals("11240") || type.equals("11230"))
+						  if(type.equals("11240") || type.equals("11230") || type.equals("12100") || type.equals("14100"))
 								shpDensities_.put(centroid, Density.LOW);
 						  else if(type.equals("11220") || type.equals("11210"))
 								shpDensities_.put(centroid, Density.MEDIUM);
