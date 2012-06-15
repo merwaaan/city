@@ -11,6 +11,7 @@ import java.util.Map;
 
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Geometry;
+import com.vividsolutions.jts.geom.LineString;
 import com.vividsolutions.jts.geom.Polygon;
 
 import org.graphstream.graph.Edge;
@@ -56,27 +57,10 @@ public class BackgroundLayer implements LayerRenderer {
 		  // ART!
 		  drawLots(g);
 		  drawRoads(g);
-		  drawPaths(g);
+		  if(this.sim.drawTrueRoads) drawTrueRoads(g);
+		  //drawPaths(g);
 		  drawObstacles(g);
 		  drawVectorField(g);
-
-		  for(int j = 0; j < this.sim.road.getNumGeometries(); ++j) {
-
-				Polygon poly = (Polygon)this.sim.road.getGeometryN(j);
-
-				for(int k = 0; k < poly.getNumInteriorRing(); ++k) {
-
-					 Coordinate[] coords = poly.getInteriorRingN(k).getCoordinates();
-					 GeneralPath path = new GeneralPath();
-
-					 path.moveTo(coords[0].x, coords[0].y);
-					 for(int i = 1; i < coords.length; ++i)
-						  path.lineTo(coords[i].x, coords[i].y);
-
-					 g.setColor(Color.ORANGE);
-					 g.draw(path);
-				}
-		  }
 
 		  // Restore the transformation matrix.
 		  g.dispose();
@@ -222,6 +206,29 @@ public class BackgroundLayer implements LayerRenderer {
 					 g.drawLine(x1, y1, x2, y2);
 				}
 	 }
+
+	private void drawTrueRoads(Graphics2D g) {
+
+		if(!this.sim.drawTrueRoads || this.sim.trueRoad == null)
+			return;
+
+		g.setColor(Color.ORANGE);
+
+		for(int i = 0; i < this.sim.trueRoad.size(); ++i) {
+
+			LineString line = this.sim.trueRoad.get(i);
+
+			Coordinate[] lineCoords = line.getCoordinates();
+
+			GeneralPath path = new GeneralPath();
+			path.moveTo(lineCoords[0].x, lineCoords[0].y);
+
+			for(int j = 0; j < lineCoords.length; ++j)
+				path.lineTo(lineCoords[j].x, lineCoords[j].y);
+
+			g.draw(path);
+		}
+	}
 
 	 private void drawPaths(Graphics2D g) {
 

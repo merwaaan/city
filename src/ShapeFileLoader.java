@@ -1,5 +1,6 @@
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.CoordinateFilter;
+import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.LineString;
 import com.vividsolutions.jts.geom.MultiLineString;
 import com.vividsolutions.jts.geom.MultiPolygon;
@@ -9,6 +10,7 @@ import com.vividsolutions.jts.operation.distance.DistanceOp;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,7 +27,7 @@ import org.graphstream.ui.geom.Vector2;
 
 import org.opengis.feature.Feature;
 import org.opengis.feature.simple.SimpleFeature;
-import org.opengis.geometry.Geometry;
+//import org.opengis.geometry.Geometry;
 
 class ShapeFileLoader {
 
@@ -45,7 +47,7 @@ class ShapeFileLoader {
 		  double bottom = Double.POSITIVE_INFINITY;
 		  double top = Double.NEGATIVE_INFINITY;
 
-		  SimpleFeature road = null;
+		  SimpleFeature roadFeature = null;
 		  Map<Point, Density> shpDensities_ = new HashMap<Point, Density>();
 
 		  try {
@@ -66,7 +68,7 @@ class ShapeFileLoader {
 					 String type = (String)f.getAttribute("CODE");
 
 					 if(type.equals("12220")) // ROAD
-						  road = f;
+						  roadFeature = f;
 					 else {
 
 						  Point centroid = ((MultiPolygon)f.getDefaultGeometry()).getCentroid();
@@ -138,43 +140,39 @@ class ShapeFileLoader {
 				}
 		  }
 
-		  // Rebuild the road multi-polygon.
+		  // Rebuild the road multi-polygon as a list of small sub-segments.
 
-		  MultiPolygon roadGeometry = (MultiPolygon)road.getDefaultGeometry();
+		  MultiPolygon roadGeometry = (MultiPolygon)roadFeature.getDefaultGeometry();
 		  roadGeometry.apply(new Centerer(left, xoffset, bottom, yoffset));
 
-		  //
+		  List<LineString> roadLines = new ArrayList<LineString>();
+		  int coordsPerLineString = 10; // length of the segments.
 
-		  this.sim.mayHaveRoads = new ArrayList<Object[]>();
+		  for(int i = 0; i < roadGeometry.getNumGeometries(); ++i) {
 
-		  for(int i = 0, l = coords.size(); i < l; ++i) {
+			  Polygon poly = (Polygon)roadGeometry.getGeometryN(i);
 
-				Coordinate c1 = coords.get(i);
+			  for(int j = 0; j < poly.getNumInteriorRing(); ++j) {
 
-				for(int j = i + 1; j < l; ++j) {
+				  Coordinate[] polyCoords = poly.getInteriorRingN(j).getCoordinates();
 
-					 Coordinate c2 = coords.get(j);
+				  int sections = (int)Math.ceil((double)polyCoords.length / coordsPerLineString);
 
-					 Coordinate[] c1c2  = {c1, c2};
-					 LineString line = this.sim.geomFact.createLineString(c1c2);
+				  for(int k = 0; k < sections; ++k) {
 
-					 if(line.getLength() < 500 && DistanceOp.distance(line, roadGeometry) == 0.0) {
+					  int index = k * coordsPerLineString;
 
-						  Object[] r = {
-								new Vector2(c1.x, c1.y),
-								new Vector2(c2.x, c2.y),
-						  };
+					  Coordinate[] subCoords = Arrays.copyOfRange(polyCoords, index, index + Math.min(coordsPerLineString, polyCoords.length - index));
 
-						  this.sim.mayHaveRoads.add(r);
-					 }
-
-				}
+					  if(subCoords.length > 1)
+						  roadLines.add(this.sim.geomFact.createLineString(subCoords));
+				  }
+			  }
 		  }
 
 		  //
 		  sim.lotCoords = coords;
 		  sim.width = (int)(right - left);
-		  this.sim.road = roadGeometry;
-		  System.out.println(sim.mayHaveRoads.size());
+		  this.sim.trueRoad = roadLines;
 	 }
 }

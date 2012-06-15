@@ -1,7 +1,11 @@
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.GeometryFactory;
+import com.vividsolutions.jts.geom.LinearRing;
+import com.vividsolutions.jts.geom.LineString;
+import com.vividsolutions.jts.geom.MultiLineString;
 import com.vividsolutions.jts.geom.MultiPolygon;
+import com.vividsolutions.jts.geom.Polygon;
 import com.vividsolutions.jts.triangulate.VoronoiDiagramBuilder;
 
 import java.util.ArrayList;
@@ -62,10 +66,14 @@ public class Simulation {
 	  * `showWhichVectorField` is the index of the displayed vector
 	  * field. If its value is -1, no fields are displayed. If its
 	  * value is -2 the summed up vector field is displayed.
+	  *
+	  * `drawTrueRoads' enables the drawing of the original road
+	  * network if the urban data comes from a shapefile.
 	  */
 	 public boolean showPotentialLots = true;
 	 public boolean showLargeCells = false;
 	 public int showWhichVectorField = -1;
+	public boolean drawTrueRoads = true;
 
 	 public List<List<Vector2>> paths;
 
@@ -82,7 +90,7 @@ public class Simulation {
 	 public List<Obstacle> obstacles;
 	 public List<Object[]> mayHaveRoads;
 	 public Map<Coordinate, Density> shpDensities;
-	 public MultiPolygon road;
+	 public List<LineString> trueRoad;
 
 	 /**
 	  * Minimum delay between each update.
@@ -187,7 +195,11 @@ public class Simulation {
 
 				LineString line = this.geomFact.createLineString(c0c1);
 
-
+				for(LineString ls : this.trueRoad)
+					if(line.crosses(ls)) {
+						RoadOps.buildRoad(e);
+						break;
+					}
 		  }
 
 		  // Apply the density from the shape file.
