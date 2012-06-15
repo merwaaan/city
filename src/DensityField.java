@@ -20,6 +20,11 @@ public class DensityField extends VectorField{
 					 // The base of the vector.
 					 Vector2 p = position(i, j);
 
+					 p.normalize();
+
+					 this.vectors[i][j] = p;
+
+					 /*
 					 Node lot = LotOps.getLotAt(p.x(), p.y(), this.sim);
 					 if(lot == null)
 						  continue;
@@ -31,8 +36,7 @@ public class DensityField extends VectorField{
 					 }
 					 else
 						  p = new Vector2();
-
-					 this.vectors[i][j] = p;
+					 */
 
 					 /*
 					 double x0 = (Double)lot.getAttribute("x");

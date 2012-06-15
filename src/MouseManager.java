@@ -78,7 +78,7 @@ public class MouseManager extends DefaultMouseManager {
 					 return;
 
 				if(this.sim.showWhichVectorField == strategy.fields.size() - 1)
-					 this.sim.showWhichVectorField = -1;
+					 this.sim.showWhichVectorField = -2;
 				else
 					 ++this.sim.showWhichVectorField;
 		  }

@@ -26,6 +26,7 @@ public class DensityStrategy extends Strategy {
 
 		  this.sim.lots.addSink(new DensityStrategySink(this.sim, this));
 
+		  /*
 		  // Prepare an initial configuration with gradual density from
 		  // the center.
 		  for(Node lot : this.sim.lots) {
@@ -46,7 +47,7 @@ public class DensityStrategy extends Strategy {
 				lot.setAttribute("density", d);
 				LotOps.buildLot(lot);
 		  }
-
+		  */
 	 }
 
 	 /**

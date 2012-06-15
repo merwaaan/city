@@ -14,17 +14,17 @@ public class RoadStrategy extends Strategy {
 
 	 void prepare() {
 
-		 //RoadOps.buildRoad(RoadOps.getClosestRoad(0, 0, this.sim));
+		  // Only build the central road.
+		  RoadOps.buildRoad(RoadOps.getClosestRoad(0, 0, this.sim));
 
 		  /*
-		  for(int i = -600; i < 600; i += 10) {
-				RoadOps.buildRoad(RoadOps.getClosestRoad(i, 50, this.sim));
+			 Build roads o the central horizontal line.
+		  for(int i = -600; i < 600; i += 10)
 				RoadOps.buildRoad(RoadOps.getClosestRoad(i, 0, this.sim));
-				RoadOps.buildRoad(RoadOps.getClosestRoad(i, -50, this.sim));
-		  }
 		  */
 
 		  /*
+		  // Build every road
 		  for(Edge road : this.sim.roads.getEachEdge())
 				RoadOps.buildRoad(road);
 		  */

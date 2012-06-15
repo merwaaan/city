@@ -56,7 +56,7 @@ public class BackgroundLayer implements LayerRenderer {
 		  // ART!
 		  drawLots(g);
 		  drawRoads(g);
-		  //drawPaths(g);
+		  drawPaths(g);
 		  drawObstacles(g);
 		  drawVectorField(g);
 
@@ -170,23 +170,34 @@ public class BackgroundLayer implements LayerRenderer {
 		  if(strategy == null)
 				return;
 
-		  if(this.sim.showWhichVectorField < 0)
+		  if(this.sim.showWhichVectorField == -1)
 				return;
 
-		  VectorField field = strategy.fields.get(this.sim.showWhichVectorField);
+		  VectorField field = null;
+		  if(this.sim.showWhichVectorField == -2)
+				field = strategy.sum;
+		  else
+				field = strategy.fields.get(this.sim.showWhichVectorField);
+
+		  int baseRadius = 15;
+		  int hBaseRadius = baseRadius / 2;
+
+		  g.setColor(Color.BLACK);
+		  g.setStroke(new BasicStroke(6));
 
 		  for(int i = 0; i < field.vectors.length; ++i)
 				for(int j = 0; j < field.vectors[i].length; ++j) {
-
-					 g.setColor(Color.ORANGE);
 
 					 Vector2 pos = field.position(i, j);
 					 int x1 = (int)pos.x();
 					 int y1 = (int)pos.y();
 
-					 g.fillOval(x1 - 5, y1 - 5, 10, 10);
+					 g.fillOval(x1 - hBaseRadius, y1 - hBaseRadius, baseRadius, baseRadius);
 
 					 Vector2 vec = field.vectors[i][j];
+
+					 vec.normalize();
+
 					 int x2 = x1 + (int)(vec.x() * 50);
 					 int y2 = y1 + (int)(vec.y() * 50);
 

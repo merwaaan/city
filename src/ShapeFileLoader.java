@@ -165,7 +165,7 @@ class ShapeFileLoader {
 
 				}
 		  }
-		  System.out.println(sim.mayHaveRoads.size());
+		  //System.out.println(sim.mayHaveRoads.size());
 
 		  //
 		  //System.out.println(this.sim.mayHaveRoads.size());

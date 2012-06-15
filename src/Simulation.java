@@ -57,7 +57,8 @@ public class Simulation {
 	  * been built yet.
 	  *
 	  * `showWhichVectorField` is the index of the displayed vector
-	  * field. If its value is -1, no fields are displayed.
+	  * field. If its value is -1, no fields are displayed. If its
+	  * value is -2 the summed up vector field is displayed.
 	  */
 	 public boolean showPotentialLots = true;
 	 public boolean showLargeCells = false;
@@ -139,10 +140,10 @@ public class Simulation {
 
 		  //randomCoords(2500, 2000);
 
-		  radialCoords(600, 500);
+		  //radialCoords(600, 500);
 
-		  //ShapeFileLoader shpLoader = new ShapeFileLoader(this);
-		  //shpLoader.load("data/le_havre.shp", this);
+		  ShapeFileLoader shpLoader = new ShapeFileLoader(this);
+		  shpLoader.load("data/le_havre.shp", this);
 
 		  // Build a Voronoi diagram for which seeds are the previously
 		  // computed coordinates.
@@ -156,8 +157,6 @@ public class Simulation {
 		  //for(Coordinate c : this.shpRoadCoords)
 		  //RoadOps.buildRoad(RoadOps.getClosestRoad((int)c.x, (int)c.y,
 		  //this));
-
-		  //System.out.println(shpDensities);
 
 		  // Apply the density from the shape file.
 		  if(this.shpDensities != null)
@@ -180,7 +179,7 @@ public class Simulation {
 
 		  // Choose appropriate strategies.
 		  this.strategies.put("cellular automata", new DensityStrategy(this));
-		  //this.strategies.put("road development", new RoadStrategy(this));
+		  this.strategies.put("road development", new RoadStrategy(this));
 		  this.strategies.put("lot construction", new LotStrategy(0.6, this));
 		  this.strategies.put("potential lot construction", new PotentialLotStrategy(this));
 
@@ -196,12 +195,11 @@ public class Simulation {
 					 this.lastStep = now;
 
 					 ++this.step;
-					 System.out.println(this.step);
-					 screenshot();
-					 redraw();
-				}
+					 System.out.println("t = "+this.step);
 
-				return;
+					 redraw();
+					 screenshot();
+				}
 		  }
 	 }
 

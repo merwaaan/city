@@ -27,12 +27,7 @@ public class PatternField extends VectorField{
 
 					 int xsnap = (int)(Math.round(xd) * freq) - this.sim.width/2;
 					 int ysnap = (int)(Math.round(yd) * freq) - this.sim.width/2;
-					 /*
-					 System.out.println("-------------");
-					 System.out.println(x+" "+y);
-					 System.out.println(xd+" "+yd);
-					 System.out.println(xsnap+" "+ysnap);
-					 */
+
 					 //
 
 					 Vector2 snap = new Vector2(xsnap, ysnap);

@@ -27,7 +27,7 @@ public class PotentialLotStrategy extends Strategy {
 
 		  // Weight them.
 		  this.weights = new double[4];
-		  this.weights[0] = 2;
+		  this.weights[0] = 1.5;
 		  this.weights[1] = 1;
 		  this.weights[2] = 4;
 		  this.weights[3] = 2;
