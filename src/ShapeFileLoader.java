@@ -3,6 +3,7 @@ import com.vividsolutions.jts.geom.CoordinateFilter;
 import com.vividsolutions.jts.geom.LineString;
 import com.vividsolutions.jts.geom.MultiPolygon;
 import com.vividsolutions.jts.geom.Point;
+import com.vividsolutions.jts.operation.distance.DistanceOp;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -68,6 +69,8 @@ class ShapeFileLoader {
 
 						  Point centroid = ((MultiPolygon)f.getDefaultGeometry()).getCentroid();
 
+						  // Translate the file attributes to one of the
+						  // three density types.
 						  if(type.equals("11240") || type.equals("11230") || type.equals("12100") || type.equals("14100"))
 								shpDensities_.put(centroid, Density.LOW);
 						  else if(type.equals("11220") || type.equals("11210"))
@@ -155,20 +158,23 @@ class ShapeFileLoader {
 					 Coordinate[] c1c2  = {c1, c2};
 					 LineString line = this.sim.geomFact.createLineString(c1c2);
 
-					 if(line.intersects(roadGeometry)) {
+					 if(DistanceOp.distance(line, roadGeometry) == 0.0) {
+
 						  Object[] r = {
 								new Vector2(c1.x, c1.y),
 								new Vector2(c2.x, c2.y),
 						  };
+
 						  this.sim.mayHaveRoads.add(r);
 					 }
 
 				}
+				System.out.println(i);
 		  }
-		  //System.out.println(sim.mayHaveRoads.size());
+
+		  System.out.println(sim.mayHaveRoads.size());
 
 		  //
-		  //System.out.println(this.sim.mayHaveRoads.size());
 		  sim.lotCoords = coords;
 		  sim.width = (int)(right - left);
 	 }
