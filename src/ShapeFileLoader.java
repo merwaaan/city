@@ -158,7 +158,7 @@ class ShapeFileLoader {
 					 Coordinate[] c1c2  = {c1, c2};
 					 LineString line = this.sim.geomFact.createLineString(c1c2);
 
-					 if(DistanceOp.distance(line, roadGeometry) == 0.0) {
+					 if(line.getLength() < 500 && DistanceOp.distance(line, roadGeometry) == 0.0) {
 
 						  Object[] r = {
 								new Vector2(c1.x, c1.y),
