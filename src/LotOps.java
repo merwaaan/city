@@ -349,4 +349,16 @@ public class LotOps {
 		  return lot.hasAttribute("area") && ((Double)lot.getAttribute("area")) > 50000;
 	 }
 
+	 /**
+	  * Chekcs if the two supplied land lots are neighbors.
+	  *
+	  * @param lot1 The first land lot.
+	  * @param lot2 The other land lot.
+	  * @return A boolean indicating neighborhood.
+	  */
+	 public static boolean areNeighbors(Node lot1, Node lot2) {
+
+		  return lot1.hasEdgeBetween(lot2);
+	 }
+
 }

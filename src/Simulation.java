@@ -1,3 +1,9 @@
+import com.vividsolutions.jts.geom.Coordinate;
+import com.vividsolutions.jts.geom.Geometry;
+import com.vividsolutions.jts.geom.GeometryFactory;
+import com.vividsolutions.jts.geom.MultiPolygon;
+import com.vividsolutions.jts.triangulate.VoronoiDiagramBuilder;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,9 +19,6 @@ import org.graphstream.graph.implementations.SingleGraph;
 import org.graphstream.ui.geom.Vector2;
 import org.graphstream.ui.swingViewer.*;
 import org.graphstream.ui.swingViewer.util.Camera;
-
-import com.vividsolutions.jts.geom.*;
-import com.vividsolutions.jts.triangulate.VoronoiDiagramBuilder;
 
 public class Simulation {
 
@@ -62,7 +65,7 @@ public class Simulation {
 	  */
 	 public boolean showPotentialLots = true;
 	 public boolean showLargeCells = false;
-	 public int showWhichVectorField = 2;
+	 public int showWhichVectorField = -1;
 
 	 public List<List<Vector2>> paths;
 
@@ -78,8 +81,8 @@ public class Simulation {
 	 public PotentialLotStrategy PLS;
 	 public List<Obstacle> obstacles;
 	 public List<Object[]> mayHaveRoads;
-	 public Coordinate[] shpRoadCoords;
 	 public Map<Coordinate, Density> shpDensities;
+	 public MultiPolygon road;
 
 	 /**
 	  * Minimum delay between each update.
@@ -154,9 +157,38 @@ public class Simulation {
 		  RoadOps.buildRoadsGraph(voronoi, this);
 
 		  // Build the road from the shape file.
-		  //for(Coordinate c : this.shpRoadCoords)
-		  //RoadOps.buildRoad(RoadOps.getClosestRoad((int)c.x, (int)c.y,
-		  //this));
+		  /*
+		  for(Object[] r : this.mayHaveRoads) {
+
+				Vector2 p1 = (Vector2)r[0];
+				Vector2 p2 = (Vector2)r[1];
+
+				Node lot1 = LotOps.getLotAt(p1.x(), p1.y(), this);
+				Node lot2 = LotOps.getLotAt(p2.x(), p2.y(), this);
+				System.out.println(lot1+" "+lot2);
+				System.out.println(LotOps.areNeighbors(lot1, lot2));
+				if(LotOps.areNeighbors(lot1, lot2)) {
+					 RoadOps.buildRoad(RoadOps.getRoadBetween(lot1, lot2));
+					 System.out.println(RoadOps.getRoadBetween(lot1, lot2));
+				}
+		  }
+		  */
+
+		  for(Edge e : this.roads.getEachEdge()) {
+
+				Node c0 = e.getNode0();
+				Node c1 = e.getNode1();
+
+				double c0x = (Double)c0.getAttribute("x");
+				double c0y = (Double)c0.getAttribute("y");
+				double c1x = (Double)c1.getAttribute("x");
+				double c1y = (Double)c1.getAttribute("y");
+				Coordinate[] c0c1  = {new Coordinate(c0x, c0y), new Coordinate(c1x, c1y)};
+
+				LineString line = this.geomFact.createLineString(c0c1);
+
+
+		  }
 
 		  // Apply the density from the shape file.
 		  if(this.shpDensities != null)

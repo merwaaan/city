@@ -60,6 +60,24 @@ public class BackgroundLayer implements LayerRenderer {
 		  drawObstacles(g);
 		  drawVectorField(g);
 
+		  for(int j = 0; j < this.sim.road.getNumGeometries(); ++j) {
+
+				Polygon poly = (Polygon)this.sim.road.getGeometryN(j);
+
+				for(int k = 0; k < poly.getNumInteriorRing(); ++k) {
+
+					 Coordinate[] coords = poly.getInteriorRingN(k).getCoordinates();
+					 GeneralPath path = new GeneralPath();
+
+					 path.moveTo(coords[0].x, coords[0].y);
+					 for(int i = 1; i < coords.length; ++i)
+						  path.lineTo(coords[i].x, coords[i].y);
+
+					 g.setColor(Color.ORANGE);
+					 g.draw(path);
+				}
+		  }
+
 		  // Restore the transformation matrix.
 		  g.dispose();
 	 }

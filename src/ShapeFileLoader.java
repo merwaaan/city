@@ -1,8 +1,10 @@
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.CoordinateFilter;
 import com.vividsolutions.jts.geom.LineString;
+import com.vividsolutions.jts.geom.MultiLineString;
 import com.vividsolutions.jts.geom.MultiPolygon;
 import com.vividsolutions.jts.geom.Point;
+import com.vividsolutions.jts.geom.Polygon;
 import com.vividsolutions.jts.operation.distance.DistanceOp;
 
 import java.net.URL;
@@ -35,7 +37,7 @@ class ShapeFileLoader {
 
 	 public void load(String fileName, Simulation sim) {
 
-		  ArrayList<Point> points = new ArrayList<Point>();
+		  List<Point> points = new ArrayList<Point>();
 
 		  // Extreme coordinates must be recorded.
 		  double left = Double.POSITIVE_INFINITY;
@@ -71,14 +73,12 @@ class ShapeFileLoader {
 
 						  // Translate the file attributes to one of the
 						  // three density types.
-						  if(type.equals("11240") || type.equals("11230") || type.equals("12100") || type.equals("14100"))
-								shpDensities_.put(centroid, Density.LOW);
+						  if(type.equals("11100"))
+								shpDensities_.put(centroid, Density.HIGH);
 						  else if(type.equals("11220") || type.equals("11210"))
 								shpDensities_.put(centroid, Density.MEDIUM);
-						  else if(type.equals("11100"))
-								shpDensities_.put(centroid, Density.HIGH);
 						  else
-								continue;
+								shpDensities_.put(centroid, Density.LOW);
 
 						  points.add(centroid);
 
@@ -169,13 +169,12 @@ class ShapeFileLoader {
 					 }
 
 				}
-				System.out.println(i);
 		  }
-
-		  System.out.println(sim.mayHaveRoads.size());
 
 		  //
 		  sim.lotCoords = coords;
 		  sim.width = (int)(right - left);
+		  this.sim.road = roadGeometry;
+		  System.out.println(sim.mayHaveRoads.size());
 	 }
 }

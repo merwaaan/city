@@ -52,10 +52,14 @@ public class PotentialLotStrategy extends Strategy {
 		  this.sum.compute();
 
 		  // Spawn a seed near the center.
-		  int radius = 400;
-		  double x = this.sim.rnd.nextInt(radius * 2) - radius;
-		  double y = this.sim.rnd.nextInt(radius * 2) - radius;
-		  spawn(x, y);
+
+		  int radius = 1000;
+
+		  for(int i = 0; i < 1; ++i) {
+				double x = this.sim.rnd.nextInt(radius * 2) - radius;
+				double y = this.sim.rnd.nextInt(radius * 2) - radius;
+				spawn(x, y);
+		  }
 	 }
 
 	 public void spawn() {
