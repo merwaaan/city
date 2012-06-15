@@ -29,50 +29,40 @@ public class ObstacleField extends VectorField{
 					 // The base of the vector.
 					 Vector2 p = position(i, j);
 
-					 // Find the closest obstacle.
-					 Obstacle o = closestObstacle(p);
-					 if(o == null) {
-						  this.vectors[i][j] = new Vector2();
-						  continue;
+					 List<Obstacle> obstacles = obstaclesAt(p);
+
+					 Vector2 evasion = new Vector2();
+					 for(Obstacle o : obstacles) {
+
+						  Vector2 base = new Vector2(o.position);
+						  base.sub(p);
+
+						  evasion.add(base);
 					 }
+					 evasion.normalize();
 
-					 Vector2 sep = new Vector2(o.position);
-					 sep.sub(p);
-
-					 // Cut if the vector base is not in the radius.
-					 if(sep.length() > o.radius) {
-						  this.vectors[i][j] = new Vector2();
-						  continue;
-					 }
-
-					 // Reverse the direction and normalize.
-					 sep.scalarMult(-1);
-					 sep.normalize();
+					 // Reverse the direction.
+					 evasion.scalarMult(-1);
 
 					 // Replace.
-					 this.vectors[i][j] = sep;
+					 this.vectors[i][j] = evasion;
 				}
 	 }
 
-	 private Obstacle closestObstacle(Vector2 p) {
+	 private List<Obstacle> obstaclesAt(Vector2 pos) {
 
-		  Obstacle bestObstacle = null;
-		  double bestDistance = Double.POSITIVE_INFINITY;
+		  List<Obstacle> obstacles = new ArrayList<Obstacle>();
 
 		  for(Obstacle o : this.obstacles) {
 
-				Vector2 sep = new Vector2(o.position);
-				sep.sub(p);
+				Vector2 base = new Vector2(o.position);
+				base.sub(pos);
 
-				double d = sep.length();
-
-				if(d < bestDistance) {
-					 bestObstacle = o;
-					 bestDistance = d;
-				}
+				if(base.length() < o.radius)
+					 obstacles.add(o);
 		  }
 
-		  return bestObstacle;
+		  return obstacles;
 	 }
 
 }
