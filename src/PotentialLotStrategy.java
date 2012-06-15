@@ -9,6 +9,7 @@ import org.graphstream.ui.geom.Vector2;
 public class PotentialLotStrategy extends Strategy {
 
 	 public List<VectorField> fields;
+	 public VectorField sum;
 
 	 private double[] weights;
 
@@ -18,19 +19,24 @@ public class PotentialLotStrategy extends Strategy {
 		  this.fields = new ArrayList<VectorField>();
 
 		  // Choose appropriate vector fields.
-
 		  int frequency = 73;
 		  this.fields.add(new DensityField(this.sim, frequency));
-		  //this.fields.add(new RoadField(this.sim, frequency));
-		  //this.fields.add(new ObstacleField(this.sim, frequency));
+		  this.fields.add(new RoadField(this.sim, frequency));
+		  this.fields.add(new ObstacleField(this.sim, frequency));
 		  //this.fields.add(new PatternField(this.sim, frequency));
 
+		  // Weight them.
 		  this.weights = new double[4];
 		  this.weights[0] = 2;
 		  this.weights[1] = 1;
 		  this.weights[2] = 4;
 		  this.weights[3] = 2;
 
+		  // The final vector field which guide the land lot seed.
+		  this.sum = new SumField(this.sim, frequency, this.fields, this.weights);
+
+		  // link to this specific strategy in the simulation to have
+		  // easier access to vector fields when drawing them.
 		  this.sim.PLS = this;
 	 }
 
@@ -40,8 +46,10 @@ public class PotentialLotStrategy extends Strategy {
 	 public void update() {
 
 		  // Recompute the vector fields.
-		  for(VectorField field : fields)
+		  for(VectorField field : this.fields)
 				field.compute();
+
+		  this.sum.compute();
 
 		  // Spawn a seed near the center.
 		  int radius = 400;
@@ -71,7 +79,7 @@ public class PotentialLotStrategy extends Strategy {
 		  while(!readyToStop(seed) && steps < limit) {
 
 				// Where does the seed should go?
-				Vector2 inf = influence(seed.x(), seed.y());
+				Vector2 inf = this.sum.influence(seed.x(), seed.y());
 
 				// Make it move.
 				inf.scalarMult(speed);
@@ -105,24 +113,6 @@ public class PotentialLotStrategy extends Strategy {
 		  double area = cell.getArea();
 
 		  return area > 50000;
-	 }
-
-	 private Vector2 influence(double x, double y) {
-
-		  Vector2 all = new Vector2();
-
-		  for(int i = 0, l = this.fields.size(); i < l; ++i) {
-
-				Vector2 v = this.fields.get(i).influence(x, y);
-
-				v.scalarMult(this.weights[i]);
-
-				all.add(v);
-		  }
-
-		  all.normalize();
-
-		  return all;
 	 }
 
 }

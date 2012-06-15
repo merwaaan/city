@@ -40,6 +40,7 @@ FILES=\
 	ShapeFileLoader \
 	Simulation \
 	Strategy \
+	SumField \
 	Test \
 	VectorField
 

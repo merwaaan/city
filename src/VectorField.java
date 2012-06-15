@@ -37,6 +37,9 @@ abstract class VectorField {
 		  // Compute the indexes from the position.
 		  int j = (this.width / 2 + (int)x) / this.frequency;
 		  int i = (this.width / 2 + (int)y) / this.frequency;
+		  System.out.println(x+" "+y+" "+j+" "+i+" "+this.vectors.length);
+		  if(i < 0 || i >= this.vectors.length || j < 0 || j >= this.vectors[0].length)
+				return new Vector2();
 
 		  // Interpolation.
 
@@ -83,11 +86,6 @@ abstract class VectorField {
 		  int y = -this.width / 2 + i * this.frequency;
 
 		  return new Vector2(x, y);
-	 }
-
-	 public Vector2 vector(int i, int j) {
-
-		  return this.vectors[i][j];
 	 }
 
 }
