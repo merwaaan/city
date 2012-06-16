@@ -72,7 +72,7 @@ public class Simulation {
 	  */
 	 public boolean showPotentialLots = true;
 	 public boolean showLargeCells = false;
-	 public int showWhichVectorField = 2;
+	 public int showWhichVectorField = -1;
 	public boolean drawTrueRoads = false;
 
 	 public List<List<Vector2>> paths;
@@ -206,9 +206,9 @@ public class Simulation {
 
 		  // Choose appropriate strategies.
 		  this.strategies.put("cellular automata", new DensityStrategy(this));
-		  //this.strategies.put("road development", new RoadStrategy(this));
-		  //this.strategies.put("lot construction", new LotStrategy(0.6, this));
-		  this.strategies.put("potential lot construction", new PotentialLotStrategy(this));
+		  this.strategies.put("road development", new RoadStrategy(this));
+		  this.strategies.put("lot construction", new LotStrategy(0.6, this));
+		  this.strategies.put("potential lot construction", new PotentialLotStrategy(0.6, this));
 
 		  while(true) {
 

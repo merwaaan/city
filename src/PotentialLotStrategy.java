@@ -8,13 +8,19 @@ import org.graphstream.ui.geom.Vector2;
 
 public class PotentialLotStrategy extends Strategy {
 
+	private double growthRate;
+	private double acc;
+
 	 public List<VectorField> fields;
 	 public VectorField sum;
 
 	 private double[] weights;
 
-	 public PotentialLotStrategy(Simulation sim) {
+	public PotentialLotStrategy(double growthRate, Simulation sim) {
 		  super(sim);
+
+		  this.growthRate = growthRate;
+		  this.acc = 0;
 
 		  this.fields = new ArrayList<VectorField>();
 
@@ -35,6 +41,20 @@ public class PotentialLotStrategy extends Strategy {
 		  // The final vector field which guide the land lot seed.
 		  this.sum = new SumField(this.sim, frequency, this.fields, this.weights);
 
+		  // This strategy need a initial set of potential lots to
+		  // work. This is mainly useful for delineating the city and
+		  // to now when seeds should stop their travel.
+		  double radius = 3000;
+		  for(double angle = 0, stop = 2 * Math.PI; angle < stop; angle += 0.5) {
+
+			  double x = radius * Math.cos(angle);
+			  double y = radius * Math.sin(angle);
+
+			  Node lot = LotOps.getLotAt(x, y, this.sim);
+			  if(lot != null)
+				  CityOps.insertLot(x, y, this.sim);
+		  }
+
 		  // link to this specific strategy in the simulation to have
 		  // easier access to vector fields when drawing them.
 		  this.sim.PLS = this;
@@ -45,27 +65,31 @@ public class PotentialLotStrategy extends Strategy {
 
 	 public void update() {
 
-		  // Recompute the vector fields.
-		  for(VectorField field : this.fields)
-				field.compute();
+		 this.acc += this.growthRate;
 
-		  this.sum.compute();
+		 while(this.acc >= 1) {
 
-		  // Spawn a seed near the center.
+			 // Recompute the vector fields.
+			 for(VectorField field : this.fields)
+				 field.compute();
 
-		  int radius = 1000;
+			 this.sum.compute();
 
-		  for(int i = 0; i < 1; ++i) {
+			 // Spawn a seed near the center.
 
-			  boolean done = false;
+			 int radius = 1000;
 
-			  do {
-				  double x = this.sim.rnd.nextInt(radius * 2) - radius;
-				  double y = this.sim.rnd.nextInt(radius * 2) - radius;
+			 boolean done = false;
 
-				  done = spawn(x, y);
-			  } while(!done);
-		  }
+			 do {
+				 double x = this.sim.rnd.nextInt(radius * 2) - radius;
+				 double y = this.sim.rnd.nextInt(radius * 2) - radius;
+
+				 done = spawn(x, y);
+			 } while(!done);
+
+			 --this.acc;
+		 }
 	 }
 
 	 public boolean spawn() {
@@ -84,24 +108,37 @@ public class PotentialLotStrategy extends Strategy {
 
 		  int steps = 0;
 		  int limit = 100;
-		  double speed = 1;
 
-		  while(!readyToStop(seed) && steps < limit) {
+		  double speed = 10;
+		  double speedIncrease = 1.1;
+		  double speedDecrease = 1.5;
 
-				// Where does the seed should go?
-				Vector2 inf = this.sum.influence(seed.x(), seed.y());
+		  while(steps < limit) {
 
-				// Make it move.
-				inf.scalarMult(speed);
-				seed.add(inf);
+			  // Where does the seed should go?
+			  Vector2 inf = this.sum.influence(seed.x(), seed.y());
 
-				path.add(new Vector2(seed));
+			  Node lot = LotOps.getLotAt(seed.x(), seed.y(), this.sim);
 
-				// Increase speed.
-				speed *= 2;
-				speed = Math.min(speed, 100);
+			  // If we are on a potential lot, slow down.
+			  if(!LotOps.isLotBuilt(lot))
+				  speed /= speedDecrease;
+			  // Otherwise, speed up.
+			  else
+				  speed = Math.min(speed * speedIncrease, 100);
 
-				++steps;
+			  // Make it move.
+			  inf.scalarMult(speed);
+			  seed.add(inf);
+
+			  // Record the new position in the seed path.
+			  path.add(new Vector2(seed));
+
+			  // Should we stop the seed?
+			  if(speed < 10)
+				  break;
+
+			  ++steps;
 		  }
 
 		  if(steps < limit) {
