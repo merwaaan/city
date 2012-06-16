@@ -251,7 +251,7 @@ conception était d'ailleurs de modéliser la croissance de cristaux. On
 peut aussi citer en exemple la simulation de la dynamique de fluides
 \cite{Frisch1986} et de la croissance de tumeurs
 \cite{Kansal2000}. Leur caractère spatial laisse supposer qu'ils sont
-particulièrement adaptés aux applications géographiques, et dans le
+particulièrement adaptés aux applications géographiques et, dans le
 cadre de notre problématique, urbaines. Ils ne fûrent paradoxalement
 pas immédiatement exploités à cet effet et c'est seulement suite à un
 article de Waldo Tobler, en 1975, que le rapprochement entre les
@@ -259,8 +259,8 @@ automates cellulaires et le domaine de la géographie apparaît
 clairement \cite{Tobler1975}. Sont ensuite publiés des travaux majeurs
 appliquant l'automate cellulaire à des problématiques géographiques
 multi-échelles telles que l'évolution d'épidémies \cite{Fu2003} et la
-ségrégation de population \cite{Schelling1969} (voir figure
-\ref{fig:schelling}).
+ségrégation de population \cite{Schelling1969} (voir le modèle de
+Schelling sur la figure \ref{fig:schelling}).
 
 \begin{figure}[H]
   \centering
@@ -297,7 +297,7 @@ partir de l'analyse de données cartographiques historiques
 \cite{Yeh2002}.
 
 Il est important de noter que la simplicité du formalisme enveloppant
-un automate cellulaire strict s'oppose à la qualité de la simulation,
+un automate cellulaire strict s'oppose à la fidélité de la simulation,
 notamment dans le cadre de modèles spécifiques
 \cite{Torrens2001}. Dans ce cas, une prise de liberté quant aux
 formalisme originel est autorisée, voire nécessaire, pour obtenir des
@@ -313,7 +313,7 @@ de catégoriser les cellules d'un espace selon le fait, par exemple,
 qu'elles contiennent des installations humaines ou non (état booléen)
 \cite{Benguigui2004,Cornu2008} ou de façon plus sophistiquée, en
 fonction de leur type d'usage (\textit{résidentiel},
-\textit{commercial} et \textit{industriel} \cite{Lechner} et plus
+\textit{commercial}, \textit{industriel} \cite{Lechner} et plus
 \cite{Dubos-Paillard2003}). Représenter des quantités réelles et des
 variations continues est moins aisé. Pour symboliser plus finement la
 densité au c\oe ur d'un ensemble urbain, Semboloni utilise par exemple
@@ -330,36 +330,38 @@ toutes les cellules sont identiques en forme et en structure de
 voisinage. Dans le cadre de notre problématique, cette approche est
 limitante car, dans une ville, les parcelles ne sont que rarement
 identiques et alignées. Similairement, la notion de voisinage est
-clairement à redéfinir. Pour des problèmes classiques, les voisinages
-de von Neumann et de Moore sont régulièrement utilisés mais la
-relation par contiguité qu'ils décrivent ne convient pas à la
-représentation des liens de dépendance à plus grande échelle se
-développant dans un système urbain. Le positionnement d'un bâtiment
-résidentiel dans une ville se base évidemment sur le voisinage direct
-des zones envisagées (on préfère construire une maison dans un
-quartier résidentiel) mais il faut aussi prendre en compte les
-alentours plus distants (la centrale thermique se trouvant à 500
-mètres du site peut poser problème). Une solution possible est
-d'étendre les aires des voisinages de von Neumann et de Moore tout en
-conservant leur forme caractéristique. La symétrie évidente se
-dégageant de telles simplifications va à l'encontre des relations
-prenant place au sein d'une ville dont les zones ne sont que très
-rarement parfaitement disposées. O'Sullivan a choisi de relaxer cette
-contrainte de partionnement spatial régulier pour faire un pas dans la
-direction du réalisme \cite{O'Sullivan2000,O'Sullivan2001} :
-conventionnellement, une cellule d'automate correspond à un
-sous-espace urbain ou bien une parcelle cadastrale mais dans chacun de
-ces cas le modèle se base évidemment sur une simplification grossière
-de l'espace étudié. Il décide donc de donner à chaque cellule les
-mêmes qualités topologiques que les parcelles qu'elles représentent :
-même formes, même dimensions, mêmes coordonnées. Une variété de
-relations de voisinage sont alors envisageables (par voisinage au sens
-urbain, par distance dans un rayon d'influence, par critère de
-visibilité). L'éloignement du formalisme cellulaire est drastique car
-la structure perd de son homogénéité (chaque cellule est différente),
-la couverture de l'espace n'est plus complète (des vides entre les
-cellules apparaissent) et le voisinage diffère lui aussi mais chacun
-de ces changements ???.
+clairement à redéfinir. Classiquement, les voisinages de von Neumann
+et de Moore sont régulièrement utilisés mais la relation par
+contiguité qu'ils décrivent ne convient pas à la représentation des
+liens de dépendance à plus grande échelle se développant dans un
+système urbain. Le positionnement d'un bâtiment résidentiel dans une
+ville se base évidemment sur le voisinage direct des zones envisagées
+(on préfère construire une maison dans un quartier résidentiel) mais
+il faut aussi prendre en compte les alentours plus distants (la
+centrale thermique se trouvant à 500 mètres du site peut poser
+problème). Une solution possible est d'étendre les aires des
+voisinages de von Neumann et de Moore tout en conservant leur forme
+caractéristique. La symétrie évidente se dégageant de telles
+simplifications va à l'encontre des relations prenant place au sein
+d'une ville dont les zones ne sont que très rarement parfaitement
+disposées. O'Sullivan a choisi de relaxer cette contrainte de
+partionnement spatial régulier pour faire un pas dans la direction du
+réalisme \cite{O'Sullivan2000,O'Sullivan2001}. Conventionnellement,
+une cellule d'automate correspond à un sous-espace urbain ou bien une
+parcelle cadastrale mais dans chacun de ces cas le modèle se base
+évidemment sur une simplification grossière de l'espace étudié. Il
+décide donc de donner à chaque cellule les mêmes qualités topologiques
+que les parcelles qu'elles représentent : même formes, même
+dimensions, mêmes coordonnées. Une variété de relations de voisinage
+sont alors envisageables (par voisinage au sens urbain, par distance
+dans un rayon d'influence, par critère de visibilité). L'éloignement
+du formalisme cellulaire est drastique car la structure perd de son
+homogénéité puisque chaque cellule est différente et chaque voisinage
+est unique. Il faut aussi noter que la couverture de l'espace n'est
+plus complète car des vides entre les cellules apparaissent. Chacune
+des ces concessions est mise au service du réalisme de la
+simulation. Un exemple d'une telle structure est visible sur la figure
+\ref{fig:sullivan}.
 
 \begin{figure}[H]
   \centering
@@ -380,31 +382,32 @@ de ces changements ???.
     \input{images/ca-graph.tikz}
     \caption{Automate cellulaire graphe.}
   \end{subfigure}
+  \caption{}
 \end{figure}
 
 Une prise de liberté quant à l'aspect temporel est aussi
 envisageable. Un automate cellulaire strict est synchrone,
-\textit{i. e.} les changements d'état de toutes les cellules
+\textit{i.e.} les changements d'état de toutes les cellules
 s'effectuent simultanément. Si le choix était fait de mettre à jour
 chaque état de façon asynchrone, le comportement de l'automate en
 serait lourdement modifié. Par exemple, les qualités auto-réplicatives
 de certaines entités du jeu de la vie ne seraient pas garanties. Il
 est pourtant légitime de se questionner sur la validité d'un tel choix
-dans une simulation urbaine, premièrement parce qu'une ville est un
-système complexe et désordonné, deuxièmement parce les processus qui
-s'y déroulent sont réglés sur différentes échelles temporelles.
+dans une simulation urbaine; premièrement parce qu'une ville est un
+système complexe et désordonné, ensuite parce les processus qui s'y
+déroulent sont réglés sur différentes échelles temporelles.
 
 Bien que les automates cellulaires soient couramment utilisés pour
-simuler le traffic routier (dans leur version 1D CITATION ou 2D
+simuler le trafic routier (dans leur version 1D ou 2D
 \cite{Queloz1996}), ils s'accordent peu avec la construction même d'un
 réseau viaire. Dans les simulations cellulaires urbaines, le
 positionnement des routes a un impact sur le développement des
 cellules puisque le viaire \textit{attire} le bâti mais le réseau est
-souvent fourni en entrée et reste fixe. Nous sommes amener à nous
+souvent fourni en entrée et reste statique. Nous sommes amener à nous
 interroger sur la capacité des automates cellulaires à modéliser le
-développement routier. Les relations de proximité les caractérisant
-sont-elles adaptées à la construction de structures dont l'échelle est
-celle de la ville et non plus celle de la parcelle ? REPONSE
+développement routier car la cellule n'est pas une représentation
+adéquate d'une structure linéaire dont l'échelle est plus large que
+celle de la parcelle.
 
 \subsection{Approches alternatives}
 
@@ -423,14 +426,18 @@ terrain à la recherche de bâtiments isolés puis tracent une route
 jusqu'au réseau urbain. Les \textit{connectors} se déplacent
 uniquement sur le réseau viaire et y raccordent les bâtiments non
 connectés se trouvant dans leur rayon de détection
-\cite{Lechner2003}. Ce genre d'approche quant à la coévolution entre
-routes et bâti introduit un défaut : le réseau viaire est construit à
-partir du bâti et des bâtiments peuvent rester isolés. PLUS?
+\cite{Lechner2003}. Cette approche introduit un défaut conceptuel : le
+réseau viaire est construit à partir du bâti et non l'inverse. Ainsi,
+des bâtiments peuvent rester isolés pendant plusieurs itérations de la
+simulation et, même si le résultat final apparaît comme satisfaisant,
+arrêter la simulation en cours de l'évolution du système produit une
+configuration erronée. Autrement dit, l'évolution n'est pas
+historiquement fiable et seule la ville finale est acceptable.
 
 D'autres solutions s'éloignant des systèmes complexes et penchant du
 côté de la génération procédurale de contenu existent. Souvent, le
 domaine d'application de telles méthodes est l'infographie, le cinéma
-et le jeu vidéo et l'objectif est alors de construire de manière
+et le jeu vidéo. L'objectif est alors de construire de manière
 automatique une ville visuellement réaliste sans se soucier de son
 caractère fonctionnel. Usuellement, l'organisation parcellaire dépend
 entièrement du réseau routier car la première étape est souvent de
@@ -450,10 +457,10 @@ tracé des routes suit les \textit{hyperstreamlines} \cite{Chen2008}
 formées par un champ de vecteurs. Ce champ est calculé par combinaison
 de plusieurs autres champs de vecteurs, chacun représentant des
 contraintes directionnelles particulières telles que les zones
-interdites (eau, espaces verts), l'altitude et la densité de
-population. Ces techniques sont intrinsèquement géométriques, et comme
-précisé plus haut, le résultat est purement visuel, mais elles
-représentent une source d'inspiration à ne pas négliger.
+interdites, l'altitude et la densité de population. Ces techniques
+sont intrinsèquement géométriques, et comme précisé plus haut, le
+résultat est purement visuel, mais elles représentent néanmoins une
+source d'inspiration à ne pas négliger.
 
 \begin{figure}[H]
   \centering
@@ -470,7 +477,7 @@ agrandissement du réseau urbain, on crée plusieurs routes virtuelles
 en suivant des règles géométriques précises (allongement des voies
 existantes, limitation du degré des carrefours à 4, l'angle entre
 chaque rue tend vers 90 degrés). Parmi les $n$ routes générées, une
-seule sera construite. Pour la choisir, le traffic sur ces nouvelles
+seule sera construite. Pour la choisir, le trafic sur ces nouvelles
 routes est simulé par des agents piétons et véhicules et l'on
 identifie celle qui sera la plus bénéfique au réseau.
 
@@ -501,9 +508,10 @@ tout autre. Autrement dit, la distance séparant un point $p$ placé
 dans une cellule de Voronoï et le générateur de cette même cellule est
 inférieure à la distance séparant $p$ de tous les autres générateurs
 \cite{Edwards1993}. La figure \ref{fig:voronoi} fournit un exemple de
-diagramme de Voronoï et on remarque que, naturellement, deux
-générateurs voisins sont équidistants de l'arête les séparant et le
-segment les reliant y est perpendiculaire. DEFINITION PLUS FORMELLE ?
+diagramme de Voronoï. On remarque visuellement quelques propriétés
+notables; notamment le fait que deux générateurs voisins sont
+équidistants de l'arête les séparant et que le segment les reliant y
+est perpendiculaire.
 
 \begin{figure}[!ht]
   \centering
@@ -526,50 +534,59 @@ entre fontaines publiques infectées (les générateurs) et zones
 souffrant d'un fort taux de mortalité (les cellules)
 \cite{Thomas2010}.
 
-Comme som homonymie le laisse présager, la cellule de Voronoï remplace
-la cellule carrée de l'automate cellulaire. On remarque qu'une grille
-régulière, comme celles présentes dans les automates cellulaires
-classiques correspond à un diagramme de Voronoï dans laquelle les
-générateurs sont alignés et régulièrement disposés. Une tesselation de
-Voronoï peut être considérée comme une généralisation de la structure
-grillagée ; notre première contrainte est satisfaite.
+Comme son homonymie le laisse présager, la cellule de Voronoï remplace
+dans notre modèle la cellule de l'automate cellulaire. On remarque
+qu'une grille régulière, comme celles présentes dans les automates
+cellulaires classiques, correspond à un diagramme de Voronoï dans
+laquelle les générateurs sont alignés et régulièrement disposés. Une
+tesselation de Voronoï peut être considérée comme une généralisation
+de la structure grillagée ; notre première contrainte est satisfaite.
 
 À l'échelle de ce modèle, chaque cellule représente une parcelle
-cadastrale et on utilise comme générateur le centre de son
-empreinte. Le diagramme permet d'identifier les parcelles voisines
+cadastrale et on utilise comme générateur le centre de l'empreinte de
+la parcelle. Le diagramme permet d'identifier les parcelles voisines
 comme étant celles partageant une arête de Voronoï. Un graphe de
-voisinage est ainsi construit, et adopte la forme duale du diagramme
-de Voronoï : la triangulation de Delaunay. Ce premier graphe décrit le
-réseau de voisinage mettant en relation les parcelles en contact à
-partir du diagramme et satisfait donc la seconde contrainte.
+voisinage est ainsi construit et adopte la forme duale du diagramme de
+Voronoï : la triangulation de Delaunay (voir figure
+\ref{fig:delaunay}. Les structures de voisinage de chaque cellule sont
+déterminées à partir de la topologie du diagramme et la seconde
+contrainte est satisfaite.
 
-Cette structure permet de décrire un canevas urbain de base dans
-lequel l'espace d'influence de chaque parcelle est décrit mais la
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=.7\linewidth]{images/delaunay.png}
+  \caption{le réseau de voisinage du diagramme de Voronoï (en noir)
+    correspond à sa forme duale, la triangulation de Delaunay (en
+    bleu).}
+  \label{fig:delaunay}
+\end{figure}
+
+Le diagramme de Voronoï permet de décrire un canevas urbain de base
+dans lequel l'espace d'influence de chaque parcelle est décrit mais la
 composante routière reste encore absente du modèle. Chaque arête de
 Voronoï indique un espace entre deux parcelles et est donc susceptible
-d'accueillir une route. Dans une véritable ville, chaque parcelle
-n'est pas encerclée de voies et l'un des objectifs de la simulation
-est de déterminer quelles arêtes accueilleront des routes et
-lesquelles resteront vides. Le diagramme de Voronoï suffit bien à
-représenter à la fois les éléments du viaire et du bâti et notre
-dernière contrainte est comblée.
+d'accueillir une route. Bien sûr, dans une véritable ville, chaque
+parcelle n'est pas encerclée de voies; l'un des objectifs du modèle
+est de déterminer quelles arêtes accueilleront des routes et quelles
+arêtes resteront vides. Cette structure suffit donc à représenter à la
+fois les éléments du viaire et du bâti. Notre dernière contrainte est
+comblée.
 
-En réalité, dans ce modèle la ville est représentée par deux graphes
-et le diagramme de Voronoï est uniquement employé en tant que point de
-départ. Le premier, le graphe du bâti, a pour n\oe ud les centres des
-parcelles alors que ses arêtes symbolisent les relations de
-voisinage. Le second, le graphe viaire, a des arêtes représentant les
-routes et des n\oe uds carrefour joignant plusieurs voies. Les
-structures des graphe viaire et bâti sont donc entièrement fondées sur
-le diagramme de Voronoï puisqu'il s'agit, respectivement, de
-l'ensemble des arêtes et sommets de Voronoï et de sa triangulation de
-Delaunay. REFORMULER
+En pratique, dans notre modèle un système urbain est représenté par
+deux graphes : le graphe viaire et la graphe de voisinage du bâti. Le
+graphe du bâti a pour n\oe ud les centres des parcelles et ses arêtes
+symbolisent les relations de voisinage. Le graphe viaire a des arêtes
+représentant les routes et des n\oe uds représentant les
+carrefours. Les structures de ces graphes sont basées sur la topologie
+du diagramme de Voronoï puisqu'il s'agit pour le graphe viaire de
+l'ensemble des arêtes et sommets de Voronoï et pour le graphe du bâti,
+de sa triangulation de Delaunay.
 
 Il est essentiel de dissocier le polygone convexe qu'est la cellule de
-Voronoï associée à une parcelle et la véritable empreinte cadastrale
-de cette dernière. Une cellule représente l'influence d'une parcelle
-dans l'espace urbain et possède comme seul point commun avec
-l'empreinte son centre puisqu'il s'agit du générateur de la
+Voronoï et la véritable empreinte cadastrale de la parcelle qu'elle
+répresente. Une cellule représente l'influence d'une parcelle dans
+l'espace urbain et possède comme seul point commun avec l'empreinte
+son centre puisqu'il s'agit du générateur de la
 cellule. Similairement, une arête peut indiquer qu'une voie passe
 entre deux parcelles sans pour autant fournir ses coordonnées ou sa
 courbure. Si l'on souhaite, dans un but infographique, générer une
@@ -577,7 +594,7 @@ image de notre ville à partir de ce modèle, un travail
 d'interprétation est nécessaire et n'a pas été traîté à l'occasion de
 ce projet. Un exemple est visible sur la figure \ref{fig:interp}.
 
-\begin{figure}[!ht]
+\begin{figure}[H]
 
   \centering
   \subcaptionbox{}[0.9\linewidth][c]{
@@ -593,7 +610,6 @@ ce projet. Un exemple est visible sur la figure \ref{fig:interp}.
   \subcaptionbox{}[.3\linewidth][c]{
     \includegraphics[width=.3\linewidth]{images/voronoi-interp3.png}
   }
-
   \caption{Un diagramme de Voronoï trivial et trois interprétations possibles.}
   \label{fig:interp}
 \end{figure}
@@ -902,13 +918,6 @@ version cellulaire classique.
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=.7\linewidth]{images/delaunay.png}
-  \caption{}
-  \label{fig:delaunay}
-\end{figure}
-
-\begin{figure}[H]
-  \centering
   \subcaptionbox{$t = 0$}[.3\linewidth][c]{
     \includegraphics[width=.3\linewidth]{images/vca_0.png}
   }
@@ -1080,17 +1089,6 @@ urbain.
 ROUTES
 
 PARCELLES
-
-\section{Construction}
-
-Notre système urbain est décrit sur deux niveaux; plus précisément,
-par deux graphes. On distingue le graphe parcellaire du graphe viaire
-car, bien qu'ils soient étroitement liés, ils représentent des couches
-différentes du réseau urbain. Leur topologie est directement issue du
-diagramme de Voronoï et l'on décrit dans cette section les
-problématiques pratiques rencontrées lors de la transition de cette
-structure spatiale de base aux structures relationnelles que sont les
-graphes.
 
 \section{Mesures}
 
