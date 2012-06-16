@@ -57,8 +57,8 @@ public class BackgroundLayer implements LayerRenderer {
 		  // ART!
 		  drawLots(g);
 		  drawRoads(g);
-		  if(this.sim.drawTrueRoads) drawTrueRoads(g);
-		  //drawPaths(g);
+		  drawTrueRoads(g);
+		  drawPaths(g);
 		  drawObstacles(g);
 		  drawVectorField(g);
 
@@ -196,9 +196,10 @@ public class BackgroundLayer implements LayerRenderer {
 
 					 g.fillOval(x1 - hBaseRadius, y1 - hBaseRadius, baseRadius, baseRadius);
 
-					 Vector2 vec = field.vectors[i][j];
+					 Vector2 vec = new Vector2(field.vectors[i][j]);
 
-					 //vec.normalize();
+					 if(this.sim.showWhichVectorField == -2)
+						 vec.normalize();
 
 					 int x2 = x1 + (int)(vec.x() * 50);
 					 int y2 = y1 + (int)(vec.y() * 50);
@@ -237,6 +238,8 @@ public class BackgroundLayer implements LayerRenderer {
 		  for(int i = 0, l = this.sim.paths.size(); i < l; ++i) {
 
 				List<Vector2> path = this.sim.paths.get(i);
+				if(path.size() == 0)
+					continue;
 
 				GeneralPath p = new GeneralPath();
 

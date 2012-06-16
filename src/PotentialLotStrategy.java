@@ -26,11 +26,11 @@ public class PotentialLotStrategy extends Strategy {
 		  //this.fields.add(new PatternField(this.sim, frequency));
 
 		  // Weight them.
-		  this.weights = new double[4];
-		  this.weights[0] = 1.5;
+		  this.weights = new double[3];
+		  this.weights[0] = 2;
 		  this.weights[1] = 1;
-		  this.weights[2] = 4;
-		  this.weights[3] = 2;
+		  this.weights[2] = 10;
+		  //this.weights[3] = 2;
 
 		  // The final vector field which guide the land lot seed.
 		  this.sum = new SumField(this.sim, frequency, this.fields, this.weights);
@@ -56,21 +56,27 @@ public class PotentialLotStrategy extends Strategy {
 		  int radius = 1000;
 
 		  for(int i = 0; i < 1; ++i) {
-				double x = this.sim.rnd.nextInt(radius * 2) - radius;
-				double y = this.sim.rnd.nextInt(radius * 2) - radius;
-				spawn(x, y);
+
+			  boolean done = false;
+
+			  do {
+				  double x = this.sim.rnd.nextInt(radius * 2) - radius;
+				  double y = this.sim.rnd.nextInt(radius * 2) - radius;
+
+				  done = spawn(x, y);
+			  } while(!done);
 		  }
 	 }
 
-	 public void spawn() {
+	 public boolean spawn() {
 
 		  double x = this.sim.rnd.nextDouble() * this.sim.width - this.sim.width / 2;
 		  double y = this.sim.rnd.nextDouble() * this.sim.width - this.sim.width / 2;
 
-		  spawn(x, y);
+		  return spawn(x, y);
 	 }
 
-	 public void spawn(double x, double y) {
+	 public boolean spawn(double x, double y) {
 
 		  List<Vector2> path = new ArrayList<Vector2>();
 
@@ -98,10 +104,13 @@ public class PotentialLotStrategy extends Strategy {
 				++steps;
 		  }
 
-		  if(steps < limit)
+		  if(steps < limit) {
 				this.sim.paths.add(path);
+				CityOps.insertLot(seed.x(), seed.y(), this.sim);
+				return true;
+		  }
 
-		  CityOps.insertLot(seed.x(), seed.y(), this.sim);
+		  return false;
 	 }
 
 	 private boolean readyToStop(Vector2 seed) {

@@ -72,8 +72,8 @@ public class Simulation {
 	  */
 	 public boolean showPotentialLots = true;
 	 public boolean showLargeCells = false;
-	 public int showWhichVectorField = -1;
-	public boolean drawTrueRoads = true;
+	 public int showWhichVectorField = 2;
+	public boolean drawTrueRoads = false;
 
 	 public List<List<Vector2>> paths;
 
@@ -165,41 +165,24 @@ public class Simulation {
 		  RoadOps.buildRoadsGraph(voronoi, this);
 
 		  // Build the road from the shape file.
-		  /*
-		  for(Object[] r : this.mayHaveRoads) {
-
-				Vector2 p1 = (Vector2)r[0];
-				Vector2 p2 = (Vector2)r[1];
-
-				Node lot1 = LotOps.getLotAt(p1.x(), p1.y(), this);
-				Node lot2 = LotOps.getLotAt(p2.x(), p2.y(), this);
-				System.out.println(lot1+" "+lot2);
-				System.out.println(LotOps.areNeighbors(lot1, lot2));
-				if(LotOps.areNeighbors(lot1, lot2)) {
-					 RoadOps.buildRoad(RoadOps.getRoadBetween(lot1, lot2));
-					 System.out.println(RoadOps.getRoadBetween(lot1, lot2));
-				}
-		  }
-		  */
-
 		  for(Edge e : this.roads.getEachEdge()) {
 
-				Node c0 = e.getNode0();
-				Node c1 = e.getNode1();
+			  Node c0 = e.getNode0();
+			  Node c1 = e.getNode1();
 
-				double c0x = (Double)c0.getAttribute("x");
-				double c0y = (Double)c0.getAttribute("y");
-				double c1x = (Double)c1.getAttribute("x");
-				double c1y = (Double)c1.getAttribute("y");
-				Coordinate[] c0c1  = {new Coordinate(c0x, c0y), new Coordinate(c1x, c1y)};
+			  double c0x = (Double)c0.getAttribute("x");
+			  double c0y = (Double)c0.getAttribute("y");
+			  double c1x = (Double)c1.getAttribute("x");
+			  double c1y = (Double)c1.getAttribute("y");
+			  Coordinate[] c0c1  = {new Coordinate(c0x, c0y), new Coordinate(c1x, c1y)};
 
-				LineString line = this.geomFact.createLineString(c0c1);
+			  LineString line = this.geomFact.createLineString(c0c1);
 
-				for(LineString ls : this.trueRoad)
-					if(line.crosses(ls)) {
-						RoadOps.buildRoad(e);
-						break;
-					}
+			  for(LineString ls : this.trueRoad)
+				  if(line.crosses(ls)) {
+					  RoadOps.buildRoad(e);
+					  break;
+				  }
 		  }
 
 		  // Apply the density from the shape file.
@@ -223,8 +206,8 @@ public class Simulation {
 
 		  // Choose appropriate strategies.
 		  this.strategies.put("cellular automata", new DensityStrategy(this));
-		  this.strategies.put("road development", new RoadStrategy(this));
-		  this.strategies.put("lot construction", new LotStrategy(0.6, this));
+		  //this.strategies.put("road development", new RoadStrategy(this));
+		  //this.strategies.put("lot construction", new LotStrategy(0.6, this));
 		  this.strategies.put("potential lot construction", new PotentialLotStrategy(this));
 
 		  while(true) {

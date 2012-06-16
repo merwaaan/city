@@ -25,7 +25,7 @@ public class SumField extends VectorField{
 
 						  VectorField field = this.fields.get(k);
 
-						  Vector2 v = field.vectors[i][j];
+						  Vector2 v = new Vector2(field.vectors[i][j]);
 
 						  v.scalarMult(this.weights[k]);
 

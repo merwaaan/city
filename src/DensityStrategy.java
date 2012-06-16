@@ -96,8 +96,9 @@ public class DensityStrategy extends Strategy {
 					 lot.setAttribute("wait", ((Integer)lot.getAttribute("wait")) - 1);
 	 }
 
-	 double weight = 0.1;
-	 double offset = 50;
+	// 0.1 - 50
+	 double weight = 0.4;
+	 double offset = 15;
 
 	 private int pickWaitingTime() {
 

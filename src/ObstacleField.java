@@ -7,19 +7,26 @@ public class ObstacleField extends VectorField{
 
 	 public List<Obstacle> obstacles;
 
+	// Flag used to save some computing power by generating this
+	// static vector field only once.
+	public static boolean alreadyComputed = false;
+
 	 public ObstacleField(Simulation sim, int frequency) {
 		  super(sim, frequency);
 
 		  this.obstacles = this.sim.obstacles = new ArrayList<Obstacle>();
 
-		  obstacles.add(new Obstacle(new Vector2(-1900, -2500), 2000, 3000));
+		  obstacles.add(new Obstacle(new Vector2(-1900, -2500), 2000, 3500));
 		  obstacles.add(new Obstacle(new Vector2(0, -6000), 4000, 5000));
-		  obstacles.add(new Obstacle(new Vector2(-5500, 0), 4000, 5000));
+		  obstacles.add(new Obstacle(new Vector2(-5600, 0), 4000, 4500));
 
 		  //obstacles.add(new Obstacle(new Vector2(700, -700), 500));
 	 }
 
 	 public void compute() {
+
+		 if(this.alreadyComputed)
+			 return;
 
 		  // Each vector gets away from the closest obstacle.
 
@@ -55,15 +62,14 @@ public class ObstacleField extends VectorField{
 						  }
 					 }
 
-					 // Scale the vector between 0 and 1.
-					 evasion.set(evasion.x() / obstacles.size(), evasion.y() / obstacles.size());
-
 					 // Reverse the direction.
 					 evasion.scalarMult(-1);
 
 					 // Replace.
 					 this.vectors[i][j] = evasion;
 				}
+
+		  this.alreadyComputed = true;
 	 }
 
 	 private List<Obstacle> obstaclesAt(Vector2 pos) {

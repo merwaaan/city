@@ -30,17 +30,10 @@ public class DensityField extends VectorField{
 					 // Get away from the density from the land lot the
 					 // vector is positioned on.
 					 Node lot = LotOps.getLotAt(p.x(), p.y(), this.sim);
-					 if(lot == null)
-						  continue;
-
-					 /*
-					 if(LotOps.isLotBuilt(lot)) {
-						  p.scalarMult(1);
-						  p.normalize();
+					 if(lot == null || !LotOps.isLotBuilt(lot)) {
+						 this.vectors[i][j] = new Vector2();
+						 continue;
 					 }
-					 else
-						  p = new Vector2();
-					 */
 
 					 double x0 = (Double)lot.getAttribute("x");
 					 double y0 = (Double)lot.getAttribute("y");
