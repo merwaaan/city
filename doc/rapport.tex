@@ -85,73 +85,72 @@ economist will prefer to view it as a support for the exchange of
 financial and physical assets and the urbanist as a functional entity
 composed of flows and services. We choose to consider that the
 evolution of a city is driven by its population, translated as a
-measure of its density. This goes in hand with our focus as land lots
+measure of its density. This goes in hand with our focus, as land lots
 are inhabited by the same people that uses the surrounding roads to go
-from one place to another and urbanistic decisions are motivated by a
-need to optimize the city, streamlining transport means and avoiding
-high contrasts in the urban fabric.
+from one place to another, and because urbanistic decisions are
+motivated by a need to optimize the city, to streamline transport
+means and to avoid high contrasts in the urban fabric.
 
-Study of the domain of urban simulations shows that available
-scientific works can be classified in two different categories. For
-visual rendering purposes, special effects in movies or video games,
-methods have been proposed that generate visually satisfying cities
-without regarding realism as an obligation. These are often based on
-empirical observations and the main idea is to emulate the street
-patterns found in any urban system. Scientific modeling, on the other
-hand, prefers to focus on the inner qualities of a city, often by
-studying a subset of those, to analyze its current state and
-extrapolate its future. We orient our research with the latter in mind
-but the former represents a non-negligible source of inspiration.
+A survey of the domain of urban simulations shows that available
+scientific works can be classified in two categories. Methods have
+been proposed for visual rendering purposes; they generate visually
+satisfying cities without regarding realism as an obligation. These
+are often based on empirical observations and their main idea is to
+emulate the street patterns found in any urban system. Scientific
+modeling, on the other hand, prefers to focus on the inner qualities
+of a city, often by studying a subset of those, to analyze its current
+state and extrapolate its future. We orient our research with the
+latter in mind but the former represents a non-negligible source of
+inspiration.
 
-A reader browsing through the field litterature will often encounter
-cellular automata. These structures, which applicability and potential
-complexity has been proven over times, are fit for describing any kind
-of space-related problem. Nevertheless, their rigorous formalism may
-sometimes restrain realism and negatively impact the validity of the
-model. For example, a cellular automaton topology is, by definition,
-perfectly regular and representing a city with a set of identical and
-aligned cells seems like a coarse simplification. In the same way, the
-fact that each cell has an identical neighborhood structure, the
-temporal synchronism and the state discretization may be
-questionned. We take a drastic step towards realism and embrace the
-spatial aspect of the city by replacing the classic cellular automaton
-with a Voronoï diagram following the same basic concepts. Each of its
-cell represents a land lot and neighborhood relationships that are
-ruled by adjacency determine its future state ; the regularity
-constraint is thus relaxed. Voronoi edges delineate the Voronoi space
-of land lots and, as such, are perfect supports for roads.
+A reader browsing through the litterature of the field will often
+encounter cellular automata. The applicability and potential
+complexity of these structures has been proven many times over and
+they are fit for describing any kind of space-related
+problem. Nevertheless, their rigorous formalism may sometimes restrain
+realism and negatively impact the validity of the model. For example,
+a cellular automaton topology is, by definition, perfectly
+regular. Representing a city with a set of identical and aligned cells
+seems like a coarse simplification. In the same way, we may question
+the fact that each cell has an identical neighborhood structure, the
+temporal synchronism and the state discretization. We take a drastic
+step towards realism and embrace the spatial aspect of the city by
+replacing the classic cellular automaton with a Voronoï diagram
+following the same basic principle. Each of its cell represents a land
+lot, and neighborhood relationships that are ruled by adjacency
+determine its future state ; the regularity constraint is thus
+relaxed. Voronoi edges delineate the Voronoi space of land lots and,
+as such, are ideal supports for roads.
 
-The different elements represented in our model (\textit{i. e.} land
+The different elements represented in our model (\textit{i.e.} land
 lots and roads) are declined in two flavors. \textit{Potential}
-elements have an ethereal status ; their spatial characteristics are
-known but until they are definitely built, they have no direct effect
+elements have an ethereal status; their spatial characteristics are
+known but until they are effectively built, they have no direct effect
 on the overall city and only represent an idea, a possible
 outcome. \textit{Built} elements were potential elements that have
-been constructed. They form the physical city. Concisely, the gist of
-the model is to add potential elements to the city and, only later,
-chose which ones will be built and which ones will be forgotten. The
-road network expands to accomodate the growth in density and to
-support anticipated land lots. This process has been divided into
-three separate mechanisms.
+been constructed; they form the physical city. The gist of the model
+is to add potential elements to the city and, only later, chose which
+ones will be built and which ones will be forgotten. The road network
+expands to accomodate the growth in density and to support anticipated
+land lots. This process is divided into three separate mechanisms.
 
 The cellular part of the model lets the inner variables of the city
 vary based on the Voronoi tesselation and a set of simple rules. Here,
 only population density is considered and, as a result, the
-characteristic gradual patterns found in most of the towns of the
-world is reproduced.
+characteristic gradual patterns found in most towns are reproduced.
 
 Whereas the previous part of the model is ensuring vertical growth,
-the horizontal component of the evolution of the city is handled by an
-extensible method based on the use of vector fields. Each piece of
-information that we want to consider is represented by a vector field
-that will guide the placement of new lots. For example, a field
-escaping from high density areas is used to ensure urban
-sprawl. Another makes new lots move towards the closest roads such
-that they remain snapped to the main transport axes. All vector fields
-are then summed up with varying coefficient. This general approach can
-model any kind of guidance or constraint ; in particular obstacle
-avoidance so that the city does not extends itself on forbidden areas
-like lakes, beaches or protected forests.
+the horizontal evolution of the city is handled by an extensible
+method based on vector fields. Each piece of information that we want
+to consider is represented by a vector field that will guide the
+placement of new lots. For example, a field pointing away from high
+density areas is used to ensure urban sprawl. Another field makes new
+lots move towards the closest road such that they remain snapped to
+the main transport axes. All vector fields are then summed up with
+distinct factors. This general approach can model any kind of guidance
+or constraint ; in particular obstacle avoidance, so that the city
+does not extends itself on forbidden areas like lakes, beaches or
+protected forests.
 
 The third and last mechanism chooses which of the potential elements
 are to be permanently built. Potential roads are chosen with respect
