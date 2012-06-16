@@ -622,56 +622,62 @@ entre deux types d'éléments : les \textit{potentiels} et les
 
 Un élément \textit{construit} est une parcelle ou une voie dont
 l'existence physique est avérée. Il existe \textit{en dur} et affecte
-ses alentours. L'ensemble des éléments construit forme la ville (voir
-figure \ref{fig:construit}).
-
-\begin{figure}
-  \centering
-  IMAGE
-  \caption{Les éléments construits forment la ville.}
-  \label{fig:construit}
-\end{figure}
+ses alentours. L'ensemble des éléments construits forme la ville.
 
 Un élément \textit{potentiel} peut être assimilé à une idée germant
 dans l'esprit de l'urbaniste ; à une possibilité envisagée et
-représentée de manière intangible. Un élément potentiel est par la
-suite soit construit, soit ignoré et oublié. Il sert de prévision à
-court-terme quant à l'avenir de la ville et guide sa morphogénèse. La
-figure \ref{fig:potentiel} reprend la micro-ville de la figure
-\ref{fig:construit} et laisse apparaître voies et parcelles
-potentielles.
+représentée de manière intangible mais néanmoins précise. Les
+parcelles potentielles, particulièrement, n'ont pas d'effet sur le
+bâti construit. Par contre, elles attirent la construction des routes.
 
-\begin{figure}
+Cette dualité et cette unidirectionnalité sont justifiées par un désir
+de fournir un modèle historiquement fidèle. On ne se contente pas de
+générer itérativement un système urbain complet et de considérer la
+configuration finale comme l'unique résultat. Chaque itération fournit
+un résultat en soi et assembler chaque instantané de la ville doit
+décrire sa croisance de façon logique.
+
+Si l'on souhaite reproduire le cycle d'urbanisation prenant place dans
+une vraie ville, la question de l'ordonnancement des étapes se
+pose. L'implantation de nouveaux bâtiments est lourdement dépendante
+du réseau routier existant puisqu'on ne construit pas
+d'infrastructures isolées des axes de transport. \`A l'inverse, le
+développement du réseau viaire est dépendant du bâti puisque la
+fonction des routes est avant tout de le deservir. En partant de ce
+constat, nous sommes face à un problème dans lequel chaque domaine
+traîté est dépendant de l'autre. Donc, faut-il construire la bâti puis
+le relier au réseau viaire ? Faut-il installer les routes puis les
+peupler par du bâti ?  L'\oe uf ou la poule ? La figure
+\ref{fig:bati-viaire} résume cette situation d'interdépendance.
+
+\begin{figure}[H]
   \centering
-  IMAGE A FAIRE
-  \caption{Les éléments potentiels guident la croissance
-    de la ville.}
-  \label{fig:potentiel}
+  \input{images/bati-viaire.tikz}
+  \caption{}
+  \label{fig:bati-viaire}
 \end{figure}
 
-Un élément potentiel, n'étant pas actif au sein de la ville et
-appartenant uniquement au domaine du prévisionnel, n'a pas d'influence
-sur les éléments construits. Par contre, la construction de nouveaux
-éléments peut en dépendre \textit{e.g.} une route peut être construite
-en conséquence à cette prévision, comme attirée par cette portentielle
-future installation. Cette dualité dont les relations d'influence sont
-clairement unidirectionnelles est inspirée du cycle réel
-d'urbanisation que l'on pourrait grossièrement décomposer en ces
-quelques étapes :
+Le cyle d'urbanisation que l'on reproduit est le suivant :
 
 \begin{enumerate}
-\item{Un urbaniste prévoit une nouvelle installation en bordure de
-  ville;}
-\item{Cette prévision attire la route;}
-\item{La nouvelle route et l'installation potentielle attirent
-  d'autres installations potentielles.}
+\item{Une nouvelle installation est prévue en bordure de la ville,
+  dans une zone posiblement isolée du réseau routier;}
+\item{On construit une route pour permettre l'installation de la
+  nouvelle parcelle;}
+\item{Une fois la route contruite, la parcelle peut être à son tour construite;}
+\item{La nouvelle route attire d'autres parcelles.}
 \end{enumerate}
-REFORMULER
 
-L'essence du modèle est de placer des éléments potentiels en fonctions
-de qualités internes au système puis de choisir lesquels véritablement
-construire. Ce travail a été décomposé en trois mécanismes
-distincts. ETOFFER
+IMAGE ORDRE
+
+TRADUCTION :
+
+\begin{enumerate}
+\item{Une parcelle potentielle est placée dans une zone vide;}
+\item{On construit les routes potentielles menant à la parcelle potentielle;}
+\item{Une fois la route contruite, la parcelle peut être à son tour construite;}
+\item{La nouvelle route attire d'autres parcelles potentielles.}
+\end{enumerate}
 
 \subsection{Mécanismes}
 
@@ -686,19 +692,15 @@ mécanisme cellulaire présenté ci-après émule la croissance verticale
 et les variations de densité internes au système.
 
 La densité de population est la quantité principale guidant
-l'évolution de ce modèle. Même si le mécanisme proposé reste
-trivialement simple, il guide les autres mécanismes du modèle : le
-placement de nouvelles parcelles et le choix des routes à
-construire. La ville évolue, de nouveaux bâtiments apparaissent,
-d'autres sont rasés, les quartiers changent et le modèle doit être
-capable de simuler ces changements. C'est bien sûr avec le principe
-des automates cellulaires en tête que nous allons gérer cette
+l'évolution de ce modèle. La ville évolue, de nouveaux bâtiments
+apparaissent, d'autres sont rasés, les quartiers changent. Le modèle
+doit être capable de simuler ces évolutions. C'est bien sûr avec le
+principe des automates cellulaires en tête que nous allons gérer cette
 dynamique.
 
 On discrétise la densité sur trois paliers : \textit{faible} ($f$),
-\textit{moyenne} ($m$) et \textit{élevée} ($e$). L'état d'une parcelle
-dépend des états de ses voisines. La matrice $A$ décrit des
-coefficients d'affinité mettant en relation les différentes
+\textit{moyenne} ($m$) et \textit{élevée} ($e$). La matrice $A$ décrit
+des coefficients d'affinité mettant en relation les différentes
 densités.
 
 \begin{equation}
@@ -725,8 +727,9 @@ T_i(C) = \sum_{k \in \{f,m,e\}} V_k(C) E_{ik}
 \end{equation}
 
 Pour obtenir la probabilité de passage d'un état à un autre, on
-normalise chaque score de transition et une roue de la fortune biaisée
-se charge du choix.
+normalise chaque score de transition (équantion
+\ref{eq:normalisation}) et une roue de la fortune biaisée se charge du
+choix.
 
 \begin{equation}
 P_i(C) = \frac{T_i(C)}{\sum_{k \in \{f,m,e\}} T_k(C)}
@@ -735,9 +738,10 @@ P_i(C) = \frac{T_i(C)}{\sum_{k \in \{f,m,e\}} T_k(C)}
 
 Prenons un exemple trivial pour illustrer ce processus. On souhaite
 évaluer l'état que pourrait prendre la cellule $C$, au centre du
-quadrillage de la figure \ref{fig:ca-example}. Chacune des cellules en
-bordure de cette figure sont voisines de $C$ selon le voisinage de
-Moore. On commence par calculer les scores de transition.
+quadrillage de la figure \ref{fig:ca-example}, à la prochaine mise à
+jour du système. Chacune des cellules en bordure de cette figure sont
+voisines de $C$ selon le voisinage de Moore. On commence par calculer
+les scores de transition.
 
 \begin{figure}[!ht]
   \centering
@@ -786,34 +790,35 @@ le modèle de ségrégation de Schelling à la différence qu'ici, trois
 \textit{populations} interagissent et qu'il n'y a pas de contrainte de
 déménagement (dans son modèle, si une cellule passe de $A$ à $B$ alors
 une autre doit passer de $B$ à $A$ ailleurs afin de conserver les
-mêmes quantités de chaque type). Ainsi un dégradé discret de densité
-apparaît comme dans une ville réelle.
+mêmes quantités de chaque type). Exécuter ce procesus pendant
+plusieurs itérations produit un dégradé discret de densité
+caractéristique des systèmes urbains.
 
-Si l'on applique cette règle à un automate cellulaire classique, on
-obtient les configurations visibles sur la figure \ref{fig:ac}. On
-remarque deux incohérences séparant le système urbain simulé et une
-ville. Premièrement, l'état de l'automate change drastiquement en
-juste quelques itérations : au temps 25, la disposition de départ
-n'est déjà plus discernable. Hors, la granularité temporelle d'une
-telle simulation doit être fine afin de pouvoir prendre en compte
-chaque modification locale du système pour qu'elle puisse se
-répercuter sur le reste de l'automate. Deuxièmement, on observe
-d'itération en itération que chaque cellule voit son état changer en
-permanence -- ce qui est normal pour un automate cellulaire auquel on
-n'a pas adjoint de règle supplémentaire. Il est donc important
-d'associer à chaque cellule un élan favorisant la persistance de son
-état selon son âge afin de ralentir la simulation et surtout d'éviter
-les transitions constantes qui ne sont absolument pas fidèles à la
-stabilité d'une ville réelle. Les fonctions sigmoïdes, fréquemment
-employées en modélisation de systèmes complexes, sont idéales pour
-exprimer en fonction du temps le pasage d'un seuil à un autre. La
-sigmoïde classique (figure \ref{fig:sigmoide1}) varie de 0 à 1 par une
-courbe caractéristique. On l'altère comme il est visible sur la figure
-\ref{fig:sigmoide2} pour obtenir une fonction associant une
-probabilité de changement d'état à l'âge de la cellule considérée. Le
-facteur 0.02 permet d'adoucir la pente de la sigmoïde tandis que 350
-sert à la décaler $f(x)$ de façon à pouvoir l'utiliser dans le domaine
-positif.
+Si l'on applique cette règle à un automate cellulaire classique plus
+large, on obtient les configurations visibles sur la figure
+\ref{fig:ac}. On remarque deux incohérences séparant le système urbain
+simulé et une vraie ville. Premièrement, l'état de l'automate change
+drastiquement en juste quelques itérations : au temps 25, la
+disposition de départ n'est déjà plus discernable. Hors, la
+granularité temporelle d'une telle simulation doit être fine afin de
+pouvoir prendre en compte chaque modification locale du système pour
+qu'elle puisse se répercuter sur le reste de l'automate. Deuxièmement,
+on observe d'itération en itération que chaque cellule voit son état
+changer en permanence -- ce qui est normal pour un automate cellulaire
+auquel on n'a pas adjoint de règle supplémentaire. Il est donc
+important d'associer à chaque cellule un élan favorisant la
+persistance de son état selon son âge afin de ralentir la simulation
+et surtout d'éviter les transitions constantes qui ne sont absolument
+pas fidèles à la stabilité d'une ville réelle. Les fonctions
+sigmoïdes, fréquemment employées en modélisation de systèmes
+complexes, sont idéales pour exprimer en fonction du temps le pasage
+d'un seuil à un autre. La sigmoïde classique (figure
+\ref{fig:sigmoide1}) varie de 0 à 1 par une courbe caractéristique. On
+l'altère comme il est visible sur la figure \ref{fig:sigmoide2} pour
+obtenir une fonction associant une probabilité de changement d'état à
+l'âge de la cellule considérée. Le facteur 0.02 permet d'adoucir la
+pente de la sigmoïde tandis que 350 sert à décaler $f(x)$ de façon à
+pouvoir l'utiliser dans le domaine positif.
 
 \begin{figure}[H]
   \centering
@@ -860,9 +865,11 @@ positif.
 \end{figure}
 
 La figure \ref{fig:ac-stable} montre un automate cellulaire doté des
-mêmes règles de transition et de la même configuration de départ mais
+mêmes règles de transition et de la même configuration initiale mais
 pour lequel l'âge des cellules est pris en compte lors de l'évaluation
-de l'état suivant.
+de la probabilité de transition vers un autre état. En conséquence,
+l'évolution de la ville est clairement ralentie et les modifications
+d'état locales ont le temps de s'exprimer.
 
 \begin{figure}[H]
   \centering
@@ -891,30 +898,19 @@ de l'état suivant.
 
 Les exemples précédents permettent d'illustrer les règles de
 transition et mettent en évidence un problème de stabilité et de
-rythme à prendre en compte mais le principe même de cet exposé est de
-se détacher de la régularité spatiale contraignante des automates
-cellulaires et c'est à cet effet que l'on a présenté le diagramme de
-Voronoï plus tôt. Dans notre diagramme de Voronoï, à la manière des
-automates cellulaires graphes de O'Sullivan \cite{O'Sullivan2000},
-chaque cellule voit son état varier en fonction de son voisinage ;
-voisinage établit à partir de la topologie du diagramme, lui-même issu
-des positions des centres des parcelles. Il est à noter qu'à la
-différence de O'Sullivan, la couverture de l'espace est totale puisque
-l'on ne représente pas les parcelles exactes mais leur cellule de
-Voronoï et il est donc impossible que des espaces vides apparaissent
-entre les cellules.
-
-Le \textit{graphe du bâti} prend ici la forme duale du diagramme de
-Voronoï, la triangulation de Delaunay, et décrit les relations de
-voisinage. Un n\oe ud correspond au centre d'une parcelle et une arête
-lie deux parcelles si elles sont voisines et partagent une arête. On
-voit sur la figure \ref{fig:delaunay} que les parcelles en contact
-sont liées. La configuration initiale contient autant de n\oe uds que
+rythme à prendre en compte. Cependant, le but de cet exposé est de se
+détacher de la régularité spatiale contraignante des automates
+cellulaires et c'est à cet effet que l'on a présenté plus tôt le
+diagramme de Voronoï. \`A la manière des automates cellulaires graphes
+de O'Sullivan \cite{O'Sullivan2000}, chaque cellule de Voronoï voit
+son état varier en fonction de son voisinage ; voisinage établit à
+partir de la topologie du diagramme ; lui-même issu des positions des
+centres des parcelles. On applique le même mécanisme cellulaire au
+diagramme. La configuration initiale contient autant de parcelles que
 l'automate cellulaire classique mais leur positionnement est aléatoire
-(bien que que homogène). Les quelques itérations du mécanisme
-cellulaire appliqué au diagramme sont visibles sur la figure
-\ref{fig:ac-voronoi} et dévoilent des résultats très similaires à la
-version cellulaire classique.
+(bien que que homogène). La progresion de l'évolution des densités est
+visible sur la figure \ref{fig:ac-voronoi} et dévoile un comportement
+similaire à celui observé sur l'automate cellulaire classique.
 
 \begin{figure}[H]
   \centering
@@ -943,16 +939,14 @@ version cellulaire classique.
 
 Plus la simulation avance et plus le système est chargé de parcelles à
 haute densité. Un lecteur averti pourrait argumenter que ce
-comportement est bien différent d'une situation réelle : quel que soit
-le taux de croissance d'une ville, elle ne finit jamais entièrement
-remplie de grands immeubles et de centres commerciaux. Mais il faut
-garder à l'esprit que le mécanisme présenté dans cette section ne gère
-que la croissance verticale. Par la suite, la croissance horizontale
-de la ville modifiera et étendra sa structure de façon à ce que les
-nouvelles parcelles en bordures soient moins denses. C'est aussi l'un
-des atouts du diagramme de Voronoï qui est une structure hautement
-dynamique en terme de topologie contrairement à un automate
-cellulaire.
+comportement est bien différent de ce que l'on peut constater en
+situation réelle : quel que soit le taux de croissance d'une ville,
+elle ne finit jamais entièrement remplie de grands immeubles et de
+centres commerciaux. Mais il faut garder à l'esprit que le mécanisme
+présenté dans cette section ne gère que la croissance verticale. Par
+la suite, la croissance horizontale de la ville étendra ses frontières
+de façon à ce que les nouvelles parcelles à sa bordure soient moins
+denses.
 
 La problématique étant d'étudier la coévolution de deux aspects
 urbains, le viaire et le bâti, et non seulement l'évolution des
@@ -967,28 +961,10 @@ parcelles ou les classes sociales des habitants.
 
 Le second mécanisme place de nouveaux éléments urbains en bordure de
 la ville et est ainsi responsable de sa croissance horizontale. Ces
-éléments sont les parcelles et les routes mais on se concentre
-uniquement sur le placement des nouvelles parcelles puisque les routes
-sont intégrées à leur structure.
-
-Les parcelles et routes nouvellement placées bénéficient néanmoins
-d'un statut spécial car elles sont considérées comme
-\textit{potentielles} et se démarquent des éléments
-\textit{construits} par leur impact sur l'évolution du système :
-
-\begin{itemize}
-\item{L'état d'une parcelle potentielle dépend de toutes ses voisines;}
-\item{Une parcelle potentielle n'influence pas l'état des parcelles
-  voisines construites;}
-\item{Une parcelle potentielle peut accueillir des routes construites
-  sur ses arêtes.}
-\end{itemize}
-
-Cette influence unidirectionnelle dans le mécanisme cellulaire permet
-à la parcelle potentielle d'être prête et accordée à son environnement
-proche si elle est construite par la suite sans pour autant que les
-parcelles déjà construites ne soient influencées par une parcelle
-intangible n'existant pas encore.
+éléments sont les routes et les parcelles mais il est seulement
+nécessaire de considérer le placement de ces dernières. En effet, les
+voies sont représentées par les arêtes de la cellule de Voronoï
+associé à une parcelle.
 
 En quelques mots, le placement se déroule comme suit :
 
@@ -1044,13 +1020,11 @@ comme les plans d'eau, les fôrets mais aussi aux fortes pentes. Un
 champ de vecteurs est dédié à l'évitement de telles zones et repousse la
 graine de ces obstacles. Hors de leur aire, l'influence est nulle.
 
-EQUATION
-
 \begin{equation*}
   I(x,y) = \alpha I_d(x,y) + \beta I_r(x,y) + \gamma I_o(x,y) + \dots
 \end{equation*}
 
-\begin{figure}[!ht]
+\begin{figure}[H]
   \centering
   \subcaptionbox{La ville.}[.4\linewidth][c]{
     \includegraphics[width=.4\linewidth]{images/vf-base.png}
@@ -1069,7 +1043,7 @@ EQUATION
   \label{fig:fields}
 \end{figure}
 
-\begin{figure}[!ht]
+\begin{figure}[H]
   \centering
   \includegraphics[width=.8\linewidth]{images/vf-sum.png}
   \caption{}
@@ -1086,9 +1060,13 @@ urbain.
 
 \subsubsection{Construction des éléments potentiels}
 
-ROUTES
+Le mécanisme de placement des élément potentiels se base sur les
+variables internes au système urbain dont l'évolution est régie par le
+mécanisme cellulaire. Ce troisième mécanisme choisit quels éléments
+potentiels sont construits. On traite différemment le choix des routes
+à construire et le choix des parcelles à construire.
 
-PARCELLES
+
 
 \section{Mesures}
 
