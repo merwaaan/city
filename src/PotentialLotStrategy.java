@@ -107,7 +107,7 @@ public class PotentialLotStrategy extends Strategy {
 		  Vector2 seed = new Vector2(x, y);
 
 		  int steps = 0;
-		  int limit = 100;
+		  int limit = 200; //
 
 		  double speed = 10;
 		  double speedIncrease = 1.1;
@@ -126,6 +126,10 @@ public class PotentialLotStrategy extends Strategy {
 			  // Otherwise, speed up.
 			  else
 				  speed = Math.min(speed * speedIncrease, 100);
+
+			  //
+			  double area = LotOps.getLotArea(lot);
+			  speed *= (1 / (area / 50000));
 
 			  // Make it move.
 			  inf.scalarMult(speed);

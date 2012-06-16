@@ -8,8 +8,12 @@ import org.graphstream.graph.Node;
 
 public class RoadStrategy extends Strategy {
 
-	 public RoadStrategy(Simulation sim) {
+	private int growth;
+
+	public RoadStrategy(int growth, Simulation sim) {
 		  super(sim);
+
+		  this.growth = growth;
 	 }
 
 	 void prepare() {
@@ -32,7 +36,7 @@ public class RoadStrategy extends Strategy {
 
 	 public void update() {
 
-		  addRoads(10);
+		  addRoads(this.growth);
 	 }
 
 	 private void addRoads(int n) {

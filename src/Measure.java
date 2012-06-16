@@ -1,8 +1,9 @@
 import com.vividsolutions.jts.geom.Polygon;
 
+import org.graphstream.graph.*;
+import org.graphstream.graph.implementations.SingleGraph;
 import org.graphstream.algorithm.Toolkit;
 import org.graphstream.algorithm.BetweennessCentrality;
-import org.graphstream.graph.Node;
 
 public class Measure {
 
@@ -16,15 +17,20 @@ public class Measure {
 	 */
 	public static double averageCrossroadDegree(Simulation sim) {
 
+		Graph roads = Measure.builtRoadNetwork(sim);
+
 		double total = 0;
-		int n = sim.roads.getNodeCount();
+		int n = roads.getNodeCount();
 
 		// Check if there is at least one crossroad. We would not want
 		// to divide by zero.
 		if(n == 0)
 			return 0;
 
-		for(Node crossroad : sim.roads) {
+		for(Node crossroad : roads) {
+
+			if(!RoadOps.isCrossroadBuilt(crossroad))
+				continue;
 
 			int deg = crossroad.getDegree();
 
@@ -43,7 +49,9 @@ public class Measure {
 	 */
 	public static void betweennessCentrality(Simulation sim) {
 
-		(new BetweennessCentrality("betweenness")).betweennessCentrality(sim.roads);
+		Graph roads = Measure.builtRoadNetwork(sim);
+
+		(new BetweennessCentrality("betweenness")).betweennessCentrality(roads);
 	}
 
 	/**
@@ -53,7 +61,9 @@ public class Measure {
 	 */
 	public static double diameter(Simulation sim) {
 
-		return Toolkit.diameter(sim.roads, null, false);
+		Graph roads = Measure.builtRoadNetwork(sim);
+
+		return Toolkit.diameter(roads, null, false);
 	}
 
 	/**
@@ -109,6 +119,21 @@ public class Measure {
 			}
 
 		return areas;
+	}
+
+	private static Graph builtRoadNetwork(Simulation sim) {
+
+		Graph built = new SingleGraph("road network");
+
+		for(Node crossroad : sim.roads)
+			if(RoadOps.isCrossroadBuilt(crossroad))
+				built.addNode(crossroad.getId());
+
+		for(Edge road : sim.roads.getEachEdge())
+			if(RoadOps.isRoadBuilt(road))
+				built.addEdge(road.getId(), road.getNode0().getId(), road.getNode1().getId());
+
+		return built;
 	}
 
 }

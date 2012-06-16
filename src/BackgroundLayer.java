@@ -58,7 +58,7 @@ public class BackgroundLayer implements LayerRenderer {
 		  drawLots(g);
 		  drawRoads(g);
 		  drawTrueRoads(g);
-		  drawPaths(g);
+		  //drawPaths(g);
 		  drawObstacles(g);
 		  drawVectorField(g);
 
@@ -234,6 +234,7 @@ public class BackgroundLayer implements LayerRenderer {
 	 private void drawPaths(Graphics2D g) {
 
 		  g.setColor(Color.GREEN);
+		  g.setStroke(new BasicStroke(2));
 
 		  for(int i = 0, l = this.sim.paths.size(); i < l; ++i) {
 
@@ -243,11 +244,13 @@ public class BackgroundLayer implements LayerRenderer {
 
 				GeneralPath p = new GeneralPath();
 
+				p.moveTo(path.get(0).x(), path.get(0).y());
 				g.fillOval((int)path.get(0).x()-5, (int)path.get(0).y()-5, 10, 10);
 
-				p.moveTo(path.get(0).x(), path.get(0).y());
-				for(int j = 1, l2 = path.size(); j < l2; ++j)
+				for(int j = 1, l2 = path.size(); j < l2; ++j) {
 					 p.lineTo(path.get(j).x(), path.get(j).y());
+					 g.fillOval((int)path.get(j).x(), (int)path.get(j).y(), 10, 10);
+				}
 
 				g.draw(p);
 		  }

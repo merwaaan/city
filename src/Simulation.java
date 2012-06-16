@@ -186,6 +186,7 @@ public class Simulation {
 		  }
 
 		  // Apply the density from the shape file.
+		  Coordinate o = new Coordinate(0, 0);
 		  if(this.shpDensities != null)
 			  for(Node lot : this.lots) {
 
@@ -195,20 +196,23 @@ public class Simulation {
 
 				  Density d = this.shpDensities.get(c);
 				  if(d != null) {
+
+					  if(c.distance(o) > 1300)
+						  d = Density.LOW;
+
 					  lot.setAttribute("density", d);
 					  LotOps.buildLot(lot);
 				  }
 			  }
-
 	 }
 
 	 public void run() {
 
 		  // Choose appropriate strategies.
 		  this.strategies.put("cellular automata", new DensityStrategy(this));
-		  this.strategies.put("road development", new RoadStrategy(this));
-		  this.strategies.put("lot construction", new LotStrategy(0.6, this));
-		  this.strategies.put("potential lot construction", new PotentialLotStrategy(0.6, this));
+		  this.strategies.put("road development", new RoadStrategy(4, this));
+		  this.strategies.put("lot construction", new LotStrategy(0.5, this));
+		  this.strategies.put("potential lot construction", new PotentialLotStrategy(0.3, this));
 
 		  while(true) {
 

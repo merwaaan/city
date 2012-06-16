@@ -349,6 +349,11 @@ public class LotOps {
 		  return lot.hasAttribute("area") && ((Double)lot.getAttribute("area")) > 50000;
 	 }
 
+	public static double getLotArea(Node lot) {
+
+		return (Double)lot.getAttribute("area");
+	}
+
 	 /**
 	  * Chekcs if the two supplied land lots are neighbors.
 	  *
