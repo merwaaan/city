@@ -59,7 +59,7 @@ public class BackgroundLayer implements LayerRenderer {
 		  drawRoads(g);
 		  drawTrueRoads(g);
 		  //drawPaths(g);
-		  drawObstacles(g);
+		  //drawObstacles(g);
 		  drawVectorField(g);
 
 		  // Restore the transformation matrix.
@@ -80,11 +80,9 @@ public class BackgroundLayer implements LayerRenderer {
 				if(!this.sim.showPotentialLots && !LotOps.isLotBuilt(lot))
 					 continue;
 
-				/*
 				// Only draw bordering lots if the option is enabled.
 				if(!this.sim.showLargeCells && LotOps.isLargeCell(lot))
 					 continue;
-				*/
 
 				Polygon poly = (Polygon)lot.getAttribute("polygon");
 				if(poly == null)
@@ -129,7 +127,8 @@ public class BackgroundLayer implements LayerRenderer {
 	  */
 	 private void drawRoads(Graphics2D g) {
 
-		  g.setStroke(new BasicStroke(7));
+		 g.setColor(new Color(0, 126, 255));
+		  g.setStroke(new BasicStroke(12));
 
 		  for(Edge road : this.sim.roads.getEachEdge()) {
 
@@ -144,8 +143,6 @@ public class BackgroundLayer implements LayerRenderer {
 				double aY = (Double)a.getAttribute("y");
 				double bX = (Double)b.getAttribute("x");
 				double bY = (Double)b.getAttribute("y");
-
-				g.setColor(new Color(0, 126, 255));
 
 				g.drawLine((int)aX, (int)aY, (int)bX, (int)bY);
 		  }

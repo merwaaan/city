@@ -1,5 +1,8 @@
 import com.vividsolutions.jts.geom.Polygon;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.graphstream.graph.*;
 import org.graphstream.graph.implementations.SingleGraph;
 import org.graphstream.algorithm.Toolkit;
@@ -15,12 +18,13 @@ public class Measure {
 	 * @param sim The simulation.
 	 * @return The average degree of the road network.
 	 */
-	public static double averageCrossroadDegree(Simulation sim) {
+	public static double averageDegree(Simulation sim) {
 
 		Graph roads = Measure.builtRoadNetwork(sim);
 
 		double total = 0;
 		int n = roads.getNodeCount();
+		int m = 0;
 
 		// Check if there is at least one crossroad. We would not want
 		// to divide by zero.
@@ -29,16 +33,43 @@ public class Measure {
 
 		for(Node crossroad : roads) {
 
-			if(!RoadOps.isCrossroadBuilt(crossroad))
-				continue;
+			int deg = crossroad.getDegree();
+
+			if(deg !=0 && deg != 2) {
+				total += crossroad.getDegree();
+				++m;
+			}
+		}
+
+		return total / m;
+	}
+
+	public static List<double[]> degreeDistance(Simulation sim) {
+
+		Graph roads = Measure.builtRoadNetwork(sim);
+
+		List<double[]> records = new ArrayList<double[]>();
+
+		for(Node crossroad : roads) {
 
 			int deg = crossroad.getDegree();
 
-			if(deg != 2)
-				total += crossroad.getDegree();
+			if(deg ==0 || deg == 2)
+				continue;
+
+			double[] r = new double[2];
+
+			double x = (Double)crossroad.getAttribute("x");
+			double y = (Double)crossroad.getAttribute("y");
+			double dist = Math.sqrt(x*x + y*y);
+
+			r[0] = dist;
+			r[1] = deg;
+
+			records.add(r);
 		}
 
-		return total / n;
+		return records;
 	}
 
 	/**
@@ -63,7 +94,22 @@ public class Measure {
 
 		Graph roads = Measure.builtRoadNetwork(sim);
 
-		return Toolkit.diameter(roads, null, false);
+		for(Edge road : roads.getEachEdge()) {
+
+			Node c0 = road.getNode0();
+			double c0x = (Double)c0.getAttribute("x");
+			double c0y = (Double)c0.getAttribute("y");
+
+			Node c1 = road.getNode1();
+			double c1x = (Double)c1.getAttribute("x");
+			double c1y = (Double)c1.getAttribute("y");
+
+			double d = Math.sqrt(Math.pow(c0x - c1x, 2) + Math.pow(c0y - c1y, 2));
+
+			road.setAttribute("weight", d);
+		}
+
+		return Toolkit.diameter(roads, "weight", false);
 	}
 
 	/**
@@ -126,8 +172,11 @@ public class Measure {
 		Graph built = new SingleGraph("road network");
 
 		for(Node crossroad : sim.roads)
-			if(RoadOps.isCrossroadBuilt(crossroad))
-				built.addNode(crossroad.getId());
+			if(RoadOps.isCrossroadBuilt(crossroad)) {
+				Node c = built.addNode(crossroad.getId());
+				c.setAttribute("x", crossroad.getAttribute("x"));
+				c.setAttribute("y", crossroad.getAttribute("y"));
+			}
 
 		for(Edge road : sim.roads.getEachEdge())
 			if(RoadOps.isRoadBuilt(road))

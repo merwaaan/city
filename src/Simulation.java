@@ -8,6 +8,7 @@ import com.vividsolutions.jts.geom.MultiPolygon;
 import com.vividsolutions.jts.geom.Polygon;
 import com.vividsolutions.jts.triangulate.VoronoiDiagramBuilder;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -197,8 +198,11 @@ public class Simulation {
 				  Density d = this.shpDensities.get(c);
 				  if(d != null) {
 
-					  if(c.distance(o) > 1300)
-						  d = Density.LOW;
+					  if(c.distance(o) > 1000)
+						  if(this.rnd.nextDouble() < 0.03)
+							  d = Density.MEDIUM;
+						  else
+							  d = Density.LOW;
 
 					  lot.setAttribute("density", d);
 					  LotOps.buildLot(lot);
@@ -213,7 +217,7 @@ public class Simulation {
 		  this.strategies.put("road development", new RoadStrategy(4, this));
 		  this.strategies.put("lot construction", new LotStrategy(0.5, this));
 		  this.strategies.put("potential lot construction", new PotentialLotStrategy(0.3, this));
-
+		  screenshot();
 		  while(true) {
 
 				this.now = System.currentTimeMillis();
@@ -226,7 +230,36 @@ public class Simulation {
 					 this.lastStep = now;
 
 					 ++this.step;
-					 System.out.println("t = "+this.step);
+
+					 //System.out.print(this.step+" ");
+					 //DecimalFormat f = new DecimalFormat("################");
+					 //System.out.println(Measure.averageCrossroadDegree(this));
+
+					 if(this.step >= 500) {
+
+						 List<double[]> records = Measure.degreeDistance(this);
+
+						 double s = 150;
+						 double max = 3500;
+
+						 for(double d = 0; d < max; d += s) {
+
+							 int n = 0;
+							 double total = 0;
+
+							 for(double[] r : records) {
+								 int dist = (int)r[0];
+								 if(dist < d && dist > d - s) {
+									 total += (int)r[1];
+									 ++n;
+								 }
+							 }
+
+							 System.out.println(d + " " + (n > 0 ? total / n : 0));
+						 }
+
+						 return;
+					 }
 
 					 redraw();
 					 screenshot();
