@@ -115,10 +115,10 @@ seems like a coarse simplification. In the same way, we may question
 the fact that each cell has an identical neighborhood structure, the
 temporal synchronism and the state discretization. We take a drastic
 step towards realism and embrace the spatial aspect of the city by
-replacing the classic cellular automaton with a Voronoï diagram
+replacing the classic cellular automaton with a Voronoi diagram
 following the same basic principle. Each of its cell represents a land
 lot, and neighborhood relationships that are ruled by adjacency
-determine its future state ; the regularity constraint is thus
+determine its future state; the regularity constraint is thus
 relaxed. Voronoi edges delineate the Voronoi space of land lots and,
 as such, are ideal supports for roads.
 
@@ -148,7 +148,7 @@ density areas is used to ensure urban sprawl. Another field makes new
 lots move towards the closest road such that they remain snapped to
 the main transport axes. All vector fields are then summed up with
 distinct factors. This general approach can model any kind of guidance
-or constraint ; in particular obstacle avoidance, so that the city
+or constraint; in particular obstacle avoidance, so that the city
 does not extends itself on forbidden areas like lakes, beaches or
 protected forests.
 
@@ -173,36 +173,33 @@ REMERCIEMENTS
 
 \section{Introduction}
 
-LES VILLES GRANDISSENT
-
-STATISTIQUES
+LES VILLES GRANDISSENT / STATISTIQUES
 
 Le système complexe que forme la ville est donc soumis à une forte
 croissance et un réel besoin de contrôler et de prévoir son évolution
-se fait ressentir suite à l'explosion démographique que subissent les
-zones urbaines. C'est dans ce cadre de contrôle et de prévision qu'il
-est nécéssaire d'étudier les mécanismes sous-jacents à une ville pour
-pouvoir les reproduire sous forme de simulations et étudier différents
-scénarios possibles.
+se fait ressentir en conséquence de l'explosion démographique que
+subissent les zones urbaines. C'est dans ce cadre de contrôle et de
+prévision qu'il est nécéssaire d'étudier les mécanismes sous-jacents à
+une ville pour pouvoir les reproduire sous forme de simulations et
+étudier différents scénarios possibles.
 
 On se concentre ici sur deux domaines majeurs du tissu urbain, le
 viaire et le bâti, afin d'étudier leur relation de coévolution. Ces
 deux aspects de la ville semblent aller de paire puisque le bâti
 abrite les populations tandis que le viaire leur permet de se déplacer
-d'un point à un autre. C'est la répartition des parcelles et la
-structure du réseau routier existant qui guide l'expansion d'une
-ville. Il est ainsi naturel d'utiliser la densité de population comme
-force de guidage à son évolution.
+d'un point à un autre. Il est ainsi naturel d'utiliser la densité de
+population comme force de guidage de l'évolution de la ville.
 
-ETOFFER
+EN DIRE PLUS
 
 La première partie présente un état de l'art de la modélisation de
 systèmes urbains et se concentre particulièrement sur les méthodes à
-base d'automates cellulaires tout en adoptant un point de vue
-historique pour justifier l'adoption de cette structure. Le modèle
-conçu dans le cadre de ce stage de recherche est ensuite présenté en
-seconde partie. Enfin, des mesures diverses sont employées pour tester
-et valider ce travail dans la troisième partie.
+base d'automates cellulaires afin de metter en évidence leurs qualités
+mais aussi les limitations qu'ils imposent. La structure de donneés et
+les mécanismes régissant le modèle conçu dans le cadre de ce stage de
+recherche sont ensuite présentés en seconde partie. Enfin, des mesures
+diverses sont employées pour tester et valider ce travail dans la
+troisième partie.
 
 \section{\'Etat de l'art}
 
@@ -261,15 +258,15 @@ appliquant l'automate cellulaire à des problématiques géographiques
 multi-échelles telles que l'évolution d'épidémies \cite{Fu2003} et la
 ségrégation de population \cite{Schelling1969} (voir le modèle de
 Schelling sur la figure \ref{fig:schelling}) et bien sûr la croissance
-urbaine \cite{}.
+urbaine \cite{}. CITATIONS
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=.6\linewidth]{images/schelling.png}
   \caption{Configuration produite par le modèle de Schelling. Chacune
     des deux couleurs représente une population différente. La
-    conclusion de ces travaux est qu'un faible degré d'animosité entre
-    deux populations suffit à les séparer de manière évidente.}
+    conclusion de ces travaux est qu'un faible degré d'intolérance
+    entre deux populations suffit à les séparer de manière évidente.}
   \label{fig:schelling}
 \end{figure}
 
@@ -316,7 +313,7 @@ qu'elles contiennent des installations humaines ou non (état booléen)
 fonction de leur type d'usage (\textit{résidentiel},
 \textit{commercial}, \textit{industriel} \cite{Lechner} et plus
 \cite{Dubos-Paillard2003}). Représenter des quantités réelles et des
-variations continues est moins aisé. Pour symboliser plus finement la
+variations continues l'est moins. Pour symboliser plus finement la
 densité au c\oe ur d'un ensemble urbain, Semboloni utilise par exemple
 un automate cellulaire de dimension trois dans lequel plus une pile de
 cellules actives est haute et plus la zone représentée est peuplée
@@ -329,10 +326,10 @@ L'homogénéité d'un automate cellulaire fait partie intégrante de sa
 définition originelle : en mettant de côté l'état qu'elles adoptent,
 toutes les cellules sont identiques en forme et en structure de
 voisinage. Dans le cadre de notre problématique, cette approche est
-limitante car, dans une ville, les parcelles ne sont que rarement
-identiques et alignées. Similairement, la notion de voisinage est
-clairement à redéfinir. Classiquement, les voisinages de von Neumann
-et de Moore sont régulièrement utilisés mais la relation par
+limitante car, dans une ville, les parcelles ne sont
+qu'occasionnellement identiques et alignées. Similairement, la notion
+de voisinage est clairement à redéfinir. Classiquement, les voisinages
+de von Neumann et de Moore sont utilisés mais la relation par
 contiguité qu'ils décrivent ne convient pas à la représentation des
 liens de dépendance à plus grande échelle se développant dans un
 système urbain. Le positionnement d'un bâtiment résidentiel dans une
@@ -344,25 +341,25 @@ problème). Une solution possible est d'étendre les aires des
 voisinages de von Neumann et de Moore tout en conservant leur forme
 caractéristique. La symétrie évidente se dégageant de telles
 simplifications va à l'encontre des relations prenant place au sein
-d'une ville dont les zones ne sont que très rarement parfaitement
-disposées. O'Sullivan a choisi de relaxer cette contrainte de
+d'une ville. O'Sullivan a choisi de relaxer cette contrainte de
 partionnement spatial régulier pour faire un pas dans la direction du
-réalisme \cite{O'Sullivan2000,O'Sullivan2001}. Conventionnellement,
-une cellule d'automate correspond à un sous-espace urbain ou bien une
-parcelle cadastrale mais dans chacun de ces cas le modèle se base
-évidemment sur une simplification grossière de l'espace étudié. Il
-décide donc de donner à chaque cellule les mêmes qualités topologiques
-que les parcelles qu'elles représentent : même formes, même
-dimensions, mêmes coordonnées. Une variété de relations de voisinage
-sont alors envisageables (par voisinage au sens urbain, par distance
-dans un rayon d'influence, par critère de visibilité). L'éloignement
-du formalisme cellulaire est drastique car la structure perd de son
+réalisme en proposant l'automate cellulaire graphe
+\cite{O'Sullivan2000,O'Sullivan2001}. Conventionnellement, une cellule
+d'automate correspond à un sous-espace urbain ou bien une parcelle
+cadastrale mais dans chacun de ces cas le modèle se base évidemment
+sur une simplification grossière de l'espace étudié. Il décide donc de
+donner à chaque cellule les mêmes qualités topologiques que les
+parcelles qu'elles représentent : même formes, même dimensions, mêmes
+coordonnées. Une variété de relations de voisinage sont alors
+envisageables (par voisinage au sens urbain, par distance dans un
+rayon d'influence, par critère de visibilité). L'éloignement du
+formalisme cellulaire est drastique car la structure perd de son
 homogénéité puisque chaque cellule est différente et chaque voisinage
 est unique. Il faut aussi noter que la couverture de l'espace n'est
 plus complète car des vides entre les cellules apparaissent. Chacune
 des ces concessions est mise au service du réalisme de la
-simulation. Un exemple d'une telle structure est visible sur la figure
-\ref{fig:sullivan}.
+simulation. Un exemple de sous-espace urbain représenté par ce modèle
+est visible sur la figure \ref{fig:sullivan}.
 
 \begin{figure}[H]
   \centering
@@ -370,20 +367,6 @@ simulation. Un exemple d'une telle structure est visible sur la figure
   \caption{Hoxton, un quartier de Londres, modélisé par l'automate
     cellulaire graphe de David O'Sullivan \cite{O'Sullivan2000}.}
   \label{fig:sullivan}
-\end{figure}
-
-\begin{figure}
-  \begin{subfigure}[b]{.5\linewidth}
-    \centering
-    \input{images/ca-simple.tikz}
-    \caption{Automate cellulaire classique.}
-  \end{subfigure}
-  \begin{subfigure}[b]{.5\linewidth}
-    \centering
-    \input{images/ca-graph.tikz}
-    \caption{Automate cellulaire graphe.}
-  \end{subfigure}
-  \caption{}
 \end{figure}
 
 Une prise de liberté quant à l'aspect temporel est aussi
@@ -423,17 +406,39 @@ réglementations locales afin d'éviter toute configuration illégale.
 Pour la construction du réseau routier, une solution est de mettre en
 place, en plus des agents promoteurs, deux types d'agents
 traceurs. Les \textit{extenders} parcourent toute la surface du
-terrain à la recherche de bâtiments isolés puis tracent une route
-jusqu'au réseau urbain. Les \textit{connectors} se déplacent
-uniquement sur le réseau viaire et y raccordent les bâtiments non
-connectés se trouvant dans leur rayon de détection
+terrain à la recherche de bâtiments isolés et éloignés puis tracent
+une nouvelle route jusqu'au réseau urbain. Les \textit{connectors} se
+déplacent uniquement sur le réseau viaire et y raccordent les
+bâtiments non connectés se trouvant dans leur rayon de détection
 \cite{Lechner2003}. Cette approche introduit un défaut conceptuel : le
 réseau viaire est construit à partir du bâti et non l'inverse. Ainsi,
 des bâtiments peuvent rester isolés pendant plusieurs itérations de la
 simulation et, même si le résultat final apparaît comme satisfaisant,
 arrêter la simulation en cours de l'évolution du système produit une
 configuration erronée. Autrement dit, l'évolution n'est pas
-historiquement fiable et seule la ville finale est acceptable.
+historiquement cohérente et seule la ville finale est correcte.
+
+Un autre modèle gérant à la fois l'évolution du réseau viaire et du
+bâti est présenté par Weber \cite{Weber2009}. Le principe est le
+suivant : à chaque agrandissement du réseau urbain, on crée plusieurs
+routes éphémères en suivant des règles géométriques précises
+(allongement des voies existantes, limitation du degré des carrefours
+à 4, l'angle entre chaque rue tend vers 90 degrés). Parmi les $n$
+routes générées, une seule sera construite. Pour la choisir, le trafic
+sur ces nouvelles routes est simulé par des agents piétons et
+véhicules et l'on identifie celle qui sera la plus globalement
+bénéfique au réseau.
+
+Barthelemy et Flammini \cite{Barthelemy2009} proposent aussi un modèle
+dans lequel le viaire et le bâti évoluent simultanément. Le bâti,
+représenté par une mesure de densité sur des points disposés
+régulièrement dans l'espace, croît linéairement en fonction du
+temps. Le réseau routier s'agrandit en suivant des règles empiriques
+\cite{Barthelemy2008} associées à un critère de proximité tel qu'une
+voie passant entre deux points de densité s'en trouvent à distances
+égales. Il est intéressant de noter que, sans le mentionner, les
+auteurs construisent ainsi un diagramme de Voronoï partiel comme celui
+qui est à la base de notre modèle.
 
 D'autres solutions s'éloignant des systèmes complexes et penchant du
 côté de la génération procédurale de contenu existent
@@ -459,9 +464,9 @@ suit les \textit{hyperstreamlines} \cite{Chen2008} formées par un
 champ de vecteurs. Ce champ est calculé par combinaison de plusieurs
 autres champs de vecteurs, chacun représentant des contraintes
 directionnelles particulières telles que les zones interdites,
-l'altitude et la densité de population. Ces techniques sont
-intrinsèquement géométriques, et comme précisé plus haut, le résultat
-est purement visuel, mais elles représentent néanmoins une source
+l'altitude et le directives données par l'utilisateur. Ces techniques
+sont intrinsèquement géométriques, et comme précisé plus haut, le
+résultat est purement visuel; elles représentent néanmoins une source
 d'inspiration à ne pas négliger.
 
 \begin{figure}[H]
@@ -471,23 +476,6 @@ d'inspiration à ne pas négliger.
     Paris et de New York \cite{Parish2001}.}
   \label{fig:cityengine}
 \end{figure}
-
-L'un des modèles gérant à la fois l'évolution du réseau viaire et du
-bâti est présenté par Weber \cite{Weber2009}. Le principe est le
-suivant : à chaque agrandissement du réseau urbain, on crée plusieurs
-routes virtuelles en suivant des règles géométriques précises
-(allongement des voies existantes, limitation du degré des carrefours
-à 4, l'angle entre chaque rue tend vers 90 degrés). Parmi les $n$
-routes générées, une seule sera construite. Pour la choisir, le trafic
-sur ces nouvelles routes est simulé par des agents piétons et
-véhicules et l'on identifie celle qui sera la plus globalement
-bénéfique au réseau.
-
-Barthelemy et Flammini \cite{Barthelemy2009} proposent un modèle dans
-lequel le réseau viaire croît en suivant des règles empiriques
-\cite{Barthelemy2008} tandis que le bâti, réprésenté par une densité
-continue, évolue par un principe de diffusion depuis les centres
-denses de la ville. assure le couplage entre ces deux éléments
 
 \section{Le modèle}
 
@@ -543,12 +531,12 @@ souffrant d'un fort taux de mortalité (les cellules)
 \cite{Thomas2010}.
 
 Comme son homonymie le laisse présager, la cellule de Voronoï remplace
-dans notre modèle la cellule de l'automate cellulaire. On remarque
-qu'une grille régulière, comme celles présentes dans les automates
-cellulaires classiques, correspond à un diagramme de Voronoï dans
-laquelle les générateurs sont alignés et régulièrement disposés. Une
-tesselation de Voronoï peut être considérée comme une généralisation
-de la structure grillagée ; notre première contrainte est satisfaite.
+dans notre modèle la cellule de l'automate cellulaire. Une grille
+régulière, comme celles présentes dans les automates cellulaires
+classiques, correspond d'ailleurs à un diagramme de Voronoï dans
+lequel les générateurs sont régulièrement disposés. Une tesselation de
+Voronoï peut être considérée comme une généralisation de la structure
+grillagée; notre première contrainte est donc satisfaite.
 
 À l'échelle de ce modèle, chaque cellule représente une parcelle
 cadastrale et on utilise comme générateur le centre de l'empreinte de
@@ -556,11 +544,11 @@ la parcelle. Le diagramme permet d'identifier les parcelles voisines
 comme étant celles partageant une arête de Voronoï. Un graphe de
 voisinage est ainsi construit et adopte la forme duale du diagramme de
 Voronoï : la triangulation de Delaunay (voir figure
-\ref{fig:delaunay}. Les structures de voisinage de chaque cellule sont
-déterminées à partir de la topologie du diagramme et la seconde
+\ref{fig:delaunay}). Les structures de voisinage de chaque cellule
+sont déterminées à partir de la topologie du diagramme et la seconde
 contrainte est satisfaite.
 
-\begin{figure}[H]
+\begin{figure}[!ht]
   \centering
   \includegraphics[width=.7\linewidth]{images/delaunay.png}
   \caption{le réseau de voisinage du diagramme de Voronoï (en noir)
@@ -633,7 +621,7 @@ l'existence physique est avérée et qui affecte ses
 alentours. L'ensemble des éléments construits forme la ville.
 
 Un élément \textit{potentiel} peut être assimilé à une idée germant
-dans l'esprit de l'urbaniste ; à une possibilité envisagée et
+dans l'esprit de l'urbaniste; à une possibilité envisagée et
 représentée de manière intangible mais néanmoins précise. Les
 parcelles potentielles, particulièrement, n'ont pas d'effet sur le
 bâti construit. Par contre, elles attirent la construction des routes.
@@ -651,7 +639,7 @@ pose. L'implantation de nouveaux bâtiments est lourdement dépendante
 du réseau routier existant puisqu'on ne construit pas
 d'infrastructures isolées des axes de transport. \`A l'inverse, le
 développement du réseau viaire est dépendant du bâti puisque la
-fonction des routes est avant tout de le deservir. En partant de ce
+fonction des routes est avant tout de le desservir. En partant de ce
 constat, nous sommes face à un problème dans lequel chaque domaine
 traîté est dépendant de l'autre. Donc, faut-il construire la bâti puis
 le relier au réseau viaire ? Faut-il installer les routes puis les
@@ -665,7 +653,8 @@ peupler par du bâti ?  L'\oe uf ou la poule ? La figure
   \label{fig:bati-viaire}
 \end{figure}
 
-Le cyle d'urbanisation que l'on reproduit est le suivant :
+Lors de la croissance des villes, le cyle d'urbanisation se déroulant
+est le suivant :
 
 \begin{enumerate}
 \item{Une nouvelle installation est prévue en bordure de la ville,
@@ -673,20 +662,23 @@ Le cyle d'urbanisation que l'on reproduit est le suivant :
 \item{Une route est construite pour permettre l'installation de la
   nouvelle parcelle;}
 \item{Une fois la route contruite, la parcelle peut être à son tour construite;}
-\item{La nouvelle route attire d'autres parcelles.}
+\item{D'autres parcelles vont se construire sur la nouvelle route.}
 \end{enumerate}
 
-Dans notre modèle, ces quelques étapes peut être traduites comme suit
-:
+IMAGE
+
+Dans notre modèle, ces quelques étapes se traduisent comme suit :
 
 \begin{enumerate}
 \item{Une parcelle potentielle est placée dans une zone vide;}
-\item{On construit les routes potentielles menant à la parcelle potentielle;}
-\item{Une fois la route contruite, la parcelle peut être à son tour construite;}
+\item{On construit les routes potentielles menant à la parcelle
+  potentielle;}
+\item{Une fois la route contruite, la parcelle peut être à son tour
+  construite;}
 \item{La nouvelle route attire d'autres parcelles potentielles.}
 \end{enumerate}
 
-IMAGE COMPARAISON
+ETOFFER
 
 \subsection{Mécanismes}
 
@@ -728,17 +720,18 @@ probabilité de devenir elle-même \textit{élevée}. L'équation
 \ref{eq:transition} permet de formaliser ce principe et fournit un
 score $Ti(C)$ quantifiant l'éventualité pour une cellule $C$ de passer
 à l'état $i$. $V_k(C)$ correspond au nombre de voisins de $C$ ayant
-l'état $k$.
+l'état $k$. Les valeurs fortes présentes sur la diagonale de $A$
+permettent à des groupements de parcelles de la même densité de se
+former.
 
 \begin{equation}
-T_i(C) = \sum_{k \in \{f,m,e\}} V_k(C) E_{ik}
+T_i(C) = \sum_{k \in \{f,m,e\}} V_k(C) A_{ik}
 \label{eq:transition}
 \end{equation}
 
-Pour obtenir la probabilité de passage d'un état à un autre, on
-normalise chaque score de transition (équantion
-\ref{eq:normalisation}) et une roue de la fortune biaisée se charge du
-choix.
+Pour obtenir la probabilité $P_i(C)$ de passage à l'état $i$, on
+normalise chaque score de transition (équation \ref{eq:normalisation})
+et une roue de la fortune biaisée se charge du choix.
 
 \begin{equation}
 P_i(C) = \frac{T_i(C)}{\sum_{k \in \{f,m,e\}} T_k(C)}
@@ -748,8 +741,8 @@ P_i(C) = \frac{T_i(C)}{\sum_{k \in \{f,m,e\}} T_k(C)}
 Prenons un exemple trivial pour illustrer ce processus. On souhaite
 évaluer l'état que pourrait prendre la cellule $C$, au centre du
 quadrillage de la figure \ref{fig:ca-example}, à la prochaine mise à
-jour du système. Chacune des cellules en bordure de cette figure sont
-voisines de $C$ selon le voisinage de Moore. On commence par calculer
+jour du système. Chacune des cellules en bordure de cette figure est
+voisine de $C$ selon le voisinage de Moore. On commence par calculer
 les scores de transition.
 
 \begin{figure}[!ht]
@@ -799,7 +792,7 @@ le modèle de ségrégation de Schelling à la différence qu'ici, trois
 \textit{populations} interagissent et qu'il n'y a pas de contrainte de
 déménagement (dans son modèle, si une cellule passe de $A$ à $B$ alors
 une autre doit passer de $B$ à $A$ ailleurs afin de conserver les
-mêmes quantités de chaque type). Exécuter ce procesus pendant
+mêmes quantités de chaque classe). Exécuter ce procesus pendant
 plusieurs itérations produit un dégradé discret de densité
 caractéristique des systèmes urbains.
 
@@ -845,7 +838,8 @@ pouvoir l'utiliser dans le domaine positif.
     \includegraphics[width=.3\linewidth]{images/ca_100.png}
   }
   \caption{Quatre configurations de l'automate cellulaire. On y
-    retrouve peu de similarités et les changements sont trop rapides.}
+    retrouve peu de similarités et les variations d'état sont trop
+    rapides.}
   \label{fig:ac}
 \end{figure}
 
@@ -873,12 +867,13 @@ pouvoir l'utiliser dans le domaine positif.
   \label{fig:sigmoide2}
 \end{figure}
 
-La figure \ref{fig:ac-stable} montre un automate cellulaire doté des
-mêmes règles de transition et de la même configuration initiale mais
-pour lequel l'âge des cellules est pris en compte lors de l'évaluation
-de la probabilité de transition vers un autre état. En conséquence,
-l'évolution de la ville est clairement ralentie et les modifications
-d'état locales ont le temps de s'exprimer.
+On voit sur la figure \ref{fig:ac-stable} un automate cellulaire doté
+des mêmes règles de transition et de la même configuration initiale
+que lors de notre première tentative mais pour lequel l'âge des
+cellules est pris en compte lors de l'évaluation de la probabilité de
+transition vers un autre état. En conséquence, l'évolution de la ville
+est clairement ralentie et les modifications d'état locales ont le
+temps de s'exprimer.
 
 \begin{figure}[H]
   \centering
@@ -912,8 +907,8 @@ détacher de la régularité spatiale contraignante des automates
 cellulaires et c'est à cet effet que l'on a présenté plus tôt le
 diagramme de Voronoï. \`A la manière des automates cellulaires graphes
 de O'Sullivan \cite{O'Sullivan2000}, chaque cellule de Voronoï voit
-son état varier en fonction de son voisinage ; voisinage établit à
-partir de la topologie du diagramme ; lui-même issu des positions des
+son état varier en fonction de son voisinage; voisinage établit à
+partir de la topologie du diagramme; lui-même issu des positions des
 centres des parcelles. On applique le même mécanisme cellulaire au
 diagramme. La configuration initiale contient autant de parcelles que
 l'automate cellulaire classique mais leur positionnement est aléatoire
@@ -997,11 +992,11 @@ l'impossibilité de s'installer sur certains types de terrain (forêts,
 plans d'eau). De cette idée de graine se déplaçant en fonction
 d'influences diverses transpire un véritable aspect physique.
 
-On emploie une approche orientée mécanique qui se base sur un champ de
+On emploie donc une approche mécanique qui se base sur un champ de
 vecteurs généré à partir de l'état du sytème urbain pour guider la
 graine vers sa destination. Puisque de nombreux paramètres sont à
-prendre en compte, on utilise un champ de vecteurs par paramètre que
-l'on souhaite exprimer puis on les combine, ce qui permet de pondérer
+prendre en compte, on utilise un champ de vecteurs par donnée que l'on
+souhaite exprimer puis on les combine; ce qui permet de pondérer
 différemment l'impact de chaque donnée.
 
 On veut évidemment que la densité soit prise en compte dans ce
@@ -1013,7 +1008,7 @@ d'espace. Pour traduire ce phénomène dans le modèle, un premier champ
 $I_d$ fait donc pointer chacun de ses vecteurs vers la parcelle
 disposant de la plus faible densité parmis les voisines de la parcelle
 sur laquelle il est posé. Ainsi des chemins de vecteurs se forment et
-mènent vers les zones à plus faible densité.
+mènent vers les zones à densité réduite.
 
 Il est aussi naturel que les nouvelles parcelles soient placées près
 des installations routières existantes de façon à pouvoir communiquer
@@ -1022,17 +1017,17 @@ champ $I_r$ pour lequel chaque vecteur pointe vers la voie construite
 la plus proche. Dans notre modèle, les voies ne sont pas hiérarchisées
 et on ne fait de distinction entre les routes primaires, secondaires
 et tertiaires. Si c'était le cas, on pourrait cependant imaginer
-adjoindre à chaque route des coefficients différent selon leur classe
+adjoindre à chaque route des coefficients différents selon leur classe
 afin que les grands axes attirent le bâti et que les ruelles aient un
 impact moindre.
 
 Les nouvelles parcelles ne sont pas uniquement disposés en fonction de
 variables internes à la ville car, souvent, l'environnement impose des
-restrictions quant à la direction que l'expansion d'une ville va
-prendre. Parmi ces contraintes, on pense aux zones non constructibles
-comme les plans d'eau, les forêts mais aussi aux fortes pentes. Un
-champ de vecteurs $I_o$ est dédié à l'évitement de telles zones et
-repousse la graine des obstacles.
+restrictions quant à la direction que son expansion va prendre. Parmi
+ces contraintes, on pense aux zones non constructibles comme les plans
+d'eau, les forêts mais aussi aux fortes pentes. Un champ de vecteurs
+$I_o$ est dédié à l'évitement de telles zones et repousse la graine
+des obstacles.
 
 L'influence générale qu'a le champ de vecteurs final $I$, somme
 pondérée de tous les autres, à la position $(x,y)$ est donnée par
@@ -1054,37 +1049,36 @@ Afin d'illustrer ce mécanisme, une ville virtuelle et les champs de
 vecteurs associés sont visibles sur la figure \ref{fig:fields}. Plus
 les parcelles arborent une couleur vive et plus leur densité est
 élevée. Le quart de cercle gris correspond à un obstacle. Les arêtes
-bleues forment un axe viaire. On remarque que cette ville ne contient
-qu'une unique route passant horizontalement par son centre. En
-conséquence, la majeure partie des parcelles n'est pas relié au réseau
-routier. Cette configuration n'est donc aucunement réaliste mais
-permet de mettre en évidence la formation des champs de vecteurs.
+bleues forment un axe viaire. La combinaison des trois champs de
+vecteurs fournit le champs final de la figure \ref{fig:field-sum}. Les
+chemins qui s'y forment guident vers les bords ouest et est de la
+ville par attirance de l'axe routier mais aussi dans une moindre
+mesure vers le nord et le sud. La croissance vers le sud-est est
+stoppé par l'influence de l'obstacle.
+
+On remarque que cette ville ne contient qu'une unique route passant
+horizontalement par son centre. En conséquence, la majeure partie des
+parcelles n'est pas reliée au réseau routier. Cette configuration
+jouet n'est donc aucunement réaliste mais permet d'illustrer la
+formation des champs de vecteurs.
 
 \begin{figure}[H]
-  \centering
-  \subcaptionbox{Ville virtuelle.}[.4\linewidth][c]{
-    \includegraphics[width=.4\linewidth]{images/vf-base.png}
-  }
-  \subcaptionbox{Champ d'évasion de la densité.}[.4\linewidth][c]{
-    \includegraphics[width=.4\linewidth]{images/vf-density.png}
-  }
+  \centering \subcaptionbox{Ville virtuelle.}[.45\linewidth][c]{
+    \includegraphics[width=.45\linewidth]{images/vf-base.png} }
+  \subcaptionbox{$I_d$, le champ d'évasion de la
+    densité.}[.45\linewidth][c]{
+    \includegraphics[width=.45\linewidth]{images/vf-density.png} }
 
-  \subcaptionbox{Champ d'attraction des routes}[.4\linewidth][c]{
-    \includegraphics[width=.4\linewidth]{images/vf-road.png}
+  \subcaptionbox{$I_r$, Le champ d'attraction des routes}[.45\linewidth][c]{
+    \includegraphics[width=.45\linewidth]{images/vf-road.png}
   }
-  \subcaptionbox{Champ de répulsion des obstacles}[.4\linewidth][c]{
-    \includegraphics[width=.4\linewidth]{images/vf-obstacle.png}
+  \subcaptionbox{$I_o$, le champ de répulsion des obstacles}[.45\linewidth][c]{
+    \includegraphics[width=.45\linewidth]{images/vf-obstacle.png}
   }
   \caption{Une ville virtuelle et les différentes influences y guidant
     le positionnement des nouvelles parcelles.}
   \label{fig:fields}
 \end{figure}
-
-La combinaison des trois champs de vecteurs fournit le champs final de
-la figure \ref{fig:field-sum}. Les chemins qui s'y forment guident
-vers les bords ouest et est de la ville par attirance de l'axe routier
-mais aussi dans une moindre mesure vers le nord et le sud. La
-croissance vers le sud-est est stoppé par l'influence de l'obstacle.
 
 \begin{figure}[H]
   \centering
@@ -1093,39 +1087,45 @@ croissance vers le sud-est est stoppé par l'influence de l'obstacle.
   \label{fig:field-sum}
 \end{figure}
 
-DEPLACEMENT GRAINE. VITESSE. ARRET.
+VITESSE DE LA GRAINE
 
-Les champs de vecteurs décrit ci-dessus servent un but illustratif. La
-généralité de ce mécanisme permet à l'utilisateur du modèle d'employer
-les données qu'il juge nécessaires afin de mettre en avant certaines
-caractéristiques d'un système urbain. Utiliser ces trois champs permet
-de guider la croissance de la ville en fonction des quantités qui la
-représentent et de contraintes de l'environnement. Il serait aussi
-utile de bénéficier de moyens de contrôle sur cette évolution
-urbaine. Dans les villes, des motifs réguliers se dessinent et sont
-issus d'un besoin d'organisation de l'espace. On pense notamment à
-l'organisation en grille typique de Manhattan ou à l'organisation
-radial de certains quartiers. Afin d'imposer ce type de placement, il
-serait envisageable d'employer un nouveau champ de vecteurs. TOujours
-dans une optique de contrôle, on peut utiliser un champ guidant les
-nouvelles parcelles vers des zones d'attraction.
+ARRET DE LA GRAINE
+
+TRACER CHEMIN GRAINE
+
+Les quelques champs de vecteurs décrit ci-dessus servent un but
+illustratif. La généralité de ce mécanisme permet à l'utilisateur du
+modèle d'employer les données qu'il juge nécessaires afin de mettre en
+avant certaines caractéristiques d'un système urbain. Utiliser ces
+trois champs permet de guider la croissance de la ville en fonction
+des quantités qui la représentent et de contraintes de
+l'environnement. Il serait aussi utile de bénéficier de moyens de
+contrôle sur cette évolution urbaine. Dans les villes, des motifs
+réguliers se dessinent et sont issus d'un besoin d'organisation de
+l'espace. On pense notamment à l'organisation en grille typique de
+Manhattan ou à l'organisation radiale de certains quartiers. Afin
+d'imposer ce type de placement, il serait envisageable d'employer un
+nouveau champ de vecteurs guidant vers des points fixes. TOujours dans
+une optique de contrôle, on peut utiliser un champ guidant les
+nouvelles parcelles vers des zones d'attraction dont une municipalité
+souhaiterait évaluer le potentiel.
 
 \subsubsection{Construction des éléments potentiels}
 
-Le mécanisme de placement des élément potentiels présenté précedemment
-se base sur les variables internes au système urbain ; variables dont
+Le mécanisme de placement des élément potentiels présenté précédemment
+se base sur les variables internes au système urbain; variables dont
 l'évolution est régie par le mécanisme cellulaire. Seulement, les
 nouvelles parcelles et routes placées sont potentielles. Le troisième
 mécanisme choisit parmi ces éléments potentiels lesquels sont
 construits. On traite différemment le choix des parcelles à construire
 et le choix des routes à construire.
 
-PARCELLES
+\paragraph{Choix des parcelles\\}
 
 Afin de contrôler l'expansion effective de la ville, un taux de
 croissance $c_p$ est défini pour régler la vitesse de construction des
-parcelles potentielles. Ainsi, $c_p$ parcelles sont construites par
-itération du modèle.
+parcelles potentielles. $c_p$ parcelles sont construites par itération
+du modèle.
 
 Toujours dans un soucis de cohérence historique, on refuse qu'une
 parcelle potentielle soit construite alors qu'elle n'est pas encore
@@ -1138,37 +1138,48 @@ placées). Le but de cette quantification est de donner la priorité de
 construction aux parcelles prévues depuis plus longtemps. La ville
 étant néanmoins une structure imparfaite et parfois désordonnée, le
 choix des parcelles est fait par un tirage aléatoire biaisé en
-fonction de ce score car l'âge de la prévision ne peut pas donner la
-priorité de façon déterministe.
+fonction de ce score et la priorité par l'âge n'est pas garantie.
 
-ROUTES
+ETOFFER
+
+\paragraph{Choix des routes\\}
 
 La construction des routes potentielles est un problème plus
 complexe. Le diagramme de Voronoï, et plus précisément ses arêtes et
 sommets, forment un réseau routier global dans lequel chaque parcelle
 est encerclée de routes potentielles. Dans une ville réelle, toutes
-les parcelles de sont bien sûr pas entourées de voies mais sont
+les parcelles ne sont bien sûr pas entourées de voies mais sont
 regroupées en blocs ou en bandes elles-mêmes encerclées. La tâche à
 accomplir est donc de sélectionner des arêtes du réseau routier global
 pour les construire.
 
-Les routes ont pour fonction de déplacer la population d'une ville;
-par conséquent, le choix quant aux routes à construire doit être
-raisonné selon sa configuration et particulièrement sa densité.
+NETWORK SIMPLEX
+
+UN PUIT + PLUSIEURS SOURCES
+
+EVALUATION
 
 \section{Mesures}
 
+\subsection{Démonstration}
+
 DEMO LH
+
+\subsection{Mesures sur le bâti}
 
 AIRES
 
 AIRES DENSITES
+
+\subsection{Mesures sur le viaire}
 
 DIAMETRE
 
 CENTRALITE
 
 DEGRE DES CARREFOURS
+
+DEGRE / DISTANCE
 
 \section{Conclusion}
 
