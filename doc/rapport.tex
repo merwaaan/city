@@ -92,7 +92,7 @@ motivated by a need to optimize the city, to streamline transport
 means and to avoid high contrasts in the urban fabric.
 
 A survey of the domain of urban simulations shows that available
-scientific works can be classified in two categories. Methods have
+scientific works can be classified into two categories. Methods have
 been proposed for visual rendering purposes; they generate visually
 satisfying cities without regarding realism as an obligation. These
 are often based on empirical observations and their main idea is to
@@ -103,7 +103,7 @@ state and extrapolate its future. We orient our research with the
 latter in mind but the former represents a non-negligible source of
 inspiration.
 
-A reader browsing through the litterature of the field will often
+A reader browsing through the literature of the field will often
 encounter cellular automata. The applicability and potential
 complexity of these structures has been proven many times over and
 they are fit for describing any kind of space-related
@@ -129,7 +129,7 @@ known but until they are effectively built, they have no direct effect
 on the overall city and only represent an idea, a possible
 outcome. \textit{Built} elements were potential elements that have
 been constructed; they form the physical city. The gist of the model
-is to add potential elements to the city and, only later, chose which
+is to add potential elements to the city and, only later, choose which
 ones will be built and which ones will be forgotten. The road network
 expands to accomodate the growth in density and to support anticipated
 land lots. This process is divided into three separate mechanisms.
@@ -260,7 +260,8 @@ clairement \cite{Tobler1975}. Sont ensuite publiés des travaux majeurs
 appliquant l'automate cellulaire à des problématiques géographiques
 multi-échelles telles que l'évolution d'épidémies \cite{Fu2003} et la
 ségrégation de population \cite{Schelling1969} (voir le modèle de
-Schelling sur la figure \ref{fig:schelling}).
+Schelling sur la figure \ref{fig:schelling}) et bien sûr la croissance
+urbaine \cite{}.
 
 \begin{figure}[H]
   \centering
@@ -274,34 +275,34 @@ Schelling sur la figure \ref{fig:schelling}).
 
 Une idée très exploitée dans ce domaine est d'associer un potentiel de
 transition à chaque cellule et ce, vers tous les états qu'elles
-peuvent adopter. Dans les modèles déterministes, la transition vers
-l'état à plus haut potentiel est appliquée tandis que dans les modèles
-stochastiques, un tirage aléatoire biaisé est préféré. Le potentiel
-d'une cellule à passer à un nouvel état est déterminé en fonction de
-paramètres propres au modèle. Peuvent être pris en compte l'élévation
-du terrain, la densité de population, la proximité d'axes routiers, la
-proximité de centres urbains, l'âge des parcelle, leur valeur; en
-fait, toute combinaison d'attributs relatifs à un réseau urbain. Par
-exemple, dans une simulation représentant les différents types
-d'usage, le passage d'une cellule à l'état \textit{résidentiel}
-pourrait dépendre de la proximité des commerces et des routes et de
-l'éloignement des zones industrielles. Bien sûr, un nombre élevé de
-paramètres à prendre en compte requiert un couplage fin et l'impact de
-chaque variable peut être pondéré. Puisque les variations
-individuelles de paramètres n'émergent pas de manière transparente à
-la surface de la simulation, les modèles urbains basés sur des
-automates cellulaires doivent être finement calibrés et leur réalisme
-est un défi en soi. Pour contourner ce problème, Yeh et Li prônent
-l'usage d'un réseau de neurones pour pondérer chaque paramètre à
-partir de l'analyse de données cartographiques historiques
+peuvent adopter \cite{Benenson2004}. Dans les modèles déterministes,
+la transition vers l'état à plus haut potentiel est appliquée tandis
+que dans les modèles stochastiques, un tirage aléatoire biaisé est
+préféré. Le potentiel d'une cellule à passer à un nouvel état est
+déterminé en fonction de paramètres propres au modèle. Peuvent être
+pris en compte l'élévation du terrain, la densité de population, la
+proximité d'axes routiers, la proximité de centres urbains, l'âge des
+parcelle, leur valeur; en fait, toute combinaison d'attributs relatifs
+à un réseau urbain. Par exemple, dans une simulation représentant les
+différents types d'usage, le passage d'une cellule à l'état
+\textit{résidentiel} pourrait dépendre de la proximité des commerces
+et des routes et de l'éloignement des zones industrielles. Bien sûr,
+un nombre élevé de paramètres à prendre en compte requiert un couplage
+fin et l'impact de chaque variable peut être pondéré. Puisque les
+variations individuelles de paramètres n'émergent pas de manière
+transparente à la surface de la simulation, les modèles urbains basés
+sur des automates cellulaires doivent être finement calibrés et leur
+réalisme est un défi en soi. Pour contourner ce problème, Yeh et Li
+prônent l'usage d'un réseau de neurones pour pondérer chaque paramètre
+à partir de l'analyse de données cartographiques historiques
 \cite{Yeh2002}.
 
 Il est important de noter que la simplicité du formalisme enveloppant
 un automate cellulaire strict s'oppose à la fidélité de la simulation,
 notamment dans le cadre de modèles spécifiques
-\cite{Torrens2001}. Dans ce cas, une prise de liberté quant aux
-formalisme originel est autorisée, voire nécessaire, pour obtenir des
-résultats satisfaisants \cite{White1998}.
+\cite{Torrens2000,Torrens2001}. Dans ce cas, une prise de liberté
+quant aux formalisme originel est autorisée, voire nécessaire, pour
+obtenir des résultats satisfaisants \cite{White1998}.
 
 La première limite que le formalisme cellulaire de base impose est la
 discrétisation des états que chaque cellule peut adopter. Même si
@@ -435,32 +436,33 @@ configuration erronée. Autrement dit, l'évolution n'est pas
 historiquement fiable et seule la ville finale est acceptable.
 
 D'autres solutions s'éloignant des systèmes complexes et penchant du
-côté de la génération procédurale de contenu existent. Souvent, le
-domaine d'application de telles méthodes est l'infographie, le cinéma
-et le jeu vidéo. L'objectif est alors de construire de manière
-automatique une ville visuellement réaliste sans se soucier de son
-caractère fonctionnel. Usuellement, l'organisation parcellaire dépend
-entièrement du réseau routier car la première étape est souvent de
-générer un réseau viaire complet puis de placer le bâti en subdivisant
-récursivement les niches vides formées par les voies. Dans Citygen
-\cite{Kelly2006b}, un point $p$ de l'espace est aléatoirement choisi
-puis on calcule un ensemble de plusieurs routes raccordant $p$ au
-réseau routier existant en faisant varier leur déviation angulaire et
-un paramètre de bruit; la route finale est celle pour laquelle la
-variation d'altitude est la plus faible. CityEngine \cite{Parish2001}
-utilise un L-System dont les règles permettent de reproduire les
-différents motifs quadrillés, radiaux et organiques que l'on retrouve
-dans une ville. La nature récursive des L-Systems permet à ces motifs
-de se combiner et d'apparaître à différents niveaux de profondeur
-(voir figure \ref{fig:cityengine}). Dans une autre simulation, le
-tracé des routes suit les \textit{hyperstreamlines} \cite{Chen2008}
-formées par un champ de vecteurs. Ce champ est calculé par combinaison
-de plusieurs autres champs de vecteurs, chacun représentant des
-contraintes directionnelles particulières telles que les zones
-interdites, l'altitude et la densité de population. Ces techniques
-sont intrinsèquement géométriques, et comme précisé plus haut, le
-résultat est purement visuel, mais elles représentent néanmoins une
-source d'inspiration à ne pas négliger.
+côté de la génération procédurale de contenu existent
+\cite{Kelly2006}. Souvent, le domaine d'application de telles méthodes
+est l'infographie, le cinéma et le jeu vidéo. L'objectif est alors de
+construire de manière automatique une ville visuellement réaliste sans
+se soucier de son caractère fonctionnel. Usuellement, l'organisation
+parcellaire dépend entièrement du réseau routier car la première étape
+est souvent de générer un réseau viaire complet puis de placer le bâti
+en subdivisant récursivement les niches vides formées par les
+voies. Dans Citygen \cite{Kelly2006b}, un point $p$ de l'espace est
+aléatoirement choisi puis on calcule un ensemble de plusieurs routes
+raccordant $p$ au réseau routier existant en faisant varier leur
+déviation angulaire et un paramètre de bruit; la route finale est
+celle pour laquelle la variation d'altitude est la plus
+faible. CityEngine \cite{Parish2001} utilise un L-System dont les
+règles permettent de reproduire les différents motifs quadrillés,
+radiaux et organiques que l'on retrouve dans une ville. La nature
+récursive des L-Systems permet à ces motifs de se combiner et
+d'apparaître à différents niveaux de profondeur (voir figure
+\ref{fig:cityengine}). Dans une autre simulation, le tracé des routes
+suit les \textit{hyperstreamlines} \cite{Chen2008} formées par un
+champ de vecteurs. Ce champ est calculé par combinaison de plusieurs
+autres champs de vecteurs, chacun représentant des contraintes
+directionnelles particulières telles que les zones interdites,
+l'altitude et la densité de population. Ces techniques sont
+intrinsèquement géométriques, et comme précisé plus haut, le résultat
+est purement visuel, mais elles représentent néanmoins une source
+d'inspiration à ne pas négliger.
 
 \begin{figure}[H]
   \centering
@@ -470,16 +472,22 @@ source d'inspiration à ne pas négliger.
   \label{fig:cityengine}
 \end{figure}
 
-L'un des rares modèles gérant à la fois l'évolution du réseau viaire
-et du bâti est présenté par Weber \cite{Weber2009} et n'emploie pas
-d'automate cellulaire. Le principe est le suivant : à chaque
-agrandissement du réseau urbain, on crée plusieurs routes virtuelles
-en suivant des règles géométriques précises (allongement des voies
-existantes, limitation du degré des carrefours à 4, l'angle entre
-chaque rue tend vers 90 degrés). Parmi les $n$ routes générées, une
-seule sera construite. Pour la choisir, le trafic sur ces nouvelles
-routes est simulé par des agents piétons et véhicules et l'on
-identifie celle qui sera la plus bénéfique au réseau.
+L'un des modèles gérant à la fois l'évolution du réseau viaire et du
+bâti est présenté par Weber \cite{Weber2009}. Le principe est le
+suivant : à chaque agrandissement du réseau urbain, on crée plusieurs
+routes virtuelles en suivant des règles géométriques précises
+(allongement des voies existantes, limitation du degré des carrefours
+à 4, l'angle entre chaque rue tend vers 90 degrés). Parmi les $n$
+routes générées, une seule sera construite. Pour la choisir, le trafic
+sur ces nouvelles routes est simulé par des agents piétons et
+véhicules et l'on identifie celle qui sera la plus globalement
+bénéfique au réseau.
+
+Barthelemy et Flammini \cite{Barthelemy2009} proposent un modèle dans
+lequel le réseau viaire croît en suivant des règles empiriques
+\cite{Barthelemy2008} tandis que le bâti, réprésenté par une densité
+continue, évolue par un principe de diffusion depuis les centres
+denses de la ville. assure le couplage entre ces deux éléments
 
 \section{Le modèle}
 
@@ -621,8 +629,8 @@ entre deux types d'éléments : les \textit{potentiels} et les
 \textit{construits}.
 
 Un élément \textit{construit} est une parcelle ou une voie dont
-l'existence physique est avérée. Il existe \textit{en dur} et affecte
-ses alentours. L'ensemble des éléments construits forme la ville.
+l'existence physique est avérée et qui affecte ses
+alentours. L'ensemble des éléments construits forme la ville.
 
 Un élément \textit{potentiel} peut être assimilé à une idée germant
 dans l'esprit de l'urbaniste ; à une possibilité envisagée et
@@ -630,12 +638,12 @@ représentée de manière intangible mais néanmoins précise. Les
 parcelles potentielles, particulièrement, n'ont pas d'effet sur le
 bâti construit. Par contre, elles attirent la construction des routes.
 
-Cette dualité et cette unidirectionnalité sont justifiées par un désir
-de fournir un modèle historiquement fidèle. On ne se contente pas de
+Cette dualité et cette unidirectionalité sont justifiées par un désir
+de fournir un modèle historiquement cohérent. On ne se contente pas de
 générer itérativement un système urbain complet et de considérer la
 configuration finale comme l'unique résultat. Chaque itération fournit
 un résultat en soi et assembler chaque instantané de la ville doit
-décrire sa croisance de façon logique.
+décrire sa croisance naturelle.
 
 Si l'on souhaite reproduire le cycle d'urbanisation prenant place dans
 une vraie ville, la question de l'ordonnancement des étapes se
@@ -662,15 +670,14 @@ Le cyle d'urbanisation que l'on reproduit est le suivant :
 \begin{enumerate}
 \item{Une nouvelle installation est prévue en bordure de la ville,
   dans une zone posiblement isolée du réseau routier;}
-\item{On construit une route pour permettre l'installation de la
+\item{Une route est construite pour permettre l'installation de la
   nouvelle parcelle;}
 \item{Une fois la route contruite, la parcelle peut être à son tour construite;}
 \item{La nouvelle route attire d'autres parcelles.}
 \end{enumerate}
 
-IMAGE ORDRE
-
-TRADUCTION :
+Dans notre modèle, ces quelques étapes peut être traduites comme suit
+:
 
 \begin{enumerate}
 \item{Une parcelle potentielle est placée dans une zone vide;}
@@ -678,6 +685,8 @@ TRADUCTION :
 \item{Une fois la route contruite, la parcelle peut être à son tour construite;}
 \item{La nouvelle route attire d'autres parcelles potentielles.}
 \end{enumerate}
+
+IMAGE COMPARAISON
 
 \subsection{Mécanismes}
 
@@ -971,18 +980,16 @@ En quelques mots, le placement se déroule comme suit :
 \begin{enumerate}
 \item{On détermine les centres de la ville en fonction de la densité}
 \item{On dépose sur un des centres une \textit{graine} mobile qui
-  servira de centre à la nouvelle parcelle;}
-\item{La graine se déplace sous l'influence des variables inhérentes à
+  servira de générateur à la nouvelle parcelle;}
+\item{La graine se déplace sous l'influence des variables immanentes à
   la ville;}
 \item{Quand la graine stoppe son mouvement, on y crée la parcelle.}
 \end{enumerate}
 
-CENTRES?
-
 Le déplacement de la graine est un processus pouvant potentiellement
 prendre en compte de nombreuses variables. Dans la simulation
 d'exemple que l'on décrit, seules la densité et le placement des
-routes peuvent guider la graine, car ce sont les seules données
+routes peuvent guider la graine, car ce sont les uniques données
 considérées. Cependant, on souhaite que le modèle soit extensible et
 qu'il soit capable de supporter d'autres variables et contraintes : la
 valeur des sols par exemple, ou bien la pente des zones envisagées ou
@@ -990,12 +997,12 @@ l'impossibilité de s'installer sur certains types de terrain (forêts,
 plans d'eau). De cette idée de graine se déplaçant en fonction
 d'influences diverses transpire un véritable aspect physique.
 
-Pour rester en accord avec cet aspect physique, on emploie un champ de
+On emploie une approche orientée mécanique qui se base sur un champ de
 vecteurs généré à partir de l'état du sytème urbain pour guider la
 graine vers sa destination. Puisque de nombreux paramètres sont à
 prendre en compte, on utilise un champ de vecteurs par paramètre que
 l'on souhaite exprimer puis on les combine, ce qui permet de pondérer
-l'impact de chaque donnée.
+différemment l'impact de chaque donnée.
 
 On veut évidemment que la densité soit prise en compte dans ce
 placement. Dans une ville, les nouvelles installations ont
@@ -1003,45 +1010,81 @@ principalement tendance à se répartir sur les frontières de
 l'enveloppe urbaine et à s'éloigner des centres, non pas par animosité
 envers l'activité du centre-ville mais simplement par manque
 d'espace. Pour traduire ce phénomène dans le modèle, un premier champ
-fait donc pointer chacun de ses vecteurs vers la parcelle disposant de
-la plus faible densité parmis les voisines de la parcelle sur laquelle
-il est posé.
+$I_d$ fait donc pointer chacun de ses vecteurs vers la parcelle
+disposant de la plus faible densité parmis les voisines de la parcelle
+sur laquelle il est posé. Ainsi des chemins de vecteurs se forment et
+mènent vers les zones à plus faible densité.
 
-Il est naturel que les parcelles potentielles soient placées près des
-installations routières existantes de façon à pouvoir communiquer avec
-les grands axes routiers. À cet effet, on ajoute un champ pour lequel
-chaque vecteur pointe vers la voie construite la plus proche.
+Il est aussi naturel que les nouvelles parcelles soient placées près
+des installations routières existantes de façon à pouvoir communiquer
+aisément avec les grands axes routiers. À cet effet, on ajoute un
+champ $I_r$ pour lequel chaque vecteur pointe vers la voie construite
+la plus proche. Dans notre modèle, les voies ne sont pas hiérarchisées
+et on ne fait de distinction entre les routes primaires, secondaires
+et tertiaires. Si c'était le cas, on pourrait cependant imaginer
+adjoindre à chaque route des coefficients différent selon leur classe
+afin que les grands axes attirent le bâti et que les ruelles aient un
+impact moindre.
 
 Les nouvelles parcelles ne sont pas uniquement disposés en fonction de
 variables internes à la ville car, souvent, l'environnement impose des
 restrictions quant à la direction que l'expansion d'une ville va
 prendre. Parmi ces contraintes, on pense aux zones non constructibles
-comme les plans d'eau, les fôrets mais aussi aux fortes pentes. Un
-champ de vecteurs est dédié à l'évitement de telles zones et repousse la
-graine de ces obstacles. Hors de leur aire, l'influence est nulle.
+comme les plans d'eau, les forêts mais aussi aux fortes pentes. Un
+champ de vecteurs $I_o$ est dédié à l'évitement de telles zones et
+repousse la graine des obstacles.
 
-\begin{equation*}
-  I(x,y) = \alpha I_d(x,y) + \beta I_r(x,y) + \gamma I_o(x,y) + \dots
-\end{equation*}
+L'influence générale qu'a le champ de vecteurs final $I$, somme
+pondérée de tous les autres, à la position $(x,y)$ est donnée par
+l'équation \ref{eq:vf}. Les facteurs $\alpha$, $\beta$ et $\gamma$
+sont à définir en fonction de l'importance que l'on souhaite donner à
+chaque champ et donc à l'information qu'ils expriment.
+
+\begin{equation}
+  I(x,y) = \alpha I_d(x,y) + \beta I_r(x,y) + \gamma I_o(x,y)
+  \label{eq:vf}
+\end{equation}
+
+Pour calculer $I_k(x,y)$ avec $k \in \{d,r,o\}$, on identifie les
+quatres vecteurs entourant le point $(x,y)$ puis on effectue une
+interpolation bilinéaire pour obtenir la valeur qu'aurait un vecteur
+en $(x,y)$.
+
+Afin d'illustrer ce mécanisme, une ville virtuelle et les champs de
+vecteurs associés sont visibles sur la figure \ref{fig:fields}. Plus
+les parcelles arborent une couleur vive et plus leur densité est
+élevée. Le quart de cercle gris correspond à un obstacle. Les arêtes
+bleues forment un axe viaire. On remarque que cette ville ne contient
+qu'une unique route passant horizontalement par son centre. En
+conséquence, la majeure partie des parcelles n'est pas relié au réseau
+routier. Cette configuration n'est donc aucunement réaliste mais
+permet de mettre en évidence la formation des champs de vecteurs.
 
 \begin{figure}[H]
   \centering
-  \subcaptionbox{La ville.}[.4\linewidth][c]{
+  \subcaptionbox{Ville virtuelle.}[.4\linewidth][c]{
     \includegraphics[width=.4\linewidth]{images/vf-base.png}
   }
-  \subcaptionbox{Le champ d'évasion de la densité.}[.4\linewidth][c]{
+  \subcaptionbox{Champ d'évasion de la densité.}[.4\linewidth][c]{
     \includegraphics[width=.4\linewidth]{images/vf-density.png}
   }
 
-  \subcaptionbox{Le champ d'attraction des routes}[.4\linewidth][c]{
+  \subcaptionbox{Champ d'attraction des routes}[.4\linewidth][c]{
     \includegraphics[width=.4\linewidth]{images/vf-road.png}
   }
-  \subcaptionbox{Le champ de répulsion des obstacles}[.4\linewidth][c]{
+  \subcaptionbox{Champ de répulsion des obstacles}[.4\linewidth][c]{
     \includegraphics[width=.4\linewidth]{images/vf-obstacle.png}
   }
-  \caption{}
+  \caption{Une ville virtuelle et les différentes influences y guidant
+    le positionnement des nouvelles parcelles.}
   \label{fig:fields}
 \end{figure}
+
+La combinaison des trois champs de vecteurs fournit le champs final de
+la figure \ref{fig:field-sum}. Les chemins qui s'y forment guident
+vers les bords ouest et est de la ville par attirance de l'axe routier
+mais aussi dans une moindre mesure vers le nord et le sud. La
+croissance vers le sud-est est stoppé par l'influence de l'obstacle.
 
 \begin{figure}[H]
   \centering
@@ -1052,39 +1095,80 @@ graine de ces obstacles. Hors de leur aire, l'influence est nulle.
 
 DEPLACEMENT GRAINE. VITESSE. ARRET.
 
-Les champs de vecteurs décrit ci-dessus servent uniquement
-d'illustrations et la généralité du concept de ce mécanisme permet à
-l'utilisateur du modèle d'employer les données qu'il juge nécessaires
-afin de mettre en avant certaines caractéristiques d'un système
-urbain.
+Les champs de vecteurs décrit ci-dessus servent un but illustratif. La
+généralité de ce mécanisme permet à l'utilisateur du modèle d'employer
+les données qu'il juge nécessaires afin de mettre en avant certaines
+caractéristiques d'un système urbain. Utiliser ces trois champs permet
+de guider la croissance de la ville en fonction des quantités qui la
+représentent et de contraintes de l'environnement. Il serait aussi
+utile de bénéficier de moyens de contrôle sur cette évolution
+urbaine. Dans les villes, des motifs réguliers se dessinent et sont
+issus d'un besoin d'organisation de l'espace. On pense notamment à
+l'organisation en grille typique de Manhattan ou à l'organisation
+radial de certains quartiers. Afin d'imposer ce type de placement, il
+serait envisageable d'employer un nouveau champ de vecteurs. TOujours
+dans une optique de contrôle, on peut utiliser un champ guidant les
+nouvelles parcelles vers des zones d'attraction.
 
 \subsubsection{Construction des éléments potentiels}
 
-Le mécanisme de placement des élément potentiels se base sur les
-variables internes au système urbain dont l'évolution est régie par le
-mécanisme cellulaire. Ce troisième mécanisme choisit quels éléments
-potentiels sont construits. On traite différemment le choix des routes
-à construire et le choix des parcelles à construire.
+Le mécanisme de placement des élément potentiels présenté précedemment
+se base sur les variables internes au système urbain ; variables dont
+l'évolution est régie par le mécanisme cellulaire. Seulement, les
+nouvelles parcelles et routes placées sont potentielles. Le troisième
+mécanisme choisit parmi ces éléments potentiels lesquels sont
+construits. On traite différemment le choix des parcelles à construire
+et le choix des routes à construire.
 
+PARCELLES
 
+Afin de contrôler l'expansion effective de la ville, un taux de
+croissance $c_p$ est défini pour régler la vitesse de construction des
+parcelles potentielles. Ainsi, $c_p$ parcelles sont construites par
+itération du modèle.
+
+Toujours dans un soucis de cohérence historique, on refuse qu'une
+parcelle potentielle soit construite alors qu'elle n'est pas encore
+reliée au réseau routier existant. On considère donc uniquement celles
+dont la cellule de Voronoï a au moins une arête construite.
+
+Une fois ces parcelles candidates listées, on leur adjoint un score
+fonction de l'âge de leur prévision (le temps auquel elles ont été
+placées). Le but de cette quantification est de donner la priorité de
+construction aux parcelles prévues depuis plus longtemps. La ville
+étant néanmoins une structure imparfaite et parfois désordonnée, le
+choix des parcelles est fait par un tirage aléatoire biaisé en
+fonction de ce score car l'âge de la prévision ne peut pas donner la
+priorité de façon déterministe.
+
+ROUTES
+
+La construction des routes potentielles est un problème plus
+complexe. Le diagramme de Voronoï, et plus précisément ses arêtes et
+sommets, forment un réseau routier global dans lequel chaque parcelle
+est encerclée de routes potentielles. Dans une ville réelle, toutes
+les parcelles de sont bien sûr pas entourées de voies mais sont
+regroupées en blocs ou en bandes elles-mêmes encerclées. La tâche à
+accomplir est donc de sélectionner des arêtes du réseau routier global
+pour les construire.
+
+Les routes ont pour fonction de déplacer la population d'une ville;
+par conséquent, le choix quant aux routes à construire doit être
+raisonné selon sa configuration et particulièrement sa densité.
 
 \section{Mesures}
 
-HEUUUUUUUU...
+DEMO LH
+
+AIRES
+
+AIRES DENSITES
+
+DIAMETRE
+
+CENTRALITE
 
 DEGRE DES CARREFOURS
-
-ELOIGNEMENT DE LA DENSITE PAR RAPPORT AU CENTRE GEOMETRIQUE
-
-ELOIGNEMENT DE LA DENSITE PAR RAPPORT AUX CENTRES DENSITAIRES
-
-TAILLE DES PARCELLES ? (BIAIS AU BORD)
-
-ACCESSIBILITE ?
-
-DIAMETRE ?
-
-CENTRALITE ?
 
 \section{Conclusion}
 
