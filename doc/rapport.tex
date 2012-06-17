@@ -262,7 +262,7 @@ urbaine \cite{}. CITATIONS
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=.6\linewidth]{images/schelling.png}
+  \includegraphics[width=.5\linewidth]{images/schelling.png}
   \caption{Configuration produite par le modèle de Schelling. Chacune
     des deux couleurs représente une population différente. La
     conclusion de ces travaux est qu'un faible degré d'intolérance
@@ -591,7 +591,6 @@ d'interprétation est nécessaire et n'a pas été traîté à l'occasion de
 ce projet. Un exemple est visible sur la figure \ref{fig:interp}.
 
 \begin{figure}[H]
-
   \centering
   \subcaptionbox{}[0.9\linewidth][c]{
     \includegraphics[width=.3\linewidth]{images/voronoi-interp0.png}
@@ -625,6 +624,20 @@ dans l'esprit de l'urbaniste; à une possibilité envisagée et
 représentée de manière intangible mais néanmoins précise. Les
 parcelles potentielles, particulièrement, n'ont pas d'effet sur le
 bâti construit. Par contre, elles attirent la construction des routes.
+
+FAIRE IMAGE
+
+\begin{figure}[H]
+  \centering \subcaptionbox{Ville virtuelle.}[.45\linewidth][c]{
+    %\includegraphics[width=.45\linewidth]{images/vf-base.png}
+  }
+  \subcaptionbox{$I_d$, le champ d'évasion de la
+    densité.}[.45\linewidth][c]{
+    %\includegraphics[width=.45\linewidth]{images/vf-density.png}
+  }
+  \caption{}
+  \label{fig:potentialite}
+\end{figure}
 
 Cette dualité et cette unidirectionalité sont justifiées par un désir
 de fournir un modèle historiquement cohérent. On ne se contente pas de
@@ -1064,10 +1077,12 @@ formation des champs de vecteurs.
 
 \begin{figure}[H]
   \centering \subcaptionbox{Ville virtuelle.}[.45\linewidth][c]{
-    \includegraphics[width=.45\linewidth]{images/vf-base.png} }
+    \includegraphics[width=.45\linewidth]{images/vf-base.png}
+  }
   \subcaptionbox{$I_d$, le champ d'évasion de la
     densité.}[.45\linewidth][c]{
-    \includegraphics[width=.45\linewidth]{images/vf-density.png} }
+    \includegraphics[width=.45\linewidth]{images/vf-density.png}
+  }
 
   \subcaptionbox{$I_r$, Le champ d'attraction des routes}[.45\linewidth][c]{
     \includegraphics[width=.45\linewidth]{images/vf-road.png}
@@ -1153,6 +1168,8 @@ regroupées en blocs ou en bandes elles-mêmes encerclées. La tâche à
 accomplir est donc de sélectionner des arêtes du réseau routier global
 pour les construire.
 
+REFORMULER
+
 NETWORK SIMPLEX
 
 UN PUIT + PLUSIEURS SOURCES
@@ -1163,23 +1180,133 @@ EVALUATION
 
 \subsection{Démonstration}
 
-DEMO LH
+Afin d'évaluer notre modèle, on l'applique à une configuration
+réelle. La zone géographique étudiée est la partie ouest du Havre. Les
+données utilisées \footnote{Les données employées proviennent de
+  l'Agence Européenne pour l'Environnement
+  \url{http://www.eea.europa.eu/data-and-maps/data/urban-atlas}} ont
+été réduites à un sous-espace de la ville pour des raisons de temps de
+calcul. Elles comprennent les informations cadastrales, les densités
+de population et le tracé du réseau routier.
+
+AJUSTER IMAGES
+
+\begin{figure}[H]
+  \centering
+  \subcaptionbox{Vue aérienne.}[.3\linewidth][c]{
+    \includegraphics[width=.3\linewidth]{images/le_havre_map.png}
+  }
+  \subcaptionbox{Shapefile.}[.3\linewidth][c]{
+    \includegraphics[width=.3\linewidth]{images/le_havre_shapefile.png}
+  }
+  \subcaptionbox{Diagramme de Voronoï.}[.3\linewidth][c]{
+    \includegraphics[width=.3\linewidth]{images/le_havre_voronoi.png}
+  }
+  \caption{}
+  \label{fig:le_havre}
+\end{figure}
+
+PROFIL COTIER = OBSTACLE
+
+\begin{figure}[H]
+  \centering
+  \subcaptionbox{$t = 0$}[.45\linewidth][c]{
+    \includegraphics[width=.45\linewidth]{images/lh_0.png}
+  }
+  \subcaptionbox{$t = 100$}[.45\linewidth][c]{
+    \includegraphics[width=.45\linewidth]{images/lh_100.png}
+  }
+
+  \subcaptionbox{$t = 200$}[.45\linewidth][c]{
+    \includegraphics[width=.45\linewidth]{images/lh_200.png}
+  }
+  \subcaptionbox{$t = 300$}[.45\linewidth][c]{
+    \includegraphics[width=.45\linewidth]{images/lh_300.png}
+  }
+
+  \subcaptionbox{$t = 400$}[.45\linewidth][c]{
+    \includegraphics[width=.45\linewidth]{images/lh_400.png}
+  }
+  \subcaptionbox{$t = 500$}[.45\linewidth][c]{
+    \includegraphics[width=.45\linewidth]{images/lh_500.png}
+  }
+  \caption{Évolution de notre Havre partiel sur 500 itérations.}
+  \label{fig:le_havre_demo}
+\end{figure}
+
+IMAGE COMPARAISON T0 T500
+
+NOUVEAUX CENTRES
+
+CROISSANCE NORD ET EST
 
 \subsection{Mesures sur le bâti}
 
-AIRES
+\subsubsection{Évolution de la superficie de la ville}
 
-AIRES DENSITES
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=.8\linewidth]{images/area.png}
+  \caption{}
+\end{figure}
+
+LINEAIRE
+
+DEVRAIT SE STABILISER
+
+\subsubsection{Évolution de la superficie par densité}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=.8\linewidth]{images/area_ALL.png}
+  \caption{}
+\end{figure}
 
 \subsection{Mesures sur le viaire}
 
-DIAMETRE
+\subsubsection{Diamètre}
 
-CENTRALITE
+A FAIRE
 
-DEGRE DES CARREFOURS
+\begin{figure}[H]
+  \centering
+  %\includegraphics[width=.8\linewidth]{images/area.png}
+  \caption{}
+\end{figure}
 
-DEGRE / DISTANCE
+\subsubsection{Centralité}
+
+A FAIRE
+
+\begin{figure}[H]
+  \centering
+  %\includegraphics[width=.8\linewidth]{images/area.png}
+  \caption{}
+\end{figure}
+
+\subsubsection{Degré des carrefours}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=.8\linewidth]{images/degree.png}
+  \caption{}
+\end{figure}
+
+COMMENCE BAS -> APPROXIMATION
+
+STABILISE
+
+CARACTERISTIQUE
+
+\subsubsection{Degré des carrefours selon la distance}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=.8\linewidth]{images/degree_distance.png}
+  \caption{}
+\end{figure}
+
+
 
 \section{Conclusion}
 
@@ -1187,7 +1314,7 @@ RESUME
 
 CONSTAT
 
-PERSPECTIVES (DYNAMIQUES INTERNES, REALISME, INTERPRETATION, VRAIE VILLE)
+PERSPECTIVES
 
 \printbibliography
 
