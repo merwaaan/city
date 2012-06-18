@@ -1,8 +1,5 @@
-javac -cp lib/geoapi-2.2-M1.jar:lib/gs-algo-1.2-git-last.jar:lib/gs-core-1.2-git-last.jar:lib/gs-ui-1.2-git-last.jar:lib/gt-api-2.5.1.jar:lib/gt-main-2.5.1.jar:lib/gt-metadata-2.5.1.jar:lib/gt-epsg-hsql-2.5.1.jar:lib/gt-referencing-2.5.1.jar:lib/gt-shapefile-2.5.1.jar:lib/jsr-275-1.0-beta-2.jar:lib/jts-1.12.jar -d build  src/BackgroundLayer.java src/CityOps.java src/CrossroadPivot.java src/Density.java src/DensityField.java src/DensityStrategy.java src/LotStrategy.java src/LotOps.java src/Measure.java src/MouseManager.java src/Obstacle.java src/ObstacleField.java src/PatternField.java src/PotentialLotStrategy.java src/RoadField.java src/RoadStrategy.java src/RoadOps.java src/ShapeFileLoader.java src/Simulation.java src/Strategy.java src/SumField.java src/Test.java src/VectorField.java
-cd build && java -cp .:../lib/geoapi-2.2-M1.jar:../lib/gs-algo-1.2-git-last.jar:../lib/gs-core-1.2-git-last.jar:../lib/gs-ui-1.2-git-last.jar:../lib/gt-api-2.5.1.jar:../lib/gt-main-2.5.1.jar:../lib/gt-metadata-2.5.1.jar:../lib/gt-epsg-hsql-2.5.1.jar:../lib/gt-referencing-2.5.1.jar:../lib/gt-shapefile-2.5.1.jar:../lib/jsr-275-1.0-beta-2.jar:../lib/jts-1.12.jar Test
-0.0 0.0
-150.0 1.8
-300.0 2.0
+150.0 2.74583318974124
+300.0 2.9
 450.0 2.793103448275862
 600.0 2.540983606557377
 750.0 2.6285714285714286

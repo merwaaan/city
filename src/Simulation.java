@@ -233,7 +233,7 @@ public class Simulation {
 
 					 System.out.print(this.step+" ");
 					 DecimalFormat f = new DecimalFormat("################");
-					 //System.out.println(Measure.averageBetweennessCentrality(this));
+					 System.out.println(f.format(Measure.diameter(this)));
 
 					 if(this.step >= 500) {
 
@@ -258,8 +258,8 @@ public class Simulation {
 								System.out.println(d + " " + (n > 0 ? total / n : 0));
 						  }
 						  */
-					 return;
-				}
+						 return;
+					 }
 
 				redraw();
 				screenshot();
