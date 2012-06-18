@@ -16,9 +16,9 @@ public class DensityStrategy extends Strategy {
 	 };
 
 	 private double[][] affinities = {
-		  {0.9, 0.01, 0},         // LOW
-		  {0.001, 1.5, 0.0001}, // MEDIUM
-		  {0, 0.05, 1.3}       // HIGH
+		  {0.9, 0.001, 0},         // LOW
+		  {0.001, 1, 0.0001}, // MEDIUM
+		  {0, 0.001, 1.1}       // HIGH
 	 };
 
 	 public DensityStrategy(Simulation sim) {

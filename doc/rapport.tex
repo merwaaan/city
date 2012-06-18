@@ -173,24 +173,38 @@ REMERCIEMENTS
 
 \section{Introduction}
 
-LES VILLES GRANDISSENT / STATISTIQUES
+Le système complexe que forme la ville est soumis à une croissance
+ayant atteint un pic durant les années 50 et demeurant depuis
+constante. En 2007, la majorité de la population mondiale était
+urbaine et des projections récentes annoncent que le pourcentage
+atteindra 81\% d'ici 2050.
 
-Le système complexe que forme la ville est donc soumis à une forte
-croissance et un réel besoin de contrôler et de prévoir son évolution
-se fait ressentir en conséquence de l'explosion démographique que
+Un réel besoin de contrôler et de prévoir l'évolution de la ville se
+fait ressentir en conséquence de l'explosion démographique que
 subissent les zones urbaines. C'est dans ce cadre de contrôle et de
 prévision qu'il est nécéssaire d'étudier les mécanismes sous-jacents à
 une ville pour pouvoir les reproduire sous forme de simulations et
-étudier différents scénarios possibles.
+étudier différents scénarios possibles. On se concentre ici sur deux
+éléments majeurs du tissu urbain, le viaire et le bâti, afin d'étudier
+leur relation de coévolution. Ces deux aspects de la ville semblent
+aller de paire puisque le bâti abrite les populations tandis que le
+viaire leur permet de se déplacer d'un point à un autre. Il est ainsi
+naturel pour le modèle que l'on développe d'utiliser la densité de
+population comme force de guidage principale.
 
-On se concentre ici sur deux domaines majeurs du tissu urbain, le
-viaire et le bâti, afin d'étudier leur relation de coévolution. Ces
-deux aspects de la ville semblent aller de paire puisque le bâti
-abrite les populations tandis que le viaire leur permet de se déplacer
-d'un point à un autre. Il est ainsi naturel d'utiliser la densité de
-population comme force de guidage de l'évolution de la ville.
+L'urbanisation massive n'est pas un phénomène récent et a été de
+nombreuses fois étudiés par les urbanistes et les géographes. parmi
+les nombreuses problèmatiques inhérentes aux villes, on en identifie
+deux principales : celle du placement de la population et celle du
+déplacement de la population. Plusieurs modèles informatiques simulent
+de façon satisfaisante la morphogénèse urbaine; ils restent cependant
+très spécialisés. Certains simulent l'évolution des densité tandis
+d'autres la topologie des réseaux de transport. Plus rares sont les
+modèles considérant simultanément ces deux domaines bien que.
 
-EN DIRE PLUS
+Autre problème, cohérence temporelle.
+
+Un modèle.
 
 La première partie présente un état de l'art de la modélisation de
 systèmes urbains et se concentre particulièrement sur les méthodes à
@@ -411,7 +425,7 @@ une nouvelle route jusqu'au réseau urbain. Les \textit{connectors} se
 déplacent uniquement sur le réseau viaire et y raccordent les
 bâtiments non connectés se trouvant dans leur rayon de détection
 \cite{Lechner2003}. Cette approche introduit un défaut conceptuel : le
-réseau viaire est construit à partir du bâti et non l'inverse. Ainsi,
+réseau viaire est construit après le bâti et non l'inverse. Ainsi,
 des bâtiments peuvent rester isolés pendant plusieurs itérations de la
 simulation et, même si le résultat final apparaît comme satisfaisant,
 arrêter la simulation en cours de l'évolution du système produit une
@@ -424,7 +438,7 @@ suivant : à chaque agrandissement du réseau urbain, on crée plusieurs
 routes éphémères en suivant des règles géométriques précises
 (allongement des voies existantes, limitation du degré des carrefours
 à 4, l'angle entre chaque rue tend vers 90 degrés). Parmi les $n$
-routes générées, une seule sera construite. Pour la choisir, le trafic
+routes générées, une seule sera conservée. Pour la choisir, le trafic
 sur ces nouvelles routes est simulé par des agents piétons et
 véhicules et l'on identifie celle qui sera la plus globalement
 bénéfique au réseau.
@@ -435,10 +449,10 @@ représenté par une mesure de densité sur des points disposés
 régulièrement dans l'espace, croît linéairement en fonction du
 temps. Le réseau routier s'agrandit en suivant des règles empiriques
 \cite{Barthelemy2008} associées à un critère de proximité tel qu'une
-voie passant entre deux points de densité s'en trouvent à distances
+voie passant entre deux points de densité s'en trouve à distances
 égales. Il est intéressant de noter que, sans le mentionner, les
-auteurs construisent ainsi un diagramme de Voronoï partiel comme celui
-qui est à la base de notre modèle.
+auteurs construisent ainsi un diagramme de Voronoï comme celui qui est
+à la base de notre modèle, mais partiel.
 
 D'autres solutions s'éloignant des systèmes complexes et penchant du
 côté de la génération procédurale de contenu existent
@@ -453,8 +467,8 @@ voies. Dans Citygen \cite{Kelly2006b}, un point $p$ de l'espace est
 aléatoirement choisi puis on calcule un ensemble de plusieurs routes
 raccordant $p$ au réseau routier existant en faisant varier leur
 déviation angulaire et un paramètre de bruit; la route finale est
-celle pour laquelle la variation d'altitude est la plus
-faible. CityEngine \cite{Parish2001} utilise un L-System dont les
+celle, parmi cet échantillonage, dont la variation d'altitude est la
+plus faible. CityEngine \cite{Parish2001} utilise un L-System dont les
 règles permettent de reproduire les différents motifs quadrillés,
 radiaux et organiques que l'on retrouve dans une ville. La nature
 récursive des L-Systems permet à ces motifs de se combiner et
@@ -576,7 +590,7 @@ représentant les routes et des n\oe uds représentant les
 carrefours. Les structures de ces graphes sont basées sur la topologie
 du diagramme de Voronoï puisqu'il s'agit pour le graphe viaire de
 l'ensemble des arêtes et sommets de Voronoï et pour le graphe du bâti,
-de sa triangulation de Delaunay.
+des arêtes et sommets sa triangulation de Delaunay.
 
 Il est essentiel de dissocier le polygone convexe qu'est la cellule de
 Voronoï et la véritable empreinte cadastrale de la parcelle qu'elle
@@ -763,8 +777,8 @@ probabilité de devenir elle-même \textit{élevée}. L'équation
 score $Ti(C)$ quantifiant l'éventualité pour une cellule $C$ de passer
 à l'état $i$. $V_k(C)$ correspond au nombre de voisins de $C$ ayant
 l'état $k$. Les valeurs fortes présentes sur la diagonale de $A$
-permettent à des groupements de parcelles de la même densité de se
-former.
+permettent à des groupements de parcelles partageant la même densité
+de se former.
 
 \begin{equation}
 T_i(C) = \sum_{k \in \{f,m,e\}} V_k(C) A_{ik}
@@ -845,18 +859,17 @@ simulé et une vraie ville. Premièrement, l'état de l'automate change
 drastiquement en juste quelques itérations : au temps 25, la
 disposition de départ n'est déjà plus discernable. Hors, la
 granularité temporelle d'une telle simulation doit être fine afin de
-pouvoir prendre en compte chaque modification locale du système pour
-qu'elle puisse se répercuter sur le reste de l'automate. Deuxièmement,
-on observe d'itération en itération que chaque cellule voit son état
-changer en permanence -- ce qui est normal pour un automate cellulaire
-auquel on n'a pas adjoint de règle supplémentaire. Il est donc
-important d'associer à chaque cellule un élan favorisant la
-persistance de son état selon son âge afin de ralentir la simulation
-et surtout d'éviter les transitions constantes qui ne sont absolument
-pas fidèles à la stabilité d'une ville réelle. Les fonctions
-sigmoïdes, fréquemment employées en modélisation de systèmes
-complexes, sont idéales pour exprimer en fonction du temps le pasage
-d'un seuil à un autre. La sigmoïde classique (figure
+laisser chaque modification locale du système se répercuter sur le
+reste de l'automate. Deuxièmement, on observe d'itération en itération
+que chaque cellule voit son état changer en permanence -- ce qui est
+attendu d'un automate cellulaire auquel on n'a pas adjoint de règle
+supplémentaire. Il est donc important d'associer à chaque cellule un
+élan favorisant la persistance de son état selon son âge afin de
+ralentir la simulation et surtout d'éviter les transitions constantes
+qui ne sont absolument pas fidèles à la stabilité d'une ville
+réelle. Les fonctions sigmoïdes, fréquemment employées en modélisation
+de systèmes complexes, sont idéales pour exprimer en fonction du temps
+le pasage d'un seuil à un autre. La sigmoïde classique (figure
 \ref{fig:sigmoide1}) varie de 0 à 1 par une courbe caractéristique. On
 l'altère comme il est visible sur la figure \ref{fig:sigmoide2} pour
 obtenir une fonction associant une probabilité de changement d'état à
@@ -997,11 +1010,12 @@ denses.
 La problématique étant d'étudier la coévolution de deux aspects
 urbains, le viaire et le bâti, et non seulement l'évolution des
 densités (qui ne sert que de support à l'essort de la ville), on a
-préféré choisir une règle basique. Il est néanmoins tout à fait
-possible d'utiliser par la suite des règles cellulaires plus
-sophistiquées pour améliorer le réalisme de la simulation. On
-pourrait, par exemple, prendre en compte les valeurs financières des
-parcelles ou les classes sociales des habitants.
+préféré choisir une règle basique pour l'automatisme cellulaire. Il
+est néanmoins tout à fait possible d'utiliser par la suite des règles
+cellulaires plus sophistiquées pour améliorer le réalisme de la
+simulation mais aussi considérer d'autres données. On pourrait, par
+exemple, prendre en compte les valeurs financières des parcelles ou
+les classes sociales des habitants.
 
 \subsubsection{Placement des éléments potentiels}
 
@@ -1038,19 +1052,20 @@ On emploie donc une approche mécanique qui se base sur un champ de
 vecteurs généré à partir de l'état du sytème urbain pour guider la
 graine vers sa destination. Puisque de nombreux paramètres sont à
 prendre en compte, on utilise un champ de vecteurs par donnée que l'on
-souhaite exprimer puis on les combine; ce qui permet de pondérer
-différemment l'impact de chaque donnée.
+souhaite exprimer puis on les combine; ce qui permet d'en pondérer
+différemment l'effet.
 
 On veut évidemment que la densité soit prise en compte dans ce
 placement. Dans une ville, les nouvelles installations ont
 principalement tendance à se répartir sur les frontières de
 l'enveloppe urbaine et à s'éloigner des centres, non pas par animosité
 envers l'activité du centre-ville mais simplement par manque
-d'espace. Pour traduire ce phénomène dans le modèle, un premier champ
-$I_d$ fait donc pointer chacun de ses vecteurs vers la parcelle
-disposant de la plus faible densité parmis les voisines de la parcelle
-sur laquelle il est posé. Ainsi des chemins de vecteurs se forment et
-mènent vers les zones à densité réduite.
+d'espace. Pour traduire ce phénomène d'étalement urbain dans le
+modèle, un premier champ $I_d$ fait donc pointer chacun de ses
+vecteurs vers la parcelle disposant de la plus faible densité parmis
+les voisines de la parcelle sur laquelle il est posé. Ainsi des
+chemins de vecteurs se forment et mènent vers les zones à densité
+réduite.
 
 Il est aussi naturel que les nouvelles parcelles soient placées près
 des installations routières existantes de façon à pouvoir communiquer
@@ -1063,13 +1078,13 @@ adjoindre à chaque route des coefficients différents selon leur classe
 afin que les grands axes attirent le bâti et que les ruelles aient un
 impact moindre.
 
-Les nouvelles parcelles ne sont pas uniquement disposés en fonction de
-variables internes à la ville car, souvent, l'environnement impose des
-restrictions quant à la direction que son expansion va prendre. Parmi
-ces contraintes, on pense aux zones non constructibles comme les plans
-d'eau, les forêts mais aussi aux fortes pentes. Un champ de vecteurs
-$I_o$ est dédié à l'évitement de telles zones et repousse la graine
-des obstacles.
+Les nouvelles parcelles ne sont pas uniquement disposées en fonction
+de variables internes à la ville car, souvent, l'environnement impose
+des restrictions quant à la direction que son expansion va
+prendre. Parmi ces contraintes, on pense aux zones non constructibles
+comme les plans d'eau, les forêts mais aussi aux fortes pentes. Un
+champ de vecteurs $I_o$ est dédié à l'évitement de telles zones et
+repousse la graine de ces obstacles.
 
 L'influence générale qu'a le champ de vecteurs final $I$, somme
 pondérée de tous les autres, à la position $(x,y)$ est donnée par
@@ -1131,11 +1146,14 @@ formation des champs de vecteurs.
   \label{fig:field-sum}
 \end{figure}
 
-VITESSE DE LA GRAINE
-
-ARRET DE LA GRAINE
-
-TRACER CHEMIN GRAINE
+La graine ne se déplace pas avec une vitesse constante et accélère ou
+décèlere selon les qualités immanentes à la parcelles sur laquelle
+elle se trouve. Lorsque sa vitesse atteint zéro, la nouvelle parcelle
+potentielle est définitivement placée. Deux facteurs modifient sa
+vitesse de déplacement : la densité et l'aire de la cellule que la
+graine survole. Les parcelles construites ont un effet positif et
+augmentent sa vitesse tandis que les parcelles construites la
+réduisent.
 
 Les quelques champs de vecteurs décrit ci-dessus servent un but
 illustratif. La généralité de ce mécanisme permet à l'utilisateur du
@@ -1147,12 +1165,12 @@ l'environnement. Il serait aussi utile de bénéficier de moyens de
 contrôle sur cette évolution urbaine. Dans les villes, des motifs
 réguliers se dessinent et sont issus d'un besoin d'organisation de
 l'espace. On pense notamment à l'organisation en grille typique de
-Manhattan ou à l'organisation radiale de certains quartiers. Afin
-d'imposer ce type de placement, il serait envisageable d'employer un
-nouveau champ de vecteurs guidant vers des points fixes. TOujours dans
-une optique de contrôle, on peut utiliser un champ guidant les
-nouvelles parcelles vers des zones d'attraction dont une municipalité
-souhaiterait évaluer le potentiel.
+Manhattan ou à l'organisation radiale de certains quartiers
+résidentiels. Afin d'imposer ce type de placement, il serait
+envisageable d'employer un nouveau champ de vecteurs guidant vers des
+points fixes. TOujours dans une optique de contrôle, on peut utiliser
+un champ guidant les nouvelles parcelles vers des zones d'attraction
+dont une municipalité souhaiterait évaluer le potentiel.
 
 \subsubsection{Construction des éléments potentiels}
 
@@ -1184,26 +1202,34 @@ construction aux parcelles prévues depuis plus longtemps. La ville
 choix des parcelles est fait par un tirage aléatoire biaisé en
 fonction de ce score et la priorité par l'âge n'est pas garantie.
 
-ETOFFER
-
 \paragraph{Choix des routes\\}
 
-La construction des routes potentielles est un problème plus
-complexe. Le diagramme de Voronoï, et plus précisément ses arêtes et
-sommets, forment un réseau routier global dans lequel chaque parcelle
-est encerclée de routes potentielles. Dans une ville réelle, toutes
-les parcelles ne sont bien sûr pas entourées de voies mais sont
-regroupées en blocs ou en bandes elles-mêmes encerclées. La tâche à
-accomplir est donc de sélectionner des arêtes du réseau routier global
-pour les construire.
+Le taux d'utilisation d'une route dépend bien sûr de son type, mais
+aussi de son positionnement au sein de l'espace urbain. Naturellement,
+un axe majeur traversant le centre dense de la ville est plus utile au
+système global qu'une rue résidentielle désservissant quelques
+habitations. Lorsque l'on choisit quelles routes construire, on a
+toujours comme objectif d'améliorer ce réseau global.
 
-REFORMULER
+On note que le placement des routes dans une ville n'est jamais fait
+au hasard. L'ajout de nouvelles routes traduit un besoin d'étendre le
+réseau vers l'extérieur ou bien de le densifier en son centre dans un
+but de décongestion.
+
+Puisque l'on souhaite conserver un réseau viaire connexe, les seules
+arêtes candidates à cette sélection sont les routes potentielles
+directement raccordées à une route construite.
+
+IMAGE
+
+Choisir quelles routes construire revient à se baser sur la partie
+construite du graphe routier et à choisir quels éléments de sa partie
+potentielle y seraient bénéfique. Cela s'apparente au problème des
+flots maximaux, appliqué classiquement à des réseaux de transport.
 
 NETWORK SIMPLEX
 
-UN PUIT + PLUSIEURS SOURCES
-
-EVALUATION
+SUPPLY / DEMAND
 
 \section{Mesures}
 

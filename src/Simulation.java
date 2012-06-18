@@ -74,7 +74,7 @@ public class Simulation {
 	 public boolean showPotentialLots = true;
 	 public boolean showLargeCells = false;
 	 public int showWhichVectorField = -1;
-	public boolean drawTrueRoads = false;
+	 public boolean drawTrueRoads = false;
 
 	 public List<List<Vector2>> paths;
 
@@ -168,46 +168,46 @@ public class Simulation {
 		  // Build the road from the shape file.
 		  for(Edge e : this.roads.getEachEdge()) {
 
-			  Node c0 = e.getNode0();
-			  Node c1 = e.getNode1();
+				Node c0 = e.getNode0();
+				Node c1 = e.getNode1();
 
-			  double c0x = (Double)c0.getAttribute("x");
-			  double c0y = (Double)c0.getAttribute("y");
-			  double c1x = (Double)c1.getAttribute("x");
-			  double c1y = (Double)c1.getAttribute("y");
-			  Coordinate[] c0c1  = {new Coordinate(c0x, c0y), new Coordinate(c1x, c1y)};
+				double c0x = (Double)c0.getAttribute("x");
+				double c0y = (Double)c0.getAttribute("y");
+				double c1x = (Double)c1.getAttribute("x");
+				double c1y = (Double)c1.getAttribute("y");
+				Coordinate[] c0c1  = {new Coordinate(c0x, c0y), new Coordinate(c1x, c1y)};
 
-			  LineString line = this.geomFact.createLineString(c0c1);
+				LineString line = this.geomFact.createLineString(c0c1);
 
-			  for(LineString ls : this.trueRoad)
-				  if(line.crosses(ls)) {
-					  RoadOps.buildRoad(e);
-					  break;
-				  }
+				for(LineString ls : this.trueRoad)
+					 if(line.crosses(ls)) {
+						  RoadOps.buildRoad(e);
+						  break;
+					 }
 		  }
 
 		  // Apply the density from the shape file.
 		  Coordinate o = new Coordinate(0, 0);
 		  if(this.shpDensities != null)
-			  for(Node lot : this.lots) {
+				for(Node lot : this.lots) {
 
-				  double x = (Double)lot.getAttribute("x");
-				  double y = (Double)lot.getAttribute("y");
-				  Coordinate c = new Coordinate(x, y);
+					 double x = (Double)lot.getAttribute("x");
+					 double y = (Double)lot.getAttribute("y");
+					 Coordinate c = new Coordinate(x, y);
 
-				  Density d = this.shpDensities.get(c);
-				  if(d != null) {
+					 Density d = this.shpDensities.get(c);
+					 if(d != null) {
 
-					  if(c.distance(o) > 1000)
-						  if(this.rnd.nextDouble() < 0.03)
-							  d = Density.MEDIUM;
-						  else
-							  d = Density.LOW;
+						  if(c.distance(o) > 1000)
+								if(this.rnd.nextDouble() < 0.03)
+									 d = Density.MEDIUM;
+								else
+									 d = Density.LOW;
 
-					  lot.setAttribute("density", d);
-					  LotOps.buildLot(lot);
-				  }
-			  }
+						  lot.setAttribute("density", d);
+						  LotOps.buildLot(lot);
+					 }
+				}
 	 }
 
 	 public void run() {
@@ -231,136 +231,136 @@ public class Simulation {
 
 					 ++this.step;
 
-					 //System.out.print(this.step+" ");
-					 //DecimalFormat f = new DecimalFormat("################");
-					 //System.out.println(Measure.averageCrossroadDegree(this));
+					 System.out.print(this.step+" ");
+					 DecimalFormat f = new DecimalFormat("################");
+					 //System.out.println(Measure.averageBetweennessCentrality(this));
 
 					 if(this.step >= 500) {
 
-						 List<double[]> records = Measure.degreeDistance(this);
+						  /*
+						  List<double[]> records = Measure.degreeDistance(this);
 
-						 double s = 150;
-						 double max = 3500;
+						  double s = 150;
+						  double max = 3500;
 
-						 for(double d = 0; d < max; d += s) {
+						  for(double d = 0; d < max; d += s) {
 
-							 int n = 0;
-							 double total = 0;
+								int n = 0;
+								double total = 0;
 
-							 for(double[] r : records) {
-								 int dist = (int)r[0];
-								 if(dist < d && dist > d - s) {
-									 total += (int)r[1];
-									 ++n;
-								 }
-							 }
-
-							 System.out.println(d + " " + (n > 0 ? total / n : 0));
-						 }
-
-						 return;
-					 }
-
-					 redraw();
-					 screenshot();
+								for(double[] r : records) {
+									 int dist = (int)r[0];
+									 if(dist < d && dist > d - s) {
+										  total += (int)r[1];
+										  ++n;
+									 }
+								}
+								System.out.println(d + " " + (n > 0 ? total / n : 0));
+						  }
+						  */
+					 return;
 				}
+
+				redraw();
+				screenshot();
 		  }
 	 }
+}
 
-	 /*************************
-	  *
-	  * Some utility functions.
-	  *
-	  *************************/
+/*************************
+ *
+ * Some utility functions.
+ *
+ *************************/
 
-	 public double[] px2gu(double xPx, double yPx) {
+public double[] px2gu(double xPx, double yPx) {
 
-		  double ratio = this.camera.getMetrics().ratioPx2Gu;
+	 double ratio = this.camera.getMetrics().ratioPx2Gu;
 
-		  double xGu = xPx / ratio;
-		  double yGu = yPx / ratio;
+	 double xGu = xPx / ratio;
+	 double yGu = yPx / ratio;
 
-		  return new double[]{xGu, yGu};
+	 return new double[]{xGu, yGu};
+}
+
+private void redraw() {
+
+	 this.lots.addAttribute("ui.repaint");
+}
+
+private void pause(int ms) {
+
+	 try {
+		  Thread.sleep(ms);
+	 }
+	 catch(Exception e) {
+		  e.printStackTrace();
+	 }
+}
+
+/**
+ * Saves a screenshot of the simulation under filename
+ * `screenshot-X` where X is the step number.
+ */
+public void screenshot() {
+
+	 this.lots.addAttribute("ui.screenshot", "../screenshot-" + this.step + ".png");
+}
+
+/**
+ * Generates random geometrical coordinates.
+ *
+ * @param n The number of coordinates requested.
+ * @param width The maximal width of the city.
+ */
+private void randomCoords(int n, int width) {
+
+	 this.width = width;
+
+	 List<Coordinate> coords = new ArrayList<Coordinate>();
+
+	 int half = this.width / 2;
+
+	 for(int i = 0; i < n; ++i) {
+
+		  // Choose a random position.
+		  int x = this.rnd.nextInt(this.width) - half;
+		  int y = this.rnd.nextInt(this.width) - half;
+
+		  coords.add(new Coordinate(x, y));
 	 }
 
-	 private void redraw() {
+	 this.lotCoords = coords;
+}
 
-		  this.lots.addAttribute("ui.repaint");
-	 }
+/**
+ * Generates random geometrical coordinates.
+ *
+ * @param n The number of coordinates requested.
+ * @param radius The maximal width of the city.
+ */
+private void radialCoords(int n, int radius) {
 
-	 private void pause(int ms) {
+	 this.width = radius * 2;
 
-		  try {
-				Thread.sleep(ms);
-		  }
-		  catch(Exception e) {
-				e.printStackTrace();
-		  }
-	 }
+	 List<Coordinate> coords = new ArrayList<Coordinate>();
 
-	 /**
-	  * Saves a screenshot of the simulation under filename
-	  * `screenshot-X` where X is the step number.
-	  */
-	 public void screenshot() {
+	 int m = 0;
 
-		  this.lots.addAttribute("ui.screenshot", "../screenshot-" + this.step + ".png");
-	 }
+	 while(m < n) {
 
-	 /**
-	  * Generates random geometrical coordinates.
-	  *
-	  * @param n The number of coordinates requested.
-	  * @param width The maximal width of the city.
-	  */
-	 private void randomCoords(int n, int width) {
+		  // Choose a random position.
+		  int x = this.rnd.nextInt(this.width) - radius;
+		  int y = this.rnd.nextInt(this.width) - radius;
 
-		  this.width = width;
-
-		  List<Coordinate> coords = new ArrayList<Coordinate>();
-
-		  int half = this.width / 2;
-
-		  for(int i = 0; i < n; ++i) {
-
-				// Choose a random position.
-				int x = this.rnd.nextInt(this.width) - half;
-				int y = this.rnd.nextInt(this.width) - half;
-
+		  // Check that it is in the radius.
+		  if(Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2)) < radius) {
 				coords.add(new Coordinate(x, y));
+				++m;
 		  }
-
-		  this.lotCoords = coords;
 	 }
 
-	 /**
-	  * Generates random geometrical coordinates.
-	  *
-	  * @param n The number of coordinates requested.
-	  * @param radius The maximal width of the city.
-	  */
-	 private void radialCoords(int n, int radius) {
-
-		  this.width = radius * 2;
-
-		  List<Coordinate> coords = new ArrayList<Coordinate>();
-
-		  int m = 0;
-
-		  while(m < n) {
-
-				// Choose a random position.
-				int x = this.rnd.nextInt(this.width) - radius;
-				int y = this.rnd.nextInt(this.width) - radius;
-
-				// Check that it is in the radius.
-				if(Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2)) < radius) {
-					 coords.add(new Coordinate(x, y));
-					 ++m;
-				}
-		  }
-
-		  this.lotCoords = coords;
-	 }
+	 this.lotCoords = coords;
+}
 
 }

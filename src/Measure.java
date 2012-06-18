@@ -10,179 +10,188 @@ import org.graphstream.algorithm.BetweennessCentrality;
 
 public class Measure {
 
-	/**
-	 * Gives the average degree of the city crossroads. Nodes with
-	 * degree equals to 2 are ignored as they do not really represent
-	 * crossroads but rather straight lines.
-	 *
-	 * @param sim The simulation.
-	 * @return The average degree of the road network.
-	 */
-	public static double averageDegree(Simulation sim) {
+	 /**
+	  * Gives the average degree of the city crossroads. Nodes with
+	  * degree equals to 2 are ignored as they do not really represent
+	  * crossroads but rather straight lines.
+	  *
+	  * @param sim The simulation.
+	  * @return The average degree of the road network.
+	  */
+	 public static double averageDegree(Simulation sim) {
 
-		Graph roads = Measure.builtRoadNetwork(sim);
+		  Graph roads = Measure.builtRoadNetwork(sim);
 
-		double total = 0;
-		int n = roads.getNodeCount();
-		int m = 0;
+		  double total = 0;
+		  int n = roads.getNodeCount();
+		  int m = 0;
 
-		// Check if there is at least one crossroad. We would not want
-		// to divide by zero.
-		if(n == 0)
-			return 0;
+		  // Check if there is at least one crossroad. We would not want
+		  // to divide by zero.
+		  if(n == 0)
+				return 0;
 
-		for(Node crossroad : roads) {
+		  for(Node crossroad : roads) {
 
-			int deg = crossroad.getDegree();
+				int deg = crossroad.getDegree();
 
-			if(deg !=0 && deg != 2) {
-				total += crossroad.getDegree();
-				++m;
-			}
-		}
+				if(deg !=0 && deg != 2) {
+					 total += crossroad.getDegree();
+					 ++m;
+				}
+		  }
 
-		return total / m;
-	}
+		  return total / m;
+	 }
 
-	public static List<double[]> degreeDistance(Simulation sim) {
+	 public static List<double[]> degreeDistance(Simulation sim) {
 
-		Graph roads = Measure.builtRoadNetwork(sim);
+		  Graph roads = Measure.builtRoadNetwork(sim);
 
-		List<double[]> records = new ArrayList<double[]>();
+		  List<double[]> records = new ArrayList<double[]>();
 
-		for(Node crossroad : roads) {
+		  for(Node crossroad : roads) {
 
-			int deg = crossroad.getDegree();
+				int deg = crossroad.getDegree();
 
-			if(deg ==0 || deg == 2)
-				continue;
+				if(deg ==0 || deg == 2)
+					 continue;
 
-			double[] r = new double[2];
+				double[] r = new double[2];
 
-			double x = (Double)crossroad.getAttribute("x");
-			double y = (Double)crossroad.getAttribute("y");
-			double dist = Math.sqrt(x*x + y*y);
+				double x = (Double)crossroad.getAttribute("x");
+				double y = (Double)crossroad.getAttribute("y");
+				double dist = Math.sqrt(x*x + y*y);
 
-			r[0] = dist;
-			r[1] = deg;
+				r[0] = dist;
+				r[1] = deg;
 
-			records.add(r);
-		}
+				records.add(r);
+		  }
 
-		return records;
-	}
+		  return records;
+	 }
 
-	/**
-	 * Computes the betweenness centrality of the nodes of the road
-	 * network.
-	 *
-	 * @param sim The simulation.
-	 */
-	public static void betweennessCentrality(Simulation sim) {
+	 /**
+	  * Computes the betweenness centrality of the nodes of the road
+	  * network.
+	  *
+	  * @param sim The simulation.
+	  */
+	 public static double averageBetweennessCentrality(Simulation sim) {
 
-		Graph roads = Measure.builtRoadNetwork(sim);
+		  Graph roads = Measure.builtRoadNetwork(sim);
 
-		(new BetweennessCentrality("betweenness")).betweennessCentrality(roads);
-	}
+		  BetweennessCentrality b = new BetweennessCentrality("centrality");
 
-	/**
-	 * Computes the diameter of the road network.
-	 *
-	 * @param sim The simulation.
-	 */
-	public static double diameter(Simulation sim) {
+		  b.init(roads);
+		  b.compute();
 
-		Graph roads = Measure.builtRoadNetwork(sim);
+		  double total = 0;
+		  for(Node crossroad : roads)
+				total += (Double)crossroad.getAttribute("centrality");
 
-		for(Edge road : roads.getEachEdge()) {
+		  return total / roads.getNodeCount();
+	 }
 
-			Node c0 = road.getNode0();
-			double c0x = (Double)c0.getAttribute("x");
-			double c0y = (Double)c0.getAttribute("y");
+	 /**
+	  * Computes the diameter of the road network.
+	  *
+	  * @param sim The simulation.
+	  */
+	 public static double diameter(Simulation sim) {
 
-			Node c1 = road.getNode1();
-			double c1x = (Double)c1.getAttribute("x");
-			double c1y = (Double)c1.getAttribute("y");
+		  Graph roads = Measure.builtRoadNetwork(sim);
 
-			double d = Math.sqrt(Math.pow(c0x - c1x, 2) + Math.pow(c0y - c1y, 2));
+		  return Toolkit.diameter(roads, "weight", false);
+	 }
 
-			road.setAttribute("weight", d);
-		}
+	 /**
+	  * Computes the total area of the city.
+	  *
+	  * Note that the area represents the total surface of the Voronoi
+	  * cells (ignoring the bordering ones and the potential ones) and
+	  * that it only serves a an indicator as a cell does not exactly
+	  * represent the associated land lot.
+	  *
+	  * @param sim The simulation.
+	  * @return The area.
+	  */
+	 public static double area(Simulation sim) {
 
-		return Toolkit.diameter(roads, "weight", false);
-	}
+		  double area = 0;
 
-	/**
-	 * Computes the total area of the city.
-	 *
-	 * Note that the area represents the total surface of the Voronoi
-	 * cells (ignoring the bordering ones and the potential ones) and
-	 * that it only serves a an indicator as a cell does not exactly
-	 * represent the associated land lot.
-	 *
-	 * @param sim The simulation.
-	 * @return The area.
-	 */
-	public static double area(Simulation sim) {
+		  for(Node lot : sim.lots)
+				if(LotOps.isLotBuilt(lot) && !LotOps.isLargeCell(lot)) {
 
-		double area = 0;
+					 Polygon cell = (Polygon)lot.getAttribute("polygon");
+					 if(cell == null)
+						  continue;
 
-		for(Node lot : sim.lots)
-			if(LotOps.isLotBuilt(lot) && !LotOps.isLargeCell(lot)) {
+					 area += cell.getArea();
+				}
 
-				Polygon cell = (Polygon)lot.getAttribute("polygon");
-				if(cell == null)
-					continue;
+		  return area;
+	 }
 
-				area += cell.getArea();
-			}
+	 /**
+	  * Computes the summed areas of each density types.
+	  *
+	  * @param sim The simulation.
+	  * @return The areas as an array.
+	  */
+	 public static double[] densityAreas(Simulation sim) {
 
-		return area;
-	}
+		  double[] areas = {0, 0, 0};
 
-	/**
-	 * Computes the summed areas of each density types.
-	 *
-	 * @param sim The simulation.
-	 * @return The areas as an array.
-	 */
-	public static double[] densityAreas(Simulation sim) {
+		  for(Node lot : sim.lots)
+				if(LotOps.isLotBuilt(lot) && !LotOps.isLargeCell(lot)) {
 
-		double[] areas = {0, 0, 0};
+					 Polygon cell = (Polygon)lot.getAttribute("polygon");
+					 if(cell == null)
+						  continue;
 
-		for(Node lot : sim.lots)
-			if(LotOps.isLotBuilt(lot) && !LotOps.isLargeCell(lot)) {
+					 Density d = (Density)lot.getAttribute("density");
+					 if(d == null)
+						  continue;
 
-				Polygon cell = (Polygon)lot.getAttribute("polygon");
-				if(cell == null)
-					continue;
+					 areas[d.index()] += cell.getArea();
+				}
 
-				Density d = (Density)lot.getAttribute("density");
-				if(d == null)
-					continue;
+		  return areas;
+	 }
 
-				areas[d.index()] += cell.getArea();
-			}
+	 private static Graph builtRoadNetwork(Simulation sim) {
 
-		return areas;
-	}
+		  Graph built = new SingleGraph("road network");
 
-	private static Graph builtRoadNetwork(Simulation sim) {
+		  for(Node crossroad : sim.roads)
+				if(RoadOps.isCrossroadBuilt(crossroad)) {
+					 Node c = built.addNode(crossroad.getId());
+					 c.setAttribute("x", crossroad.getAttribute("x"));
+					 c.setAttribute("y", crossroad.getAttribute("y"));
+				}
 
-		Graph built = new SingleGraph("road network");
+		  for(Edge road : sim.roads.getEachEdge())
+				if(RoadOps.isRoadBuilt(road))
+					 built.addEdge(road.getId(), road.getNode0().getId(), road.getNode1().getId());
 
-		for(Node crossroad : sim.roads)
-			if(RoadOps.isCrossroadBuilt(crossroad)) {
-				Node c = built.addNode(crossroad.getId());
-				c.setAttribute("x", crossroad.getAttribute("x"));
-				c.setAttribute("y", crossroad.getAttribute("y"));
-			}
+		  for(Edge road : built.getEachEdge()) {
 
-		for(Edge road : sim.roads.getEachEdge())
-			if(RoadOps.isRoadBuilt(road))
-				built.addEdge(road.getId(), road.getNode0().getId(), road.getNode1().getId());
+				Node c0 = road.getNode0();
+				double c0x = (Double)c0.getAttribute("x");
+				double c0y = (Double)c0.getAttribute("y");
 
-		return built;
-	}
+				Node c1 = road.getNode1();
+				double c1x = (Double)c1.getAttribute("x");
+				double c1y = (Double)c1.getAttribute("y");
+
+				double d = Math.sqrt(Math.pow(c0x - c1x, 2) + Math.pow(c0y - c1y, 2));
+
+				road.setAttribute("weight", d);
+		  }
+
+		  return built;
+	 }
 
 }
