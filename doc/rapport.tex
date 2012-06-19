@@ -10,6 +10,9 @@
 \usepackage{subcaption}
 \usepackage{float}
 
+\usepackage[absolute]{textpos}
+\TPGrid{210}{297}
+
 \usepackage{tikz}
 \usetikzlibrary{calc}
 
@@ -25,7 +28,7 @@
 
 \begin{titlepage}
 
-  Stage de recherche
+  Stage de recherche -- Mars/Juin 2012
 
   {\Large \textsc{Coévolution du réseau viaire et du bâti}}
 
@@ -40,21 +43,9 @@
 
   \vfill
 
-  \begin{center}
-    ILLUSTRATION
-  \end{center}
-
-  \vfill
-
-  \begin{center}
-    \includegraphics[width=.25\linewidth]{images/logo-univ-le-havre.png}
-    \qquad\qquad\qquad
-    \includegraphics[width=.25\linewidth]{images/logo-litis.png}
-  \end{center}
-
-  \begin{center}
-    {\small Mars - Juin 2012}
-  \end{center}
+  \begin{textblock}{150}(-30,100)
+    \includegraphics[]{images/cover.png}
+  \end{textblock}
 
 \end{titlepage}
 
@@ -208,7 +199,7 @@ Un modèle.
 
 La première partie présente un état de l'art de la modélisation de
 systèmes urbains et se concentre particulièrement sur les méthodes à
-base d'automates cellulaires afin de metter en évidence leurs qualités
+base d'automates cellulaires afin de mettre en évidence leurs qualités
 mais aussi les limitations qu'ils imposent. La structure de donneés et
 les mécanismes régissant le modèle conçu dans le cadre de ce stage de
 recherche sont ensuite présentés en seconde partie. Enfin, des mesures
@@ -401,7 +392,7 @@ simuler le trafic routier (dans leur version 1D ou 2D
 réseau viaire. Dans les simulations cellulaires urbaines, le
 positionnement des routes a un impact sur le développement des
 cellules puisque le viaire \textit{attire} le bâti mais le réseau est
-souvent fourni en entrée et reste statique. Nous sommes amener à nous
+souvent fourni en entrée et reste statique. Nous sommes amené à nous
 interroger sur la capacité des automates cellulaires à modéliser le
 développement routier car la cellule n'est pas une représentation
 adéquate d'une structure linéaire dont l'échelle est plus large que
@@ -446,13 +437,24 @@ bénéfique au réseau.
 Barthelemy et Flammini \cite{Barthelemy2009} proposent aussi un modèle
 dans lequel le viaire et le bâti évoluent simultanément. Le bâti,
 représenté par une mesure de densité sur des points disposés
-régulièrement dans l'espace, croît linéairement en fonction du
-temps. Le réseau routier s'agrandit en suivant des règles empiriques
-\cite{Barthelemy2008} associées à un critère de proximité tel qu'une
-voie passant entre deux points de densité s'en trouve à distances
-égales. Il est intéressant de noter que, sans le mentionner, les
-auteurs construisent ainsi un diagramme de Voronoï comme celui qui est
-à la base de notre modèle, mais partiel.
+régulièrement dans l'espace, croît linéairement en fonction du temps
+et le réseau routier s'agrandit en suivant des règles empiriques
+\cite{Barthelemy2008}. Pour raccorder au réseau viaire des points de
+densité se trouvant à l'extrémité d'une route, cette dernière est
+allongée de façon à tous les desservir et passe à distance égale de
+chacun d'eux (figure \ref{fig:barthelemy}). Il est intéressant de
+noter que, sans le mentionner, les auteurs construisent ainsi un
+diagramme de Voronoï comme celui qui est à la base de notre modèle,
+mais partiel.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=.5\linewidth]{images/barthelemy-road.png}
+  \caption{Pour desservir à la fois le point $A$ et le point $B$, la
+    route va s'allonger dans la direction $\vec{M'}$
+    \cite{Barthelemy2008,Barthelemy2009}.}
+  \label{fig:barthelemy}
+\end{figure}
 
 D'autres solutions s'éloignant des systèmes complexes et penchant du
 côté de la génération procédurale de contenu existent
@@ -510,18 +512,20 @@ d'employer une structure respectant les critères suivants :
   territoire et le réseau routier.}
 \end{enumerate}
 
-Le diagramme de Voronoï est un candidat idéal. Sa constitution est
-intrinsèquement spatiale puisqu'il s'agit d'un partionnement axé
-autour de points spéciaux, les générateurs, chacun possédant une
-cellule contenant tous les points plus proches de ce générateur que de
-tout autre. Autrement dit, la distance séparant un point $p$ placé
-dans une cellule de Voronoï et le générateur de cette même cellule est
-inférieure à la distance séparant $p$ de tous les autres générateurs
-\cite{Edwards1993}. La figure \ref{fig:voronoi} fournit un exemple de
-diagramme de Voronoï. On remarque visuellement quelques propriétés
-notables; notamment le fait que deux générateurs voisins sont
-équidistants de l'arête les séparant et que le segment les reliant y
-est perpendiculaire.
+le diagramme de Voronoï est le candidat idéal. Soit un ensemble $G$ de
+$n$ points distincts nommés \textit{générateurs} (ou
+\textit{sites}). Alors $V(g)$ est la subdivision de l'espace contenant
+tous les points plus proches du générateur $g$ que de tout autre
+générateur \cite{Edwards1993}. Autrement exprimé, pour tout point $p
+\in V(g)$ et pour tout générateur $h \in G$ différent de g, $d(p,g) <
+d(p,h)$. $V(g)$ est appelé une cellule de Voronoï. L'ensemble des
+cellules forme le diagramme de Voronoï.
+
+La figure \ref{fig:voronoi} fournit un exemple de diagramme de
+Voronoï. On remarque visuellement quelques propriétés notables;
+notamment le fait que deux générateurs voisins sont équidistants de
+l'arête les séparant et que le segment les reliant y est
+perpendiculaire.
 
 \begin{figure}[!ht]
   \centering
@@ -691,7 +695,7 @@ construite mais elle n'est pas relié au reste du réseau.
   \subcaptionbox{Étape 4}[.24\linewidth][c]{
     \includegraphics[width=.24\linewidth]{images/order_good_3.png}
   }
-  \caption{}
+  \caption{Construction d'une parcelle dans un ordre non naturel.}
   \label{fig:order-bad}
 \end{figure}
 
@@ -729,9 +733,10 @@ est le suivant :
 Dans notre modèle, ces quelques étapes se traduisent comme suit :
 
 \begin{enumerate}
-\item{Une parcelle potentielle est placée dans une zone vide;}
-\item{On construit les routes potentielles menant à la parcelle
-  potentielle;}
+\item{Une parcelle potentielle est placée dans une zone vide
+  accompagnée de routes potentielles l'entourant;}
+\item{On construit progressivement des routes potentielles menant à la
+  parcelle potentielle;}
 \item{Une fois la route contruite, la parcelle peut être à son tour
   construite;}
 \end{enumerate}
@@ -752,7 +757,7 @@ La figure \ref{fig:order-good} illustre cet ordonnancement.
   \subcaptionbox{Étape 4}[.24\linewidth][c]{
     \includegraphics[width=.24\linewidth]{images/order_good_3.png}
   }
-  \caption{}
+  \caption{Construction d'une parcelle dans un ordre naturel.}
   \label{fig:order-good}
 \end{figure}
 
@@ -796,9 +801,18 @@ probabilité de devenir elle-même \textit{élevée}. L'équation
 \ref{eq:transition} permet de formaliser ce principe et fournit un
 score $Ti(C)$ quantifiant l'éventualité pour une cellule $C$ de passer
 à l'état $i$. $V_k(C)$ correspond au nombre de voisins de $C$ ayant
-l'état $k$. Les valeurs fortes présentes sur la diagonale de $A$
-permettent à des groupements de parcelles partageant la même densité
-de se former.
+l'état $k$. Les valeurs fortes présentes sur la diagonale de la
+matrice $A$ permettent à des groupements de parcelles partageant la
+même densité de se former. Les valeurs hors de la diagonale sont
+moindres afin de favoriser la stabilité de ces groupes mais reste
+supérieures à 0 pour laisser de la place au hasard. Dans la plupart
+des villes, les données cadastrales indiquent que les densités faibles
+occupent la majorité de la superficie suivies des densités moyennes
+puis des densités faibles. Pour contrebalancer cette inégalité et
+éviter que les densités fortes ne soient \textit{englouties} par la
+quantité de densités faibles, $A_{ff} < A_{mm} < A_{ee}$. C'est
+paramètres sont bien évidemment réglables selon le type de système
+urbain considéré.
 
 \begin{equation}
 T_i(C) = \sum_{k \in \{f,m,e\}} V_k(C) A_{ik}
@@ -856,11 +870,11 @@ P_f(C) = \frac{T_f(C)}{\sum_{k \in \{f,m,e\}} T_k(C)} = \frac{1.03}{1.03 + 4.541
 \end{equation*}
 
 \begin{equation*}
-P_f(C) = \frac{T_f(C)}{\sum_{k \in \{f,m,e\}} T_k(C)} = \frac{1.03}{1.03 + 4.541 + 6.7} = 0.37
+P_m(C) = \frac{T_m(C)}{\sum_{k \in \{f,m,e\}} T_k(C)} = \frac{4.541}{1.03 + 4.541 + 6.7} = 0.37
 \end{equation*}
 
 \begin{equation*}
-P_f(C) = \frac{T_f(C)}{\sum_{k \in \{f,m,e\}} T_k(C)} = \frac{1.03}{1.03 + 4.541 + 6.7} = 0.546
+P_e(C) = \frac{T_e(C)}{\sum_{k \in \{f,m,e\}} T_k(C)} = \frac{6.7}{1.03 + 4.541 + 6.7} = 0.546
 \end{equation*}
 
 Ce processus basé sur les affinités entre différentes classes évoque
@@ -982,7 +996,7 @@ détacher de la régularité spatiale contraignante des automates
 cellulaires et c'est à cet effet que l'on a présenté plus tôt le
 diagramme de Voronoï. \`A la manière des automates cellulaires graphes
 de O'Sullivan \cite{O'Sullivan2000}, chaque cellule de Voronoï voit
-son état varier en fonction de son voisinage; voisinage établit à
+son état varier en fonction de son voisinage; voisinage établi à
 partir de la topologie du diagramme; lui-même issu des positions des
 centres des parcelles. On applique le même mécanisme cellulaire au
 diagramme. La configuration initiale contient autant de parcelles que
@@ -1043,8 +1057,8 @@ Le second mécanisme place de nouveaux éléments urbains en bordure de
 la ville et est ainsi responsable de sa croissance horizontale. Ces
 éléments sont les routes et les parcelles mais il est seulement
 nécessaire de considérer le placement de ces dernières. En effet, les
-voies sont représentées par les arêtes de la cellule de Voronoï
-associé à une parcelle.
+voies potentielles sont représentées par les arêtes de la cellule de
+Voronoï associé à une parcelle.
 
 En quelques mots, le placement se déroule comme suit :
 
@@ -1059,7 +1073,7 @@ En quelques mots, le placement se déroule comme suit :
 
 Le déplacement de la graine est un processus pouvant potentiellement
 prendre en compte de nombreuses variables. Dans la simulation
-d'exemple que l'on décrit, seules la densité et le placement des
+d'exemple que l'on décris, seules la densité et le placement des
 routes peuvent guider la graine, car ce sont les uniques données
 considérées. Cependant, on souhaite que le modèle soit extensible et
 qu'il soit capable de supporter d'autres variables et contraintes : la
@@ -1082,7 +1096,7 @@ l'enveloppe urbaine et à s'éloigner des centres, non pas par animosité
 envers l'activité du centre-ville mais simplement par manque
 d'espace. Pour traduire ce phénomène d'étalement urbain dans le
 modèle, un premier champ $I_d$ fait donc pointer chacun de ses
-vecteurs vers la parcelle disposant de la plus faible densité parmis
+vecteurs vers la parcelle disposant de la plus faible densité parmi
 les voisines de la parcelle sur laquelle il est posé. Ainsi des
 chemins de vecteurs se forment et mènent vers les zones à densité
 réduite.
@@ -1118,7 +1132,7 @@ chaque champ et donc à l'information qu'ils expriment.
 \end{equation}
 
 Pour calculer $I_k(x,y)$ avec $k \in \{d,r,o\}$, on identifie les
-quatres vecteurs entourant le point $(x,y)$ puis on effectue une
+quatre vecteurs entourant le point $(x,y)$ puis on effectue une
 interpolation bilinéaire pour obtenir la valeur qu'aurait un vecteur
 en $(x,y)$.
 
@@ -1140,7 +1154,8 @@ jouet n'est donc aucunement réaliste mais permet d'illustrer la
 formation des champs de vecteurs.
 
 \begin{figure}[H]
-  \centering \subcaptionbox{Ville virtuelle.}[.45\linewidth][c]{
+  \centering
+  \subcaptionbox{Ville virtuelle.}[.45\linewidth][c]{
     \includegraphics[width=.45\linewidth]{images/vf-base.png}
   }
   \subcaptionbox{$I_d$, le champ d'évasion de la
@@ -1188,7 +1203,7 @@ l'espace. On pense notamment à l'organisation en grille typique de
 Manhattan ou à l'organisation radiale de certains quartiers
 résidentiels. Afin d'imposer ce type de placement, il serait
 envisageable d'employer un nouveau champ de vecteurs guidant vers des
-points fixes. TOujours dans une optique de contrôle, on peut utiliser
+points fixes. Toujours dans une optique de contrôle, on peut utiliser
 un champ guidant les nouvelles parcelles vers des zones d'attraction
 dont une municipalité souhaiterait évaluer le potentiel.
 
