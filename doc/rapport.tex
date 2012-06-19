@@ -630,7 +630,7 @@ entre deux types d'éléments : les \textit{potentiels} et les
 \textit{construits}.
 
 Un élément \textit{construit} est une parcelle ou une voie dont
-l'existence physique est avérée et qui affecte ses
+l'existence physique est avérée et qui affecte activement ses
 alentours. L'ensemble des éléments construits forme la ville.
 
 Un élément \textit{potentiel} peut être assimilé à une idée germant
@@ -639,28 +639,65 @@ représentée de manière intangible mais néanmoins précise. Les
 parcelles potentielles, particulièrement, n'ont pas d'effet sur le
 bâti construit. Par contre, elles attirent la construction des routes.
 
+Un sous-espace urbain décrit par notre modèle est visible sur la
+figure \ref{fig:potential}\subref{fig:potential-interp}. La parcelle
+potentielle et les routes potentielles sont tracées en pointillés. On
+remarque que chaque parcelle (construite ou potentielle) est entourée
+de routes (elles aussi construites ou potentielles). La figure
+\ref{fig:potential}\subref{fig:potential-voronoi} est la
+représentation de ce même espace par un diagramme de Voronoï. Les
+centres des parcelles sont utilisés comme générateurs de leur
+cellule. Les arêtes en pointillés représentent des routes potentielles
+et les arêtes pleines, des routes construites.
+
 \begin{figure}[H]
-  \centering \subcaptionbox{}[.45\linewidth][c]{
-    \includegraphics[width=.45\linewidth]{images/potential-voronoi.png}
-  }
-  \subcaptionbox{}[.45\linewidth][c]{
+  \centering
+  \subcaptionbox{\label{fig:potential-interp}}[.45\linewidth][c]{
     \includegraphics[width=.45\linewidth]{images/potential-interp.png}
   }
-  \caption{}
-  \label{fig:potentialite}
+  \subcaptionbox{\label{fig:potential-voronoi}}[.45\linewidth][c]{
+    \includegraphics[width=.45\linewidth]{images/potential-voronoi.png}
+  }
+  \caption{Un sous-espace urbain et sa représentation sous forme de
+    diagramme de Voronoï.}
+  \label{fig:potential}
 \end{figure}
 
-Cette dualité et cette unidirectionalité sont justifiées par un désir
+La dualité introduite par la potentialité est justifiée par un désir
 de fournir un modèle historiquement cohérent. On ne se contente pas de
 générer itérativement un système urbain complet et de considérer la
 configuration finale comme l'unique résultat. Chaque itération fournit
-un résultat en soi et assembler chaque instantané de la ville doit
-décrire sa croisance naturelle.
+un résultat en soi et assembler les instantanés de la ville doit
+décrire sa croisance naturelle. Le cycle d'urbanisation réel se
+produisant dans les villes doit donc être reproduit. On voit sur la
+figure \ref{fig:order-bad} quelques étapes pouvant mener à la
+construction d'une nouvelle parcelle. Mais même si les configurations
+de départ et d'arrivée sont correctes, les étapes intermédiaires sont
+erronnées. À l'étape 2, la parcelle potentielle est construite alors
+qu'elle n'est pas reliée à une route. À l'étape 3, une route y est
+construite mais elle n'est pas relié au reste du réseau.
 
-Si l'on souhaite reproduire le cycle d'urbanisation prenant place dans
-une vraie ville, la question de l'ordonnancement des étapes se
-pose. L'implantation de nouveaux bâtiments est lourdement dépendante
-du réseau routier existant puisqu'on ne construit pas
+\begin{figure}[H]
+  \centering
+  \subcaptionbox{Étape 1}[.24\linewidth][c]{
+    \includegraphics[width=.24\linewidth]{images/order_good_0.png}
+  }
+  \subcaptionbox{Étape 2}[.24\linewidth][c]{
+    \includegraphics[width=.24\linewidth]{images/order_bad_1.png}
+  }
+  \subcaptionbox{Étape 3}[.24\linewidth][c]{
+    \includegraphics[width=.24\linewidth]{images/order_bad_2.png}
+  }
+  \subcaptionbox{Étape 4}[.24\linewidth][c]{
+    \includegraphics[width=.24\linewidth]{images/order_good_3.png}
+  }
+  \caption{}
+  \label{fig:order-bad}
+\end{figure}
+
+La question de l'ordonnancement des étapes de la morphogénèse urbaine
+se pose donc. L'implantation de nouveaux bâtiments est lourdement
+dépendante du réseau routier existant puisqu'on ne construit pas
 d'infrastructures isolées des axes de transport. \`A l'inverse, le
 développement du réseau viaire est dépendant du bâti puisque la
 fonction des routes est avant tout de le desservir. En partant de ce
@@ -673,7 +710,8 @@ peupler par du bâti ?  L'\oe uf ou la poule ? La figure
 \begin{figure}[H]
   \centering
   \input{images/bati-viaire.tikz}
-  \caption{}
+  \caption{Le viaire dépend du bâti et le bâti dépend du viaire. Par
+    où commencer ?}
   \label{fig:bati-viaire}
 \end{figure}
 
@@ -686,42 +724,7 @@ est le suivant :
 \item{Une route est construite pour permettre l'installation de la
   nouvelle parcelle;}
 \item{Une fois la route contruite, la parcelle peut être à son tour construite;}
-\item{D'autres parcelles vont se construire sur la nouvelle route.}
 \end{enumerate}
-
-\begin{figure}[H]
-  \centering \subcaptionbox{}[.24\linewidth][c]{
-    \includegraphics[width=.24\linewidth]{images/order_good_0.png}
-  }
-  \subcaptionbox{}[.24\linewidth][c]{
-    \includegraphics[width=.24\linewidth]{images/order_bad_1.png}
-  }
-  \subcaptionbox{}[.24\linewidth][c]{
-    \includegraphics[width=.24\linewidth]{images/order_bad_2.png}
-  }
-  \subcaptionbox{}[.24\linewidth][c]{
-    \includegraphics[width=.24\linewidth]{images/order_good_3.png}
-  }
-  \caption{}
-  \label{fig:order-bad}
-\end{figure}
-
-\begin{figure}[H]
-  \centering \subcaptionbox{}[.24\linewidth][c]{
-    \includegraphics[width=.24\linewidth]{images/order_good_0.png}
-  }
-  \subcaptionbox{}[.24\linewidth][c]{
-    \includegraphics[width=.24\linewidth]{images/order_good_1.png}
-  }
-  \subcaptionbox{}[.24\linewidth][c]{
-    \includegraphics[width=.24\linewidth]{images/order_good_2.png}
-  }
-  \subcaptionbox{}[.24\linewidth][c]{
-    \includegraphics[width=.24\linewidth]{images/order_good_3.png}
-  }
-  \caption{}
-  \label{fig:order-good}
-\end{figure}
 
 Dans notre modèle, ces quelques étapes se traduisent comme suit :
 
@@ -731,10 +734,27 @@ Dans notre modèle, ces quelques étapes se traduisent comme suit :
   potentielle;}
 \item{Une fois la route contruite, la parcelle peut être à son tour
   construite;}
-\item{La nouvelle route attire d'autres parcelles potentielles.}
 \end{enumerate}
 
-ETOFFER
+La figure \ref{fig:order-good} illustre cet ordonnancement.
+
+\begin{figure}[H]
+  \centering
+  \subcaptionbox{Étape 1}[.24\linewidth][c]{
+    \includegraphics[width=.24\linewidth]{images/order_good_0.png}
+  }
+  \subcaptionbox{Étape 2}[.24\linewidth][c]{
+    \includegraphics[width=.24\linewidth]{images/order_good_1.png}
+  }
+  \subcaptionbox{Étape 3}[.24\linewidth][c]{
+    \includegraphics[width=.24\linewidth]{images/order_good_2.png}
+  }
+  \subcaptionbox{Étape 4}[.24\linewidth][c]{
+    \includegraphics[width=.24\linewidth]{images/order_good_3.png}
+  }
+  \caption{}
+  \label{fig:order-good}
+\end{figure}
 
 \subsection{Mécanismes}
 
