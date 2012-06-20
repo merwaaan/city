@@ -164,38 +164,44 @@ REMERCIEMENTS
 
 \section{Introduction}
 
-Le système complexe que forme la ville est soumis à une croissance
-ayant atteint un pic durant les années 50 et demeurant depuis
-constante. En 2007, la majorité de la population mondiale était
-urbaine et des projections récentes annoncent que le pourcentage
-atteindra 81\% d'ici 2050.
-
-Un réel besoin de contrôler et de prévoir l'évolution de la ville se
-fait ressentir en conséquence de l'explosion démographique que
-subissent les zones urbaines. C'est dans ce cadre de contrôle et de
+L'exode des zones rurales aux communautés urbaines a atteint un pic de
+croissance durant les années 50 et demeure depuis constante. En 2007,
+la moitié de la population mondiale habitait en ville et des
+projections récentes annoncent que cette part atteindra environ 80\%
+d'ici 2050. En conséquence de cette explosion démographique des zones
+urbaines, un réel besoin de contrôler et de prévoir l'évolution de la
+ville se fait ressentir. C'est dans ce cadre de contrôle et de
 prévision qu'il est nécéssaire d'étudier les mécanismes sous-jacents à
 une ville pour pouvoir les reproduire sous forme de simulations et
-étudier différents scénarios possibles. On se concentre ici sur deux
-éléments majeurs du tissu urbain, le viaire et le bâti, afin d'étudier
-leur relation de coévolution. Ces deux aspects de la ville semblent
-aller de paire puisque le bâti abrite les populations tandis que le
-viaire leur permet de se déplacer d'un point à un autre. Il est ainsi
-naturel pour le modèle que l'on développe d'utiliser la densité de
-population comme force de guidage principale.
+étudier différents scénarios possibles.
 
-L'urbanisation massive n'est pas un phénomène récent et a été de
-nombreuses fois étudiés par les urbanistes et les géographes. parmi
-les nombreuses problèmatiques inhérentes aux villes, on en identifie
-deux principales : celle du placement de la population et celle du
-déplacement de la population. Plusieurs modèles informatiques simulent
-de façon satisfaisante la morphogénèse urbaine; ils restent cependant
-très spécialisés. Certains simulent l'évolution des densité tandis
-d'autres la topologie des réseaux de transport. Plus rares sont les
-modèles considérant simultanément ces deux domaines bien que.
+L'urbanisation massive et la croissance des villes ne sont pas des
+phénomènes récents et ont été étudiés à maintes reprises par les
+urbanistes et les géographes. Parmi les nombreuses problèmatiques
+inhérentes aux villes, on en identifie deux : celle du placement de la
+population et celle du déplacement de la population. Plusieurs modèles
+informatiques simulent de façon satisfaisante la morphogénèse urbaine;
+ils restent cependant très spécialisés. Certains sont axés sur
+l'évolution des densité tandis que d'autres se concentrent sur
+l'expansion des réseaux de transport. Plus rares sont les modèles
+considérant simultanément ces deux domaines. Quand bien même ces
+éléments sont gérés de concert, un autre problème subsiste : le manque
+de cohérence temporelle. En effet, de nombreux modèles fournissent des
+configurations urbaines finales convaincantes et légales mais le cycle
+de construction employé ne reflète pas la réalité de la croissance
+urbaine. Ainsi, stopper une telle simulation en pleine éxécution nous
+laisse avec une ville incomplète et erronnée (bâtiments isolés du
+réseau de transport, réseau non connexe). Idéalement, si toutes les
+itérations étaient mises bout à bout, le \textit{film} produit
+décrirait la croissance naturelle de la ville.
 
-Autre problème, cohérence temporelle.
-
-Un modèle.
+On se concentre donc ici sur deux éléments majeurs du tissu urbain, le
+\textit{viaire} et le \textit{bâti}, afin d'étudier leur relation de
+coévolution. Le bâti est représenté à l'échelle de la parcelle
+cadastrale en prenant en compte l'influence du voisinage et le viaire
+à l'échelle de la rue et du carrefour. On propose un modèle
+d'évolution conjointe du viaire et du bâti garantissant la cohérence
+temporelle.
 
 La première partie présente un état de l'art de la modélisation de
 systèmes urbains et se concentre particulièrement sur les méthodes à
@@ -1073,7 +1079,7 @@ En quelques mots, le placement se déroule comme suit :
 
 Le déplacement de la graine est un processus pouvant potentiellement
 prendre en compte de nombreuses variables. Dans la simulation
-d'exemple que l'on décris, seules la densité et le placement des
+d'exemple que l'on décrit, seules la densité et le placement des
 routes peuvent guider la graine, car ce sont les uniques données
 considérées. Cependant, on souhaite que le modèle soit extensible et
 qu'il soit capable de supporter d'autres variables et contraintes : la
@@ -1106,19 +1112,41 @@ des installations routières existantes de façon à pouvoir communiquer
 aisément avec les grands axes routiers. À cet effet, on ajoute un
 champ $I_r$ pour lequel chaque vecteur pointe vers la voie construite
 la plus proche. Dans notre modèle, les voies ne sont pas hiérarchisées
-et on ne fait de distinction entre les routes primaires, secondaires
-et tertiaires. Si c'était le cas, on pourrait cependant imaginer
-adjoindre à chaque route des coefficients différents selon leur classe
-afin que les grands axes attirent le bâti et que les ruelles aient un
-impact moindre.
+et on ne fait pas de distinction entre les routes primaires,
+secondaires et tertiaires. Si c'était le cas, on pourrait cependant
+imaginer adjoindre à chaque route des coefficients différents selon
+leur classe afin que les grands axes attirent le bâti et que les
+ruelles aient un impact moindre.
 
 Les nouvelles parcelles ne sont pas uniquement disposées en fonction
 de variables internes à la ville car, souvent, l'environnement impose
 des restrictions quant à la direction que son expansion va
 prendre. Parmi ces contraintes, on pense aux zones non constructibles
-comme les plans d'eau, les forêts mais aussi aux fortes pentes. Un
+comme les plans d'eau, les forêts mais aussi les fortes pentes. Un
 champ de vecteurs $I_o$ est dédié à l'évitement de telles zones et
 repousse la graine de ces obstacles.
+
+Suivant l'influence de ces quelques champs de vecteurs, la graine se
+déplace. Son mouvement n'est pas restreint aux parcelles; elle ne
+saute pas de cellule en cellule mais se déplace librement sur l'espace
+de la simulation. Elle dispose d'une vitesse variant selon les
+parcelles sur lesquelles elle passe. Lorsque cette vitesse devient
+nulle, la graine s'arrête et on place la parcelle potentielle.
+
+Deux facteurs modifient la vitesse de déplacement de la graine : la
+potentialité et l'aire de la cellule que la graine survole. Les
+parcelles construites ont un effet positif et augmentent sa vitesse
+tandis que les parcelles potentielles (ou le vide) la réduisent. Ce
+choix permet de stopper la graine lorsqu'elle sort de l'enveloppe
+urbaine et de concentrer les nouvelles parcelles en bordure de la
+ville. L'allure de la graine dépend aussi de l'aire de la parcelle sur
+laquelle elle est : une petite aire l'augmente et une grande aire la
+réduit. Ainsi, les parcelles (construites ou potentielles) de grande
+taille ont une plus grande chance d'arrêter la graine et d'être
+subdivisée. Le couplage de ces deux effets permet de reproduire le
+phénomène de subdivision des grands espaces excentrés apparaissant
+dans les villes (de larges parcelles agricoles à la frontière de la
+ville sont divisées et converties en habitations).
 
 L'influence générale qu'a le champ de vecteurs final $I$, somme
 pondérée de tous les autres, à la position $(x,y)$ est donnée par
@@ -1134,7 +1162,14 @@ chaque champ et donc à l'information qu'ils expriment.
 Pour calculer $I_k(x,y)$ avec $k \in \{d,r,o\}$, on identifie les
 quatre vecteurs entourant le point $(x,y)$ puis on effectue une
 interpolation bilinéaire pour obtenir la valeur qu'aurait un vecteur
-en $(x,y)$.
+en $(x,y)$. La figure \ref{fig:bilinear-interp} résume ce procédé.
+
+\begin{figure}[H]
+  \centering
+  \input{images/bilinear-interp.tikz}
+  \caption{}
+  \label{fig:bilinear-interp}
+\end{figure}
 
 Afin d'illustrer ce mécanisme, une ville virtuelle et les champs de
 vecteurs associés sont visibles sur la figure \ref{fig:fields}. Plus
@@ -1180,15 +1215,6 @@ formation des champs de vecteurs.
   \caption{}
   \label{fig:field-sum}
 \end{figure}
-
-La graine ne se déplace pas avec une vitesse constante et accélère ou
-décèlere selon les qualités immanentes à la parcelles sur laquelle
-elle se trouve. Lorsque sa vitesse atteint zéro, la nouvelle parcelle
-potentielle est définitivement placée. Deux facteurs modifient sa
-vitesse de déplacement : la densité et l'aire de la cellule que la
-graine survole. Les parcelles construites ont un effet positif et
-augmentent sa vitesse tandis que les parcelles construites la
-réduisent.
 
 Les quelques champs de vecteurs décrit ci-dessus servent un but
 illustratif. La généralité de ce mécanisme permet à l'utilisateur du
