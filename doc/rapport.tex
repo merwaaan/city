@@ -1151,11 +1151,11 @@ frontière de la ville sont divisées et converties en habitations).
 Un champ de vecteur est une représentation discrète d'une influence
 s'exerçant sur l'environnement de la simulation et ne le recouvre donc
 pas entièrement. On procède par interpolation pour évaluer son
-influence en un point de l'espace $p$. La première étape est
-d'identifier le carré de vecteurs dans lequel $p$. Ensuite, les
-directions des vecteurs du haut sont interpolés linéairement en
-fonction de la position horizontale de $p$; idem pour les vecteurs du
-bas. Les deux vecteurs produits sont interpolés linéairement en
+influence en un point de l'espace $p$. La première étape consiste à
+identifier le carré de vecteurs dans lequel $p$ se trouve. Ensuite,
+les directions des vecteurs supérieurs sont interpolés linéairement en
+fonction de la position horizontale de $p$; idem pour les vecteurs
+inférieurs. Les deux vecteurs produits sont interpolés linéairement en
 fonction de la position verticale de $p$. La figure
 \ref{fig:bilinear-interp} résume ce procédé.
 
@@ -1470,11 +1470,39 @@ degré distance
 
 \section{Conclusion}
 
-RESUME
+Le but de ce projet était de proposer un modèle de croissance urbaine
+simulant à la fois l'évolution du réseau routier et de la topologie de
+la ville. Une garantie supplémentaire concernant la cohérence
+historique a été formulée.
 
-CONSTAT
+L'utilisation d'un automate cellulaire relaxé, prenant la forme d'un
+diagramme de Voronoï, a permis de traduire l'irrégularité du système
+que forme la ville tout en perpétuant un concept simple axé autour du
+changement d'état et de la relation de voisinage. La dualité entre
+éléments potentiels et éléments construits, ainsi que les rapports
+entretenus entre ces deux variétés a permis d'imiter le cycle
+d'urbanisation réel et d'assurer la cohérence historique.
 
-PERSPECTIVES
+Les mesures effectuées sur quelques simulations ont mis en évidence
+des similarités entre les configurations obtenues et de véritables
+systèmes urbains. DEVELOPPER
+
+Ce modèle souffre néanmoins de plusieurs lacunes. Conceptuellement, la
+cellule de Voronoï représente un espace d'influence et la forme de la
+parcelle représentée n'est pas connue. Il serait bénéficiable,
+toujours dans une optique d'amélioration du réalisme, d'employer des
+générateurs prenant la formes des empreintes cadastrales plutôt que de
+simples points en leur centre. EXEMPLE ?
+
+Il serait aussi avantageux d'employer un mécanisme cellulaire plus
+sophistiqué que la version basique utilisée présentement. POURQUOI ?
+
+Le défaut principal du modèle est lié au développement du réseau
+viaire. Avec l'avancement du temps, il se densifie autour des zones de
+fortes densités jusqu'à ce que toutes les parcelles soient encerclées
+de routes. PAS CREDIBLE
+
+BLABLA
 
 \printbibliography
 
