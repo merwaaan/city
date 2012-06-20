@@ -1,0 +1,35 @@
+\begin{tikzpicture}[scale=2]
+
+  % Four main vectors.
+  \coordinate (A) at (0,1);
+  \coordinate (B) at (1,1);
+  \coordinate (C) at (1,0);
+  \coordinate (D) at (0,0);
+
+  \draw[fill=black] (A) circle (0.03);
+  \draw[->,-latex,ultra thick] (A) -- ($ (A)+(90:0.5) $);
+  \draw[fill=black] (B) circle (0.03);
+  \draw[->,-latex,ultra thick] (B) -- ($ (B)+(45:0.5) $);
+  \draw[fill=black] (C) circle (0.03);
+  \draw[->,-latex,ultra thick] (C) -- ($ (C)+(-40:0.5) $);
+  \draw[fill=black] (D) circle (0.03);
+  \draw[->,-latex,ultra thick] (D) -- ($ (D)+(30:0.5) $);
+
+  % Horizontal interpolation.
+  \coordinate (AB) at (0.3,1);
+  \coordinate (CD) at (0.3,0);
+
+  \draw[dashed, purple] (A) -- (B);
+  \draw[dashed, purple] (C) -- (D);
+
+  \draw[draw=none,fill=purple] (AB) circle (0.03);
+  \draw[->,purple,-latex,ultra thick] (AB) -- ($ (AB)+(75:0.5) $);
+  \draw[draw=none,fill=purple] (CD) circle (0.03);
+  \draw[->,purple,-latex,ultra thick] (CD) -- ($ (CD)+(10:0.5) $);
+
+    % Target point.
+  \coordinate (T) at (0.3,0.7);
+
+  \draw[draw=none,fill=blue] (T) circle (0.03);
+
+\end{tikzpicture}

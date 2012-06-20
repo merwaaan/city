@@ -1,0 +1,50 @@
+\begin{tikzpicture}
+
+  % Background vectors.
+  \coordinate (b1) at (-1,-1);
+  \coordinate (b2) at (-1,0);
+  \coordinate (b3) at (-1,1);
+  \coordinate (b4) at (-1,2);
+  \coordinate (b5) at (0,2);
+  \coordinate (b6) at (1,2);
+  \coordinate (b7) at (2,2);
+  \coordinate (b8) at (2,1);
+  \coordinate (b9) at (2,0);
+  \coordinate (b10) at (2,-1);
+  \coordinate (b11) at (1,-1);
+  \coordinate (b12) at (0,-1);
+
+  \draw[->,-latex,gray] (b1) -- ($ (b1)+(120:0.5) $);
+  \draw[->,-latex,gray] (b2) -- ($ (b2)+(110:0.5) $);
+  \draw[->,-latex,gray] (b3) -- ($ (b3)+(100:0.5) $);
+  \draw[->,-latex,gray] (b4) -- ($ (b4)+(80:0.5) $);
+  \draw[->,-latex,gray] (b5) -- ($ (b5)+(70:0.5) $);
+  \draw[->,-latex,gray] (b6) -- ($ (b6)+(50:0.5) $);
+  \draw[->,-latex,gray] (b7) -- ($ (b7)+(40:0.5) $);
+  \draw[->,-latex,gray] (b8) -- ($ (b8)+(30:0.5) $);
+  \draw[->,-latex,gray] (b9) -- ($ (b9)+(35:0.5) $);
+  \draw[->,-latex,gray] (b10) -- ($ (b10)+(40:0.5) $);
+  \draw[->,-latex,gray] (b11) -- ($ (b11)+(50:0.5) $);
+  \draw[->,-latex,gray] (b12) -- ($ (b12)+(120:0.5) $);
+
+  % Four main vectors.
+  \coordinate (A) at (0,1);
+  \coordinate (B) at (1,1);
+  \coordinate (C) at (1,0);
+  \coordinate (D) at (0,0);
+
+  \draw[fill=black] (A) circle (0.03);
+  \draw[->,-latex,ultra thick] (A) -- ($ (A)+(90:0.5) $);
+  \draw[fill=black] (B) circle (0.03);
+  \draw[->,-latex,ultra thick] (B) -- ($ (B)+(45:0.5) $);
+  \draw[fill=black] (C) circle (0.03);
+  \draw[->,-latex,ultra thick] (C) -- ($ (C)+(-40:0.5) $);
+  \draw[fill=black] (D) circle (0.03);
+  \draw[->,-latex,ultra thick] (D) -- ($ (D)+(30:0.5) $);
+
+  % Target point.
+  \coordinate (T) at (0.3,0.7);
+
+  \draw[draw=none,fill=blue] (T) circle (0.06);
+
+\end{tikzpicture}

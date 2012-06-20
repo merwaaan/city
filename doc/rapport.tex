@@ -60,15 +60,15 @@
 \end{center}
 
 Gathering issues of human, economic, geographic and political nature,
-the city truly is a complex system. The increasing growth in
-population produces urban systems like the world has never seen
-before, of increasing size, increasing heterogeneity and increasing
-complexity. Studying the relationships between its internal elements
-is fundamental to the understanding of its mechanics and to better
-predict their developement. This work focuses on the relationship
-between the pattern of human installations within the city --
-characterized at the atomic level by a basic subdivision, the land lot
--- and its road network.
+the city truly is a complex system \cite{Batty2011}. The increasing
+growth in population produces urban systems like the world has never
+seen before, of increasing size, increasing heterogeneity and
+increasing complexity. Studying the relationships between its internal
+elements is fundamental to the understanding of its mechanics and to
+better predict their developement. This work focuses on the
+relationship between the pattern of human installations within the
+city -- characterized at the atomic level by a basic subdivision, the
+land lot -- and its road network.
 
 Systematic definitions of the city are many. Through the
 anthropologist's eye it can be seen as a concentration of persons, the
@@ -97,21 +97,21 @@ inspiration.
 A reader browsing through the literature of the field will often
 encounter cellular automata. The applicability and potential
 complexity of these structures has been proven many times over and
-they are fit for describing any kind of space-related
-problem. Nevertheless, their rigorous formalism may sometimes restrain
-realism and negatively impact the validity of the model. For example,
-a cellular automaton topology is, by definition, perfectly
-regular. Representing a city with a set of identical and aligned cells
-seems like a coarse simplification. In the same way, we may question
-the fact that each cell has an identical neighborhood structure, the
-temporal synchronism and the state discretization. We take a drastic
-step towards realism and embrace the spatial aspect of the city by
-replacing the classic cellular automaton with a Voronoi diagram
-following the same basic principle. Each of its cell represents a land
-lot, and neighborhood relationships that are ruled by adjacency
-determine its future state; the regularity constraint is thus
-relaxed. Voronoi edges delineate the Voronoi space of land lots and,
-as such, are ideal supports for roads.
+they are fit for describing any kind of space-related problem
+\cite{Edwards1993}. Nevertheless, their rigorous formalism may
+sometimes restrain realism and negatively impact the validity of the
+model. For example, a cellular automaton topology is, by definition,
+perfectly regular. Representing a city with a set of identical and
+aligned cells seems like a coarse simplification. In the same way, we
+may question the fact that each cell has an identical neighborhood
+structure, the temporal synchronism and the state discretization. We
+take a drastic step towards realism and embrace the spatial aspect of
+the city by replacing the classic cellular automaton with a Voronoi
+diagram following the same basic principle. Each of its cell
+represents a land lot, and neighborhood relationships that are ruled
+by adjacency determine its future state; the regularity constraint is
+thus relaxed. Voronoi edges delineate the Voronoi space of land lots
+and, as such, are ideal supports for roads.
 
 The different elements represented in our model (\textit{i.e.} land
 lots and roads) are declined in two flavors. \textit{Potential}
@@ -269,7 +269,7 @@ appliquant l'automate cellulaire à des problématiques géographiques
 multi-échelles telles que l'évolution d'épidémies \cite{Fu2003} et la
 ségrégation de population \cite{Schelling1969} (voir le modèle de
 Schelling sur la figure \ref{fig:schelling}) et bien sûr la croissance
-urbaine \cite{}. CITATIONS
+urbaine \cite{Batty1997,Stevens2007}.
 
 \begin{figure}[H]
   \centering
@@ -1137,16 +1137,42 @@ Deux facteurs modifient la vitesse de déplacement de la graine : la
 potentialité et l'aire de la cellule que la graine survole. Les
 parcelles construites ont un effet positif et augmentent sa vitesse
 tandis que les parcelles potentielles (ou le vide) la réduisent. Ce
-choix permet de stopper la graine lorsqu'elle sort de l'enveloppe
-urbaine et de concentrer les nouvelles parcelles en bordure de la
-ville. L'allure de la graine dépend aussi de l'aire de la parcelle sur
-laquelle elle est : une petite aire l'augmente et une grande aire la
-réduit. Ainsi, les parcelles (construites ou potentielles) de grande
-taille ont une plus grande chance d'arrêter la graine et d'être
-subdivisée. Le couplage de ces deux effets permet de reproduire le
-phénomène de subdivision des grands espaces excentrés apparaissant
-dans les villes (de larges parcelles agricoles à la frontière de la
-ville sont divisées et converties en habitations).
+choix permet de ralentir la graine lorsqu'elle s'éloigne de
+l'enveloppe urbaine et de concentrer les nouvelles parcelles en
+bordure de la ville. L'allure de la graine dépend aussi de l'aire de
+la parcelle sur laquelle elle est : une petite aire l'augmente et une
+grande aire la réduit. Ainsi, les parcelles (construites ou
+potentielles) de grande taille ont une plus grande chance d'arrêter la
+graine et d'être subdivisée. Le couplage de ces deux effets permet de
+reproduire le phénomène de subdivision des grands espaces excentrés
+apparaissant dans les villes (de larges parcelles agricoles à la
+frontière de la ville sont divisées et converties en habitations).
+
+Un champ de vecteur est une représentation discrète d'une influence
+s'exerçant sur l'environnement de la simulation et ne le recouvre donc
+pas entièrement. On procède par interpolation pour évaluer son
+influence en un point de l'espace $p$. La première étape est
+d'identifier le carré de vecteurs dans lequel $p$. Ensuite, les
+directions des vecteurs du haut sont interpolés linéairement en
+fonction de la position horizontale de $p$; idem pour les vecteurs du
+bas. Les deux vecteurs produits sont interpolés linéairement en
+fonction de la position verticale de $p$. La figure
+\ref{fig:bilinear-interp} résume ce procédé.
+
+\begin{figure}[H]
+  \centering
+  \subcaptionbox{}[0.3\linewidth][c]{
+    \input{images/bilinear-interp-1.tikz}
+  }
+  \subcaptionbox{}[0.3\linewidth][c]{
+    \input{images/bilinear-interp-2.tikz}
+  }
+  \subcaptionbox{}[0.3\linewidth][c]{
+    \input{images/bilinear-interp-3.tikz}
+  }
+  \caption{}
+  \label{fig:bilinear-interp}
+\end{figure}
 
 L'influence générale qu'a le champ de vecteurs final $I$, somme
 pondérée de tous les autres, à la position $(x,y)$ est donnée par
@@ -1158,18 +1184,6 @@ chaque champ et donc à l'information qu'ils expriment.
   I(x,y) = \alpha I_d(x,y) + \beta I_r(x,y) + \gamma I_o(x,y)
   \label{eq:vf}
 \end{equation}
-
-Pour calculer $I_k(x,y)$ avec $k \in \{d,r,o\}$, on identifie les
-quatre vecteurs entourant le point $(x,y)$ puis on effectue une
-interpolation bilinéaire pour obtenir la valeur qu'aurait un vecteur
-en $(x,y)$. La figure \ref{fig:bilinear-interp} résume ce procédé.
-
-\begin{figure}[H]
-  \centering
-  \input{images/bilinear-interp.tikz}
-  \caption{}
-  \label{fig:bilinear-interp}
-\end{figure}
 
 Afin d'illustrer ce mécanisme, une ville virtuelle et les champs de
 vecteurs associés sont visibles sur la figure \ref{fig:fields}. Plus
@@ -1265,47 +1279,59 @@ fonction de ce score et la priorité par l'âge n'est pas garantie.
 
 \paragraph{Choix des routes\\}
 
-Le taux d'utilisation d'une route dépend bien sûr de son type, mais
-aussi de son positionnement au sein de l'espace urbain. Naturellement,
-un axe majeur traversant le centre dense de la ville est plus utile au
-système global qu'une rue résidentielle désservissant quelques
-habitations. Lorsque l'on choisit quelles routes construire, on a
-toujours comme objectif d'améliorer ce réseau global.
+Le taux d'utilisation -- et donc l'importance -- d'une route dépend de
+son type, mais aussi de son positionnement au sein de l'espace
+urbain. Naturellement, un axe majeur traversant le centre dense de la
+ville est plus utile au système global qu'une rue résidentielle
+désservissant quelques habitations. Lorsque l'on choisit quelles
+routes construire, on a toujours comme objectif d'améliorer ce réseau
+global. On note que le placement des routes dans une ville n'est
+jamais fait au hasard. L'ajout de nouvelles routes traduit un besoin
+d'étendre le réseau vers l'extérieur ou bien de densifier son centre
+dans un but de décongestion.
 
-On note que le placement des routes dans une ville n'est jamais fait
-au hasard. L'ajout de nouvelles routes traduit un besoin d'étendre le
-réseau vers l'extérieur ou bien de le densifier en son centre dans un
-but de décongestion.
+Puisque l'on souhaite conserver un réseau viaire aussi connexe que
+possible, les seules routes candidates à la construction sont les
+routes potentielles directement raccordées à une route construite. Ce
+sont donc celles qui sont à la frontière entre le domaine du potentiel
+et le domaine du construit.
 
-Puisque l'on souhaite conserver un réseau viaire connexe, les seules
-arêtes candidates à cette sélection sont les routes potentielles
-directement raccordées à une route construite.
+L'évaluation des arêtes dont la construction serait bénéfique au
+réseau global s'apparente à un problème de flot maximum.
 
-IMAGE
+Centre de densité = supply
 
-Choisir quelles routes construire revient à se baser sur la partie
-construite du graphe routier et à choisir quels éléments de sa partie
-potentielle y seraient bénéfique. Cela s'apparente au problème des
-flots maximaux, appliqué classiquement à des réseaux de transport.
+Tous les autres carrefours (construits + candidates) = demand
 
-NETWORK SIMPLEX
+La demande dépend des densités des parcelles environnantes
 
-SUPPLY / DEMAND
+Network simplex
+
+Plus de flot = plus utile au réseau
+
+Construction !
+
+\begin{figure}[H]
+  \centering
+  \input{images/network.tikz}
+  \caption{}
+  \label{}
+\end{figure}
 
 \section{Mesures}
 
 \subsection{Démonstration}
 
-Afin d'évaluer notre modèle, on l'applique à une configuration
-réelle. La zone géographique étudiée est la partie ouest du Havre. Les
-données utilisées \footnote{Les données employées proviennent de
-  l'Agence Européenne pour l'Environnement
+Afin d'évaluer notre modèle, on l'applique à une configuration issu du
+réel. La zone géographique étudiée est la partie ouest de la ville du
+Havre. Les données utilisées \footnote{Les données employées
+  proviennent de l'Agence Européenne pour l'Environnement
   \url{http://www.eea.europa.eu/data-and-maps/data/urban-atlas}} ont
 été réduites à un sous-espace de la ville pour des raisons de temps de
 calcul. Elles comprennent les informations cadastrales, les densités
-de population et le tracé du réseau routier.
-
-AJUSTER IMAGES
+de population et le tracé du réseau routier. La figure
+\ref{fig:le_havre} dévoile plusieurs représentation de cette zone
+géographique.
 
 \begin{figure}[H]
   \centering
@@ -1322,40 +1348,75 @@ AJUSTER IMAGES
   \label{fig:le_havre}
 \end{figure}
 
-PROFIL COTIER = OBSTACLE
+la prétention de cette tentative n'est bien sûr pas d'émuler le
+développement complet du Havre à partir d'un des ces sous-ensembles
+mais plutôt de partir d'une configuration existante et obéissant donc
+??? puis d'observer le comportement de la simulation. Chaque ville est
+unique et évolue dans un cadre différent. Dans notre représentation du
+Havre, la contrainte la plus apparente provient du profil côtier qui
+interdit tout développement de la ville dans cette direction. Cette
+limitation nous permet de mettre en application notre évitement des
+obstacles via un champ de vecteurs approprié. On observe que la
+configuration initiale comprend un unique centre dense. À l'issu de la
+simulation, il devrait s'être élargi. D'autres centres pourront être
+apparu. On prévoit aussi une expansion du territoire urbain vers le
+nord, le nord-est et l'est.
 
 \begin{figure}[H]
   \centering
-  \subcaptionbox{$t = 0$}[.45\linewidth][c]{
-    \includegraphics[width=.45\linewidth]{images/lh_0.png}
-  }
-  \subcaptionbox{$t = 125$}[.45\linewidth][c]{
-    \includegraphics[width=.45\linewidth]{images/lh_125.png}
-  }
+  \includegraphics[width=.8\linewidth]{images/lh_0.png}
+  \caption{$t = 0$, configuration initiale.}
+\end{figure}
 
-  \subcaptionbox{$t = 250$}[.45\linewidth][c]{
-    \includegraphics[width=.45\linewidth]{images/lh_250.png}
-  }
-  \subcaptionbox{$t = 375$}[.45\linewidth][c]{
-    \includegraphics[width=.45\linewidth]{images/lh_375.png}
-  }
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=.8\linewidth]{images/lh_125.png}
+  \caption{$t = 125$. Le centre se densifie. Un nouveau centre
+    commence à se former au sud. Il y a croissance vers le nord et
+    l'est.}
+\end{figure}
 
-  \subcaptionbox{$t = 500$}[.45\linewidth][c]{
-    \includegraphics[width=.45\linewidth]{images/lh_500.png}
-  }
-  \caption{Évolution de notre Havre partiel sur 500 itérations.}
-  \label{fig:le_havre_demo}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=.8\linewidth]{images/lh_250.png}
+  \caption{$t = 250$. Les nouveaux centres de densité se
+    renforcent. L'expansion vers les terres continue. On remarque un
+    bloc de parcelles potentielles à l'est.}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=.8\linewidth]{images/lh_375.png}
+  \caption{$t = 375$. Le nouveau centre du sud s'affaiblit à cause des
+  nombreuses parcelles à densités faibles autour. Au contraire, celui
+  au nord se renforce.}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=.8\linewidth]{images/lh_500.png}
+  \caption{$t = 500$. Forte croissance au nord-est. le centre
+    historique de la ville s'étend vers l'ouest. Le centre de densité
+    au sud reste instable.}
 \end{figure}
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=.8\linewidth]{images/lh_500_comparison.png}
-  \caption{}
+  \caption{À titre de comparaison, l'état de la ville à $t = 500$ et
+    le contour de la ville à $t = 0$.}
 \end{figure}
 
-\subsection{Mesures sur le bâti}
+\subsection{Mesures}
 
-\subsubsection{Évolution de la superficie de la ville}
+Problème : difficile de trouver des données, encore moins historiques
+
+Mesures diverses pour obserser l'évolution du b et du v sur le cas du
+H partiel.
+
+Surface de la ville. Compte seulement les éléments construits. ne fait
+que monter, on ne retire pas de parcelle dans le modèle (au mieux on subdivise).
+échelle mètre.
 
 \begin{figure}[H]
   \centering
@@ -1363,11 +1424,7 @@ PROFIL COTIER = OBSTACLE
   \caption{}
 \end{figure}
 
-LINEAIRE
-
-DEVRAIT SE STABILISER
-
-\subsubsection{Évolution de la superficie par densité}
+Superficie par densité.
 
 \begin{figure}[H]
   \centering
@@ -1375,20 +1432,13 @@ DEVRAIT SE STABILISER
   \caption{}
 \end{figure}
 
-\subsection{Mesures sur le viaire}
-
-\subsubsection{Diamètre}
-
-A FAIRE
-
 \begin{figure}[H]
   \centering
   %\includegraphics[width=.8\linewidth]{images/area.png}
   \caption{}
 \end{figure}
 
-
-\subsubsection{Centralité}
+centralité
 
 \begin{figure}[H]
   \centering
@@ -1396,7 +1446,7 @@ A FAIRE
   \caption{}
 \end{figure}
 
-\subsubsection{Degré des carrefours}
+degré
 
 \begin{figure}[H]
   \centering
@@ -1410,15 +1460,13 @@ STABILISE
 
 CARACTERISTIQUE
 
-\subsubsection{Degré des carrefours selon la distance}
+degré distance
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=.8\linewidth]{images/degree_distance.png}
   \caption{}
 \end{figure}
-
-
 
 \section{Conclusion}
 
