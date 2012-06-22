@@ -1,4 +1,4 @@
-\begin{tikzpicture}[yscale=-1,scale=2]
+\begin{tikzpicture}[yscale=-1,scale=1.5]
 
   \coordinate (a) at (0,0);
   \coordinate (b) at (1,0);
@@ -20,27 +20,31 @@
   \coordinate (r) at (3,5);
   \coordinate (s) at (5,5);
 
-  \draw[ultra thick,densitymedium] (c) -- (g);
-  \draw[ultra thick,densitymedium] (f) -- (g);
-  \draw[ultra thick,densitymedium] (g) -- (h);
-  \draw[ultra thick,densitymedium] (f) -- (i);
-  \draw[ultra thick,densitymedium] (i) -- (j);
-  \draw[ultra thick,densitymedium] (h) -- (j);
-  \draw[ultra thick,densitymedium] (j) -- (l);
-  \draw[ultra thick,densitymedium] (l) -- (m);
-  \draw[ultra thick,densitymedium] (n) -- (o);
-  \draw[ultra thick,densitymedium] (o) -- (i);
+  \draw[draw=none,fill=densitylow] (j) circle (1.7);
+  \draw[draw=none,fill=densitymedium] (j) circle (1.2);
+  \draw[draw=none,fill=densityhigh] (j) circle (0.7);
 
-  \draw[ultra thick,dashed,red] (b) -- (c);
-  \draw[ultra thick,dashed,red] (c) -- (d);
-  \draw[ultra thick,dashed,red] (e) -- (f);
-  \draw[ultra thick,dashed,red] (h) -- (d);
-  \draw[ultra thick,dashed,red] (m) -- (s);
-  \draw[ultra thick,dashed,red] (n) -- (p);
-  \draw[ultra thick,dashed,red] (e) -- (n);
-  \draw[ultra thick,dashed,red] (k) -- (m);
-  \draw[ultra thick,dashed,red] (o) -- (q);
-  \draw[ultra thick,dashed,red] (r) -- (l);
+  \draw[ultra thick,lightblue] (c) -- (g);
+  \draw[ultra thick,lightblue] (f) -- (g);
+  \draw[ultra thick,lightblue] (g) -- (h);
+  \draw[ultra thick,lightblue] (f) -- (i);
+  \draw[ultra thick,lightblue] (i) -- (j);
+  \draw[ultra thick,lightblue] (h) -- (j);
+  \draw[ultra thick,lightblue] (j) -- (l);
+  \draw[ultra thick,lightblue] (l) -- (m);
+  \draw[ultra thick,lightblue] (n) -- (o);
+  \draw[ultra thick,lightblue] (o) -- (i);
+
+  \draw[ultra thick,dashed,lightblue] (b) -- (c);
+  \draw[ultra thick,dashed,lightblue] (c) -- (d);
+  \draw[ultra thick,dashed,lightblue] (e) -- (f);
+  \draw[ultra thick,dashed,lightblue] (h) -- (d);
+  \draw[ultra thick,dashed,lightblue] (m) -- (s);
+  \draw[ultra thick,dashed,lightblue] (n) -- (p);
+  \draw[ultra thick,dashed,lightblue] (e) -- (n);
+  \draw[ultra thick,dashed,lightblue] (k) -- (m);
+  \draw[ultra thick,dashed,lightblue] (o) -- (q);
+  \draw[ultra thick,dashed,lightblue] (r) -- (l);
 
   \draw[dashed,gray] (a) -- (b);
   \draw[dashed,gray] (a) -- (e);
@@ -51,19 +55,19 @@
 
   \draw[gray,fill=white] (a) circle (0.05);
   \draw[gray,fill=white] (b) circle (0.05);
-  \draw[fill=black] (c) circle (0.05);
+  \draw[gray,fill=white] (c) circle (0.05);
   \draw[gray,fill=white] (d) circle (0.05);
   \draw[gray,fill=white] (e) circle (0.05);
-  \draw[fill=black] (f) circle (0.05);
-  \draw[fill=black] (g) circle (0.05);
-  \draw[fill=black] (h) circle (0.05);
-  \draw[fill=black] (i) circle (0.05);
+  \draw[gray,fill=white] (f) circle (0.05);
+  \draw[gray,fill=white] (g) circle (0.05);
+  \draw[gray,fill=white] (h) circle (0.05);
+  \draw[gray,fill=white] (i) circle (0.05);
   \draw[fill=black] (j) circle (0.05);
   \draw[gray,fill=white] (k) circle (0.05);
-  \draw[fill=black] (l) circle (0.05);
-  \draw[fill=black] (m) circle (0.05);
-  \draw[fill=black] (n) circle (0.05);
-  \draw[fill=black] (o) circle (0.05);
+  \draw[gray,fill=white] (l) circle (0.05);
+  \draw[gray,fill=white] (m) circle (0.05);
+  \draw[gray,fill=white] (n) circle (0.05);
+  \draw[gray,fill=white] (o) circle (0.05);
   \draw[gray,fill=white] (p) circle (0.05);
   \draw[gray,fill=white] (q) circle (0.05);
   \draw[gray,fill=white] (r) circle (0.05);
