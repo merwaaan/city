@@ -343,6 +343,7 @@ h3 {
 
   padding: 0;
   margin: 0;
+  margin-bottom: 20px;
   padding-right: 40px;
 
   font-weight: 600;
@@ -368,7 +369,8 @@ ul {
   margin: 0;
   padding: 0;
 
-  margin-top: 40px;
+  margin-top: 10px;
+  margin-bottom: 50px;
 
   margin-left: .75em;
 }

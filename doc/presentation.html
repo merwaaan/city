@@ -20,29 +20,24 @@
     <script src='slides.js'></script>
   </head>
 
-  <style>
-  </style>
-
   <body style='display: none'>
 
     <section class='slides layout-regular template-default'>
 
-      <article>
-        <h1>
-          Morphogenèse urbaine
-        </h1>
-        <h3>
-          coévolution du réseau viaire et du bâti
-        </h3>
-        <p>
-          Merwan Achibet
-          <br>
-          28 juin 2012
-        </p>
+      <article class='fill'>
+        <h1>Morphogenèse urbaine</h1>
+
+        <h3>coévolution du réseau viaire et du bâti</h3>
+
+        <p>Merwan Achibet<br/>28 juin 2012</p>
+
+        <img src='images/cover.png'/>
       </article>
 
-      <article>
+      <article class='fill'>
         <h1>État de l'art</h1>
+
+        <img src='images/cover.png'/>
       </article>
 
       <article>
@@ -56,7 +51,7 @@
       </article>
 
       <article>
-        <h3>Le jeu de la vie</h3>
+        <h3>Exemple : le jeu de la vie de Conway</h3>
 
         <p>Règles simples mais comportement complexe</p>
 
@@ -64,7 +59,7 @@
       </article>
 
       <article>
-        <h3>Exemple géographique: la ségregation de Schelling</h3>
+        <h3>Exemple géographique : la ségrégation de Schelling</h3>
 
         <p></p>
 
@@ -74,74 +69,152 @@
       <article class="smaller">
         <h3>Dans le cadre des simulations urbaines</h3>
 
-        <p>Une cellule représente un sous-espace-urbain</p>
-        <ul>
-          <li>Ville</li>
-          <li>Quartier</li>
-          <li>Parcelle</li>
-        </ul>
+        <div class='build'>
 
-        <p>Une cellule a un état</p>
-        <ul>
-          <li>Booléen (construit/)</li>
-          <li>Type d'usage (résidentiel, commercial, industriel, ...)</li>
-        </ul>
+          <div>
+            <p>Une cellule représente un sous-espace géographique.</p>
+            <ul>
+              <li>Ville</li>
+              <li>Quartier</li>
+              <li>Parcelle</li>
+            </ul>
+          </div>
 
-        <p>Potentiels de transition</p>
-        <ul>
-          <li>Déterministe</li>
-          <li>Stochastique</li>
-        </ul>
+          <div>
+            <p>Une cellule dispose d'un état.</p>
+            <ul>
+              <li>Booléen (vide/construit)</li>
+              <li>Type d'usage (résidentiel, commercial, industriel, ...)</li>
+            </ul>
+          </div>
+
+          <div>
+            <p>Une cellule a un potentiel de transition vers tous les états.</p>
+            <ul>
+              <li>Déterministe</li>
+              <li>Stochastique</li>
+            </ul>
+          </div>
+
+          </div>
 
       </article>
 
       <article>
-        <h3>Exemple 1</h3>
+        <h3>Exemple 1 :</h3>
+
+        <p>Blabla</p>
 
         <img class='centered' style='height:500px'
              src='images/voronoi.png'>
-
       </article>
 
       <article>
-        <h3>Exemple 2</h3>
+        <h3>Exemple 2 :</h3>
+
+        <p>Blabla</p>
 
         <img class='centered' style='height:500px'
              src='images/voronoi.png'>
-
       </article>
 
       <article>
         <h3>Limitations des automates cellulaires</h3>
 
-        <p>La rigidité du formalisme des AC s'oppose à la fidélité des simulation.</p>
+        <p>La rigidité de leur formalisme s'oppose à la fidélité des simulations.</p>
 
-        <ul>
+        <br/><br/>
+        <ul class='build'>
           <li>Discrétisation des états</li>
           <li>Synchronisme temporel</li>
-          <li>Homogénéité</li>
-          <li>Régularité</li>
+          <li><b>Homogénéité et régularité</b></li>
         </ul>
 
       </article>
 
-      <article>
+      <article class='smaller'>
         <h3>Relaxation de la régularité</h3>
 
         <p>David O'Sullivan propose l'utilisation d'automates
           cellulaires graphes.</p>
 
-        <img class='centered' style='height:500px'
-             src='images/acg.png'>
-
-        <p>Relations</p>
+        <br/>
+        <img class='centered' style='height:400px'
+             src='images/gca.png'>
       </article>
 
       <article>
-        <h3>Multi-agents</h3>
+        <h3>Autre limitation : les routes</h3>
 
-        <img class='centered' style='height:500px'
+        <ul class='build'>
+          <li>La connaissance du réseau routier essentielle</li>
+          <li>Il est souvent fourni en entrée...</li>
+          <li>... Mais reste statique</li>
+          <li>Inadapté à l'automate cellulaire</li>
+        </ul>
+
+      </article>
+
+      <article class='smaller'>
+        <h3>Simulations urbaines multi-agents</h3>
+
+        <ul>
+          <li>Agents promoteurs : achètent, vendent, changent le
+          type</li>
+          <li>Agents traceurs : raccordent les parcelles au réseau
+          routier</li>
+        </ul>
+
+        <img class='centered' style='height:300px'
              src='images/voronoi.png'>
+
+        <p>Simule à la fois la croissance du viaire et du bâti.</p>
+      </article>
+
+      <article class='smaller'>
+        <h3>Défaut : pas de cohérence historique</h3>
+
+        <ul class='build'>
+          <li>La configuration de départ est valide</li>
+          <li>La configuration d'arrivée est valide</li>
+          <li>Les configurations intermédiaires sont erronées</li>
+        </ul>
+
+        <img style='height:300px'
+             src='images/order_bad_0.png'>
+        <img style='height:300px'
+             src='images/order_bad_1.png'>
+        <img style='height:300px'
+             src='images/order_bad_2.png'>
+        <img style='height:300px'
+             src='images/order_bad_3.png'>
+      </article>
+
+      <article class='smaller'>
+        <h3>titre</h3>
+
+        <ul>
+          <li>Agrandissement permanent du réseau viaire</li>
+          <li>Règles empiriques appliquées (degré des carrefours tend
+          vers quatre, angle à 90, ...)</li>
+          <li>Le trafic est simulé sur ces nouveaux segments par des
+          agents véhicules et piétons</li>
+          <li>Les meilleurs sont conservés</li>
+        </ul>
+
+        <img class='centered' style='height:300px'
+             src='images/voronoi.png'>
+      </article>
+
+      <article>
+        <h3>titre</h3>
+
+        <ul>
+          <li>Basées sur des règles empiriques</li>
+          <li>Seul l'aspect visuel compte</li>
+          <li>Domaines applicatifs: infographie, jeu vidéo,
+            cinéma</li>
+        </ul>
 
       </article>
 
@@ -158,7 +231,7 @@
       </article>
 
       <article>
-        <h3>Exemple 1: L-Systems</h3>
+        <h3>Exemple 1 : L-Systems</h3>
 
         <img class='centered' style='height:500px'
              src='images/voronoi.png'>
@@ -166,81 +239,129 @@
       </article>
 
       <article>
-        <h3>Exemple 2</h3>
+        <h3>Exemple 2 : hyperstreamlines</h3>
 
-        <img class='centered' style='height:500px'
+        <img class='centered' style='height:300px'
              src='images/voronoi.png'>
 
       </article>
 
-      <article>
-        <h3>Exemple 3</h3>
-
-        <img class='centered' style='height:500px'
-             src='images/voronoi.png'>
-
-      </article>
-
-      <article>
+      <article class='fill'>
         <h1>Le modèle</h1>
+
+        <img src='images/cover.png'/>
       </article>
 
       <article>
-        <h3>Objectif</h3>
+        <h3>Objectif du modèle</h3>
 
-        <p></p>
+        <p>On propose un modèle de croissance urbaine :</p>
 
-        <ol>
-          <li>Proposer un modèle de croissance urbaine</li>
-          <li>Reprenant le principe universel des automates
-            cellulaires</li>
-          <li>Et reflétant l'irrégularité de la ville</li>
-          <li>Tout en garantissant la cohérence temporelle</li>
+        <ol class='build'>
+          <li>Reprenant le principe des automates cellulaires</li>
+          <li>Gérant l'évolution conjointe du viaire et du bâti</li>
+          <li>Reflétant l'irrégularité de la ville</li>
+          <li>Garantissant la cohérence temporelle</li>
         </ol>
       </article>
 
       <article>
         <h3>Choix d'une structure adaptée</h3>
 
+        <p>Elle doit :</p>
+
         <ul>
-          <li>Partionne l'espace de façon irrégulière</li>
-          <li>Crée des relations de voisinage par sa topologie</li>
-          <li>Représente à la fois le viaire et le bâti</li>
+          <li>Partionner l'espace de façon irrégulière</li>
+          <li>Créer des relations de voisinage par sa topologie</li>
+          <li>Représenter à la fois le viaire et le bâti</li>
         </ul>
 
         Voronoï !
       </article>
 
       <article>
-        Déf
+        <h3>Définition</h3>
 
-        <img class='centered' style='height:500px'
+        <img class='centered' style='height:300px'
              src='images/voronoi.png'>
       </article>
 
       <article>
-        Applications
+        <h3>Applications</h3>
+
+        <ul>
+          <li>Robotique et recherche de chemin</li>
+          <li>Sociologie et étude de positionnement</li>
+          <li>Sociologie et étude de positionnement</li>
+          <li>Sociologie et étude de positionnement</li>
       </article>
 
-      <article>
+      <article class='smaller'>
+        <h3>Dans notre modèle</h3>
+
+        <p>Que représente-on ?</p>
+
+        <ul>
+          <li>Cellule de Voronoï = parcelle</li>
+          <li>Arête de Voronoï = route</li>
+          <li>Sommet de Voronoï = carrefour</li>
+        </ul>
+
+        <p>Et l'aspect cellulaire ?</p>
+
+        <ul>
+          <li>Cellule de Voronoï = cellule AC</li>
+          <li>Relation de voisinage par adjacence</li>
+        </ul>
+
+        <img class='centered' style='height:300px'
+             src='images/delaunay.png'>
+      </article>
+
+
+      <article class='smaller'>
         <h3>Potentialité</h3>
 
         <p>Deux types d'éléments</p>
 
         <ul>
-          <li>éléments construits</li>
-          <li>éléments potentiels</li>
+          <li>Les construits : définitivement placés, forment la ville</li>
+          <li>Les potentiels : intangibles, représentent une prévisions</li>
         </ul>
 
         <p>Pourquoi ?</p>
 
-        cohérence historique
+        <img style='height:300px'
+             src='images/order_good_0.png'>
+        <img style='height:300px'
+             src='images/order_good_1.png'>
+        <img style='height:300px'
+             src='images/order_good_2.png'>
+        <img style='height:300px'
+             src='images/order_good_3.png'>
       </article>
 
-      <article class="smaller">
-        <h3>Mécanisme 1: automate</h3>
+      <article>
+        <h3>Principe du modèle</h3>
 
-        <p>Trois types de densité</p>
+        <p>La croissance a deux composantes :</p>
+        <ul>
+          <li>verticale : </li>
+          <li>horizontale : </li>
+        </ul>
+
+        <p>Divisées en trois mécanismes</p>
+        <ul>
+          <li>Évolution des densités</li>
+          <li>Placement des éléments potentiels</li>
+          <li>Construction des éléments potentiels</li>
+        </ul>
+      </article>
+
+      <article class='smaller'>
+        <h3>Mécanisme 1: automate cellulaire</h3>
+
+        <p>Trois types de densité :</p>
 
         <ul>
           <li>Faible (f)</li>
@@ -251,45 +372,45 @@
         <p>Une matrice d'affinité</p>
 
         MATRICE
+      </article>
+
+      <article class='smaller'>
+
+        EQUATION
+
+        EXEMPLE
 
       </article>
 
       <article>
-        <h3>Exemple 1</h3>
+        <h3>Application à un automate cellulaire classique</h3>
 
-        <img class='centered' style='height:500px'
-             src='images/voronoi.png'>
+        DEMO JS
       </article>
 
-      <article>
-        <h3>Exemple 2</h3>
-
-        <img class='centered' style='height:500px'
-             src='images/voronoi.png'>
-      </article>
-
-      <article>
+      <article class='smaller'>
         <h3>Problème</h3>
 
+        <p>Deux défauts :</p>
         <ul>
           <li>Vitesse</li>
           <li>Stabilité</li>
         </ul>
 
-        PAS REALISTE
+        <p>Amélioration : prendre en compte l'âge des parcelles.</p>
 
-        Solution
+        <img class='centered' style='height:300px'
+             src='images/sigmoid-age.png'>
       </article>
 
       <article>
-        <h3>Exemple 3</h3>
+        <h3>Application à un automate cellulaire classique</h3>
 
-        <img class='centered' style='height:500px'
-             src='images/voronoi.png'>
+        DEMO JS
       </article>
 
       <article>
-        <h3>Exemple 4</h3>
+        <h3>Application à un diagramme de Voronoï</h3>
 
         VIDEO
       </article>
@@ -325,63 +446,80 @@
       </article>
 
       <article>
-        Champ densité
+        <h3>Configuration étudiée</h3>
 
         <img class='centered' style='height:500px'
-             src='images/voronoi.png'>
-      </article>
-      <article>
-        Champ densité
-
-        <img class='centered' style='height:500px'
-             src='images/voronoi.png'>
+             src='images/vf-base.png'>
       </article>
 
       <article>
-        Champ routes
+        <h3>Champ de répulsion de la densité</h3>
 
         <img class='centered' style='height:500px'
-             src='images/voronoi.png'>
+             src='images/vf-density.png'>
       </article>
 
       <article>
-        Champ obstacles
+        <h3>Champ d'attraction des routes</h3>
 
         <img class='centered' style='height:500px'
-             src='images/voronoi.png'>
+             src='images/vf-road.png'>
       </article>
 
       <article>
-        combinaison
+        <h3>Champ de répulsion des obstacles</h3>
 
         <img class='centered' style='height:500px'
-             src='images/voronoi.png'>
+             src='images/vf-obstacle.png'>
       </article>
 
       <article>
-        <h3>Mécanisme 3: construction des éléments potentiels</h3>
+        <h3>Combinaison</h3>
+
+        <img class='centered' style='height:500px'
+             src='images/vf-sum.png'>
+      </article>
+
+      <article>
+        <h3>Vitesse de la graine</h3>
+
+        <img class='centered' style='height:500px'
+             src='images/vf-sum.png'>
+      </article>
+
+      <article>
+        <h3>Mécanisme 3 : construction des éléments potentiels</h3>
 
         routes
 
         parcelles
       </article>
 
-      <article>
-        <h3>Tests</h3>
 
+      <article class='fill'>
+        <h1>Tests</h1>
+
+        <img src='images/cover.png'/>
+      </article>
+
+      <article>
         <p>Difficulté à obtenir des données</p>
 
         <p>Simulation de tests et quelques mesures</p>
       </article>
 
-      <article>
+      <article class='smaller'>
         <h3>Le Havre</h3>
 
         <p>On utilise comme configuration initiale une sous-partie du
           Havre.</p>
 
-        <img class='centered' style='height:500px'
-             src='images/voronoi.png'>
+        <img style='height :250px'
+             src='images/le_havre_map.png'>
+        <img style='height :250px'
+             src='images/le_havre_shapefile.png'>
+        <img style='height :250px'
+             src='images/le_havre_voronoi.png'>
       </article>
 
       <article>
@@ -390,11 +528,13 @@
         <ul>
           <li>Profil côtier empêchant le développement urbain</li>
           <li>Un centre densitaire</li>
-          <li>Quelques parcelles</li>
+          <li></li>
         </ul>
       </article>
 
       <article>
+        <h3>Démonstration</h3>
+
         VIDEO
       </article>
 
@@ -402,46 +542,64 @@
         <h3>Superficie</h3>
 
         <img class='centered' style='height:500px'
-             src='images/voronoi.png'>
+             src='images/area.png'>
       </article>
 
       <article>
         <h3>Superficie par type de densité</h3>
 
         <img class='centered' style='height:500px'
-             src='images/voronoi.png'>
+             src='images/area_ALL.png'>
       </article>
 
       <article>
         <h3>Diamètre</h3>
 
         <img class='centered' style='height:500px'
-             src='images/voronoi.png'>
+             src='images/diameter.png'>
       </article>
 
       <article>
         <h3>Degré des carrefours</h3>
 
         <img class='centered' style='height:500px'
-             src='images/voronoi.png'>
+             src='images/degree.png'>
       </article>
 
       <article>
         <h3>Degré des carrefours en fonction de la distance</h3>
 
         <img class='centered' style='height:500px'
-             src='images/voronoi.png'>
+             src='images/degree_distance.png'>
       </article>
 
       <article>
-        <h3>Biens</h3>
+        <h3>Constat</h3>
 
-        <img class='centered' style='height:500px'
-             src='images/voronoi.png'>
+      </article>
+
+      <article class='fill'>
+        <h1>Conclusion</h1>
+
+        <img src='images/cover.png'/>
       </article>
 
       <article>
-        <h3>Pas biens</h3>
+        <h3>Bien</h3>
+      </article>
+
+      <article>
+        <h3>Pas bien</h3>
+      </article>
+
+      <article>
+        <h3>Ouverture</h3>
+      </article>
+
+      <article class='fill'>
+        <h1>Questions</h1>
+
+        <img src='images/cover.png'/>
       </article>
 
     </section>
