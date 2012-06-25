@@ -260,8 +260,8 @@ l'expansion des réseaux de transport. Plus rares sont les modèles
 considérant simultanément ces deux domaines. Quand bien même ces
 éléments sont gérés de concert, un autre problème subsiste : le manque
 de cohérence temporelle. En effet, de nombreux modèles fournissent des
-configurations urbaines finales convaincantes et légales mais le cycle
-de construction employé ne reflète pas la réalité de la croissance
+configurations urbaines finales convaincantes mais le cycle de
+construction employé ne reflète pas la réalité de la croissance
 urbaine. Ainsi, stopper une telle simulation en pleine éxécution nous
 octroie une ville incomplète et erronée (bâtiments isolés du réseau de
 transport, réseau non connexe). Idéalement, si toutes les itérations
@@ -271,12 +271,10 @@ croissance naturelle de la ville.
 On se concentre donc ici sur deux éléments majeurs du tissu urbain, le
 \textit{viaire} et le \textit{bâti}, afin d'étudier leur relation de
 coévolution. Le bâti est représenté à l'échelle de la parcelle
-cadastrale en prenant en compte l'influence du voisinage et le viaire
-à l'échelle de la rue et du carrefour. L'automate cellulaire est un
-outil classique pour les simulations urbaines et nous nous baserons
-sur son principe tout en relaxant ses contraintes d'homogénéité et de
-régularité spatiale pour aller dans le sens du réalisme. Le modèle
-d'évolution proposé garantira la cohérence temporelle.
+cadastrale par un automate cellulaire. Nous relaxons néanmoins ses
+contraintes d'homogénéité et de régularité spatiale pour aller dans le
+sens du réalisme. Le modèle d'évolution proposé garantira la cohérence
+temporelle.
 
 La première partie présente un état de l'art de la modélisation de
 systèmes urbains et se concentre particulièrement sur les méthodes à
@@ -284,8 +282,8 @@ base d'automates cellulaires afin de mettre en évidence leurs qualités
 mais aussi les limitations qu'ils imposent. La structure de données et
 les mécanismes régissant le modèle conçu dans le cadre de ce stage de
 recherche sont ensuite présentés en seconde partie. Enfin, un exemple
-d'application est présenté et quelques mesures sont employées pour
-tester et valider ce travail dans la troisième partie.
+d'application est présenté et analysé pour tester et valider ce
+travail dans la troisième partie.
 
 \section{\'Etat de l'art}
 
@@ -1736,8 +1734,8 @@ représenter les véritables empreintes cadastrales des parcelles
 permettra aussi de l'éviter. En effet, il sera ainsi plus aisé de
 regrouper les parcelles en contact direct ou dont l'espace de
 séparation ne permet pas d'accueillir une route. De véritables blocs
-de parcelles apparaîtront et les patterns caractéristiques du tissu
-urbains se dessineront.
+de parcelles apparaîtront et les \textit{patterns} caractéristiques du
+tissu urbain se dessineront.
 
 \printbibliography
 

@@ -21,339 +21,427 @@
   </head>
 
   <style>
-    /* Your individual styles here, or just use inline styles if that’s
-    what you want. */
   </style>
 
   <body style='display: none'>
 
     <section class='slides layout-regular template-default'>
 
-      <article class='biglogo'>
-      </article>
-
       <article>
         <h1>
-          Title Goes Here Up
-          <br>
-          To Two Lines
+          Morphogenèse urbaine
         </h1>
+        <h3>
+          coévolution du réseau viaire et du bâti
+        </h3>
         <p>
-          Sergey Brin
+          Merwan Achibet
           <br>
-          May 10, 2011
+          28 juin 2012
         </p>
       </article>
 
       <article>
-        <p>
-          This is a slide with just text. This is a slide with just text.
-          This is a slide with just text. This is a slide with just text.
-          This is a slide with just text. This is a slide with just text.
-        </p>
-        <p>
-          There is more text just underneath.
-        </p>
+        <h1>État de l'art</h1>
       </article>
 
       <article>
-        <h3>
-          Simple slide with header and text
-        </h3>
-        <p>
-          This is a slide with just text. This is a slide with just text.
-          This is a slide with just text. This is a slide with just text.
-          This is a slide with just text. This is a slide with just text.
-        </p>
-        <p>
-          There is more text just underneath with a <code>code sample: 5px</code>.
-        </p>
-      </article>
+        <h3>Automates cellulaires</h3>
 
-      <article class='smaller'>
-        <h3>
-          Simple slide with header and text (small font)
-        </h3>
-        <p>
-          This is a slide with just text. This is a slide with just text.
-          This is a slide with just text. This is a slide with just text.
-          This is a slide with just text. This is a slide with just text.
-        </p>
-        <p>
-          There is more text just underneath with a <code>code sample: 5px</code>.
-        </p>
+        <p>Principe</p>
+
+        <img class='centered' style='height:500px'
+             src='images/voronoi.png'>
+
       </article>
 
       <article>
-        <h3>
-          Slide with bullet points and a longer title, just because we
-          can make it longer
-        </h3>
+        <h3>Le jeu de la vie</h3>
+
+        <p>Règles simples mais comportement complexe</p>
+
+        Demo JS
+      </article>
+
+      <article>
+        <h3>Exemple géographique: la ségregation de Schelling</h3>
+
+        <p></p>
+
+        DEMO JS
+      </article>
+
+      <article class="smaller">
+        <h3>Dans le cadre des simulations urbaines</h3>
+
+        <p>Une cellule représente un sous-espace-urbain</p>
         <ul>
-          <li>
-            Use this template to create your presentation
-          </li>
-          <li>
-            Use the provided color palette, box and arrow graphics, and
-            chart styles
-          </li>
-          <li>
-            Instructions are provided to assist you in using this
-            presentation template effectively
-          </li>
-          <li>
-            At all times strive to maintain Google's corporate look and feel
-          </li>
-        </ul>
-      </article>
-
-      <article>
-        <h3>
-          Slide with bullet points that builds
-        </h3>
-        <ul class="build">
-          <li>
-            This is an example of a list
-          </li>
-          <li>
-            The list items fade in
-          </li>
-          <li>
-            Last one!
-          </li>
+          <li>Ville</li>
+          <li>Quartier</li>
+          <li>Parcelle</li>
         </ul>
 
-        <div class="build">
-          <p>Any element with child nodes can build.</p>
-          <p>It doesn't have to be a list.</p>
-        </div>
-      </article>
-
-      <article class='smaller'>
-        <h3>
-          Slide with bullet points (small font)
-        </h3>
+        <p>Une cellule a un état</p>
         <ul>
-          <li>
-            Use this template to create your presentation
-          <li>
-            Use the provided color palette, box and arrow graphics, and
-            chart styles
-          <li>
-            Instructions are provided to assist you in using this
-            presentation template effectively
-          <li>
-            At all times strive to maintain Google's corporate look and feel
+          <li>Booléen (construit/)</li>
+          <li>Type d'usage (résidentiel, commercial, industriel, ...)</li>
         </ul>
-      </article>
 
-      <article>
-        <h3>
-          Slide with a table
-        </h3>
-
-        <table>
-          <tr>
-            <th>
-              Name
-            <th>
-              Occupation
-              <tr>
-                <td>
-                  Luke Mahé
-                <td>
-                  V.P. of Keepin’ It Real
-                  <tr>
-                    <td>
-                      Marcin Wichary
-                    <td>
-                      The Michael Bay of Doodles
-        </table>
-      </article>
-
-      <article class='smaller'>
-        <h3>
-          Slide with a table (smaller text)
-        </h3>
-
-        <table>
-          <tr>
-            <th>
-              Name
-            <th>
-              Occupation
-              <tr>
-                <td>
-                  Luke Mahé
-                <td>
-                  V.P. of Keepin’ It Real
-                  <tr>
-                    <td>
-                      Marcin Wichary
-                    <td>
-                      The Michael Bay of Doodles
-        </table>
-      </article>
-
-      <article>
-        <h3>
-          Styles
-        </h3>
+        <p>Potentiels de transition</p>
         <ul>
-          <li>
-            <span class='red'>class="red"</span>
-          <li>
-            <span class='blue'>class="blue"</span>
-          <li>
-            <span class='green'>class="green"</span>
-          <li>
-            <span class='yellow'>class="yellow"</span>
-          <li>
-            <span class='black'>class="black"</span>
-          <li>
-            <span class='white'>class="white"</span>
-          <li>
-            <b>bold</b> and <i>italic</i>
+          <li>Déterministe</li>
+          <li>Stochastique</li>
         </ul>
+
       </article>
 
       <article>
-        <h2>
-          Segue slide
-        </h2>
+        <h3>Exemple 1</h3>
+
+        <img class='centered' style='height:500px'
+             src='images/voronoi.png'>
+
       </article>
 
       <article>
-        <h3>
-          Slide with an image
-        </h3>
-        <p>
-          <img style='height: 500px' src='images/example-graph.png'>
-        </p>
-        <div class='source'>
-          Source: Sergey Brin
-        </div>
+        <h3>Exemple 2</h3>
+
+        <img class='centered' style='height:500px'
+             src='images/voronoi.png'>
+
       </article>
 
       <article>
-        <h3>
-          Slide with an image (centered)
-        </h3>
-        <p>
-          <img class='centered' style='height: 500px' src='images/example-graph.png'>
-        </p>
-        <div class='source'>
-          Source: Larry Page
-        </div>
-      </article>
+        <h3>Limitations des automates cellulaires</h3>
 
-      <article class='fill'>
-        <h3>
-          Image filling the slide (with optional header)
-        </h3>
-        <p>
-          <img src='images/example-cat.jpg'>
-        </p>
-        <div class='source white'>
-          Source: Eric Schmidt
-        </div>
-      </article>
-
-      <article>
-        <h3>
-          This slide has some code
-        </h3>
-        <section>
-          <pre>
-            &lt;script type='text/javascript'&gt;
-            // Say hello world until the user starts questioning
-            // the meaningfulness of their existence.
-            function helloWorld(world) {
-            for (var i = 42; --i &gt;= 0;) {
-            alert('Hello ' + String(world));
-            }
-            }
-            &lt;/script&gt;
-            &lt;style&gt;
-            p { color: pink }
-            b { color: blue }
-            u { color: 'umber' }
-            &lt;/style&gt;
-          </pre>
-        </section>
-      </article>
-
-      <article class='smaller'>
-        <h3>
-          This slide has some code (small font)
-        </h3>
-        <section>
-          <pre>
-            &lt;script type='text/javascript'&gt;
-            // Say hello world until the user starts questioning
-            // the meaningfulness of their existence.
-            function helloWorld(world) {
-            for (var i = 42; --i &gt;= 0;) {
-            alert('Hello ' + String(world));
-            }
-            }
-            &lt;/script&gt;
-            &lt;style&gt;
-            p { color: pink }
-            b { color: blue }
-            u { color: 'umber' }
-            &lt;/style&gt;
-          </pre>
-        </section>
-      </article>
-
-      <article>
-        <q>
-          The best way to predict the future is to invent it.
-        </q>
-        <div class='author'>
-          Alan Kay
-        </div>
-      </article>
-
-      <article class='smaller'>
-        <q>
-          A distributed system is one in which the failure of a computer
-          you didn’t even know existed can render your own computer unusable.
-        </q>
-        <div class='author'>
-          Leslie Lamport
-        </div>
-      </article>
-
-      <article class='nobackground'>
-        <h3>
-          A slide with an embed + title
-        </h3>
-
-        <iframe src='http://www.google.com/doodle4google/history.html'></iframe>
-      </article>
-
-      <article class='nobackground'>
-        <iframe src='http://www.google.com/doodle4google/history.html'></iframe>
-      </article>
-
-      <article class='fill'>
-        <h3>
-          Full-slide embed with (optional) slide title on top
-        </h3>
-        <iframe src='http://www.google.com/doodle4google/history.html'></iframe>
-      </article>
-
-      <article>
-        <h3>
-          Thank you!
-        </h3>
+        <p>La rigidité du formalisme des AC s'oppose à la fidélité des simulation.</p>
 
         <ul>
-          <li>
-            <a href='http://www.google.com'>google.com</a>
+          <li>Discrétisation des états</li>
+          <li>Synchronisme temporel</li>
+          <li>Homogénéité</li>
+          <li>Régularité</li>
         </ul>
+
+      </article>
+
+      <article>
+        <h3>Relaxation de la régularité</h3>
+
+        <p>David O'Sullivan propose l'utilisation d'automates
+          cellulaires graphes.</p>
+
+        <img class='centered' style='height:500px'
+             src='images/acg.png'>
+
+        <p>Relations</p>
+      </article>
+
+      <article>
+        <h3>Multi-agents</h3>
+
+        <img class='centered' style='height:500px'
+             src='images/voronoi.png'>
+
+      </article>
+
+      <article>
+        <h3>Méthodes procédurales</h3>
+
+        <ul>
+          <li>Basées sur des règles empiriques</li>
+          <li>Seul l'aspect visuel compte</li>
+          <li>Domaines applicatifs: infographie, jeu vidéo,
+            cinéma</li>
+        </ul>
+
+      </article>
+
+      <article>
+        <h3>Exemple 1: L-Systems</h3>
+
+        <img class='centered' style='height:500px'
+             src='images/voronoi.png'>
+
+      </article>
+
+      <article>
+        <h3>Exemple 2</h3>
+
+        <img class='centered' style='height:500px'
+             src='images/voronoi.png'>
+
+      </article>
+
+      <article>
+        <h3>Exemple 3</h3>
+
+        <img class='centered' style='height:500px'
+             src='images/voronoi.png'>
+
+      </article>
+
+      <article>
+        <h1>Le modèle</h1>
+      </article>
+
+      <article>
+        <h3>Objectif</h3>
+
+        <p></p>
+
+        <ol>
+          <li>Proposer un modèle de croissance urbaine</li>
+          <li>Reprenant le principe universel des automates
+            cellulaires</li>
+          <li>Et reflétant l'irrégularité de la ville</li>
+          <li>Tout en garantissant la cohérence temporelle</li>
+        </ol>
+      </article>
+
+      <article>
+        <h3>Choix d'une structure adaptée</h3>
+
+        <ul>
+          <li>Partionne l'espace de façon irrégulière</li>
+          <li>Crée des relations de voisinage par sa topologie</li>
+          <li>Représente à la fois le viaire et le bâti</li>
+        </ul>
+
+        Voronoï !
+      </article>
+
+      <article>
+        Déf
+
+        <img class='centered' style='height:500px'
+             src='images/voronoi.png'>
+      </article>
+
+      <article>
+        Applications
+      </article>
+
+      <article>
+        <h3>Potentialité</h3>
+
+        <p>Deux types d'éléments</p>
+
+        <ul>
+          <li>éléments construits</li>
+          <li>éléments potentiels</li>
+        </ul>
+
+        <p>Pourquoi ?</p>
+
+        cohérence historique
+      </article>
+
+      <article class="smaller">
+        <h3>Mécanisme 1: automate</h3>
+
+        <p>Trois types de densité</p>
+
+        <ul>
+          <li>Faible (f)</li>
+          <li>Moyenne (m)</li>
+          <li>Élevée (e)</li>
+        </ul>
+
+        <p>Une matrice d'affinité</p>
+
+        MATRICE
+
+      </article>
+
+      <article>
+        <h3>Exemple 1</h3>
+
+        <img class='centered' style='height:500px'
+             src='images/voronoi.png'>
+      </article>
+
+      <article>
+        <h3>Exemple 2</h3>
+
+        <img class='centered' style='height:500px'
+             src='images/voronoi.png'>
+      </article>
+
+      <article>
+        <h3>Problème</h3>
+
+        <ul>
+          <li>Vitesse</li>
+          <li>Stabilité</li>
+        </ul>
+
+        PAS REALISTE
+
+        Solution
+      </article>
+
+      <article>
+        <h3>Exemple 3</h3>
+
+        <img class='centered' style='height:500px'
+             src='images/voronoi.png'>
+      </article>
+
+      <article>
+        <h3>Exemple 4</h3>
+
+        VIDEO
+      </article>
+
+      <article>
+        <h3>Mécanisme 2: placement des éléments potentiels</h3>
+
+        <ul>
+          <li>Mécanisme précédent: croissance verticale</li>
+          <li>Celui-ci: croissance verticale</li>
+        </ul>
+
+        <p>Idée principale: guider l'expansion de la ville.</p>
+
+        <p>On se concentre sur le placement des parcelles
+        potentielles.</p>
+      </article>
+
+      <article>
+        <p>La dynamique urbaine est axée autour des centres denses de
+          la ville</p>
+
+        <ol>
+          <li>La graine est placée sur un centre</li>
+          <li>Elle se déplace en fonction de variables inhérentes à la
+          ville</li>
+          <li>Sa vitesse varie</li>
+          <li>Quand elle s'arrête, on place une parcelle
+            potentielle</li>
+        </ol>
+
+        ASPECT PHYSIQUE
+      </article>
+
+      <article>
+        Champ densité
+
+        <img class='centered' style='height:500px'
+             src='images/voronoi.png'>
+      </article>
+      <article>
+        Champ densité
+
+        <img class='centered' style='height:500px'
+             src='images/voronoi.png'>
+      </article>
+
+      <article>
+        Champ routes
+
+        <img class='centered' style='height:500px'
+             src='images/voronoi.png'>
+      </article>
+
+      <article>
+        Champ obstacles
+
+        <img class='centered' style='height:500px'
+             src='images/voronoi.png'>
+      </article>
+
+      <article>
+        combinaison
+
+        <img class='centered' style='height:500px'
+             src='images/voronoi.png'>
+      </article>
+
+      <article>
+        <h3>Mécanisme 3: construction des éléments potentiels</h3>
+
+        routes
+
+        parcelles
+      </article>
+
+      <article>
+        <h3>Tests</h3>
+
+        <p>Difficulté à obtenir des données</p>
+
+        <p>Simulation de tests et quelques mesures</p>
+      </article>
+
+      <article>
+        <h3>Le Havre</h3>
+
+        <p>On utilise comme configuration initiale une sous-partie du
+          Havre.</p>
+
+        <img class='centered' style='height:500px'
+             src='images/voronoi.png'>
+      </article>
+
+      <article>
+        <p>Particularité notables</p>
+
+        <ul>
+          <li>Profil côtier empêchant le développement urbain</li>
+          <li>Un centre densitaire</li>
+          <li>Quelques parcelles</li>
+        </ul>
+      </article>
+
+      <article>
+        VIDEO
+      </article>
+
+      <article>
+        <h3>Superficie</h3>
+
+        <img class='centered' style='height:500px'
+             src='images/voronoi.png'>
+      </article>
+
+      <article>
+        <h3>Superficie par type de densité</h3>
+
+        <img class='centered' style='height:500px'
+             src='images/voronoi.png'>
+      </article>
+
+      <article>
+        <h3>Diamètre</h3>
+
+        <img class='centered' style='height:500px'
+             src='images/voronoi.png'>
+      </article>
+
+      <article>
+        <h3>Degré des carrefours</h3>
+
+        <img class='centered' style='height:500px'
+             src='images/voronoi.png'>
+      </article>
+
+      <article>
+        <h3>Degré des carrefours en fonction de la distance</h3>
+
+        <img class='centered' style='height:500px'
+             src='images/voronoi.png'>
+      </article>
+
+      <article>
+        <h3>Biens</h3>
+
+        <img class='centered' style='height:500px'
+             src='images/voronoi.png'>
+      </article>
+
+      <article>
+        <h3>Pas biens</h3>
       </article>
 
     </section>

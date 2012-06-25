@@ -1,0 +1,28 @@
+* Introduction
+
+* Etat de l'art
+  - Automates cellulaires
+	 - Principe général
+	 - Exemple : Conway
+	 - Exemple : Schelling
+	 - Dans le cadre des simulations urbaines
+  - Alternatives
+	 - Multi-agent
+	 - Procédural
+
+* Modèle
+  - Ce qu'on veut faire
+  - Structure : Voronoï
+  - Potentialité
+  - Mécanisme 1 : croissance verticale
+  - Mécanisme 2 : placement des potentiels
+  - Mécanisme 3 : construction des potentiels
+
+* Tests
+  - Démo Le Havre
+  - Mesures
+  - Trucs biens
+  - Trucs pas biens
+
+* Conclusion
+  - Amélioration
