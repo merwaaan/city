@@ -35,6 +35,13 @@
     background: rgba(255, 255, 255, .75);
     }
 
+    span.page {
+    position: absolute;
+    bottom: 25px;
+    right: 25px;
+    font-size: 60%;
+    }
+
     img, canvas {
     border: 5px solid white;
     box-shadow: 0 0 10px gray;
@@ -685,12 +692,22 @@
     <script>
       window.addEventListener('load', function() {
 
+      // Insert demos.
       Math.seedrandom('graphstream!');
-
       //new GameOfLife('gameOfLifeCanvas', 60);
       //new Schelling('schellingCanvas', 80);
       //new Density('density1Canvas', 50, false);
       //new Density('density2Canvas', 50, true);
+
+      // Number the slides.
+      var slides = document.querySelectorAll('article');
+      for(var i = 0; i < slides.length; ++i) {
+                         var span = document.createElement('span');
+                         span.innerText = i + '/' + slides.length;
+                         span.className = 'page';
+                         slides[i].appendChild(span);
+
+      }
 
       }, false);
     </script>
