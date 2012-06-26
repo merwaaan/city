@@ -18,6 +18,10 @@
 
     <meta charset='utf-8'>
     <script src='slides.js'></script>
+    <script src='extras/seedrandom.js'></script>
+    <script src='extras/gameoflife/gameoflife.js'></script>
+    <script src='extras/schelling/schelling.js'></script>
+    <script src='extras/density/density.js'></script>
   </head>
 
   <body style='display: none'>
@@ -53,17 +57,13 @@
       <article>
         <h3>Exemple : le jeu de la vie de Conway</h3>
 
-        <p>Règles simples mais comportement complexe</p>
-
-        Demo JS
+        <canvas id='gameOfLifeCanvas' class='centered' height='500' width='500'></canvas>
       </article>
 
       <article>
         <h3>Exemple géographique : la ségrégation de Schelling</h3>
 
-        <p></p>
-
-        DEMO JS
+        <canvas id='schellingCanvas' class='centered' height='500' width='500'></canvas>
       </article>
 
       <article class="smaller">
@@ -385,7 +385,7 @@
       <article>
         <h3>Application à un automate cellulaire classique</h3>
 
-        DEMO JS
+        <canvas id='density1Canvas' class='centered' height='500' width='500'></canvas>
       </article>
 
       <article class='smaller'>
@@ -406,7 +406,7 @@
       <article>
         <h3>Application à un automate cellulaire classique</h3>
 
-        DEMO JS
+        <canvas id='density2Canvas' class='centered' height='500' width='500'></canvas>
       </article>
 
       <article>
@@ -603,6 +603,19 @@
       </article>
 
     </section>
+
+    <script>
+      window.addEventListener('load', function() {
+
+      Math.seedrandom('graphstream!');
+
+      new GameOfLife('gameOfLifeCanvas', 50);
+      new Schelling('schellingCanvas', 50);
+      new Density('density1Canvas', 50, false);
+      new Density('density2Canvas', 50, true);
+
+      }, false);
+    </script>
 
   </body>
 </html>
