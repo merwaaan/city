@@ -52,7 +52,7 @@
 
     <section class='slides layout-regular template-default'>
 
-      <article class='fill'>
+      <article class='fill part'>
         <h1>Morphogenèse urbaine</h1>
 
         <h3>coévolution du réseau viaire et du bâti</h3>
@@ -66,7 +66,7 @@
         <img src='images/cover.png'/>
       </article>
 
-      <article class='smaller'>
+      <article class='smaller part'>
         <h3>Plan</h3>
 
         <ol>
@@ -97,7 +97,7 @@
         </ol>
       </article>
 
-      <article class='fill'>
+      <article class='fill part'>
         <h1>État de l'art</h1>
 
         <img src='images/cover.png'/>
@@ -340,7 +340,7 @@
         </div>
       </article>
 
-      <article class='fill'>
+      <article class='fill part'>
         <h1>Le modèle</h1>
 
         <img src='images/cover.png'/>
@@ -416,23 +416,22 @@
       <article class='smaller'>
         <h3>Potentialité</h3>
 
-        <p>Deux types d'éléments</p>
-
+        <p>Deux types d'éléments :</p>
         <ul>
           <li>Les construits : définitivement placés, forment la ville</li>
           <li>Les potentiels : intangibles, représentent une prévisions</li>
         </ul>
 
-        <p>Pourquoi ?</p>
-
-        <img style='height:300px'
-             src='images/order_good_0.png'>
-        <img style='height:300px'
-             src='images/order_good_1.png'>
-        <img style='height:300px'
-             src='images/order_good_2.png'>
-        <img style='height:300px'
-             src='images/order_good_3.png'>
+        <div class='centered'>
+          <img style='height:175px'
+               src='images/order_good_0.png'>
+          <img style='height:175px'
+               src='images/order_good_1.png'>
+          <img style='height:175px'
+               src='images/order_good_2.png'>
+          <img style='height:175px'
+               src='images/order_good_3.png'>
+        </div>
       </article>
 
       <article>
@@ -590,7 +589,7 @@
       </article>
 
 
-      <article class='fill'>
+      <article class='fill part'>
         <h1>Démonstration</h1>
 
         <img src='images/cover.png'/>
@@ -663,7 +662,7 @@
 
       </article>
 
-      <article class='fill'>
+      <article class='fill part'>
         <h1>Conclusion</h1>
 
         <img src='images/cover.png'/>
@@ -693,22 +692,34 @@
       window.addEventListener('load', function() {
 
       // Insert demos.
+
       Math.seedrandom('graphstream!');
+
       //new GameOfLife('gameOfLifeCanvas', 60);
       //new Schelling('schellingCanvas', 80);
       //new Density('density1Canvas', 50, false);
       //new Density('density2Canvas', 50, true);
 
       // Number the slides.
-      var slides = document.querySelectorAll('article');
-      for(var i = 0; i < slides.length; ++i) {
-                         var span = document.createElement('span');
-                         span.innerText = i + '/' + slides.length;
-                         span.className = 'page';
-                         slides[i].appendChild(span);
 
+      function isPart(element) {
+
+      var classes = element.className.split(' ');
+
+      for(var i = 0; i < classes.length; ++i)
+        if(classes[i] === 'part')
+          return true;
+
+        return false;
       }
 
+      var slides = document.querySelectorAll('article:not(.part)');
+      for(var i = 0; i < slides.length; ++i) {
+                         var span = document.createElement('span');
+                         span.innerText = (i + 1) + '/' + slides.length;
+                         span.className = 'page';
+                         slides[i].appendChild(span);
+                         }
       }, false);
     </script>
 
