@@ -68,7 +68,7 @@ Density.prototype ={
 		var t = this;
 
 		if(!this.playing)
-			this.interval = setInterval(function(){ t.tick(); }, 100);
+			this.interval = setInterval(function(){ t.tick(); }, 10);
 		else
 			clearInterval(this.interval);
 

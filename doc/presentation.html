@@ -42,7 +42,7 @@
     font-size: 60%;
     }
 
-    img, canvas {
+    img:not(.eq), canvas {
     border: 5px solid white;
     box-shadow: 0 0 10px gray;
     }
@@ -129,8 +129,8 @@
           <div>
             <p>Une cellule représente un sous-espace géographique.</p>
             <ul>
-              <li>Ville</li>
               <li>Quartier</li>
+              <li>Bloc</li>
               <li>Parcelle</li>
             </ul>
           </div>
@@ -139,15 +139,18 @@
             <p>Une cellule dispose d'un état.</p>
             <ul>
               <li>Booléen (vide/construit)</li>
-              <li>Type d'usage (résidentiel, commercial, industriel, ...)</li>
+              <li>Type d'usage (résidentiel, commercial, industriel,
+              ...)</li>
+              <li>Tout type de quantité urbaine</li>
             </ul>
           </div>
 
           <div>
-            <p>Une cellule a un potentiel de transition vers tous les états.</p>
+            <p>Une cellule dispose d'un voisinage.</p>
             <ul>
-              <li>Déterministe</li>
-              <li>Stochastique</li>
+              <li>Moore ou Von Neumann</li>
+              <li>Rayon</li>
+              <li>Visibilité</li>
             </ul>
           </div>
 
@@ -155,15 +158,17 @@
 
       </article>
 
-      <article>
+      <article class='smaller'>
         <h3>Exemple cellulaire 1</h3>
 
         <ul>
-          <li></li>
-          <li></li>
+          <li>Teinte de gris : hauteur des bâtiments</li>
+          <li>Quatre facteurs : couverture initiale, inertie,
+          interaction et bruit</li>
+          <li>Une cellule montre si trois seuils sont satisfaits</li>
         </ul>
 
-        <img class='centered' style='height:500px'
+        <img class='centered' style='height:350px'
              src='images/example_modeling_cities_in_3d.png'>
 
         <div class='source'>
@@ -174,15 +179,15 @@
         </div>
       </article>
 
-      <article>
+      <article class='smaller'>
         <h3>Exemple cellulaire 2</h3>
 
         <ul>
-          <li></li>
-          <li></li>
+          <li>Fonctions de base : <i>EV(C,R)</i>, <i>RV(C,R)</i>, <i>ZV(C,R)</i></li>
+          <li>Règles composées : <i>Fr &gt; Zp = ZV(Ind,3) &bull; EV(Ctr+Com,2)</i></li>
         </ul>
 
-        <img class='centered' style='height:500px'
+        <img class='centered' style='height:350px'
              src='images/example_le_modele_spacelle.png'>
 
         <div class='source'>
@@ -195,7 +200,7 @@
       </article>
 
       <article>
-        <h3>Limitations des automates cellulaires</h3>
+        <h3>Premières limitations des automates cellulaires</h3>
 
         <p>La rigidité de leur formalisme s'oppose à la fidélité des simulations.</p>
 
@@ -227,13 +232,16 @@
       <article>
         <h3>Autre limitation : la représentation du réseau viaire</h3>
 
-        <ul class='build'>
-          <li>La connaissance du réseau routier est essentielle</li>
-          <li>Il est souvent fourni en entrée...</li>
-          <li>... Mais demeure statique</li>
-          <li>Inadapté à l'automate cellulaire</li>
-        </ul>
+        <div class='build'>
 
+          <ul class='build'>
+            <li>Le réseau routier est essentiel</li>
+            <li>Soit il est totalement ignoré</li>
+            <li>Soit il est fourni en entrée et demeure statique</li>
+          </ul><br/><br/>
+
+          <p><b>Cellule = représentation adéquate ?</b></p>
+        </div>
       </article>
 
       <article class='smaller'>
@@ -256,8 +264,28 @@
         </div>
       </article>
 
+      <article class='smaller'>
+        <h3>Exemple multi-agent 2</h3>
+
+        <ul>
+          <li>Réseau viaire temporaire formé par un jeu de règles empiriques</li>
+          <li>Bâti créé par subdivision des niches</li>
+          <li>Trafic des véhicules et des piétons simulé pour
+            identifier les meilleures voies</li>
+        </ul>
+
+        <img class='centered' style='height:350px'
+             src='images/example_interactive_geometric_simulation.png'>
+
+        <div class='source'>
+          Basil Weber, Pascal Müller, Perter Wonka and Markus
+          Gross. "Interactive Geometric Simulation of 4D
+          Cities". Dans <i>Eurographics</i>. 2009.
+        </div>
+      </article>
+
       <article>
-        <h3>Défaut : pas de cohérence historique</h3>
+        <h3>Manque de cohérence historique</h3>
 
         <div class='build'>
 
@@ -265,7 +293,7 @@
             <li>La configuration de départ est valide</li>
             <li>La configuration d'arrivée est valide</li>
             <li>Les configurations intermédiaires sont erronées</li>
-          </ul>
+          </ul><br/><br/>
 
           <img style='height:175px'
                src='images/order_bad_0.png'>
@@ -280,50 +308,12 @@
       </article>
 
       <article class='smaller'>
-        <h3>Exemple multi-agent 2</h3>
+        <h3>Exemple procédural</h3>
 
         <ul>
-          <li>Réseau viaire temporaire formé par un jeu de règles empiriques</li>
-          <li>Trafic des véhicules et des piétons simulé pour
-            identifier les meilleures voies</li>
-          <li>Bâti créé par subdivision des niches</li>
-        </ul>
-
-        <img class='centered' style='height:350px'
-             src='images/example_interactive_geometric_simulation.png'>
-
-        <div class='source'>
-          Basil Weber, Pascal Müller, Perter Wonka and Markus
-          Gross. "Interactive Geometric Simulation of 4D
-          Cities". Dans <i>Eurographics</i>. 2009.
-        </div>
-      </article>
-
-      <article>
-        <h3>Exemple procédural 1</h3>
-
-        <ul>
-          <li></li>
-          <li></li>
-          <li></li>
-        </ul>
-
-        <img class='centered' style='height:300px'
-             src='images/example_procedural_modeling_of_cities.png'>
-
-        <div class='source'>
-          Yoav Parish et Pascal Müller. "Procedural Modeling of
-          Cities". Dans : <i>SIGGRAPH '01</i>. 2001.
-        </div>
-      </article>
-
-      <article>
-        <h3>Exemple procédural 2</h3>
-
-        <ul>
-          <li></li>
-          <li></li>
-          <li></li>
+          <li>Génération automatique assistée</li>
+          <li>Un champ de vecteurs par facteur</li>
+          <li>Pente, foyer de densité, bruit, ...</li>
         </ul>
 
         <span class='centered'>
@@ -352,66 +342,55 @@
         <p>On propose un modèle de croissance urbaine :</p>
 
         <ol class='build'>
-          <li>Reprenant le principe des automates cellulaires</li>
-          <li>Gérant l'évolution conjointe du viaire et du bâti</li>
-          <li>Reflétant l'irrégularité de la ville</li>
-          <li>Garantissant la cohérence temporelle</li>
+          <li>Reprenant le principe des <b>automates cellulaires</b></li>
+          <li>Gérant l'évolution conjointe du bâti et du <b>viaire</b></li>
+          <li>Reflétant <b>l'irrégularité</b> de la ville</li>
+          <li>Garantissant la <b>cohérence temporelle</b></li>
         </ol>
       </article>
 
       <article>
-        <h3>Choix d'une structure adaptée</h3>
+        <h3>Une structure adaptée : le diagramme de Voronoï</h3>
 
-        <p>Elle doit :</p>
-
-        <ul>
-          <li>Partionner l'espace de façon irrégulière</li>
-          <li>Créer des relations de voisinage par sa topologie</li>
-          <li>Représenter à la fois le viaire et le bâti</li>
-        </ul>
-
-        Voronoï !
-      </article>
-
-      <article>
-        <h3>Définition</h3>
+        <dl>
+          <dt>Définition</dt>
+          <dd>DEFINITION</dd>
+        </dl>
 
         <img class='centered' style='height:300px'
              src='images/voronoi.png'>
       </article>
 
-      <article>
-        <h3>Applications</h3>
-
-        <ul>
-          <li>Robotique et recherche de chemin</li>
-          <li>Sociologie et étude de positionnement</li>
-          <li>Sociologie et étude de positionnement</li>
-          <li>Sociologie et étude de positionnement</li>
-      </article>
-
       <article class='smaller'>
-        <h3>Dans notre modèle</h3>
-
-        <p>Que représente-on ?</p>
+        <h3>Que représente t-on ?</h3>
 
         <ul>
-          <li>Cellule de Voronoï = parcelle</li>
-          <li>Arête de Voronoï = route</li>
-          <li>Sommet de Voronoï = carrefour</li>
+          <li>Cellule → parcelle</li>
+          <li>Arête → route</li>
+          <li>Sommet → carrefour</li>
         </ul>
 
-        <p>Et l'aspect cellulaire ?</p>
-
-        <ul>
-          <li>Cellule de Voronoï = cellule AC</li>
-          <li>Relation de voisinage par adjacence</li>
-        </ul>
+        <p>Et l'aspect cellulaire ?</p><br/>
 
         <img class='centered' style='height:300px'
              src='images/delaunay.png'>
       </article>
 
+      <article>
+        <h3>La cellule de Voronoï n'est pas la parcelle exacte !</h3><br/>
+
+        <img class='centered' style='height:225px'
+             src='images/voronoi-interp0.png'><br/>
+
+        <div class='centered'>
+          <img style='height:225px'
+               src='images/voronoi-interp1.png'>
+          <img style='height:225px'
+               src='images/voronoi-interp2.png'>
+          <img style='height:225px'
+               src='images/voronoi-interp3.png'>
+        </div>
+      </article>
 
       <article class='smaller'>
         <h3>Potentialité</h3>
@@ -419,8 +398,8 @@
         <p>Deux types d'éléments :</p>
         <ul>
           <li>Les construits : définitivement placés, forment la ville</li>
-          <li>Les potentiels : intangibles, représentent une prévisions</li>
-        </ul>
+          <li>Les potentiels : intangibles, représentent une prévision</li>
+        </ul><br/><br/>
 
         <div class='centered'>
           <img style='height:175px'
@@ -437,13 +416,9 @@
       <article>
         <h3>Principe du modèle</h3>
 
-        <p>La croissance a deux composantes :</p>
-        <ul>
-          <li>verticale : </li>
-          <li>horizontale : </li>
-        </ul>
+        <p>On considère la densité de population.</p><br/>
 
-        <p>Divisées en trois mécanismes</p>
+        <p>Trois mécanismes</p>
         <ul>
           <li>Évolution des densités</li>
           <li>Placement des éléments potentiels</li>
@@ -452,7 +427,7 @@
       </article>
 
       <article class='smaller'>
-        <h3>Mécanisme 1: automate cellulaire</h3>
+        <h3>Mécanisme 1 : automate cellulaire</h3>
 
         <p>Trois types de densité :</p>
 
@@ -462,17 +437,13 @@
           <li>Élevée (e)</li>
         </ul>
 
-        <p>Une matrice d'affinité</p>
+        <p>Une matrice d'affinité :</p>
+        <img class='eq' style='height:150px;'
+             src='images/matrix.png'>
 
-        MATRICE
-      </article>
-
-      <article class='smaller'>
-
-        EQUATION
-
-        EXEMPLE
-
+        <p>Un score de transition :</p>
+        <img class='eq' style='height:80px'
+             src='images/transition_score.png'>
       </article>
 
       <article>
@@ -482,7 +453,7 @@
       </article>
 
       <article class='smaller'>
-        <h3>Problème</h3>
+        <h3>Règle insuffisante</h3>
 
         <p>Deux défauts :</p>
         <ul>
@@ -490,14 +461,14 @@
           <li>Stabilité</li>
         </ul>
 
-        <p>Amélioration : prendre en compte l'âge des parcelles.</p>
+        <p>Amélioration : prendre en compte l'âge des parcelles.</p><br/>
 
-        <img class='centered' style='height:300px'
+        <img class='centered eq' style='height:300px'
              src='images/sigmoid-age.png'>
       </article>
 
       <article>
-        <h3>Application à un automate cellulaire classique</h3>
+        <h3>Nouvel essai</h3>
 
         <canvas id='density2Canvas' class='centered' height='550' width='550'></canvas>
       </article>
@@ -697,8 +668,8 @@
 
       //new GameOfLife('gameOfLifeCanvas', 60);
       //new Schelling('schellingCanvas', 80);
-      //new Density('density1Canvas', 50, false);
-      //new Density('density2Canvas', 50, true);
+      new Density('density1Canvas', 50, false);
+      new Density('density2Canvas', 50, true);
 
       // Number the slides.
 
