@@ -14,7 +14,7 @@
 
 <html>
   <head>
-    <title>Presentation</title>
+    <title>Morphogenèse urbaine : coévolution du réseau viaire et du bâti — Présentation</title>
 
     <meta charset='utf-8'>
     <script src='slides.js'></script>
@@ -23,6 +23,23 @@
     <script src='extras/schelling/schelling.js'></script>
     <script src='extras/density/density.js'></script>
   </head>
+
+  <style>
+    p.name {
+    margin-top: 200px;
+    font-size: 75%;
+    color: black;
+    }
+    p.name span {
+    padding: 0.3em;
+    background: rgba(255, 255, 255, .75);
+    }
+
+    img, canvas {
+    border: 5px solid white;
+    box-shadow: 0 0 10px gray;
+    }
+  </style>
 
   <body style='display: none'>
 
@@ -33,9 +50,44 @@
 
         <h3>coévolution du réseau viaire et du bâti</h3>
 
-        <p>Merwan Achibet<br/>28 juin 2012</p>
+        <p class="name">
+          <span>Merwan Achibet</span><br/>
+          <span>Université du Havre</span><br/>
+          <span>28 juin 2012</span>
+        </p>
 
         <img src='images/cover.png'/>
+      </article>
+
+      <article class='smaller'>
+        <h3>Plan</h3>
+
+        <ol>
+          <li>
+            État de l'art
+            <ul>
+              <li>Automates cellulaires</li>
+              <li>Systèmes multi-agents</li>
+              <li>Méthodes procédurales</li>
+            </ul>
+          </li>
+          <li>
+            Le modèle
+            <ul>
+              <li>Structure</li>
+              <li>Potentialité</li>
+              <li>Trois mécanismes</li>
+            </ul>
+          </li>
+          <li>
+            Démonstration
+            <ul>
+              <li>Le Havre</li>
+              <li>Mesures</li>
+              <li>Constat</li>
+            </ul>
+          </li>
+        </ol>
       </article>
 
       <article class='fill'>
@@ -48,25 +100,21 @@
         <h3>Automates cellulaires</h3>
 
         <p>Principe</p>
-
-        <img class='centered' style='height:500px'
-             src='images/voronoi.png'>
-
       </article>
 
       <article>
         <h3>Exemple : le jeu de la vie de Conway</h3>
 
-        <canvas id='gameOfLifeCanvas' class='centered' height='500' width='500'></canvas>
+        <canvas id='gameOfLifeCanvas' class='centered' height='550' width='550'></canvas>
       </article>
 
       <article>
         <h3>Exemple géographique : la ségrégation de Schelling</h3>
 
-        <canvas id='schellingCanvas' class='centered' height='500' width='500'></canvas>
+        <canvas id='schellingCanvas' class='centered' height='550' width='550'></canvas>
       </article>
 
-      <article class="smaller">
+      <article class='smaller'>
         <h3>Dans le cadre des simulations urbaines</h3>
 
         <div class='build'>
@@ -101,21 +149,42 @@
       </article>
 
       <article>
-        <h3>Exemple 1 :</h3>
+        <h3>Exemple cellulaire 1</h3>
 
-        <p>Blabla</p>
+        <ul>
+          <li></li>
+          <li></li>
+        </ul>
 
         <img class='centered' style='height:500px'
-             src='images/voronoi.png'>
+             src='images/example_modeling_cities_in_3d.png'>
+
+        <div class='source'>
+          Lucien Benguigui, Daniel Czalanski et Rafael Roth. "Modeling
+          cities in 3D: a cellular automaton approach". Dans
+          : <i>Environment and Planning B: Planning and Design</i> 3
+          (2004).
+        </div>
       </article>
 
       <article>
-        <h3>Exemple 2 :</h3>
+        <h3>Exemple cellulaire 2</h3>
 
-        <p>Blabla</p>
+        <ul>
+          <li></li>
+          <li></li>
+        </ul>
 
         <img class='centered' style='height:500px'
-             src='images/voronoi.png'>
+             src='images/example_le_modele_spacelle.png'>
+
+        <div class='source'>
+          Edwige Dubos-Paillard, Yves Guermond et Patrice
+          Langlois. "Analyse de l'évolution urbaine par automate
+          cellulaire : le modèle SpaCelle". Dans <i>L'Espace
+          Géographique</i> 32 (2003).
+        </div>
+
       </article>
 
       <article>
@@ -135,28 +204,33 @@
       <article class='smaller'>
         <h3>Relaxation de la régularité</h3>
 
-        <p>David O'Sullivan propose l'utilisation d'automates
-          cellulaires graphes.</p>
+        <p>Généralisation : automates cellulaires graphes.</p>
 
         <br/>
         <img class='centered' style='height:400px'
              src='images/gca.png'>
+
+        <div class='source'>
+          David O'Sullivan. "Graph-based Cellular Automaton Models of
+          Urban Spatial Processes". Thèse de doct. Bartlett School of
+          Architecture and Planning, University College London, 2000.
+        </div>
       </article>
 
       <article>
-        <h3>Autre limitation : les routes</h3>
+        <h3>Autre limitation : la représentation du réseau viaire</h3>
 
         <ul class='build'>
-          <li>La connaissance du réseau routier essentielle</li>
+          <li>La connaissance du réseau routier est essentielle</li>
           <li>Il est souvent fourni en entrée...</li>
-          <li>... Mais reste statique</li>
+          <li>... Mais demeure statique</li>
           <li>Inadapté à l'automate cellulaire</li>
         </ul>
 
       </article>
 
       <article class='smaller'>
-        <h3>Simulations urbaines multi-agents</h3>
+        <h3>Exemple multi-agent 1</h3>
 
         <ul>
           <li>Agents promoteurs : achètent, vendent, changent le
@@ -165,85 +239,98 @@
           routier</li>
         </ul>
 
-        <img class='centered' style='height:300px'
-             src='images/voronoi.png'>
+        <img class='centered' style='height:400px'
+             src='images/example_procedural_modeling_of_urban_land_use.png'>
 
-        <p>Simule à la fois la croissance du viaire et du bâti.</p>
+        <div class='source'>
+          Tom Lechner, Seth Tisue et Andy Moddrell, <i>Procedural
+          Modeling of Urban Land Use</i>. Department of Computer
+          Science, North Carolina State Université, 2007.
+        </div>
       </article>
 
-      <article class='smaller'>
+      <article>
         <h3>Défaut : pas de cohérence historique</h3>
 
-        <ul class='build'>
-          <li>La configuration de départ est valide</li>
-          <li>La configuration d'arrivée est valide</li>
-          <li>Les configurations intermédiaires sont erronées</li>
-        </ul>
+        <div class='build'>
 
-        <img style='height:300px'
-             src='images/order_bad_0.png'>
-        <img style='height:300px'
-             src='images/order_bad_1.png'>
-        <img style='height:300px'
-             src='images/order_bad_2.png'>
-        <img style='height:300px'
-             src='images/order_bad_3.png'>
+          <ul class='build'>
+            <li>La configuration de départ est valide</li>
+            <li>La configuration d'arrivée est valide</li>
+            <li>Les configurations intermédiaires sont erronées</li>
+          </ul>
+
+          <img style='height:175px'
+               src='images/order_bad_0.png'>
+          <img style='height:175px'
+               src='images/order_bad_1.png'>
+          <img style='height:175px'
+               src='images/order_bad_2.png'>
+          <img style='height:175px'
+               src='images/order_bad_3.png'>
+
+        </div>
       </article>
 
       <article class='smaller'>
-        <h3>titre</h3>
+        <h3>Exemple multi-agent 2</h3>
 
         <ul>
-          <li>Agrandissement permanent du réseau viaire</li>
-          <li>Règles empiriques appliquées (degré des carrefours tend
-          vers quatre, angle à 90, ...)</li>
-          <li>Le trafic est simulé sur ces nouveaux segments par des
-          agents véhicules et piétons</li>
-          <li>Les meilleurs sont conservés</li>
+          <li>Réseau viaire temporaire formé par un jeu de règles empiriques</li>
+          <li>Trafic des véhicules et des piétons simulé pour
+            identifier les meilleures voies</li>
+          <li>Bâti créé par subdivision des niches</li>
+        </ul>
+
+        <img class='centered' style='height:350px'
+             src='images/example_interactive_geometric_simulation.png'>
+
+        <div class='source'>
+          Basil Weber, Pascal Müller, Perter Wonka and Markus
+          Gross. "Interactive Geometric Simulation of 4D
+          Cities". Dans <i>Eurographics</i>. 2009.
+        </div>
+      </article>
+
+      <article>
+        <h3>Exemple procédural 1</h3>
+
+        <ul>
+          <li></li>
+          <li></li>
+          <li></li>
         </ul>
 
         <img class='centered' style='height:300px'
-             src='images/voronoi.png'>
+             src='images/example_procedural_modeling_of_cities.png'>
+
+        <div class='source'>
+          Yoav Parish et Pascal Müller. "Procedural Modeling of
+          Cities". Dans : <i>SIGGRAPH '01</i>. 2001.
+        </div>
       </article>
 
       <article>
-        <h3>titre</h3>
+        <h3>Exemple procédural 2</h3>
 
         <ul>
-          <li>Basées sur des règles empiriques</li>
-          <li>Seul l'aspect visuel compte</li>
-          <li>Domaines applicatifs: infographie, jeu vidéo,
-            cinéma</li>
+          <li></li>
+          <li></li>
+          <li></li>
         </ul>
 
-      </article>
+        <span class='centered'>
+          <img style='height:300px'
+               src='images/example_interactive_procedural_street_modeling_1.png'>
+          <img style='height:300px'
+               src='images/example_interactive_procedural_street_modeling_2.png'>
+        </span>
 
-      <article>
-        <h3>Méthodes procédurales</h3>
-
-        <ul>
-          <li>Basées sur des règles empiriques</li>
-          <li>Seul l'aspect visuel compte</li>
-          <li>Domaines applicatifs: infographie, jeu vidéo,
-            cinéma</li>
-        </ul>
-
-      </article>
-
-      <article>
-        <h3>Exemple 1 : L-Systems</h3>
-
-        <img class='centered' style='height:500px'
-             src='images/voronoi.png'>
-
-      </article>
-
-      <article>
-        <h3>Exemple 2 : hyperstreamlines</h3>
-
-        <img class='centered' style='height:300px'
-             src='images/voronoi.png'>
-
+        <div class='source'>
+          Guoning Chen, Gregory Esch, Peter Wonka, Pascal Müller et
+          Eugene Zhang. "Interactive Procedural Street Modeling". Dans
+          : <i>SIGGRAPH '08</i>. 2008.
+        </div>
       </article>
 
       <article class='fill'>
@@ -385,7 +472,7 @@
       <article>
         <h3>Application à un automate cellulaire classique</h3>
 
-        <canvas id='density1Canvas' class='centered' height='500' width='500'></canvas>
+        <canvas id='density1Canvas' class='centered' height='550' width='550'></canvas>
       </article>
 
       <article class='smaller'>
@@ -406,7 +493,7 @@
       <article>
         <h3>Application à un automate cellulaire classique</h3>
 
-        <canvas id='density2Canvas' class='centered' height='500' width='500'></canvas>
+        <canvas id='density2Canvas' class='centered' height='550' width='550'></canvas>
       </article>
 
       <article>
@@ -497,43 +584,34 @@
 
 
       <article class='fill'>
-        <h1>Tests</h1>
+        <h1>Démonstration</h1>
 
         <img src='images/cover.png'/>
-      </article>
-
-      <article>
-        <p>Difficulté à obtenir des données</p>
-
-        <p>Simulation de tests et quelques mesures</p>
       </article>
 
       <article class='smaller'>
         <h3>Le Havre</h3>
 
-        <p>On utilise comme configuration initiale une sous-partie du
-          Havre.</p>
+        <p>Configuration initiale : une sous-partie du Havre.</p><br/>
 
-        <img style='height :250px'
-             src='images/le_havre_map.png'>
-        <img style='height :250px'
-             src='images/le_havre_shapefile.png'>
-        <img style='height :250px'
-             src='images/le_havre_voronoi.png'>
-      </article>
+        <div class='centered'>
+          <img style='height :275px'
+               src='images/le_havre_map.png'>
+          <img style='height :275px'
+               src='images/le_havre_shapefile.png'>
+          <img style='height :275px'
+               src='images/le_havre_voronoi.png'>
+        </div><br/>
 
-      <article>
-        <p>Particularité notables</p>
-
-        <ul>
-          <li>Profil côtier empêchant le développement urbain</li>
-          <li>Un centre densitaire</li>
-          <li></li>
+        <ul class='build'>
+          <li>Le profil côtier restreint la croissance</li>
+          <li>Un centre densitaire majeur</li>
+          <li>Quelques parcelles peuplées dispersées</li>
         </ul>
       </article>
 
       <article>
-        <h3>Démonstration</h3>
+        <h3>titre</h3>
 
         VIDEO
       </article>
@@ -609,10 +687,10 @@
 
       Math.seedrandom('graphstream!');
 
-      new GameOfLife('gameOfLifeCanvas', 50);
-      new Schelling('schellingCanvas', 50);
-      new Density('density1Canvas', 50, false);
-      new Density('density2Canvas', 50, true);
+      //new GameOfLife('gameOfLifeCanvas', 60);
+      //new Schelling('schellingCanvas', 80);
+      //new Density('density1Canvas', 50, false);
+      //new Density('density2Canvas', 50, true);
 
       }, false);
     </script>

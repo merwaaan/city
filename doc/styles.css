@@ -363,6 +363,16 @@ article.fill h3 {
 	margin-right: -60px;
 	padding-right: 60px;
 }
+article.fill h1 {
+	background: rgba(255, 255, 255, .75);
+	padding-bottom: .3em;
+	margin-bottom: 6px;
+	padding-top: 10px;
+	margin-left: -60px;
+	padding-left: 60px;
+	margin-right: -60px;
+	padding-right: 60px;
+}
 
 ul {
 	list-style: none;
@@ -473,6 +483,7 @@ article.fill img {
 .centered {
 	margin: 0 auto;
 	display: block;
+	text-align: center;
 }
 
 table {
