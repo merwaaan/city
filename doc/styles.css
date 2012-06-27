@@ -497,7 +497,7 @@ th {
 }
 td,
 th {
-	border: 1px solid rgb(224, 224, 224);
+	border: 1px solid white;
 	padding: 5px 10px;
 	vertical-align: top;
 }
