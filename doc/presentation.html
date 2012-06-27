@@ -32,7 +32,7 @@
     }
     p.name span {
     padding: 0.3em;
-    background: rgba(255, 255, 255, .75);
+    background: white;
     }
 
     span.page {
@@ -115,7 +115,7 @@
         <img class='centered' style='height:300px'
              src='images/city.jpg'><br/>
         <div class='source'>
-          (Picture by Kris Horvath, Creative Commons.)
+          (Picture by Kris Horvath, Creative Commons)
         </div>
 
         <p><b>Our focus : coevolution of land lots and road network.</b></p>
@@ -239,11 +239,14 @@
         <h3>Another shortcoming: where is the road network?</h3><br/>
 
         <img class='centered' style='height:250px' src='images/road.jpg'><br/>
+        <div class='source'>
+          (Picture by <tt>flickr.com/people/ryanready</tt>, Creative Commons)
+        </div>
 
         <ul class='build'>
           <li>Sometimes ignored</li>
           <li>Sometimes given as an input but remains static</li>
-          <li>It has a <b>central role</b> though!</li>
+          <li>Even if it has a <b>central role</b>!</li>
         </ul>
 
         <p class='build'><b>Is the cell representation adapted?</b></p>
@@ -679,10 +682,17 @@
           <tr>
             <td>
               <ul>
+                <li>Parcelles anciennes encerclées</li>
+                <li>Absence de motifs urbains</li>
+              </ul>
+              <ul>
+                <li>Défaut principal : pas de représentation précise
+                de la parcelle</li>
+                <li>Idée : générateur point → polygone</li>
               </ul>
             </td>
             <td>
-              <img class='centered' style='height:350px'
+              <img class='centered' style='height:300px'
                    src='images/lh_500_zoom.png'>
             </td>
           </tr>
@@ -704,8 +714,8 @@
 
       Math.seedrandom('graphstream!');
 
-      //new GameOfLife('gameOfLifeCanvas', 60);
-      //new Schelling('schellingCanvas', 70);
+      new GameOfLife('gameOfLifeCanvas', 60);
+      new Schelling('schellingCanvas', 70);
       new Density('density1Canvas', 50, false);
       new Density('density2Canvas', 50, true);
 

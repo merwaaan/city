@@ -231,9 +231,9 @@ public class Simulation {
 
 					 ++this.step;
 
-					 System.out.print(this.step+" ");
-					 DecimalFormat f = new DecimalFormat("################");
-					 System.out.println(f.format(Measure.diameter(this)));
+					 System.out.println(this.step+" ");
+					 //DecimalFormat f = new DecimalFormat("################");
+					 //System.out.println(f.format(Measure.diameter(this)));
 
 					 if(this.step >= 500) {
 
