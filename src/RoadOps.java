@@ -384,4 +384,21 @@ public class RoadOps {
 		  return closest;
 	 }
 
+	 public static boolean isRoadDrawable(Edge road) {
+
+		 Node n = road.getNode0();
+		 CrossroadPivot pivot = (CrossroadPivot)n.getAttribute("pivot");
+		 for(Node lot : pivot.lots)
+			 if(LotOps.isLotBuilt(lot) && !LotOps.isLargeCell(lot))
+				 return true;
+
+		 n = road.getNode1();
+		 pivot = (CrossroadPivot)n.getAttribute("pivot");
+		 for(Node lot : pivot.lots)
+			 if(LotOps.isLotBuilt(lot) && !LotOps.isLargeCell(lot))
+				 return true;
+
+		 return false;
+	 }
+
 }

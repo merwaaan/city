@@ -346,7 +346,7 @@ public class LotOps {
 	  */
 	 public static boolean isLargeCell(Node lot) {
 
-		  return lot.hasAttribute("area") && ((Double)lot.getAttribute("area")) > 50000;
+		  return lot.hasAttribute("area") && ((Double)lot.getAttribute("area")) > 75000;
 	 }
 
 	public static double getLotArea(Node lot) {

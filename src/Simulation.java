@@ -304,7 +304,9 @@ private void pause(int ms) {
  */
 public void screenshot() {
 
-	 this.lots.addAttribute("ui.screenshot", "../screenshot-" + this.step + ".png");
+	DecimalFormat f = new DecimalFormat("0000000");
+
+	this.lots.addAttribute("ui.screenshot", "../screenshot-" + f.format(this.step) + ".png");
 }
 
 /**
@@ -339,7 +341,7 @@ private void randomCoords(int n, int width) {
  * @param n The number of coordinates requested.
  * @param radius The maximal width of the city.
  */
-private void radialCoords(int n, int radius) {
+	private void radialCoords(int n, int radius) {
 
 	 this.width = radius * 2;
 
