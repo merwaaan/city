@@ -268,13 +268,13 @@
       </article>
 
       <article>
-        <h3>A lack of historical consistency</h3>
+        <h3>A lack of historical consistency</h3><br/>
 
         <ul class='build'>
           <li>Valid initial configuration</li>
           <li>Valid final configuration</li>
           <li>Intermediary steps are faulty</li>
-        </ul><br/><br/>
+        </ul><br/>
 
         <div class='build'>
           <img style='height:175px'
@@ -412,37 +412,31 @@
         </div>
       </article>
 
-      <article>
-        <h3>Principe du modèle</h3>
-
-        <p>On considère la densité de population.</p><br/>
-
-        <p>Trois mécanismes</p>
-        <ul>
-          <li>Évolution des densités</li>
-          <li>Placement des éléments potentiels</li>
-          <li>Construction des éléments potentiels</li>
-        </ul>
-      </article>
-
       <article class='smaller'>
         <h3>Mécanisme 1 : automate cellulaire</h3>
 
-        <p>Trois types de densité :</p>
+        <div class='build'>
 
-        <ul>
-          <li>Faible (f)</li>
-          <li>Moyenne (m)</li>
-          <li>Élevée (e)</li>
-        </ul>
+          <div>
+            <p>Trois types de densité :</p>
+            <ul>
+              <li>Faible (<i>f</i>)</li>
+              <li>Moyenne (<i>m</i>)</li>
+              <li>Élevée (<i>e</i>)</li>
+            </ul>
+          </div>
 
-        <p>Une matrice d'affinité :</p>
-        <img class='eq' style='height:150px;'
-             src='images/matrix.png'>
+          <div>
+            <p>Une matrice d'affinité :</p>
+            <img class='eq' style='height:150px;'
+                 src='images/matrix.png'><br/><br/>
+          </div>
 
-        <p>Un score de transition :</p>
-        <img class='eq' style='height:80px'
-             src='images/transition_score.png'>
+          <div>
+            <p>Un score de transition :</p>
+            <img class='eq' style='height:80px'
+                 src='images/transition_score.png'>
+          </div>
       </article>
 
       <article>
@@ -454,16 +448,21 @@
       <article class='smaller'>
         <h3>Règle insuffisante</h3>
 
-        <p>Deux défauts :</p>
-        <ul>
-          <li>Vitesse</li>
-          <li>Stabilité</li>
-        </ul>
+        <div class='build'>
+          <div>
+            <p>Deux défauts :</p>
+            <ul>
+              <li>Manque de stabilité</li>
+              <li>Vitesse élevée</li>
+            </ul>
+          </div>
 
-        <p>Amélioration : prendre en compte l'âge des parcelles.</p><br/>
-
-        <img class='centered eq' style='height:300px'
-             src='images/sigmoid-age.png'>
+          <div>
+            <p>Amélioration : prendre en compte l'âge des parcelles.</p><br/>
+            <img class='centered eq' style='height:300px'
+                 src='images/sigmoid-age.png'>
+          </div>
+        </div>
       </article>
 
       <article>
@@ -524,11 +523,28 @@
       <article>
         <h3>Mécanisme 3 : construction des éléments potentiels</h3>
 
-        routes
+        <h4>Le cas des parcelles</h4>
 
-        parcelles
+        <ul class='build'>
+          <li>Nombre de parcelles à construire dépend du taux de croissance<br/><br/></li>
+          <li>Sélectionnées en fonction de la date de leur prévision<br/><br/></li>
+          <li><b>Condition de cohérence :</b> doit posséder au moins une arête construite</li>
+        </ul>
       </article>
 
+      <article class='smaller'>
+        <h3>Le cas des routes</h3>
+
+        <ul class='build'>
+          <li>S'apparente à un problème de flot maximal</li>
+          <li>Centre de densité = source et autres carrefours = puits</li>
+          <li><b>Condition de cohérence :</b> arêtes candidates
+          reliées au réseau construit</li>
+        </ul>
+
+        <img class='centered' style='height :400px'
+             src='images/network.png'>
+      </article>
 
       <article class='fill part'>
         <h1>Démonstration</h1>
@@ -558,7 +574,7 @@
       </article>
 
       <article>
-        <h3>titre</h3>
+        <h3>Démonstration</h3>
 
         VIDEO
       </article>
@@ -576,8 +592,8 @@
         <img class='centered' style='height:350px'
              src='images/area_ALL.png'><br/>
 
-        <ul>
-          <li>Augmentation constante</li>
+        <ul class='build'>
+          <li>Augmentation de ~30%</li>
           <li>Croissance plus forte des densités faibles</li>
         </ul>
       </article>
@@ -588,7 +604,7 @@
         <img class='centered' style='height:350px'
              src='images/diameter.png'><br/>
 
-        <ul>
+        <ul class='build'>
           <li>Alternance de phases d'expansion et de densification</li>
           <li>Opportunisme</li>
         </ul>
@@ -600,7 +616,7 @@
         <img class='centered' style='height:350px'
              src='images/degree.png'><br/>
 
-        <ul>
+        <ul class='build'>
           <li>Faible au départ à cause d'un défaut d'implémentation</li>
           <li>Mais <b>stabilisation</b></li>
         </ul>
@@ -612,27 +628,25 @@
         <img class='centered' style='height:350px'
              src='images/degree_distance.png'><br/>
 
-        <ul>
+        <ul class='build'>
           <li>Plus on s'éloigne des centres de densité, plus le
           réseau routier est diffus</li>
         </ul>
       </article>
 
       <article>
-        <h3>Constat</h3>
+        <h3>Constat</h3><br/>
 
         <p>Qualités</p>
         <ul>
+          <li>Génère une ville irrégulière</li>
           <li>Reproduit certaines caractéristiques urbaines</li>
-          <li></li>
-          <li></li>
-        </ul>
+        </ul><br/>
 
         <p>Faiblesses</p>
         <ul>
-          <li>Réseau viaire bien trop dense aux centres</li>
-          <li>Croissance linéaire</li>
-          <li></li>
+          <li>Automate cellulaire basique</li>
+          <li>Réseau viaire trop dense aux centres</li>
         </ul>
       </article>
 
@@ -645,13 +659,34 @@
       <article>
         <h3>Résumé</h3>
 
-
+        <ul class='build'>
+          <li>Un mécanisme <b>cellulaire</b> relaxé permet de
+          représenter <b>irrégulièrement</b> la ville<br/><br/></li>
+          <li>Le diagramme de Voronoï permet de considérer
+            simultanément le bâti et le <b>viaire</b><br/><br/></li>
+          <li>La potentialité et les conditions de cohérence
+            historique garantissent une <b>croissance
+            naturelle</b><br/><br/></li>
+          <li>Les champs de vecteurs permettent d'exprimer l'influence
+          de nombreux paramètres et contraintes</li>
+        </ul>
       </article>
 
-      <article>
+      <article class='smaller'>
         <h3>Ouverture</h3>
 
-
+        <table>
+          <tr>
+            <td>
+              <ul>
+              </ul>
+            </td>
+            <td>
+              <img class='centered' style='height:350px'
+                   src='images/lh_500_zoom.png'>
+            </td>
+          </tr>
+        </table>
       </article>
 
       <article class='fill part'>
@@ -671,8 +706,8 @@
 
       //new GameOfLife('gameOfLifeCanvas', 60);
       //new Schelling('schellingCanvas', 70);
-      //new Density('density1Canvas', 50, false);
-      //new Density('density2Canvas', 50, true);
+      new Density('density1Canvas', 50, false);
+      new Density('density2Canvas', 50, true);
 
       // Number the slides.
 
@@ -690,7 +725,7 @@
       var slides = document.querySelectorAll('article:not(.part)');
       for(var i = 0; i < slides.length; ++i) {
                          var span = document.createElement('span');
-                         span.innerText = (i + 1) + '/' + slides.length;
+                         span.innerText = (i + 1) + ' / ' + slides.length;
                          span.className = 'page';
                          slides[i].appendChild(span);
                          }
