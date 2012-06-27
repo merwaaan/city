@@ -71,10 +71,11 @@
 
         <ol>
           <li>
-            État de l'art
+            Introduction
             <ul>
-              <li>Automates cellulaires</li>
-              <li>Systèmes multi-agents</li>
+              <li>Context</li>
+              <li>Cellular automata and their limitations</li>
+              <li>An example of multi-agent system</li>
             </ul>
           </li>
           <li>
@@ -97,72 +98,100 @@
       </article>
 
       <article class='fill part'>
-        <h1>État de l'art</h1>
+        <h1>Introduction</h1>
 
         <img src='images/cover.png'/>
       </article>
 
-      <article>
-        <h3>Automates cellulaires</h3>
+      <article class='smaller'>
+        <h3>Context</h3>
 
-        <p>Principe</p>
-      </article>
+        <ul>
+          <li>Since the 50's, huge urbanization</li>
+          <li>50% in 2007, ~80% in 2050</li>
+          <li>→ needs prevision and control</li>
+        </ul>
 
-      <article>
-        <h3>Exemple : le jeu de la vie de Conway</h3>
+        <img class='centered' style='height:300px'
+             src='images/city.jpg'><br/>
+        <div class='source'>
+          (Picture by Kris Horvath, Creative Commons.)
+        </div>
 
-        <canvas id='gameOfLifeCanvas' class='centered' height='550' width='550'></canvas>
-      </article>
-
-      <article>
-        <h3>Exemple géographique : la ségrégation de Schelling</h3>
-
-        <canvas id='schellingCanvas' class='centered' height='550' width='550'></canvas>
+        <p><b>Our focus : coevolution of land lots and road network.</b></p>
       </article>
 
       <article class='smaller'>
-        <h3>Dans le cadre des simulations urbaines</h3>
+        <h3>Cellular automata</h3>
+
+        <table class='tab' border='0' cellspacing="0" cellpadding="0">
+          <tr>
+            <td>
+              <br/><br/><br/><br/>
+              <p>A basic space tesselation.</p><br/>
+              <p>Each cell:</p>
+              <ul>
+                <li>has a state</li>
+                <li>has a neighborhood</li>
+                <li>updates synchronously</li>
+              </ul>
+            </td>
+            <td>
+              <canvas id='gameOfLifeCanvas' height='400'
+                      width='400'></canvas>
+            </td>
+          </tr>
+          </table>
+      </article>
+
+      <article>
+        <h3>Geographic example: Schelling's segregation model</h3>
+
+        <canvas id='schellingCanvas' class='centered' height='500' width='500'></canvas>
+      </article>
+
+      <article class='smaller'>
+        <h3>Cellular automata as part of urban simulations</h3>
 
         <div class='build'>
 
           <div>
-            <p>Une cellule représente un sous-espace géographique.</p>
+            <p>A cell represents a spatial subdivision.</p>
             <ul>
-              <li>Quartier</li>
-              <li>Bloc</li>
-              <li>Parcelle</li>
+              <li>District</li>
+              <li>Block</li>
+              <li>Land lot</li>
             </ul>
           </div>
 
           <div>
-            <p>Une cellule dispose d'un état.</p>
+            <p>A cell has a state.</p>
             <ul>
-              <li>Booléen (vide/construit)</li>
-              <li>Type d'usage (résidentiel, commercial, industriel,
-              ...)</li>
-              <li>Tout type de quantité urbaine</li>
+              <li>Boolean (empty/built)</li>
+              <li>Land use type (residential, commercial, industrial, ...)</li>
+              <li>Any urban variable</li>
             </ul>
           </div>
 
           <div>
-            <p>Une cellule dispose d'un voisinage.</p>
+            <p>A cell has a neighborhood.</p>
             <ul>
-              <li>Moore ou Von Neumann</li>
-              <li>Rayon</li>
-              <li>Visibilité</li>
+              <li>Moore or Von Neumann</li>
+              <li>Radius</li>
+              <li>Generally depends on the application</li>
             </ul>
           </div>
 
-          </div>
+        </div>
 
       </article>
 
       <article class='smaller'>
-        <h3>Exemple cellulaire</h3>
+        <h3>Example</h3>
 
         <ul>
-          <li>Fonctions de base : <i>EV(C,R)</i>, <i>RV(C,R)</i>, <i>ZV(C,R)</i></li>
-          <li>Règles composées : <i>Fr &gt; Zp = ZV(Ind,3) &bull; EV(Ctr+Com,2)</i></li>
+          <li>Basic functions : <i>EV(S,R)</i>, <i>RV(S,R)</i>, <i>ZV(S,R)</i></li>
+          <li>Compound rules : <i>Fr &gt; Zp = ZV(Ind,3) &bull; EV(Ctr+Com,2)</i></li>
         </ul>
 
         <img class='centered' style='height:350px'
@@ -178,25 +207,24 @@
       </article>
 
       <article>
-        <h3>Premières limitations des automates cellulaires</h3>
+        <h3>First shortcomings of cellular automata</h3>
 
-        <p>La rigidité de leur formalisme s'oppose à la fidélité des simulations.</p>
+        <p>The rigidity of their formalism goes against realism.</p>
 
         <br/><br/>
         <ul class='build'>
-          <li>Discrétisation des états</li>
-          <li>Synchronisme temporel</li>
-          <li><b>Homogénéité et régularité</b></li>
+          <li>State discretization</li>
+          <li>Temporal synchronism</li>
+          <li><b>Regularity and homogeneity</b></li>
         </ul>
 
       </article>
 
       <article class='smaller'>
-        <h3>Relaxation de la régularité</h3>
+        <h3>Relaxation of the regularity</h3>
 
-        <p>Généralisation : automates cellulaires graphes.</p>
+        <p>Generalization : graph-based cellular automata.</p><br/>
 
-        <br/>
         <img class='centered' style='height:400px'
              src='images/gca.png'>
 
@@ -207,29 +235,26 @@
         </div>
       </article>
 
-      <article>
-        <h3>Autre limitation : la représentation du réseau viaire</h3>
+      <article class='smaller'>
+        <h3>Another shortcoming: where is the road network?</h3><br/>
 
-        <div class='build'>
+        <img class='centered' style='height:250px' src='images/road.jpg'><br/>
 
-          <ul class='build'>
-            <li>Le réseau routier est essentiel</li>
-            <li>Soit il est totalement ignoré</li>
-            <li>Soit il est fourni en entrée et demeure statique</li>
-          </ul><br/><br/>
+        <ul class='build'>
+          <li>Sometimes ignored</li>
+          <li>Sometimes given as an input but remains static</li>
+          <li>It has a <b>central role</b> though!</li>
+        </ul>
 
-          <p><b>Cellule = représentation adéquate ?</b></p>
-        </div>
+        <p class='build'><b>Is the cell representation adapted?</b></p>
       </article>
 
       <article class='smaller'>
-        <h3>Exemple multi-agent</h3>
+        <h3>Another example: a multi-agent model</h3>
 
         <ul>
-          <li>Agents promoteurs : achètent, vendent, changent le
-          type</li>
-          <li>Agents traceurs : raccordent les parcelles au réseau
-          routier</li>
+          <li>promoter agents: buy, sell, change the type</li>
+          <li>tracer agents: connect isolated land lots to the road network.</li>
         </ul>
 
         <img class='centered' style='height:400px'
@@ -243,25 +268,23 @@
       </article>
 
       <article>
-        <h3>Manque de cohérence historique</h3>
+        <h3>A lack of historical consistency</h3>
+
+        <ul class='build'>
+          <li>Valid initial configuration</li>
+          <li>Valid final configuration</li>
+          <li>Intermediary steps are faulty</li>
+        </ul><br/><br/>
 
         <div class='build'>
-
-          <ul class='build'>
-            <li>La configuration de départ est valide</li>
-            <li>La configuration d'arrivée est valide</li>
-            <li>Les configurations intermédiaires sont erronées</li>
-          </ul><br/><br/>
-
           <img style='height:175px'
                src='images/order_bad_0.png'>
           <img style='height:175px'
                src='images/order_bad_1.png'>
           <img style='height:175px'
-               src='images/order_bad_2.png'>
+                 src='images/order_bad_2.png'>
           <img style='height:175px'
                src='images/order_bad_3.png'>
-
         </div>
       </article>
 
@@ -272,7 +295,7 @@
       </article>
 
       <article>
-        <h3>Objectif du modèle</h3>
+        <h3>Objectif du modèle</h3><br/><br/>
 
         <p>On propose un modèle de croissance urbaine :</p>
 
@@ -285,34 +308,96 @@
       </article>
 
       <article>
-        <h3>Une structure adaptée : le diagramme de Voronoï</h3>
+        <h3>Une structure adaptée : le diagramme de Voronoï</h3><br/>
 
-        <dl>
-          <dt>Définition</dt>
-          <dd>DEFINITION</dd>
-        </dl>
+        <img class='centered' style='height:350px'
+             src='images/voronoi.png'><br/>
 
-        <img class='centered' style='height:300px'
-             src='images/voronoi.png'>
+        <p>La cellule de Voronoï <i>V(g)</i> contient l'ensemble des
+        points plus proches du générateur <i>g</i> que de tout
+        autre générateur.</p>
       </article>
 
       <article class='smaller'>
-        <h3>Que représente t-on ?</h3>
+        <h3>Représentation du bâti</h3>
 
-        <ul>
-          <li>Cellule → parcelle</li>
-          <li>Arête → route</li>
-          <li>Sommet → carrefour</li>
-        </ul>
+        <div class='build'>
+          <ul>
+            <li>Générateur → centre de la parcelle</li>
+            <li>Cellule → espace d'influence de la parcelle</li>
+          </ul>
 
-        <p>Et l'aspect cellulaire ?</p><br/>
+          <img class='centered' style='height:350px'
+               src='images/delaunay.png'>
+        </div>
+      </article>
 
-        <img class='centered' style='height:300px'
-             src='images/delaunay.png'>
+      <article class='smaller'>
+        <h3>Représentation du viaire</h3>
+
+        <div class='build'>
+          <ul>
+            <li>Arête de Voronoï → route</li>
+            <li>Sommet de Voronoï → carrefour</li>
+          </ul>
+
+          <div>
+            <p>L'ensemble des arêtes forme un réseau maximal.</p><br/>
+            <img class='centered' style='height:250px'
+                 src='images/voronoi.png'><br/>
+          </div>
+
+          <p><b>Véritable réseau routier = sous-partie du réseau maximal.</b></p>
+        </div>
       </article>
 
       <article>
-        <h3>La cellule de Voronoï n'est pas la parcelle exacte !</h3><br/>
+        <h3>Potentialité</h3><br/>
+
+        <div class='build'>
+
+          <div>
+            <p>Deux éléments urbains traités :</p>
+            <ul>
+              <li>Les parcelles</li>
+              <li>Les routes</li>
+            </ul><br/>
+          </div>
+
+          <div>
+            <p>Peuvent prendre deux formes :</p>
+            <ul>
+              <li>Les <b>construits</b> : définitivement placés, forment la ville</li>
+              <li>Les <b>potentiels</b> : intangibles, prévisionnels</li>
+            </ul><br/>
+          </div>
+        </div>
+      </article>
+
+      <article>
+        <h3>Exemple illustratif</h3>
+
+        <div class='centered'>
+          <img style='height:225px'
+               src='images/potential-interp.png'>
+          <img style='height:225px'
+               src='images/potential-voronoi.png'>
+        </div><br/>
+
+        <div class='centered build'>
+          <img style='height:175px'
+               src='images/order_good_0.png'>
+          <img style='height:175px'
+               src='images/order_good_1.png'>
+          <img style='height:175px'
+                 src='images/order_good_2.png'>
+          <img style='height:175px'
+               src='images/order_good_3.png'>
+        </div>
+      </article>
+
+      <article>
+        <h3>La cellule de Voronoï n'est pas la parcelle exacte !</h3>
 
         <img class='centered' style='height:225px'
              src='images/voronoi-interp0.png'><br/>
@@ -324,27 +409,6 @@
                src='images/voronoi-interp2.png'>
           <img style='height:225px'
                src='images/voronoi-interp3.png'>
-        </div>
-      </article>
-
-      <article class='smaller'>
-        <h3>Potentialité</h3>
-
-        <p>Deux types d'éléments :</p>
-        <ul>
-          <li>Les construits : définitivement placés, forment la ville</li>
-          <li>Les potentiels : intangibles, représentent une prévision</li>
-        </ul><br/><br/>
-
-        <div class='centered'>
-          <img style='height:175px'
-               src='images/order_good_0.png'>
-          <img style='height:175px'
-               src='images/order_good_1.png'>
-          <img style='height:175px'
-               src='images/order_good_2.png'>
-          <img style='height:175px'
-               src='images/order_good_3.png'>
         </div>
       </article>
 
@@ -499,6 +563,13 @@
         VIDEO
       </article>
 
+      <article>
+        <h3>Comparaison</h3>
+
+        <img class='centered' style='height :500px'
+             src='images/lh_500_comparison.png'>
+      </article>
+
       <article class='smaller'>
         <h3>Évolution de la superficie</h3><br/>
 
@@ -598,10 +669,10 @@
 
       Math.seedrandom('graphstream!');
 
-      new GameOfLife('gameOfLifeCanvas', 60);
-      new Schelling('schellingCanvas', 80);
-      new Density('density1Canvas', 50, false);
-      new Density('density2Canvas', 50, true);
+      //new GameOfLife('gameOfLifeCanvas', 60);
+      //new Schelling('schellingCanvas', 70);
+      //new Density('density1Canvas', 50, false);
+      //new Density('density2Canvas', 50, true);
 
       // Number the slides.
 
