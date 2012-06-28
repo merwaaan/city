@@ -344,11 +344,14 @@
             <li>Sommet de Voronoï → carrefour</li>
           </ul>
 
-          <div>
-            <p>L'ensemble des arêtes forme un réseau maximal.</p><br/>
+	  <div>
             <img class='centered' style='height:250px'
-                 src='images/voronoi.png'><br/>
-          </div>
+		 src='images/voronoi.png'><br/>
+	  </div>
+
+	  <div>
+            <p>L'ensemble des arêtes forme un réseau maximal.</p><br/>
+	  </div>
 
           <p><b>Véritable réseau routier = sous-partie du réseau maximal.</b></p>
         </div>
@@ -538,15 +541,17 @@
       <article class='smaller'>
         <h3>Le cas des routes</h3>
 
-        <ul class='build'>
-          <li>S'apparente à un problème de flot maximal</li>
-          <li>Centre de densité = source et autres carrefours = puits</li>
-          <li><b>Condition de cohérence :</b> arêtes candidates
-          reliées au réseau construit</li>
-        </ul>
+	<div class='build'>
+            <p><b>Condition de cohérence :</b> arêtes candidates reliées au réseau construit<br/><br/></p>
 
-        <img class='centered' style='height :400px'
-             src='images/network.png'>
+            <img class='centered' style='height :400px'
+		 src='images/network.png'>
+
+            <ul class='build'>
+              <li>S'apparente à un problème de flot</li>
+              <li>Centre de densité = source et autres carrefours = puits</li>
+            </ul>
+	</div>
       </article>
 
       <article class='fill part'>
@@ -681,14 +686,14 @@
         <table>
           <tr>
             <td>
+	      <br/><br/>
               <ul>
-                <li>Parcelles anciennes encerclées</li>
-                <li>Absence de motifs urbains</li>
+                <li>Réseau trop dense !</li>
+                <li>Absence de motif urbain</li>
               </ul>
               <ul>
                 <li>Défaut principal : pas de représentation précise
                 de la parcelle</li>
-                <li>Idée : générateur point → polygone</li>
               </ul>
             </td>
             <td>
@@ -696,7 +701,19 @@
                    src='images/lh_500_zoom.png'>
             </td>
           </tr>
-        </table>
+        </table><br/>
+
+	<div class='build'>
+
+	  <div>
+	    <p class='centered'><b>Idée :</b> Générateur point → polygone</p><br/>
+	  </div>
+
+	  <ul class='build'>
+	    <li>Parcelles collées = pas de route</li>
+	    <li>Forme des parcelles potentielles ? L-Systems</li>
+	  </ul>
+	</div>
       </article>
 
       <article class='fill part'>
