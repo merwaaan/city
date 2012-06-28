@@ -136,6 +136,9 @@ public class BackgroundLayer implements LayerRenderer {
 				if(!RoadOps.isRoadBuilt(road))
 					 continue;
 
+				if(!RoadOps.isRoadDrawable(road))
+					continue;
+
 				Node a = road.getNode0();
 				Node b = road.getNode1();
 
