@@ -22,10 +22,12 @@ LIBS=\
 FILES=\
 	BackgroundLayer \
 	CityOps \
+	Configuration \
 	CrossroadPivot \
 	Density \
 	DensityField \
 	DensityStrategy \
+	LeHavreConfiguration \
 	LotStrategy \
 	LotOps \
 	Measure \

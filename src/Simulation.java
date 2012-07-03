@@ -1,12 +1,6 @@
 import com.vividsolutions.jts.geom.Coordinate;
-import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.GeometryFactory;
-import com.vividsolutions.jts.geom.LinearRing;
 import com.vividsolutions.jts.geom.LineString;
-import com.vividsolutions.jts.geom.MultiLineString;
-import com.vividsolutions.jts.geom.MultiPolygon;
-import com.vividsolutions.jts.geom.Polygon;
-import com.vividsolutions.jts.triangulate.VoronoiDiagramBuilder;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -18,8 +12,9 @@ import java.util.Random;
 import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
 
-import org.graphstream.algorithm.Toolkit;
-import org.graphstream.graph.*;
+import org.graphstream.graph.Edge;
+import org.graphstream.graph.Graph;
+import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.SingleGraph;
 import org.graphstream.ui.geom.Vector2;
 import org.graphstream.ui.swingViewer.*;
@@ -76,7 +71,9 @@ public class Simulation {
 	 public int showWhichVectorField = -1;
 	 public boolean drawTrueRoads = false;
 
-	 public List<List<Vector2>> paths;
+    // used to draw the paths taken when positionning potential land
+    // lots.
+    public List<List<Vector2>> paths;
 
 	 private String lotsStyle = "node {fill-mode: none; size: 5px;} edge {visibility-mode: hidden;}";
 
@@ -150,122 +147,31 @@ public class Simulation {
 
 	 private void initialize() {
 
-		  //randomCoords(2500, 2000);
-
-		  //radialCoords(600, 500);
-
-		  ShapeFileLoader shpLoader = new ShapeFileLoader(this);
-		  shpLoader.load("data/le_havre.shp", this);
-
-		  // Build a Voronoi diagram for which seeds are the previously
-		  // computed coordinates.
-		  Geometry voronoi = LotOps.voronoiDiagram(this.lotCoords);
-
-		  // Build the two graphs based on the diagram.
-		  LotOps.buildLotsGraph(voronoi, this);
-		  RoadOps.buildRoadsGraph(voronoi, this);
-
-		  // Build the road from the shape file.
-		  for(Edge e : this.roads.getEachEdge()) {
-
-				Node c0 = e.getNode0();
-				Node c1 = e.getNode1();
-
-				double c0x = (Double)c0.getAttribute("x");
-				double c0y = (Double)c0.getAttribute("y");
-				double c1x = (Double)c1.getAttribute("x");
-				double c1y = (Double)c1.getAttribute("y");
-				Coordinate[] c0c1  = {new Coordinate(c0x, c0y), new Coordinate(c1x, c1y)};
-
-				LineString line = this.geomFact.createLineString(c0c1);
-
-				for(LineString ls : this.trueRoad)
-					 if(line.crosses(ls)) {
-						  RoadOps.buildRoad(e);
-						  break;
-					 }
-		  }
-
-		  // Apply the density from the shape file.
-		  Coordinate o = new Coordinate(0, 0);
-		  if(this.shpDensities != null)
-				for(Node lot : this.lots) {
-
-					 double x = (Double)lot.getAttribute("x");
-					 double y = (Double)lot.getAttribute("y");
-					 Coordinate c = new Coordinate(x, y);
-
-					 Density d = this.shpDensities.get(c);
-					 if(d != null) {
-
-						  if(c.distance(o) > 1000)
-								if(this.rnd.nextDouble() < 0.03)
-									 d = Density.MEDIUM;
-								else
-									 d = Density.LOW;
-
-						  lot.setAttribute("density", d);
-						  LotOps.buildLot(lot);
-					 }
-				}
+	     //new RadialConfiguration(this);
+	     new LeHavreConfiguration(this);
 	 }
 
-	 public void run() {
+    public void run() {
+	
+	while(true) {
+	    
+	    this.now = System.currentTimeMillis();
 
-		  // Choose appropriate strategies.
-		  this.strategies.put("cellular automata", new DensityStrategy(this));
-		  this.strategies.put("road development", new RoadStrategy(4, this));
-		  this.strategies.put("lot construction", new LotStrategy(0.5, this));
-		  this.strategies.put("potential lot construction", new PotentialLotStrategy(0.3, this));
-		  screenshot();
-		  while(true) {
+	    if(this.now - this.lastStep > this.stepDuration) {
 
-				this.now = System.currentTimeMillis();
+		for(Strategy strategy : this.strategies.values())
+		    strategy.update();
 
-				if(this.now - this.lastStep > this.stepDuration) {
+		this.lastStep = now;
 
-					 for(Strategy strategy : this.strategies.values())
-						  strategy.update();
+		++this.step;
+		System.out.println(this.step+" ");
 
-					 this.lastStep = now;
-
-					 ++this.step;
-
-					 System.out.println(this.step+" ");
-					 //DecimalFormat f = new DecimalFormat("################");
-					 //System.out.println(f.format(Measure.diameter(this)));
-
-					 if(this.step >= 500) {
-
-						  /*
-						  List<double[]> records = Measure.degreeDistance(this);
-
-						  double s = 150;
-						  double max = 3500;
-
-						  for(double d = 0; d < max; d += s) {
-
-								int n = 0;
-								double total = 0;
-
-								for(double[] r : records) {
-									 int dist = (int)r[0];
-									 if(dist < d && dist > d - s) {
-										  total += (int)r[1];
-										  ++n;
-									 }
-								}
-								System.out.println(d + " " + (n > 0 ? total / n : 0));
-						  }
-						  */
-						 return;
-					 }
-
-				redraw();
-				screenshot();
-		  }
-	 }
-}
+		redraw();
+		//screenshot();
+	    }
+	}
+    }
 
 /*************************
  *
