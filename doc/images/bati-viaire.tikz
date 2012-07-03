@@ -1,9 +1,0 @@
-\begin{tikzpicture}
-
-  \node[draw,rectangle] (b) at (-1,0) {Bâti};
-  \node[draw,rectangle] (v) at (+1,0) {Viaire};
-
-  \draw (b.north) edge[->,out=90,in=90] (v.north);
-  \draw (v.south) edge[->,out=-90,in=-90] (b.south);
-
-\end{tikzpicture}
