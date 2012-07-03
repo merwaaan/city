@@ -143,8 +143,8 @@ public class Simulation {
 
 	 private void initialize() {
 
-	     new RadialConfiguration(this);
-	     //new LeHavreConfiguration(this);
+	     //new RadialConfiguration(this);
+	     new LeHavreConfiguration(this);
 	 }
 
     public void run() {
