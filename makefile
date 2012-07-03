@@ -36,6 +36,7 @@ FILES=\
 	ObstacleField \
 	PatternField \
 	PotentialLotStrategy \
+	RadialConfiguration \
 	RoadField \
 	RoadStrategy \
 	RoadOps \

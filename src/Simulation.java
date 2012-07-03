@@ -143,8 +143,8 @@ public class Simulation {
 
 	 private void initialize() {
 
-	     //new RadialConfiguration(this);
-	     new LeHavreConfiguration(this);
+	     new RadialConfiguration(this);
+	     //new LeHavreConfiguration(this);
 	 }
 
     public void run() {
@@ -217,7 +217,7 @@ public void screenshot() {
  * @param n The number of coordinates requested.
  * @param width The maximal width of the city.
  */
-private void randomCoords(int n, int width) {
+    public void randomCoords(int n, int width) {
 
 	 this.width = width;
 
@@ -243,7 +243,7 @@ private void randomCoords(int n, int width) {
  * @param n The number of coordinates requested.
  * @param radius The maximal width of the city.
  */
-	private void radialCoords(int n, int radius) {
+    public void radialCoords(int n, int radius) {
 
 	 this.width = radius * 2;
 

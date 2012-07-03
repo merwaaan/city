@@ -24,30 +24,7 @@ public class DensityStrategy extends Strategy {
 	this.affinities = affinities;
 
 	this.sim.lots.addSink(new DensityStrategySink(this.sim, this));
-
-		  /*
-		  // Prepare an initial configuration with gradual density from
-		  // the center.
-		  for(Node lot : this.sim.lots) {
-
-				double x = (Double)lot.getAttribute("x");
-				double y = (Double)lot.getAttribute("y");
-
-				double dist = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
-
-				Density d;
-				if(dist < 100)
-					 d = Density.HIGH;
-				else if(dist < 250)
-					 d = Density.MEDIUM;
- 				else
-					 d = Density.LOW;
-
-				lot.setAttribute("density", d);
-				LotOps.buildLot(lot);
-		  }
-		  */
-	 }
+    }
 
 	 /**
 	  * Gives a random type of density.
