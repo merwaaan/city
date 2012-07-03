@@ -87,11 +87,29 @@ public class LeHavreConfiguration extends Configuration {
 
     void initStrategies() {
 
-	this.sim.strategies.put("cellular automata", new DensityStrategy(this.sim));
+	// First strategy: vertical growth. Each land lots has a
+	// density type and they evolve according to their
+	// neighborhoods like in any cellular automaton.
+
+	double[][] affinities = {
+	    {0.9, 0.001, 0},    // LOW
+	    {0.001, 1, 0.0001}, // MEDIUM
+	    {0, 0.001, 1.1}     // HIGH
+	 };
+
+	this.sim.strategies.put("cellular automata", new DensityStrategy(affinities, this.sim));
+
+	// Second strategy: expansion of the road network. A traffic
+	// flow evaluation is used to choose the best roads to build
+	// in order to better benefit to the overall city.
 
 	this.sim.strategies.put("road development", new RoadStrategy(4, this.sim));
 
+	// Third Strategy: which potential land lots are built?
+
 	this.sim.strategies.put("lot construction", new LotStrategy(0.5, this.sim));
+
+	// Fourth strategy: which potential roads are built?
 
 	this.sim.strategies.put("potential lot construction", new PotentialLotStrategy(0.3, this.sim));
     }

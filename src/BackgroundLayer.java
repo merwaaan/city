@@ -57,10 +57,9 @@ public class BackgroundLayer implements LayerRenderer {
 		  // ART!
 		  drawLots(g);
 		  drawRoads(g);
-		  drawTrueRoads(g);
+		  drawVectorField(g);
 		  //drawPaths(g);
 		  //drawObstacles(g);
-		  drawVectorField(g);
 
 		  // Restore the transformation matrix.
 		  g.dispose();
@@ -207,29 +206,6 @@ public class BackgroundLayer implements LayerRenderer {
 					 g.drawLine(x1, y1, x2, y2);
 				}
 	 }
-
-	private void drawTrueRoads(Graphics2D g) {
-
-		if(!this.sim.drawTrueRoads || this.sim.trueRoad == null)
-			return;
-
-		g.setColor(Color.ORANGE);
-
-		for(int i = 0; i < this.sim.trueRoad.size(); ++i) {
-
-			LineString line = this.sim.trueRoad.get(i);
-
-			Coordinate[] lineCoords = line.getCoordinates();
-
-			GeneralPath path = new GeneralPath();
-			path.moveTo(lineCoords[0].x, lineCoords[0].y);
-
-			for(int j = 0; j < lineCoords.length; ++j)
-				path.lineTo(lineCoords[j].x, lineCoords[j].y);
-
-			g.draw(path);
-		}
-	}
 
 	 private void drawPaths(Graphics2D g) {
 

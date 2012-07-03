@@ -15,16 +15,15 @@ public class DensityStrategy extends Strategy {
 		  Density.HIGH
 	 };
 
-	 private double[][] affinities = {
-		  {0.9, 0.001, 0},         // LOW
-		  {0.001, 1, 0.0001}, // MEDIUM
-		  {0, 0.001, 1.1}       // HIGH
-	 };
+    private double[][] affinities;
 
-	 public DensityStrategy(Simulation sim) {
-		  super(sim);
+    public DensityStrategy(double[][] affinities, Simulation sim) {
 
-		  this.sim.lots.addSink(new DensityStrategySink(this.sim, this));
+	super(sim);
+
+	this.affinities = affinities;
+
+	this.sim.lots.addSink(new DensityStrategySink(this.sim, this));
 
 		  /*
 		  // Prepare an initial configuration with gradual density from

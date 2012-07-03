@@ -62,14 +62,10 @@ public class Simulation {
 	  * `showWhichVectorField` is the index of the displayed vector
 	  * field. If its value is -1, no fields are displayed. If its
 	  * value is -2 the summed up vector field is displayed.
-	  *
-	  * `drawTrueRoads' enables the drawing of the original road
-	  * network if the urban data comes from a shapefile.
 	  */
 	 public boolean showPotentialLots = true;
 	 public boolean showLargeCells = false;
 	 public int showWhichVectorField = -1;
-	 public boolean drawTrueRoads = false;
 
     // used to draw the paths taken when positionning potential land
     // lots.
