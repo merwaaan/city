@@ -738,17 +738,6 @@
 
       // Number the slides.
 
-      function isPart(element) {
-
-      var classes = element.className.split(' ');
-
-      for(var i = 0; i < classes.length; ++i)
-        if(classes[i] === 'part')
-          return true;
-
-        return false;
-      }
-
       var slides = document.querySelectorAll('article:not(.part)');
       for(var i = 0; i < slides.length; ++i) {
                          var span = document.createElement('span');

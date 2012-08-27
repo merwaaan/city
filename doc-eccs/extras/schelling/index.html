@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Schelling's segregation Model</title>
+    <script src="../seedrandom.js"></script>
+    <script src="schelling.js"></script>
+  </head>
+  <body>
+
+    <canvas id='c' width="800" height="800"></canvas>
+
+    <script>
+      window.addEventListener('load', function() {
+
+      Math.seedrandom('graphstream!');
+
+      new Schelling('c', 50);
+
+      }, false);
+    </script>
+
+  </body>
+</html>

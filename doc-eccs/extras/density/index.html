@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Dicrete density model</title>
+    <script src="../seedrandom.js"></script>
+    <script src="density.js"></script>
+  </head>
+  <body>
+
+    <canvas id='c' width="800" height="800"></canvas>
+
+    <script>
+      window.addEventListener('load', function() {
+
+      Math.seedrandom('graphstream!');
+
+      new Density('c', 50, true);
+
+      }, false);
+    </script>
+
+  </body>
+</html>
