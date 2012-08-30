@@ -87,13 +87,15 @@
             </ul>
           </li>
           <li>
-            Demonstration
+            Demo
             <ul>
               <li>Le Havre</li>
               <li>Measures</li>
-              <li>Constat</li>
             </ul>
           </li>
+					<li>
+						Conclusion
+					</li>
         </ol>
       </article>
 
@@ -109,7 +111,7 @@
         <ul>
           <li>Since the 50's, huge urbanization</li>
           <li>50% in 2007, ~80% in 2050</li>
-          <li>→ requires anticipation and and control</li>
+          <li>→ requires anticipation and control</li>
         </ul>
 
         <img class='centered' style='height:300px'
@@ -153,8 +155,8 @@
 
         <div class='build'>
 
-					<br/>
           <div>
+						<br/>
             <p>A cell represents a spatial subdivision.</p>
             <ul>
               <li>District</li>
@@ -314,7 +316,7 @@
       </article>
 
       <article class='smaller'>
-        <h3>Title</h3>
+        <h3>Lots and roads representation</h3>
 
        	<img class='centered' style='height:350px'
                src='images/delaunay.png'>
@@ -378,7 +380,7 @@
       </article>
 
       <article>
-        <h3>Voronoi cell shape ≠ land lot shape!</h3>
+        <h3>Voronoi cell ≠ land lot</h3>
 
         <img class='centered' style='height:225px'
              src='images/voronoi-interp0.png'><br/>
@@ -419,81 +421,67 @@
 
 				<p>Gist of the model:</p>
 				<ul>
-					<li>Density depends on neighborhood</li>
-					<li>Potential lots are placed depending on density and existing road network.</li>
-					<li>Some potential lots and roads are built, others are ignored.</li>
+					<li>Density depends on neighborhood (<b>M1</b>)</li>
+					<li>Potential lots are placed depending on density and existing road network (<b>M2</b>)</li>
+					<li>Some potential lots and roads are built, others are ignored (<b>M3</b>)</li>
 				</ul>
 			</article>
 
       <article class='smaller'>
-        <h3>Mécanisme 1 : automate cellulaire</h3>
+        <h3>M1: cellular automaton</h3>
 
         <div class='build'>
 
           <div>
-            <p>Trois types de densité :</p>
+            <p>Three levels of density:</p>
             <ul>
-              <li>Faible (<i>f</i>)</li>
-              <li>Moyenne (<i>m</i>)</li>
-              <li>Élevée (<i>e</i>)</li>
+              <li>Low (<i>f</i>)</li>
+              <li>Medium (<i>m</i>)</li>
+              <li>High (<i>e</i>)</li>
             </ul>
           </div>
 
           <div>
-            <p>Une matrice d'affinité :</p>
+            <p>An affinity matrix:</p>
             <img class='eq' style='height:150px;'
                  src='images/matrix.png'><br/><br/>
           </div>
 
           <div>
-            <p>Un score de transition :</p>
+            <p>A transition score:</p>
             <img class='eq' style='height:80px'
                  src='images/transition_score.png'>
           </div>
       </article>
 
       <article>
-        <h3>Nouvel essai</h3>
+        <h3>Applied on a classic cellular automaton</h3>
 
         <canvas id='densityCanvas' class='centered' height='550' width='550'></canvas>
       </article>
 
       <article>
-        <h3>Application à un diagramme de Voronoï</h3><br/>
+        <h3>Applied on a Voronoi diagram</h3><br/>
 
-	<video controls class='centered' src='vca.ogv' width='500'></video>
+				<video controls class='centered' src='vca.ogv' width='500'></video>
       </article>
 
       <article class='smaller'>
-        <h3>Mécanisme 2 : placement des éléments potentiels</h3>
+        <h3>M2: placement of potential lots</h3>
 
-        <div class='build'>
+    		<ul>
+          <li>Many factors to take into account</li>
+					<li>Each of them represented by a vector field</li>
+        </ul>
 
-          <ul class='build'>
-            <li>Guide l'expansion de la ville</li>
-            <li>Un grand nombre de facteurs à considérer...</li>
-            <li>... Exprimés sous la forme de champs de vecteurs</li>
-            <li>Combinés et pondérés</li>
-          </ul>
-
-          <img class='centered' style='height:300px'
-               src='images/vf-sum.png'><br/>
-
-          <p>(Note : On se concentre uniquement sur le placement des
-            parcelles potentielles.)</p>
-
-        </div>
-      </article>
+				<div class='build'>
+        	<img class='centered' style='height:400px'
+          	   src='images/vf-base.png'>
+				</div>
+		  </article>
 
       <article>
-        <h3>Configuration d'exemple</h3>
-
-        <img class='centered' style='height:500px'
-             src='images/vf-base.png'>
-      </article>
-
-      <article>
-        <h3>Champ de vecteurs associés</h3>
+        <h3>Vector fields</h3>
 
         <div class='centered build'>
           <img style='height:250px'
@@ -507,32 +495,24 @@
         </div>
       </article>
 
-      <article>
-        <h3>Mécanisme 3 : construction des éléments potentiels</h3>
-
-        <h4>Le cas des parcelles</h4>
-
-        <ul class='build'>
-          <li>Nombre de parcelles à construire dépend du taux de croissance<br/><br/></li>
-          <li>Sélectionnées en fonction de la date de leur prévision<br/><br/></li>
-          <li><b>Condition de cohérence :</b> doit posséder au moins une arête construite</li>
-        </ul>
-      </article>
-
       <article class='smaller'>
-        <h3>Le cas des routes</h3>
+        <h3>M3: construction of potential elements</h3>
 
-	<div class='build'>
-            <p><b>Condition de cohérence :</b> arêtes candidates reliées au réseau construit<br/><br/></p>
+        <h4>Potential lots → built lots</h4>
 
-            <img class='centered' style='height :400px'
-		 src='images/network.png'>
+        <ul>
+          <li>Depends on a growth rate</li>
+          <li>Lots have a probability to get built proportional with their prevision date</li>
+          <li><b>Coherence condition:</b> they MUST be connected to the built road network</li>
+        </ul>
 
-            <ul class='build'>
-              <li>S'apparente à un problème de flot</li>
-              <li>Centre de densité = source et autres carrefours = puits</li>
-            </ul>
-	</div>
+        <h4>Potential roads → built roads</h4>
+
+ 				<ul>
+          <li>Depends on a growth rate</li>
+          <li>A flow evaluation evaluates which potential roads would benefit to the city</li>
+          <li><b>Coherence condition:</b> they must be adjacent to a built road</li>
+        </ul>
       </article>
 
       <article class='fill part'>
@@ -541,11 +521,10 @@
         <img src='images/cover.png'/>
       </article>
 
-      <article class='smaller'>
-        <h3>Le Havre (partiel)</h3>
+      <article>
+        <h3>Le Havre (part of)</h3>
 
-        <p>Configuration initiale : une sous-partie du Havre.</p><br/>
-
+				<br/>
         <div class='centered'>
           <img style='height :275px'
                src='images/le_havre_map.png'>
@@ -556,16 +535,16 @@
         </div><br/>
 
         <ul class='build'>
-          <li>Le profil côtier restreint la croissance</li>
-          <li>Un centre densitaire majeur</li>
-          <li>Quelques parcelles peuplées dispersées</li>
+          <li>The coastline prevents development</li>
+          <li>A major density center</li>
+          <li>Scattered lots with high densities</li>
         </ul>
       </article>
 
       <article>
-        <h3>Démonstration</h3><br/>
+        <h3>Démonstration</h3>
 
-	<video controls class='centered' src='lh.ogv' width='500'></video>
+				<video controls class='centered' src='lh.ogv' width='600'></video>
       </article>
 
       <article>
@@ -576,42 +555,25 @@
       </article>
 
       <article class='smaller'>
-        <h3>Diamètre</h3><br/>
+        <h3>Diameter of the road network</h3><br/>
 
         <img class='centered' style='height:350px'
              src='images/diameter.png'><br/>
 
         <ul class='build'>
-          <li>Alternance de phases d'expansion et de densification</li>
-          <li>Opportunisme</li>
+          <li>Alterning between phases of expansion and phases of densification</li>
+          <li>Opportunism</li>
         </ul>
       </article>
 
       <article class='smaller'>
-        <h3>Degré des carrefours en fonction de l'excentration</h3><br/>
+        <h3>Average degree with respect to eccentricity</h3><br/>
 
         <img class='centered' style='height:350px'
              src='images/degree_distance.png'><br/>
 
         <ul class='build'>
-          <li>Plus on s'éloigne des centres de densité, plus le
-          réseau routier est diffus</li>
-        </ul>
-      </article>
-
-      <article>
-        <h3>Constat</h3><br/>
-
-        <p>Qualités</p>
-        <ul>
-          <li>Génère une ville irrégulière</li>
-          <li>Reproduit certaines caractéristiques urbaines</li>
-        </ul><br/>
-
-        <p>Faiblesses</p>
-        <ul>
-          <li>Automate cellulaire basique</li>
-          <li>Réseau viaire trop dense aux centres</li>
+          <li>The more we move away from the centre, the more diffuse the road network becomes</li>
         </ul>
       </article>
 
@@ -622,35 +584,30 @@
       </article>
 
       <article>
-        <h3>Résumé</h3>
+        <h3>Summary</h3>
 
-        <ul class='build'>
-          <li>Un mécanisme <b>cellulaire</b> relaxé permet de
-          représenter <b>irrégulièrement</b> la ville<br/><br/></li>
-          <li>Le diagramme de Voronoï permet de considérer
-            simultanément le bâti et le <b>viaire</b><br/><br/></li>
-          <li>La potentialité et les conditions de cohérence
-            historique garantissent une <b>croissance
-            naturelle</b><br/><br/></li>
-          <li>Les champs de vecteurs permettent d'exprimer l'influence
-          de nombreux paramètres et contraintes</li>
+				<ul class='build'>
+					<li>The Voronoi diagram represents both buildings and <b>roads</b></li>
+					<li>A relaxed cellular mechanism lets this <b>irregular</b> city grow vertically</li>
+					<li>Potentiality and coherence conditions ensure <b>temporal coherence</b></li>
+					<li>Vector fields can represent any influence</li>
         </ul>
       </article>
 
       <article class='smaller'>
-        <h3>Ouverture</h3>
+        <h3>What's next?</h3>
 
         <table>
           <tr>
             <td>
 	      			<br/><br/>
               <ul>
-                <li>Réseau trop dense !</li>
-                <li>Absence de motif urbain</li>
+                <li>Highly concentrated at the center</li>
+                <li>→ A more cost-efficient approach</li>
               </ul>
               <ul>
-                <li>Défaut principal : pas de représentation précise
-                de la parcelle</li>
+                <li>No true urban pattern</li>
+ 								<li>→ Land lots shapes should be considered</li>
               </ul>
             </td>
             <td>
@@ -660,17 +617,8 @@
           </tr>
         </table><br/>
 
-	<div class='build'>
 
-	  <div>
-	    <p class='centered'><b>Idée :</b> Générateur point → polygone</p><br/>
-	  </div>
-
-	  <ul class='build'>
-	    <li>Parcelles collées = pas de route</li>
-	    <li>Forme des parcelles potentielles ? L-Systems</li>
-	  </ul>
-	</div>
+      	<p>→ Voronoi diagram with polygonal generators</p>
       </article>
 
       <article class='fill part'>
@@ -687,13 +635,12 @@
       // Insert demos.
 
       Math.seedrandom('graphstream!');
-			/*
+
       new GameOfLife('gameOfLifeCanvas', 60);
       new Schelling('schellingCanvas', 70);
       new Density('densityCanvas', 50, true);
-			*/	
-      // Number the slides.
 
+      // Number the slides.
 
       var slides = document.querySelectorAll('article:not(.part)');
       for(var i = 0; i < slides.length; ++i) {
