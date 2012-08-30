@@ -53,14 +53,14 @@
     <section class='slides layout-regular template-default'>
 
       <article class='fill part'>
-        <h1>Morphogenèse urbaine</h1>
+        <h1>Urban Morphogenesis</h1>
 
-        <h3>coévolution du réseau viaire et du bâti</h3>
+        <h3>Coevolution of Road Network and Land Lots</h3>
 
         <p class="name">
-          <span>Merwan Achibet</span><br/>
+          <span>M. Achibet, S. Balev, A. Dutot, D. Olivier</span><br/>
           <span>Université du Havre</span><br/>
-          <span>28 juin 2012</span>
+          <span>ECCS '12 - September 6<sup>th</sup></span>
         </p>
 
         <img src='images/cover.png'/>
@@ -74,23 +74,23 @@
             Introduction
             <ul>
               <li>Context</li>
-              <li>Cellular automata and their limitations</li>
-              <li>An example of multi-agent system</li>
+              <li>Cellular automata and spatial regularity</li>
+              <li>Multi-agent systems and temporal incoherence</li>
             </ul>
           </li>
           <li>
-            Le modèle
+            Our Model
             <ul>
-              <li>Structure</li>
-              <li>Potentialité</li>
-              <li>Trois mécanismes</li>
+              <li>The Voronoi diagram</li>
+              <li>Built VS. Potential</li>
+              <li>Three mechanisms</li>
             </ul>
           </li>
           <li>
-            Démonstration
+            Demonstration
             <ul>
               <li>Le Havre</li>
-              <li>Mesures</li>
+              <li>Measures</li>
               <li>Constat</li>
             </ul>
           </li>
@@ -109,7 +109,7 @@
         <ul>
           <li>Since the 50's, huge urbanization</li>
           <li>50% in 2007, ~80% in 2050</li>
-          <li>→ needs prevision and control</li>
+          <li>→ requires anticipation and and control</li>
         </ul>
 
         <img class='centered' style='height:300px'
@@ -117,8 +117,6 @@
         <div class='source'>
           (Picture by Kris Horvath, Creative Commons)
         </div>
-
-        <p><b>Our focus : coevolution of land lots and road network.</b></p>
       </article>
 
       <article class='smaller'>
@@ -127,8 +125,7 @@
         <table class='tab' border='0' cellspacing="0" cellpadding="0">
           <tr>
             <td>
-              <br/><br/><br/><br/>
-              <p>A basic space tesselation.</p><br/>
+              <br/><br/><br/><br/><br/>
               <p>Each cell:</p>
               <ul>
                 <li>has a state</li>
@@ -147,6 +144,7 @@
       <article>
         <h3>Geographic example: Schelling's segregation model</h3>
 
+				<br/>
         <canvas id='schellingCanvas' class='centered' height='500' width='500'></canvas>
       </article>
 
@@ -155,6 +153,7 @@
 
         <div class='build'>
 
+					<br/>
           <div>
             <p>A cell represents a spatial subdivision.</p>
             <ul>
@@ -167,8 +166,8 @@
           <div>
             <p>A cell has a state.</p>
             <ul>
-              <li>Boolean (empty/built)</li>
-              <li>Land use type (residential, commercial, industrial, ...)</li>
+              <li>Boolean</li>
+              <li>Land use type</li>
               <li>Any urban variable</li>
             </ul>
           </div>
@@ -190,8 +189,8 @@
         <h3>Example</h3>
 
         <ul>
-          <li>Basic functions : <i>EV(S,R)</i>, <i>RV(S,R)</i>, <i>ZV(S,R)</i></li>
-          <li>Compound rules : <i>Fr &gt; Zp = ZV(Ind,3) &bull; EV(Ctr+Com,2)</i></li>
+          <li>Basic functions: <i>EV(S,R)</i>, <i>RV(S,R)</i>, <i>ZV(S,R)</i></li>
+          <li>Compound rules: <i>Fr &gt; Zp = ZV(Ind,3) &bull; EV(Ctr+Com,2)</i></li>
         </ul>
 
         <img class='centered' style='height:350px'
@@ -206,33 +205,28 @@
 
       </article>
 
-      <article>
-        <h3>First shortcomings of cellular automata</h3>
+      <article class="smaller">
+        <h3>Shortcomings of cellular automata</h3>
 
-        <p>The rigidity of their formalism goes against realism.</p>
 
-        <br/><br/>
-        <ul class='build'>
-          <li>State discretization</li>
-          <li>Temporal synchronism</li>
-          <li><b>Regularity and homogeneity</b></li>
-        </ul>
+				<div class="build">
+					<ul class='build'>
+       			<li>State discretization</li>
+       	 		<li>Temporal synchronism</li>
+        		<li><b>Regularity and homogeneity</b></li>
+        	</ul>
 
-      </article>
+					<div>
+		        <p>Generalization : graph-based cellular automata.</p><br/>
 
-      <article class='smaller'>
-        <h3>Relaxation of the regularity</h3>
+		        <img class='centered' style='height:300px' src='images/gca.png'>
 
-        <p>Generalization : graph-based cellular automata.</p><br/>
-
-        <img class='centered' style='height:400px'
-             src='images/gca.png'>
-
-        <div class='source'>
-          David O'Sullivan. "Graph-based Cellular Automaton Models of
-          Urban Spatial Processes". Thèse de doct. Bartlett School of
-          Architecture and Planning, University College London, 2000.
-        </div>
+        		<div class='source'>
+          		David O'Sullivan. "Graph-based Cellular Automaton Models of
+          		Urban Spatial Processes". Thèse de doct. Bartlett School of
+          		Architecture and Planning, University College London, 2000.
+        		</div>
+				</div>
       </article>
 
       <article class='smaller'>
@@ -243,13 +237,12 @@
           (Picture by <tt>flickr.com/people/ryanready</tt>, Creative Commons)
         </div>
 
+				<br/>
         <ul class='build'>
-          <li>Sometimes ignored</li>
-          <li>Sometimes given as an input but remains static</li>
+          <li>Either ignored</li>
+          <li>Or static</li>
           <li>Even if it has a <b>central role</b>!</li>
         </ul>
-
-        <p class='build'><b>Is the cell representation adapted?</b></p>
       </article>
 
       <article class='smaller'>
@@ -292,105 +285,87 @@
       </article>
 
       <article class='fill part'>
-        <h1>Le modèle</h1>
+        <h1>Our model</h1>
 
         <img src='images/cover.png'/>
       </article>
 
       <article>
-        <h3>Objectif du modèle</h3><br/><br/>
+        <h3>Goals</h3><br/><br/>
 
-        <p>On propose un modèle de croissance urbaine :</p>
+        <p>Our urban growth model has to:</p>
 
         <ol class='build'>
-          <li>Reprenant le principe des <b>automates cellulaires</b></li>
-          <li>Gérant l'évolution conjointe du bâti et du <b>viaire</b></li>
-          <li>Reflétant <b>l'irrégularité</b> de la ville</li>
-          <li>Garantissant la <b>cohérence temporelle</b></li>
+          <li>Capture the simplicity of <b>cellular automata</b></li>
+          <li>Reflect the urban <b>irregularity</b></li>
+          <li>Simultaneously build land lots and <b>roads</b></li>
+          <li>Ensure <b>temporal coherence</b></li>
         </ol>
       </article>
 
       <article>
-        <h3>Une structure adaptée : le diagramme de Voronoï</h3><br/>
+        <h3>The Voronoi diagram: an appropriate structure</h3><br/>
 
         <img class='centered' style='height:350px'
              src='images/voronoi.png'><br/>
 
-        <p>La cellule de Voronoï <i>V(g)</i> contient l'ensemble des
-        points plus proches du générateur <i>g</i> que de tout
-        autre générateur.</p>
+				<p>Voronoi cell <i>V(g)</i> contains all points closest from 
+				the generator <i>g</i> than any other generator.</p>
       </article>
 
       <article class='smaller'>
-        <h3>Représentation du bâti</h3>
+        <h3>Title</h3>
 
-        <div class='build'>
-          <ul>
-            <li>Générateur → centre de la parcelle</li>
-            <li>Cellule → espace d'influence de la parcelle</li>
-          </ul>
-
-          <img class='centered' style='height:350px'
+       	<img class='centered' style='height:350px'
                src='images/delaunay.png'>
-        </div>
-      </article>
 
-      <article class='smaller'>
-        <h3>Représentation du viaire</h3>
-
-        <div class='build'>
-          <ul>
-            <li>Arête de Voronoï → route</li>
-            <li>Sommet de Voronoï → carrefour</li>
-          </ul>
-
-	  <div>
-            <img class='centered' style='height:250px'
-		 src='images/voronoi.png'><br/>
-	  </div>
-
-	  <div>
-            <p>L'ensemble des arêtes forme un réseau maximal.</p><br/>
-	  </div>
-
-          <p><b>Véritable réseau routier = sous-partie du réseau maximal.</b></p>
-        </div>
+				<br/>
+				<ul class='build'>
+		    	<li>Generator → lot centroid</li>
+					<li>Cell → lot influence</li>
+					<li>Edge → road</li>
+					<li>Vertex → crossroad</li>
+		    </ul>	      		
       </article>
 
       <article>
-        <h3>Potentialité</h3><br/>
+        <h3>Potentiality</h3><br/>
 
         <div class='build'>
 
           <div>
-            <p>Deux éléments urbains traités :</p>
+            <p>Two urban elements considered:</p>
             <ul>
-              <li>Les parcelles</li>
-              <li>Les routes</li>
+              <li>Land lots</li>
+              <li>Roads</li>
             </ul><br/>
           </div>
 
           <div>
-            <p>Peuvent prendre deux formes :</p>
+            <p>Can have two forms:</p>
             <ul>
-              <li>Les <b>construits</b> : définitivement placés, forment la ville</li>
-              <li>Les <b>potentiels</b> : intangibles, prévisionnels</li>
+              <li><b>Built</b>: permanent, part of the "physical" city</li>
+              <li><b>Potential</b>: intangible, provisional</li>
             </ul><br/>
           </div>
         </div>
       </article>
 
       <article>
-        <h3>Exemple illustratif</h3>
+        <h3>Example</h3>
 
-        <div class='centered'>
+				<br/>
+        <div class='centered build'>
+					<img style='height:225px'
+               src='images/order_bad_0.png'>
           <img style='height:225px'
                src='images/potential-interp.png'>
           <img style='height:225px'
                src='images/potential-voronoi.png'>
-        </div><br/>
+        </div>
 
-        <div class='centered build'>
+				<br/>
+				<div class='centered build'>
           <img style='height:175px'
                src='images/order_good_0.png'>
           <img style='height:175px'
@@ -403,7 +378,7 @@
       </article>
 
       <article>
-        <h3>La cellule de Voronoï n'est pas la parcelle exacte !</h3>
+        <h3>Voronoi cell shape ≠ land lot shape!</h3>
 
         <img class='centered' style='height:225px'
              src='images/voronoi-interp0.png'><br/>
@@ -417,6 +392,38 @@
                src='images/voronoi-interp3.png'>
         </div>
       </article>
+
+			<article class='smaller'>
+				<h3>Three mecanisms</h3>
+
+				<table>
+					<tr>
+						<td>
+
+							<br/><br/><br/>
+							<p>The urban growth is two-dimensional:</p>
+							<ul>
+								<li><span style='color:red'>Vertical</span>: density changes within urban areas</li>
+								<li><span style='color:blue'>Horizontal</span>: expansion of the city</li>
+							</ul>
+
+						</td>
+						<td>
+
+							<img style='height:300px'
+          		     src='images/city2d.png'>
+
+						</td>
+					</tr>
+				</table>
+
+				<p>Gist of the model:</p>
+				<ul>
+					<li>Density depends on neighborhood</li>
+					<li>Potential lots are placed depending on density and existing road network.</li>
+					<li>Some potential lots and roads are built, others are ignored.</li>
+				</ul>
+			</article>
 
       <article class='smaller'>
         <h3>Mécanisme 1 : automate cellulaire</h3>
@@ -446,35 +453,9 @@
       </article>
 
       <article>
-        <h3>Application à un automate cellulaire classique</h3>
-
-        <canvas id='density1Canvas' class='centered' height='550' width='550'></canvas>
-      </article>
-
-      <article class='smaller'>
-        <h3>Règle insuffisante</h3>
-
-        <div class='build'>
-          <div>
-            <p>Deux défauts :</p>
-            <ul>
-              <li>Manque de stabilité</li>
-              <li>Vitesse élevée</li>
-            </ul>
-          </div>
-
-          <div>
-            <p>Amélioration : prendre en compte l'âge des parcelles.</p><br/>
-            <img class='centered eq' style='height:300px'
-                 src='images/sigmoid-age.png'>
-          </div>
-        </div>
-      </article>
-
-      <article>
         <h3>Nouvel essai</h3>
 
-        <canvas id='density2Canvas' class='centered' height='550' width='550'></canvas>
+        <canvas id='densityCanvas' class='centered' height='550' width='550'></canvas>
       </article>
 
       <article>
@@ -555,7 +536,7 @@
       </article>
 
       <article class='fill part'>
-        <h1>Démonstration</h1>
+        <h1>Demo</h1>
 
         <img src='images/cover.png'/>
       </article>
@@ -595,18 +576,6 @@
       </article>
 
       <article class='smaller'>
-        <h3>Évolution de la superficie</h3><br/>
-
-        <img class='centered' style='height:350px'
-             src='images/area_ALL.png'><br/>
-
-        <ul class='build'>
-          <li>Augmentation de ~30%</li>
-          <li>Croissance plus forte des densités faibles</li>
-        </ul>
-      </article>
-
-      <article class='smaller'>
         <h3>Diamètre</h3><br/>
 
         <img class='centered' style='height:350px'
@@ -615,18 +584,6 @@
         <ul class='build'>
           <li>Alternance de phases d'expansion et de densification</li>
           <li>Opportunisme</li>
-        </ul>
-      </article>
-
-      <article class='smaller'>
-        <h3>Degré des carrefours</h3><br/>
-
-        <img class='centered' style='height:350px'
-             src='images/degree.png'><br/>
-
-        <ul class='build'>
-          <li>Faible au départ à cause d'un défaut d'implémentation</li>
-          <li>Mais <b>stabilisation</b></li>
         </ul>
       </article>
 
@@ -686,7 +643,7 @@
         <table>
           <tr>
             <td>
-	      <br/><br/>
+	      			<br/><br/>
               <ul>
                 <li>Réseau trop dense !</li>
                 <li>Absence de motif urbain</li>
@@ -730,12 +687,11 @@
       // Insert demos.
 
       Math.seedrandom('graphstream!');
-
+			/*
       new GameOfLife('gameOfLifeCanvas', 60);
       new Schelling('schellingCanvas', 70);
-      new Density('density1Canvas', 50, false);
-      new Density('density2Canvas', 50, true);
-
+      new Density('densityCanvas', 50, true);
+			*/	
       // Number the slides.
 
 
