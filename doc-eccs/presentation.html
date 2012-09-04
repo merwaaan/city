@@ -382,17 +382,18 @@
       <article>
         <h3>Voronoi cell ≠ land lot</h3>
 
-        <img class='centered' style='height:225px'
+        <img class='centered'
+						 style='height:225px'
              src='images/voronoi-interp0.png'><br/>
 
-        <div class='centered'>
+        <div class='build centered'>
           <img style='height:225px'
                src='images/voronoi-interp1.png'>
           <img style='height:225px'
                src='images/voronoi-interp2.png'>
           <img style='height:225px'
                src='images/voronoi-interp3.png'>
-        </div>
+				</div>        
       </article>
 
 			<article class='smaller'>
@@ -418,12 +419,12 @@
 						</td>
 					</tr>
 				</table>
-
+	
 				<p>Gist of the model:</p>
 				<ul>
-					<li>Density depends on neighborhood (<b>M1</b>)</li>
-					<li>Potential lots are placed depending on density and existing road network (<b>M2</b>)</li>
-					<li>Some potential lots and roads are built, others are ignored (<b>M3</b>)</li>
+					<li>Density depends on neighborhood (<b style='color:red'>M1</b>)</li>
+					<li>Potential lots are placed depending on density and existing road network (<b style='color:blue'>M2</b>)</li>
+					<li>Some potential lots and roads are built, others are ignored (<b style='color:blue'>M3</b>)</li>
 				</ul>
 			</article>
 
@@ -467,17 +468,17 @@
       </article>
 
       <article class='smaller'>
-        <h3>M2: placement of potential lots</h3>
+        <h3>M2: placement of potential elements</h3>
 
-    		<ul>
+				<br/>
+				<img class='centered' style='height:400px'
+ 	      	   src='images/vf-base.png'>
+				
+				<br/>
+    		<ul class='build'>
           <li>Many factors to take into account</li>
-					<li>Each of them represented by a vector field</li>
+					<li>Each of them expressed by a vector field</li>
         </ul>
-
-				<div class='build'>
-        	<img class='centered' style='height:400px'
-          	   src='images/vf-base.png'>
-				</div>
 		  </article>
 
       <article>
@@ -498,21 +499,25 @@
       <article class='smaller'>
         <h3>M3: construction of potential elements</h3>
 
-        <h4>Potential lots → built lots</h4>
+				<div class='build'>
 
-        <ul>
-          <li>Depends on a growth rate</li>
-          <li>Lots have a probability to get built proportional with their prevision date</li>
-          <li><b>Coherence condition:</b> they MUST be connected to the built road network</li>
-        </ul>
+					<div>
+        		<h4>Potential lots → built lots</h4>
 
-        <h4>Potential roads → built roads</h4>
+        	<ul>
+          	<li>Lots have a probability to get built proportional with their prevision date</li>
+          	<li><b>Coherence condition:</b> they MUST be connected to the built road network</li>
+        	</ul>
+				</div>
 
- 				<ul>
-          <li>Depends on a growth rate</li>
-          <li>A flow evaluation evaluates which potential roads would benefit to the city</li>
-          <li><b>Coherence condition:</b> they must be adjacent to a built road</li>
-        </ul>
+				<div>
+        	<h4>Potential roads → built roads</h4>
+
+ 					<ul>
+          	<li>A flow evaluation evaluates which potential roads would benefit to the city</li>
+          	<li><b>Coherence condition:</b> they must be adjacent to a built road</li>
+        	</ul>
+				</div>
       </article>
 
       <article class='fill part'>
@@ -542,13 +547,11 @@
       </article>
 
       <article>
-        <h3>Démonstration</h3>
-
 				<video controls class='centered' src='lh.ogv' width='600'></video>
       </article>
 
       <article>
-        <h3>Comparaison</h3>
+        <h3>Comparison</h3>
 
         <img class='centered' style='height :500px'
              src='images/lh_500_comparison.png'>
