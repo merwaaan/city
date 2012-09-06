@@ -326,26 +326,23 @@
 		    	<li>Generator → lot centroid</li>
 					<li>Cell → lot influence</li>
 					<li>Edge → road</li>
-					<li>Vertex → crossroad</li>
 		    </ul>	      		
       </article>
 
       <article>
         <h3>Potentiality</h3><br/>
 
-        <div class='build'>
+        <div>
+          <p>Two urban elements considered:</p>
+          <ul>
+            <li>Land lots</li>
+            <li>Roads</li>
+          </ul><br/>
+        </div>
 
-          <div>
-            <p>Two urban elements considered:</p>
-            <ul>
-              <li>Land lots</li>
-              <li>Roads</li>
-            </ul><br/>
-          </div>
-
-          <div>
+          <div class='build'>
             <p>Can have two forms:</p>
-            <ul>
+            <ul class='build'>
               <li><b>Built</b>: permanent, part of the "physical" city</li>
               <li><b>Potential</b>: intangible, provisional</li>
             </ul><br/>
@@ -504,20 +501,20 @@
 					<div>
         		<h4>Potential lots → built lots</h4>
 
-        	<ul>
-          	<li>Lots have a probability to get built proportional with their prevision date</li>
-          	<li><b>Coherence condition:</b> they MUST be connected to the built road network</li>
-        	</ul>
-				</div>
+        		<ul class='build'>
+          		<li>Lots have a probability to get built proportional with their prevision date</li>
+          		<li><b>Coherence condition:</b> they MUST be connected to the built road network</li>
+        		</ul>
+					</div>
 
-				<div>
-        	<h4>Potential roads → built roads</h4>
+					<div>
+        		<h4>Potential roads → built roads</h4>
 
- 					<ul>
-          	<li>A flow evaluation evaluates which potential roads would benefit to the city</li>
-          	<li><b>Coherence condition:</b> they must be adjacent to a built road</li>
-        	</ul>
-				</div>
+ 						<ul class='build'>
+          		<li>A flow evaluation evaluates which potential roads would benefit to the city</li>
+          		<li><b>Coherence condition:</b> they must be adjacent to a built road</li>
+        		</ul>
+					</div>
       </article>
 
       <article class='fill part'>
@@ -539,10 +536,10 @@
                src='images/le_havre_voronoi.png'>
         </div><br/>
 
-        <ul class='build'>
+        <ul>
           <li>The coastline prevents development</li>
           <li>A major density center</li>
-          <li>Scattered lots with high densities</li>
+          <li>Some scattered lots with high densities</li>
         </ul>
       </article>
 
@@ -563,9 +560,8 @@
         <img class='centered' style='height:350px'
              src='images/diameter.png'><br/>
 
-        <ul class='build'>
+        <ul>
           <li>Alterning between phases of expansion and phases of densification</li>
-          <li>Opportunism</li>
         </ul>
       </article>
 
@@ -575,7 +571,7 @@
         <img class='centered' style='height:350px'
              src='images/degree_distance.png'><br/>
 
-        <ul class='build'>
+        <ul>
           <li>The more we move away from the centre, the more diffuse the road network becomes</li>
         </ul>
       </article>
@@ -589,6 +585,7 @@
       <article>
         <h3>Summary</h3>
 
+				<br/><br/>
 				<ul class='build'>
 					<li>The Voronoi diagram represents both buildings and <b>roads</b></li>
 					<li>A relaxed cellular mechanism lets this <b>irregular</b> city grow vertically</li>
@@ -600,32 +597,38 @@
       <article class='smaller'>
         <h3>What's next?</h3>
 
-        <table>
-          <tr>
-            <td>
-	      			<br/><br/>
-              <ul>
-                <li>Highly concentrated at the center</li>
-                <li>→ A more cost-efficient approach</li>
-              </ul>
-              <ul>
-                <li>No true urban pattern</li>
- 								<li>→ Land lots shapes should be considered</li>
-              </ul>
-            </td>
-            <td>
-              <img class='centered' style='height:300px'
-                   src='images/lh_500_zoom.png'>
-            </td>
-          </tr>
-        </table><br/>
+				<div class='build'>
 
+	        <table>
+	          <tr>
+	            <td>
+		      			<br/><br/><br/><br/>
+	              <ul>
+	                <li>Highly concentrated at the center</li>
+	                <li>→ A more cost-efficient approach</li>
+	              </ul>
+	            </td>
+	            <td>
+	              <img class='centered' style='height:300px'
+	                   src='images/lh_500_zoom.png'>
+	            </td>
+	          </tr>
+	        </table>
 
-      	<p>→ Voronoi diagram with polygonal generators</p>
+					<div>
+						<br/>
+	 					<ul>
+	        		<li>No true urban pattern</li>
+	 						<li>→ Land lots shapes should be considered</li>
+	        	</ul>
+      		</div>
+
+					<center><p>⇨ Voronoi diagram with polygonal generators</p></center>
+				</div>
       </article>
 
       <article class='fill part'>
-        <h1>Questions</h1>
+        <h1>Thank you</h1>
 
         <img src='images/cover.png'/>
       </article>
